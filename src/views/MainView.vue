@@ -30,7 +30,11 @@
           <div class="card-body">
             <!--<h5 class="card-title">{{ card.title }}</h5>-->
             <!-- <p class="card-text">{{ card.text }}</p>-->
-            <a href="#" class="btn btn-outline-primary" style="position: relative; top: 160px;">이동하기</a>
+
+              <img :src="card.imageSrc" alt="Card Image" width="112%" height="117%" style="position: relative; left:-6%; top:-16px;">
+              <router-link to="GuideAndTips" style="text-decoration: none; color:black;">
+            <span class="card-guide-content" id="router-link-custom"> {{card.text}}</span>
+              </router-link>
           </div>
         </div>
       </div>
@@ -62,7 +66,7 @@
               </div>
             </div>
 
-            <div class="title-home">
+            <div class="title-home" v-if="index === 0">
               <h3>INTERIOR DESIGN COMPANY </h3>
               <H1>Experience Interior <br> Design</H1>
 
@@ -73,7 +77,7 @@
                   <router-link to="/generalboard" class="router-link-custom">
                     <p>게시판</p>
                   </router-link>
-                  <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                  <p>Take a look around the various interiors of our users. You can also write your own posts.</p>
                 </div>
               </div>
                 <div class="item_box flex">
@@ -82,7 +86,7 @@
                     <router-link to="/community" class="router-link-custom">
                       <p>커뮤니티</p>
                     </router-link>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <p>This is a community space for communication with users.</p>
                   </div>
                 </div>
                 <div class="item_box flex">
@@ -91,7 +95,7 @@
                     <router-link to="/Introduce" class="router-link-custom">
                       <p>소개</p>
                     </router-link>
-                    <p>Lorem ipsum dolor sit amet consectetur adipisicing elit</p>
+                    <p>This is where information about the website is introduced. Take a look around</p>
                   </div>
                 </div>
             </div>
@@ -102,13 +106,6 @@
             <div v-if="index === 1" class="slide2-image"> <!--style="background-image: url('/image/공모전.png');-->
             </div>
 
-            <div v-if="index === 1">
-              <img src="@/assets/가구 이미지.png" width="130" height="80" style="position: relative; left:450px; top:40px;">
-              <img src="@/assets/가구 이미지2.png" width="200" height="200"
-                   style="position: relative; left:-510px; top:10px; transform: rotate(30deg);">
-              <img src="@/assets/가구 이미지3.png" width="240" height="240"
-                   style="position: relative; left:330px; top:200px; transform: rotate(-30deg);">
-            </div>
 
             <h5 v-if="slide.title"
                 :style="{ 'position': 'relative', 'top': slide.titleTop, 'font-size': slide.fontsize, 'color': slide.color }">{{
@@ -157,15 +154,14 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'MainView',
   components: {
-
   },
   data() {
     return {
       cards: [
-        { title: 'Card title 1', text: 'content 1' },
-        { title: 'Card title 2', text: 'content 2' },
-        { title: 'Card title 3', text: 'content 3' },
-        { title: 'Card title 3', text: 'content 3' },
+        {  text: '우리집을 화사하게 바꿔줄 수 있는 조명', imageSrc:require('@/assets/guideandtips_image_list/light.jpg')},
+        {  text: '나에게 맞는 러그 선택 방법',imageSrc:require('@/assets/guideandtips_image_list/lug.jpg')},
+        {  text: '초보자를 위한 인테리어 준비물',imageSrc:require('@/assets/guideandtips_image_list/beginner.png') },
+        {  text: '포인트가 되어줄 다양한 타일 스타일',imageSrc:require('@/assets/guideandtips_image_list/point.png') },
       ],
       card: [
         { title: 'Best', imageUrl: '@/assets/best.png' },
@@ -180,11 +176,11 @@ export default {
           interval: 4000,
         },
         {
-          backgroundColor: '#CECEF6',
+          backgroundColor: 'lightgray',
           interval: 4000,
-          title: '2024',
+      //    title:
           titleTop: '-130px',
-          content: '인테리어 공모전',
+        //  content:
           contentTop: '-130px',
           fontsize: '100px'
         },
@@ -209,7 +205,9 @@ body {
 
 .router-link-custom{
   text-decoration: none;
-  color:white
+  color:white;
+  font-size: 18px;
+  font-weight: bolder;
 }
 .item_grid{
   display: grid;
@@ -218,6 +216,7 @@ body {
   position: relative;
   bottom:30px;
 }
+
 .title-home h1{
   position: relative;
   bottom:200px;
@@ -227,6 +226,7 @@ body {
   position: relative;
   bottom:210px;
   font-size: 40px;
+
 }
 .item_box{
   background-color: rgba(0,0,0,0.4);
@@ -234,11 +234,18 @@ body {
   border-radius: 5px;
   transition: 0.5s;
 }
+.item_box:hover{
+  background-color: wheat;
+  color:black;
+}
 .title-home img{
   width:100px;
   height:100px;
 }
-
+.text p{
+  font-size: 17px;
+  font-weight: bolder;
+}
 div {
   box-sizing: border-box;
 }
@@ -255,6 +262,7 @@ div {
     transform: translateZ(0);
   }
 }
+
 .guide-text{
   position: relative;
 
