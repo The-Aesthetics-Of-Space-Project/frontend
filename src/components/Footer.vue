@@ -4,11 +4,11 @@
     </div>
     <div class="footer">
       <div class="socialIcons">
-        <a href=""><i class="fa-brands fa-facebook"></i><img src="../assets/footer_icon/google-icon.png" height="30" width="30"></a>
-        <a href=""><i class="fa-brands fa-instagram"></i><img src="../assets/footer_icon/instagram-icon.png" height="50" width="50"></a>
-        <a href=""><i class="fa-brands fa-twitter"></i><img src="../assets/footer_icon/facebook-icon.png" height="40" width="40"></a>
-        <a href=""><i class="fa-brands fa-google-plus"></i><img src="../assets/footer_icon/twiter-icon.png" height="40" width="40"></a>
-        <a href=""><i class="fa-brands fa-youtube"></i><img src="../assets/footer_icon/youtube-icon.png" height="40" width="40"></a>
+        <a href=""><i class="fa-brands fa-facebook"></i><img src="../assets/footer_icon/google_icon.png" height="30" width="30"></a>
+        <a href=""><i class="fa-brands fa-instagram"></i><img src="../assets/footer_icon/instagram_icon.png" height="50" width="50"></a>
+        <a href=""><i class="fa-brands fa-twitter"></i><img src="../assets/footer_icon/facebook_icon.png" height="40" width="40"></a>
+        <a href=""><i class="fa-brands fa-google-plus"></i><img src="../assets/footer_icon/twiter_icon.png" height="40" width="40"></a>
+        <a href=""><i class="fa-brands fa-youtube"></i><img src="../assets/footer_icon/youtube_icon.png" height="40" width="40"></a>
       </div>
       <p>Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이용약관&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소개</p>
       <p>문의 : 010 - xxxx - xxxx</p>
