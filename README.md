@@ -31,10 +31,10 @@ frontend/
  ┃ ┣ 📂fonts
  ┃ ┣ 📂router
  ┃ ┣ 📂views
- ┃ ┣ 📜babel.config.js
- ┃ ┣ 📜jsonfig.json
- ┃ ┣ 📜package.json
- ┃ ┣ 📜package-lock.json
- ┃ ┣ 📜vue.config.js
- ┃ ┣ 📜README.md
+ ┃ 📜babel.config.js
+ ┃ 📜jsonfig.json
+ ┃ 📜package.json
+ ┃ 📜package-lock.json
+ ┃ 📜vue.config.js
+ ┃ 📜README.md
 ```
