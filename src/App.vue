@@ -1,34 +1,35 @@
 <template>
   <div id="app">
     <Header v-if="!$route.meta.hideHeader"></Header>
-    <MainView></MainView>
-      <router-view></router-view>
+    <router-view/>
+    <Footer v-if="!$route.meta.hideFooter"></Footer>
   </div>
 </template>
 
 <script>
+// @ is an alias to /src
 import Header from '@/components/Header.vue'
-export default({
-  name: 'app',
+import Footer from '@/components/Footer.vue'
+export default {
+  name: 'App',
   components: {
+    Header,
     // eslint-disable-next-line vue/no-unused-components
-    Header
+    Footer
   }
-})
-
+}
 </script>
 
 <style>
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-}
-
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
 }
 </style>

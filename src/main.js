@@ -2,10 +2,9 @@ import Vue from 'vue'
 import App from './App.vue'
 import router from './router/router.js';
 import { BootstrapVue, IconsPlugin } from 'bootstrap-vue'
-import 'element-plus/dist/index.css'
-import 'element-plus/theme-chalk/display.css'
 import 'bootstrap/dist/css/bootstrap.css'
-import 'bootstrap-vue/dist/bootstrap-vue.css'
+import axios from "axios";
+import 'bootstrap/dist/js/bootstrap'
 
 new Vue({
     router,
@@ -14,3 +13,4 @@ new Vue({
 
 Vue.use(BootstrapVue)
 Vue.use(IconsPlugin)
+Vue.use(axios)
