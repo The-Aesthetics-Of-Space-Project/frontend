@@ -1,5 +1,46 @@
 <template>
   <div class="main">
+    <div class="main-banner">
+      <div class="main-banner-title">
+        <h1>당신의 공간을 재창조하다</h1>
+        <p>영감을 공유하고 새로운 트렌드를 발견하세요.</p>
+      </div>
+      <div class="main-banner-content">
+        <h5>집에서 시작하는 새로운 이야기</h5>
+        <p>당신의 공간을 재창조하며 새로운 이야기를 쓰세요. 인테리어 아이디어와 영감이 가득한 곳에서 당신만의 스토리를 시작하세요.</p>
+        <br>
+        <h5>영감을 주는 공간, 함께 만드는 아름다움</h5>
+        <p>인테리어 디자인의 무한한 가능성을 탐험하고, 커뮤니티와 함께 나만의 공간을 완성하세요.</p>
+        <br>
+        <h5>꿈꾸는 공간을 현실로</h5>
+        <p> 당신의 이상적인 공간이 현실이 됩니다. 인테리어 디자인의 모든 것을 탐험하고, 공유하고, 실현해보세요.</p>
+      </div>
+    </div>
+  <div class="guide-content">
+    <div class="guide-text">
+      <h2 ref="mainText">초보자를 위한 가이드</h2>
+    </div>
+
+    <div class="card-view">
+      <router-link to="/GuideAndTips" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
+        <span style="float:right; position: relative; left:50px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
+      </router-link>
+      <div class="card-list">
+        <div class="card" v-for="(card, index) in cards" :key="index">
+          <div class="card-body">
+            <!--<h5 class="card-title">{{ card.title }}</h5>-->
+            <!-- <p class="card-text">{{ card.text }}</p>-->
+
+              <img :src="card.imageSrc" alt="Card Image" width="112%" height="117%" style="position: relative; left:-6%; top:-16px;">
+              <router-link to="GuideAndTips" style="text-decoration: none; color:black;">
+            <span class="card-guide-content" id="router-link-custom"> {{card.text}}</span>
+              </router-link>
+          </div>
+        </div>
+      </div>
+    </div>
+
+  </div>
 
     <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel">
       <div class="carousel-indicators">
@@ -7,11 +48,12 @@
                 :data-bs-slide-to="index" :class="{ 'active': index === 0 }" :aria-current="index === 0"
                 :aria-label="'Slide ' + (index + 1)" :key="'indicator-' + index"></button>
       </div>
-      <div class="carousel-inner">
+      <div class="carousel-inner" >
         <div v-for="(slide, index) in slides" :class="{ 'carousel-item': true, 'active': index === 0 }"
              :data-bs-interval="slide.interval" :key="'slide-' + index">
-          <img :src="slide.image" class="d-block w-100"
-               :style="{ 'background-color': slide.backgroundColor, 'height': '610px' }">
+          <img :src="slide.image" class="d-block w-100" width="100%" height="1000vh"
+               :style="{ 'background-color': slide.backgroundColor}">
+          <div class="image-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4);"></div>
           <div class="carousel-caption d-none d-md-block">
             <div class="animated-title" v-if="index === 0">
               <div class="track">
@@ -24,19 +66,46 @@
               </div>
             </div>
 
+            <div class="title-home" v-if="index === 0">
+              <h3>INTERIOR DESIGN COMPANY </h3>
+              <H1>Experience Interior <br> Design</H1>
+
+              <div class="item_grid">
+                <div class="item_box flex">
+                  <img src="@/assets/banner_icon/i1.png" width="80px">
+                <div class="text">
+                  <router-link to="/generalboard" class="router-link-custom">
+                    <p>게시판</p>
+                  </router-link>
+                  <p>Take a look around the various interiors of our users. You can also write your own posts.</p>
+                </div>
+              </div>
+                <div class="item_box flex">
+                  <img src="@/assets/banner_icon/i2.png" width="80px">
+                  <div class="text">
+                    <router-link to="/community" class="router-link-custom">
+                      <p>커뮤니티</p>
+                    </router-link>
+                    <p>This is a community space for communication with users.</p>
+                  </div>
+                </div>
+                <div class="item_box flex">
+                  <img src="@/assets/banner_icon/i3.png" width="80px" >
+                  <div class="text">
+                    <router-link to="/Introduce" class="router-link-custom">
+                      <p>소개</p>
+                    </router-link>
+                    <p>This is where information about the website is introduced. Take a look around</p>
+                  </div>
+                </div>
+            </div>
+            </div>
             <div v-if="index === 1">
               <a id="btn-btn-success" class="btn btn-dark" href="#" role="button">바로가기</a>
             </div>
             <div v-if="index === 1" class="slide2-image"> <!--style="background-image: url('/image/공모전.png');-->
             </div>
 
-            <div v-if="index === 1">
-              <img src="@/assets/가구 이미지.png" width="130" height="80" style="position: relative; left:450px; top:40px;">
-              <img src="@/assets/가구 이미지2.png" width="200" height="200"
-                   style="position: relative; left:-510px; top:10px; transform: rotate(30deg);">
-              <img src="@/assets/가구 이미지3.png" width="240" height="240"
-                   style="position: relative; left:330px; top:200px; transform: rotate(-30deg);">
-            </div>
 
             <h5 v-if="slide.title"
                 :style="{ 'position': 'relative', 'top': slide.titleTop, 'font-size': slide.fontsize, 'color': slide.color }">{{
@@ -56,43 +125,6 @@
         <span class="visually-hidden">Next</span>
       </button>
     </div>
-
-    <div class="guide-text">
-      <h2 ref="mainText">초보자를 위한 가이드</h2>
-    </div>
-
-    <div class="card-view">
-      <router-link to="/GuideAndTips" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
-        <span style="float:right; position: relative; left:50px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
-      </router-link>
-      <div class="card-list">
-        <div class="card" v-for="(card, index) in cards" :key="index">
-          <div class="card-body">
-            <!--<h5 class="card-title">{{ card.title }}</h5>-->
-            <!-- <p class="card-text">{{ card.text }}</p>-->
-            <a href="#" class="btn btn-outline-primary" style="position: relative; top: 160px;">이동하기</a>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <div class="main-banner">
-      <div class="main-banner-title">
-        <h1>당신의 공간을 재창조하다</h1>
-        <p>영감을 공유하고 새로운 트렌드를 발견하세요.</p>
-      </div>
-      <div class="main-banner-content">
-        <h5>집에서 시작하는 새로운 이야기</h5>
-        <p>당신의 공간을 재창조하며 새로운 이야기를 쓰세요. 인테리어 아이디어와 영감이 가득한 곳에서 당신만의 스토리를 시작하세요.</p>
-        <br>
-        <h5>영감을 주는 공간, 함께 만드는 아름다움</h5>
-        <p>인테리어 디자인의 무한한 가능성을 탐험하고, 커뮤니티와 함께 나만의 공간을 완성하세요.</p>
-        <br>
-        <h5>꿈꾸는 공간을 현실로</h5>
-        <p> 당신의 이상적인 공간이 현실이 됩니다. 인테리어 디자인의 모든 것을 탐험하고, 공유하고, 실현해보세요.</p>
-      </div>
-    </div>
-
     <div class="Home-Styling-title">
       <h2>Home Styling</h2>
     </div>
@@ -122,53 +154,37 @@ export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'MainView',
   components: {
-
   },
   data() {
     return {
       cards: [
-        { title: 'Card title 1', text: 'content 1' },
-        { title: 'Card title 2', text: 'content 2' },
-        { title: 'Card title 3', text: 'content 3' },
-        { title: 'Card title 3', text: 'content 3' },
+        {  text: '우리집을 화사하게 바꿔줄 수 있는 조명', imageSrc:require('@/assets/guideandtips_image_list/light.jpg')},
+        {  text: '나에게 맞는 러그 선택 방법',imageSrc:require('@/assets/guideandtips_image_list/lug.jpg')},
+        {  text: '초보자를 위한 인테리어 준비물',imageSrc:require('@/assets/guideandtips_image_list/beginner.png') },
+        {  text: '포인트가 되어줄 다양한 타일 스타일',imageSrc:require('@/assets/guideandtips_image_list/point.png') },
       ],
       card: [
         { title: 'Best', imageUrl: '@/assets/best.png' },
         { title: 'Silver', imageUrl: '@/assets/sliver.png' },
         { title: 'Third', imageUrl: '@/assets/third.png' },
       ],
-      menuItems: [
-        { text: '일반 게시판', imgSrc: '@/assets/일반 게시판.png', class: 'board-image' },
-        { text: '중고 게시판', imgSrc: '@/assets/중고 게시판.png', class: 'board-image' },
-        { text: '일반 게시판 글쓰기', imgSrc: '@/assets/일반 글쓰기.png', class: 'write-image' },
-        { text: '중고 게시판 글쓰기', imgSrc: '@/assets/중고 글쓰기.png', class: 'write-image' },
-      ],
+
       menuLinks: ['#', '#', '#', '#', '#'],
       slides: [
         {
-          image: '/images/banner1.jpg',
-          backgroundColor: 'lightgray',
+          image: require('@/assets/banner_first_image.jpg'),
           interval: 4000,
-          content: '웹 사이트를 방문해주셔서 감사합니다.',
-          contentTop: '10px'
         },
         {
-          backgroundColor: '#CECEF6',
+          backgroundColor: 'lightgray',
           interval: 4000,
-          title: '2024',
+      //    title:
           titleTop: '-130px',
-          content: '인테리어 공모전',
+        //  content:
           contentTop: '-130px',
           fontsize: '100px'
         },
-        {
-          backgroundColor: 'lightgray',
-          content: '예정',
-          fontsize: '30px',
-          contentTop: '-220px',
-          interval: 4000,
-          color: '#2E2E2E'
-        }
+
       ]
     };
   }
@@ -184,14 +200,57 @@ export default {
   font-style: normal;
 }
 body {
-  margin :0
+  margin :0;
+}
 
+.router-link-custom{
+  text-decoration: none;
+  color:white;
+  font-size: 18px;
+  font-weight: bolder;
+}
+.item_grid{
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3열로 나눔 */
+  gap: 20px; /* 항목들 사이의 간격 */
+  position: relative;
+  bottom:30px;
+}
+
+.title-home h1{
+  position: relative;
+  bottom:200px;
+  font-size: 90px;
+}
+.title-home h3{
+  position: relative;
+  bottom:210px;
+  font-size: 40px;
+
+}
+.item_box{
+  background-color: rgba(0,0,0,0.4);
+  padding:20px;
+  border-radius: 5px;
+  transition: 0.5s;
+}
+.item_box:hover{
+  background-color: wheat;
+  color:black;
+}
+.title-home img{
+  width:100px;
+  height:100px;
+}
+.text p{
+  font-size: 17px;
+  font-weight: bolder;
 }
 div {
   box-sizing: border-box;
 }
 .main{
-  height:2400px;
+  height:3100px;
 }
 @keyframes fadeInDown {
   0% {
@@ -203,9 +262,10 @@ div {
     transform: translateZ(0);
   }
 }
+
 .guide-text{
   position: relative;
-  top: -40px;
+
   padding:80px;
   width:30%;
   height:50px;
@@ -213,16 +273,24 @@ div {
   left:35%;
   font-family: 'SOGANGUNIVERSITYTTF';
   color: black;
-
 }
 
-.guide-text h2:hover{
+.guide-content{
+  position: relative;
+  top:50px;
+  width:100%;
+  height:600px;
+}
+
+.guide-text h2:hover
+{
   color:black;
   font-weight: bolder;
   font-size: 30px;
 }
 
-@keyframes slide{
+@keyframes slide
+{
   from{
     position: relative;
     left:120px;
@@ -242,6 +310,7 @@ div {
   width: 100px;
   font-weight: bolder;
 }
+
 
 
 .slide2-image{
