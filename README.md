@@ -19,8 +19,9 @@
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
-### 구조
+### 프로젝트 구조
 frontend/
+```shell
 📦test
  ┣ 📂public
  ┣ 📂node_modules
@@ -36,3 +37,4 @@ frontend/
  ┃ ┣ 📜package-lock.json
  ┃ ┣ 📜vue.config.js
  ┃ ┣ 📜README.md
+```
