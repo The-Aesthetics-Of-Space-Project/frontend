@@ -18,3 +18,21 @@
 
 ### Customize configuration
 See [Configuration Reference](https://cli.vuejs.org/config/).
+
+### 구조
+frontend/
+📦test
+ ┣ 📂public
+ ┣ 📂node_modules
+ ┣ 📂src
+ ┃ ┣ 📂assets
+ ┃ ┣ 📂components
+ ┃ ┣ 📂fonts
+ ┃ ┣ 📂router
+ ┃ ┣ 📂views
+ ┃ ┣ 📜babel.config.js
+ ┃ ┣ 📜jsonfig.json
+ ┃ ┣ 📜package.json
+ ┃ ┣ 📜package-lock.json
+ ┃ ┣ 📜vue.config.js
+ ┃ ┣ 📜README.md
