@@ -13,6 +13,7 @@ import GeneralBoardPage from "@/views/GeneralBoard/GeneralBoardPage.vue";
 import GeneralBoardWrite from "@/views/GeneralBoard/GeneralBoardWrite.vue";
 import IntroduceView from "@/views/IntroduceView.vue";
 import FollowerView from "@/views/FollowerView.vue";
+import ChatView from "@/views/ChatView.vue";
 
 Vue.use(VueRouter)
 
@@ -64,6 +65,7 @@ const routes = [
         meta: { hideHeader: false, hideFooter: false }
     }
     ,{path: '/follower', component: FollowerView}
+    ,{path: '/chat', component: ChatView, meta: { hideHeader: true, hideFooter: true }}
 ]
 
 const router = new VueRouter({
