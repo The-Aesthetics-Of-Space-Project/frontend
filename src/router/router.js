@@ -24,7 +24,7 @@ const routes = [
     { path: '/leave', component: LeaveMembership },
     { path: '/community', component: Community},
     {
-        path: '/',
+        path: '/Home',
         component: MainView,
        // meta: { hideHeader: true, hideFooter: true } // 메타 필드
     },
@@ -36,7 +36,7 @@ const routes = [
     {
         path: '/guideandtips', // URL 경로
         component: GuideAndTips, // 해당 경로로 갔을 때 보여줄 컴포넌트
-        //meta: { hideHeader: false, hideFooter: true } // 메타 필드
+        meta: { hideHeader: false, hideFooter: true } // 메타 필드
     },
     {
         path: '/GeneralBoard',
