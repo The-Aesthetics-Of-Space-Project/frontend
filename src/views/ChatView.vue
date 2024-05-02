@@ -6,9 +6,9 @@
       <div class="chat-list">
         <h3>대화상대</h3>
         <ul>
-          <li>user_name1</li> <!-- 백 브론트 단에 데이터 바인딩 필요 -->
+          <li>user_name0</li> <!-- 백 브론트 단에 데이터 바인딩 필요 -->
+          <li>user_name1</li>
           <li>user_name2</li>
-          <li>user_name3</li>
         </ul>
       </div>
       <input type="hidden" id="hid-roomid">
