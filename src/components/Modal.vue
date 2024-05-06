@@ -19,6 +19,7 @@
 </template>
 
 <style>
+
 .modal {
   &.modal-overlay {
     display: flex;
