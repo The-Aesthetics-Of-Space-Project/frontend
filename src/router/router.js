@@ -24,7 +24,7 @@ const routes = [
     { path: '/setting', component: SettingView },
     { path: '/leave', component: LeaveMembership },
     { path: '/community', component: Community},
-    { path: '/interiorguide', component: interiorGuideView},
+    { path: '/interiorguide', component: interiorGuideView, meta: { hideHeader: true,hideFooter: true }}, // 메타 필드},
     {
         path: '/',
         component: MainView,

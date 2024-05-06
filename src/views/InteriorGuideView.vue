@@ -33,18 +33,24 @@ export default {
     return {
       textContent: "This is the text content for the interior design guide.",
       images: [
-        { src: 'image1.jpg', alt: 'Image 1' },
-        { src: 'image2.jpg', alt: 'Image 2' },
-        { src: 'image3.jpg', alt: 'Image 3' },
-        { src: 'image4.jpg', alt: 'Image 4' },
-        { src: 'image5.jpg', alt: 'Image 5' },
-        { src: 'image6.jpg', alt: 'Image 6' },
-        { src: 'image7.jpg', alt: 'Image 7' },
-        { src: 'image8.jpg', alt: 'Image 8' },
-        { src: 'image9.jpg', alt: 'Image 9' },
-        { src: 'image10.jpg', alt: 'Image 10' },
-        { src: 'image11.jpg', alt: 'Image 11' },
-        { src: 'image12.jpg', alt: 'Image 12' }
+        { src: require('@/assets/interiorguide_image_list/natural.png')},
+        { src: require('@/assets/interiorguide_image_list/natural2.png')},
+        { src:require('@/assets/interiorguide_image_list/modern.png')},
+        { src: require('@/assets/interiorguide_image_list/natural3.png')},
+        { src: require('@/assets/interiorguide_image_list/simple.png')},
+        { src: require('@/assets/interiorguide_image_list/modern2.png')},
+        { src: require('@/assets/interiorguide_image_list/classic.jpg')},
+        { src: require('@/assets/interiorguide_image_list/simpl2.png')},
+        { src: require('@/assets/interiorguide_image_list/vintage2.png')},
+        { src: require('@/assets/interiorguide_image_list/classic2.jpg')},
+        { src: require('@/assets/interiorguide_image_list/modern3.png')},
+        { src: require('@/assets/interiorguide_image_list/vintage.png')},
+        { src: require('@/assets/interiorguide_image_list/natural.png')},
+        { src: require('@/assets/interiorguide_image_list/natural2.png')},
+        { src:require('@/assets/interiorguide_image_list/modern4.png')},
+        { src: require('@/assets/interiorguide_image_list/natural4.png')},
+        { src: require('@/assets/interiorguide_image_list/simple3.png')},
+        { src: require('@/assets/interiorguide_image_list/vintage3.png')}
         // Add more images here
       ],
       selectedImages: [],
@@ -61,10 +67,23 @@ export default {
       } else {
         this.selectedImages.splice(selectedIndex, 1);
       }
+
   },
     analyzeSelectedImages() {
+      const selectedCombination = this.selectedImages.sort().join(',');
+      switch(selectedCombination) {
+        case '0,1,11': // 이미지 1, 2, 12를 선택한 경우
+          this.analysisResult = "귀하의 선택에 기반하여, 우리는 '모던 스타일' 인테리어를 추천합니다...";
+          break;
+        case '2,4,11': // 이미지 3, 5, 12를 선택한 경우
+          this.analysisResult = "귀하의 선택에 기반하여, 우리는 '미니멀리스트 스타일' 인테리어를 추천합니다...";
+          break;
+          // 다른 조합에 대한 분석 결과 추가 가능
+        default:
+          this.analysisResult = "분석 가능한 선택이 아닙니다. 다른 이미지를 선택해 주세요.";
+          break;
+      }
       // Perform analysis on the selected images
-      this.analysisResult = "Based on your selections, we recommend the following interior design style..."
       this.showModal = true
     },
     closeModal() {
@@ -78,7 +97,8 @@ export default {
 .container {
   display: flex;
   justify-content: space-between;
-  height:600px;
+  height:1250px;
+  padding:110px;
 }
 
 .font-h1{
@@ -94,7 +114,11 @@ export default {
 .left-section {
   flex: 1;
   padding: 20px;
+  position: sticky;
+  height:70vh;
+  top:170px;
 }
+
 
 .right-section {
   flex: 1;
