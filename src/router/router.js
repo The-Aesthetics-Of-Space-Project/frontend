@@ -13,6 +13,7 @@ import GeneralBoardPage from "@/views/GeneralBoard/GeneralBoardPage.vue";
 import GeneralBoardWrite from "@/views/GeneralBoard/GeneralBoardWrite.vue";
 import IntroduceView from "@/views/IntroduceView.vue";
 import FollowerView from "@/views/FollowerView.vue";
+import interiorGuideView from "@/views/InteriorGuideView.vue";
 
 Vue.use(VueRouter)
 
@@ -23,6 +24,7 @@ const routes = [
     { path: '/setting', component: SettingView },
     { path: '/leave', component: LeaveMembership },
     { path: '/community', component: Community},
+    { path: '/interiorguide', component: interiorGuideView, meta: { hideHeader: true,hideFooter: true }}, // 메타 필드},
     {
         path: '/',
         component: MainView,
