@@ -6,7 +6,7 @@
         인테리어 이미지를</span> <br>
         <span style="position: relative; left:-65px;">선택해 주세요</span></h1>
       <p class="guide-textcontent">{{ textContent }}</p>
-      <button class="btn btn-success" @click="analyzeSelectedImages" :disabled="selectedImages.length !== 3"><span class="font-analye">분석 결과</span></button>
+      <button id="anlay-btn" class="btn btn-success" @click="analyzeSelectedImages" :disabled="selectedImages.length !== 3"><span class="font-analye">분석 결과</span></button>
     </div>
     <div class="right-section">
       <div class="image-gallery">
@@ -181,7 +181,7 @@ export default {
   border: 2px solid blue;
 }
 
-button {
+#anlay-btn {
   margin-top: 20px;
   position: relative;
   top:230px;
