@@ -12,18 +12,18 @@
         <!-- email 입력 -->
         <form>
           <div class="form-group">
-            <input type="text" class="form-control invalid" id="inputEmail" aria-describedby="emailHelp" placeholder="Email">
+            <input type="text" class="form-control invalid" id="inputEmail" aria-describedby="emailHelp" placeholder="Email" v-model="userId">
             <div><span id="checkId"></span></div>
           </div>
           <!-- password 입력 -->
           <div class="form-group has-success">
             <!-- 비밀번호 입력 -->
-            <input type="password" class="form-control valid" id="inputPW" name="PW" placeholder="Password">
+            <input type="password" class="form-control valid" id="inputPW" name="PW" placeholder="Password" v-model="password">
             <div class="valid-feedback"></div>
           </div>
 
           <div class="d-grid gap-2">
-          <button v-on:click="loginClick" class="btn-loginIn"> 로그인 </button>
+          <button v-on:click="loginClick" class="btn-loginIn" @click="login"> 로그인 </button>
             <div> <h2> {{num}} </h2></div>
           </div>
           <section class="bottom-login">
@@ -64,28 +64,53 @@
 
 <script>
 
+import axios from "axios";
+
 export default {
+  name: 'LoginView',
   el: '#login',
-  data: function() {
-    return {
-      num: 1,
-    };
-  },
-  methods:{
-    loginClick(){
-      fetch()
+  data() {
+    return{
+      userId:'',
+      password:''
     }
   },
-  name: 'LoginView',
-  components: {
+  methods: {
+    login() {
+      const userData = {
+        userId: this.userId,
+        password: this.password,
+      };
 
+      // 보내기 전 데이터 확인
+      console.log('Sending data', userData);
+
+      axios.post('http://jerry6475.iptime.org:20000/login', userData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+          .then(response => {
+            // 서버 응답 로그
+            console.log('Response data', response.data);
+            // 여기서 response.data를 사용하여 this.userId, this.password, this.nickname 값을 업데이트
+            alert('로그인 성공');
+            //세션 값 저장
+            const userId = localStorage.setItem('userId',response.data.userId);
+            //페이지 이동
+            this.$router.push('/');
+
+          })
+          .catch(error => {
+            // 에러 로그
+            console.error('Error data', error);
+          })
+          .finally(() => {
+            // 필요한 최종 처리
+          });
+    }
   }
 }
-
-
-
-
-
 </script>
 
 <style>
