@@ -41,9 +41,7 @@
           </section>
           <!-- 이메일 입력 -->
           <div class="input-group">
-            <input type="text" class="form-control" placeholder="이메일" aria-label="Username">
-            <span class="input-group-text">@</span>
-            <input type="text" class="form-control email-input" aria-label="Server">
+            <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId">
           </div>
 
         </section>
@@ -57,7 +55,7 @@
               <a> 영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요.</a>
             </section>
             <!-- 비밀번호 입력 -->
-            <input type="password" class="form-control valid" placeholder="비밀번호" id="newPW" name="PW">
+            <input type="password" class="form-control valid" placeholder="비밀번호" id="newPW" name="PW" v-model="password">
             <div class="valid-feedback"></div>
           </div>
         </section>
@@ -69,7 +67,7 @@
 
           <div class="form-group has-danger">
             <!-- 비밀번호 재확인 입력 -->
-            <input type="password" class="form-control invalid" placeholder="비밀번호 확인" id="Re-enterPW">
+
 
           </div>
         </section>
@@ -85,13 +83,13 @@
 
           <div class="form-group-nickname form-group">
             <!-- 닉네임 입력 -->
-            <input type="nickname" class="form-control invalid" placeholder="닉네임" id="nickname">
+            <input type="nickname" class="form-control invalid" placeholder="닉네임" id="nickname" v-model="nickname">
 
           </div>
         </section>
 
         <div class="d-grid gap-2">
-          <el-button type="button" class="btn-loginIn" id="signInButton"> 로그인 </el-button>
+          <button type="button" class="btn-loginIn" id="signInButton" @click="signup"> 로그인 </button>
         </div>
 
 
@@ -103,9 +101,51 @@
 </template>
 
 <script>
-
+import axios from "axios";
 export default {
   name: 'SignUpView',
+  data(){
+    return {
+      userId:'',
+      password:'',
+      nickname:''
+    }
+  },
+  mounted() {
+    this.signup();  // 페이지 로드 시 자동으로 호출됨
+  },
+  methods: {
+    signup() {
+      const userData = {
+        userId: this.userId,
+        password: this.password,
+        nickname: this.nickname
+      };
+
+      // 보내기 전 데이터 확인
+      console.log('Sending data', userData);
+
+      axios.post('http://jerry6475.iptime.org:20000/signup', userData, {
+        headers: {
+          'Content-Type': 'application/json'
+        }
+      })
+          .then(response => {
+            // 서버 응답 로그
+            console.log('Response data', response.data);
+            // 여기서 response.data를 사용하여 this.userId, this.password, this.nickname 값을 업데이트
+            alert('회원가입 성공');
+            this.$router.push('/login');
+          })
+          .catch(error => {
+            // 에러 로그
+            console.error('Error data', error);
+          })
+          .finally(() => {
+            // 필요한 최종 처리
+          });
+    }
+  }
 }
 </script>
 
