@@ -81,7 +81,7 @@
             <a class="nickname-title"> 닉네임 </a>
           </section>
 
-          <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:80px; left:33%;">
+          <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:73px; left:33%;">
             <a> 다른 유저와 겹치지 않도록 입력해주세요. (2~15자) </a>
           </section>
 
@@ -118,12 +118,10 @@ export default {
       repasswordEntered: false,
     }
   },
-  mounted() {
-    this.signup();  // 페이지 로드 시 자동으로 호출됨
-  },
-
   methods: {
+
     checkId() {
+
       // ID(email) 형식 검증
       const validateEmail = (email) => {
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
@@ -175,6 +173,13 @@ export default {
     }
     ,
     signup() {
+        // 입력 필드 확인
+        if (!this.userId.trim() || !this.password.trim() || !this.nickname.trim()) {
+          alert('빈칸을 입력해주세요.');
+          window.location.reload(); // 페이지 리로드
+          return;
+        }
+
       const userData = {
         userId: this.userId,
         password: this.password,
@@ -194,7 +199,7 @@ export default {
             // 서버 응답 로그
             console.log('Response data', response.data);
             // 여기서 response.data를 사용하여 this.userId, this.password, this.nickname 값을 업데이트
-            alert('회원가입 성공');
+            alert('회원가입에 성공하였습니다.');
             this.$router.push('/login');
           })
           .catch(error => {
@@ -305,7 +310,7 @@ export default {
   position: absolute;
   width:200px;
   top:10px;
-  left:495px;
+  left:101%;
 }
 .email-title{
   text-decoration: none;
