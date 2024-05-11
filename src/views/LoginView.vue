@@ -77,6 +77,10 @@ export default {
   },
   methods: {
     login() {
+      if (!this.userId || !this.password) {
+        alert('아이디 또는 빈칸을 입력해 주세요.');
+        return; // 함수 실행 중지
+      }
       const userData = {
         userId: this.userId,
         password: this.password,
