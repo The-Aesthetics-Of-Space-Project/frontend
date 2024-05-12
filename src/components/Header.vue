@@ -270,6 +270,9 @@ div
   font-size: 16px;
   font-weight: bolder;
   font-family: 'SOGANGUNIVERSITYTTF';
+  border-radius: 13px;
+  border:1px solid gray;
+  padding:10px;
 }
 .signup-a{
   position: relative;
@@ -280,6 +283,9 @@ div
   font-size: 16px;
   font-weight: bolder;
   font-family: 'SOGANGUNIVERSITYTTF';
+  border-radius: 13px;
+  border:1px solid gray;
+  padding:10px;
 }
 .username{
   position: relative;
