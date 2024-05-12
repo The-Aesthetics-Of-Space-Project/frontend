@@ -41,11 +41,11 @@
             </section>
           </form>
         </div>
+
         <div class="sns-login">
-          <section class="sns-login-wrapper">
-            <a> sns 계정으로 간편 로그인 </a>
-          </section>
+          sns 계정으로 간편 로그인
         </div>
+
         <div class="login-btn-class">
           <section class="login-btn-wrapper">
             <el-button type="button" class="btn-kakao-login">
@@ -125,6 +125,8 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
+  width:90%;
+  margin: auto;
 }
 
 nav {
@@ -145,30 +147,31 @@ nav a.router-link-exact-active {
 .login-container {
   width: 50%;
   max-width: 1280px;
-  margin: 5% 18%;
 
+  margin: auto;
 }
 
 .login-wrapper {
   width: 50%;
-  margin: 10% 50%;
+  margin: auto;
 }
 
 .login-header {
-  grid-column: span 2;
-  display: flex !important;
   position: relative;
   font-size: 42px;
-  font-weight: 650;
-  margin: 20px 5px;
-  align-items: center;
+  margin: auto;
   gap: 13px;
+  width:100%;
+  left:-40px;
 }
 
-a.logofont {
+.logofont {
   text-decoration: none;
   color: RGB(128, 200, 95);
   font-weight: 600;
+  position: relative;
+  top:-80px;
+  left:80px;
 }
 
 .el-input {
@@ -212,21 +215,26 @@ a.logofont {
   border-color: #80C85F;
   border-radius: 6px;
   margin: 10px 10px;
-  height: 40px;
+  height: 52px;
   font-size: 22px;
+  position: relative;
+  width:380px;
+  left:10px;
+  font-weight: bolder;
 }
 
 .bottom-login {
   grid-column: span 2;
   display: flex !important;
   position: relative;
-  font-size: 18px;
-  font-weight: 500;
-  margin: 30px 25px;
-  align-items: center;
+  font-size: 20px;
+  margin: auto;
   gap: 15px;
   text-decoration: none;
   color: #757575;
+  position: relative;
+  left:93px;
+  font-weight: bolder;
 }
 
 .passwordFind-container {
@@ -235,22 +243,23 @@ a.logofont {
   text-align: center;
 }
 
+.login-btn-class{
+  width:100%;
+  margin:auto;
+  position: relative;
+}
 .btn-naver-login-img {
   margin: 30px 20px;
   height: 50px;
 }
 
-.sns-login-wrapper {
-  text-decoration: none;
-  color: #757575;
-  text-align: center;
-  margin: 10px 15px;
-}
 
-.login-btn-wrapper {
-  grid-column: span 2;
-  display: flex !important;
-  position: relative;
+.sns-login{
+position: relative;
+  width: 68%;
+  text-align: center;
+  left:65px;
+  font-weight: bolder;
 }
 
 .btn-kakao-login {
