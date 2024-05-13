@@ -4,10 +4,12 @@ import router from './router/router.js';
 import 'bootstrap/dist/css/bootstrap.css'
 import axios from "axios";
 import 'bootstrap/dist/js/bootstrap'
+import store from './store/index.js'
+
+Vue.prototype.$http = axios;
 
 new Vue({
+    store,
     router,
     render: h => h(App),
 }).$mount('#app')
-
-Vue.use(axios)
