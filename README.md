@@ -26,10 +26,16 @@ frontend/
  ┣ 📂public
  ┣ 📂node_modules
  ┣ 📂src
+ ┃ ┣ 📂api
+   ┃ ┣ 📜api.js
+   ┃ ┣ 📜service.js
  ┃ ┣ 📂assets
  ┃ ┣ 📂components
  ┃ ┣ 📂fonts
  ┃ ┣ 📂router
+   ┃ ┣ 📜router.js
+ ┃ ┣ 📂store
+   ┃ ┣ 📜index.js
  ┃ ┣ 📂views
  ┃ 📜babel.config.js
  ┃ 📜jsonfig.json
