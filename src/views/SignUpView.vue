@@ -5,7 +5,7 @@
         <section class="logo-image-wrapper">
           <img src="../assets/ziplogo.png">
         </section>
-        <a class="logofont"> .zip </a>
+        <logofont></logofont>
       </section>
     </div>
     <div class="signup-container">
@@ -13,9 +13,9 @@
         <section class="signup-wrapper">
           <a style="font-size: 25px;"> 회원가입 </a>
           <div class="sns-login">
-            <section class="sns-login-wrapper">
-              <a style="position: relative; top:15px; font-size: 16px"> sns 계정으로 간편 회원가입 </a>
-            </section>
+
+              <div style="position: fixed; left:44.5%; top:215px; font-size: 16px"> sns 계정으로 간편 회원가입 </div>
+
           </div>
           <div class="login-btn-class">
             <section class="login-btn-wrapper">
@@ -52,7 +52,7 @@
           </section>
 
           <div class="form-group has-success">
-            <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:710px;">
+            <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:495px;">
             영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요.
             </section>
             <!-- 비밀번호 입력 -->
@@ -81,7 +81,7 @@
             <a class="nickname-title"> 닉네임 </a>
           </section>
 
-          <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:73px; left:33%;">
+          <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:66px; left:33%;">
             <a> 다른 유저와 겹치지 않도록 입력해주세요. (2~15자) </a>
           </section>
 
@@ -93,9 +93,8 @@
         </section>
 
         <div class="d-grid gap-2">
-          <button type="button" class="btn-loginIn" id="signInButton" @click="signup"> 회원가입</button>
+          <button type="button" class="userbutton" id="signInButton" @click="signup" style="width: 180px; height: 55px;"> 회원가입</button>
         </div>
-
 
       </section>
     </div>
@@ -105,9 +104,12 @@
 
 <script>
 import axios from "axios";
+import Logofont from "@/components/logofont.vue";
+import UserName from "@/components/UserName.vue";
 
 export default {
   name: 'SignUpView',
+  components: {UserName, Logofont},
   data() {
     return {
       userId: '',
@@ -215,13 +217,16 @@ export default {
 </script>
 
 <style scoped>
+#signup{
+  padding:30px;
+}
 /* 상대적 크기와 여백 조정 */
 .signup-wrapper, .email-wrapper, .nickname-wrapper {
   margin: 0 auto; /* 가운데 정렬 */
   width: 80%; /* 뷰포트 너비의 80% 사용 */
   font-weight: bolder;
   font-size: 18px;
-  padding:20px;
+  padding:10px;
 }
 
 .input-group, .form-group {
@@ -230,7 +235,6 @@ export default {
 }
 
 .btn-loginIn {
-  width:100%;
   margin: auto;
 }
 /* 유효성 검사 메시지 위치 조정 */
@@ -272,7 +276,7 @@ export default {
   font-size: 13px;
   position: absolute;
   left:64%;
-  top:805px;
+  top:570px;
 }
 .password-match{
   color: darkgreen;
@@ -301,10 +305,11 @@ export default {
 .btn-kakao-login-img, .btn-naver-login-img {
   width: 105%; /* 이미지가 버튼의 크기에 맞게 조절되도록 설정 */
   height: auto; /* 이미지의 비율을 유지하면서 높이 조절 */
+  position: relative;
+  top:20px;
 }
-.btn-loginIn{
-  width:250px;
-  height:50px;
+.userbutton{
+  margin: auto;
 }
 #checkId{
   position: absolute;
@@ -316,7 +321,7 @@ export default {
   text-decoration: none;
   color:black;
   position: absolute;
-  top:530px;
+  top:340px;
   left:36.5%;
   font-size: 19px;
 }
@@ -324,7 +329,7 @@ export default {
   text-decoration: none;
   color:black;
   position: absolute;
-  top:630px;
+  top:428px;
   left:36.5%;
   font-size: 19px;
 }
@@ -332,7 +337,7 @@ export default {
   text-decoration: none;
   color:black;
   position: absolute;
-  top:750px;
+  top:528px;
   left:36.5%;
   font-size: 19px;
 }
@@ -341,7 +346,7 @@ export default {
   color:black;
   position: absolute;
   top:-10px;
-  left:33%;
+  left:32.55%;
   font-size: 19px;
 }
 </style>
