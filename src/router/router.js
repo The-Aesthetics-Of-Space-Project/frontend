@@ -18,54 +18,20 @@ import interiorGuideView from "@/views/InteriorGuideView.vue";
 Vue.use(VueRouter)
 
 const routes = [
-    { path: '/login', component: LoginView },
-    { path: '/signup', component: SignUpView },
+    { path: '/login', component: LoginView, meta: { hideHeader: true,hideFooter: true } },
+    { path: '/signup', component: SignUpView, meta: { hideFooter: true,hideHeader: true} },
     { path: '/my-page', component: MyPageView },
     { path: '/setting', component: SettingView },
     { path: '/leave', component: LeaveMembership },
-    { path: '/community', component: Community},
-    { path: '/interiorguide', component: interiorGuideView, meta: { hideHeader: true,hideFooter: true }}, // 메타 필드},
-    {
-        path: '/',
-        component: MainView,
-       // meta: { hideHeader: true, hideFooter: true } // 메타 필드
-    },
-    {
-        path: '/login',
-        component: LoginView,
-        meta: { hideHeader: true } // 메타 필드
-    },
-    {
-        path: '/guideandtips', // URL 경로
-        component: GuideAndTips, // 해당 경로로 갔을 때 보여줄 컴포넌트
-        //meta: { hideHeader: false, hideFooter: true } // 메타 필드
-    },
-    {
-        path: '/GeneralBoard',
-        component: GeneralBoard,
-        meta: { hideHeader: false, hideFooter: false } // 메타 필드
-    },
-    {
-        path: '/GeneralBoardPage',
-        component: GeneralBoardPage,
-        meta: { hideHeader: false, hideFooter: false } // 메타 필드
-    },
-    {
-        path: '/community',
-        component: Community,
-        meta: { hideHeader: false, hideFooter: true } // 메타 필드 추가
-    },
-    {
-        path: '/GeneralBoardWrite',
-        component: GeneralBoardWrite,
-        meta: { hideHeader: false, hideFooter: true } // 메타 필드 추가
-    },
-    {
-        path: '/Introduce',
-        component: IntroduceView,
-        meta: { hideHeader: false, hideFooter: false }
-    }
-    ,{path: '/follower', component: FollowerView}
+    { path: '/community', component: Community,meta: {hideFooter: true }},
+    { path: '/interiorguide', component: interiorGuideView, meta: { hideHeader: true,hideFooter: true }},
+    { path: '/', component: MainView},
+    { path: '/guideandtips', component: GuideAndTips, meta: { hideHeader: false, hideFooter: true }},
+    { path: '/GeneralBoard', component: GeneralBoard, meta: { hideHeader: false, hideFooter: false }},
+    { path: '/GeneralBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: false }},
+    { path: '/GeneralBoardWrite', component: GeneralBoardWrite, meta: { hideHeader: false, hideFooter: true }},
+    { path: '/Introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
+    {path: '/follower', component: FollowerView}
 ]
 
 const router = new VueRouter({

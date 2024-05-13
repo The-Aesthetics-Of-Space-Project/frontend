@@ -2,11 +2,13 @@
 <template>
   <div class="container">
     <div class="left-section">
-      <h1 class="font-h1"><span style="position: relative; left:-80px;">마음에 드는</span><br><span style="position: relative; left:-25px; color:darkgreen">
+      <h1 class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br><span style="position: relative; left:-165px; color:darkgreen">
         인테리어 이미지를</span> <br>
-        <span style="position: relative; left:-65px;">선택해 주세요</span></h1>
+        <span style="position: relative; left:-205px;">선택해 주세요</span></h1>
       <p class="guide-textcontent">{{ textContent }}</p>
       <button id="anlay-btn" class="btn btn-success" @click="analyzeSelectedImages" :disabled="selectedImages.length !== 3"><span class="font-analye">분석 결과</span></button>
+      <router-link to="/" id="anlay-btn" style="position: relative; left:-80px;" class="btn btn-outline-success"><span class="font-analye_1">뒤로 가기</span></router-link>
+
     </div>
     <div class="right-section">
       <div class="image-gallery">
@@ -253,11 +255,17 @@ export default {
   margin-top: 20px;
   position: relative;
   top:230px;
-  left:-90px;
+  left:-120px;
   width:110px;
   height:55px;
 }
 .font-analye{
   font-weight: bolder;
+}
+
+.font-analye_1{
+  font-weight: bolder;
+  position: relative;
+  top:8px;
 }
 </style>

@@ -40,6 +40,8 @@
   </router-link>
 
   <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="border-color: white; text-align: center;">
+   <li class="dropdown-item"> <router-link to="/Chat" style="text-decoration: none">채팅목록</router-link></li>
+    <li><hr class="dropdown-divider"></li>
     <li><a href="javascript:;" @click="logoutUser" class="dropdown-item">로그아웃</a></li>
   </ul>
 </span>
@@ -50,9 +52,9 @@
             글쓰기
             <span class="visually-hidden">Toggle Dropdown</span>
           </button>
-          <ul class="dropdown-menu" id="dropdown">
-            <li v-for="(item, index) in menuItems" :key="item.text">
-              <router-link :to="item.href" class="dropdown-item" id="menu-font" style="text-align: center;">
+          <ul class="dropdown-menu" id="dropdown" >
+            <li v-for="(item, index) in menuItems" :key="item.text" >
+              <router-link :to="item.href" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: center;">
                 <img :class="item.class" :src="item.imgSrc">{{ item.text }}
               </router-link>
               <hr class="dropdown-divider" v-if="index < menuItems.length - 1">
@@ -96,11 +98,11 @@ export default {
       menus: ['.ZIP','가구 인식', '커뮤니티', '인테리어 가이드', '소개'],
       menuItems: [
         { text: '일반 게시판', imgSrc: require('../assets/header_write_icon_list/generalboard.png'), class: 'board-image', href:'/GeneralBoard' },
-        { text: '중고 게시판', imgSrc: require('../assets/header_write_icon_list/usedboard.png'), class: 'board-image', href:'#' },
+        { text: '공모전 게시판', imgSrc: require('../assets/header_write_icon_list/usedboard.png'), class: 'board-image', href:'#' },
         { text: '일반 게시판 글쓰기', imgSrc: require('../assets/header_write_icon_list/generalboard_write.png'), class: 'write-image', href:'/GeneralBoardWrite' },
-        { text: '중고 게시판 글쓰기', imgSrc: require('../assets/header_write_icon_list/usedboard_write.png'), class: 'write-image', href:'#' },
+        { text: '공모전 게시판 글쓰기', imgSrc: require('../assets/header_write_icon_list/usedboard_write.png'), class: 'write-image', href:'#' },
       ],
-      menuLinks: ['/Home', '#', '/Community', '#', '/Introduce'],
+      menuLinks: ['/', '#', '/Community', 'InteriorGuide', '/Introduce'],
     }
   }
 }
@@ -247,6 +249,7 @@ div
 .dropdown a:hover{
   color:green;
   font-weight: bolder;
+  font-weight: bolder;
 }
 #dropdownMenuLink{
   border: white;
@@ -256,8 +259,6 @@ div
 
 .dropdown li a{
   font-size:15px;
-  font-weight: bold;
-
   font-family: 'SOGANGUNIVERSITYTTF';
 }
 

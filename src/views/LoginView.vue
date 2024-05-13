@@ -6,7 +6,7 @@
           <section class="logo-container" href="/login">
             <img src="../assets/ziplogo.png">
           </section>
-          <a class="logofont" href="/login"> .zip </a>
+          <logofont></logofont>
         </section>
         <div class="el-input el-input-line">
           <!-- email 입력 -->
@@ -23,7 +23,7 @@
             </div>
 
             <div class="d-grid gap-2">
-              <button v-on:click="loginClick" class="btn-loginIn" @click="login"> 로그인 </button>
+              <button v-on:click="loginClick" class="userbutton" @click="login"> 로그인 </button>
               <div> <h2> {{num}} </h2></div>
             </div>
             <section class="bottom-login">
@@ -42,7 +42,7 @@
           </form>
         </div>
 
-        <div class="sns-login">
+        <div class="sns-login" style="position: fixed; left:16.5%; top:600px;">
           sns 계정으로 간편 로그인
         </div>
 
@@ -66,9 +66,11 @@
 <script>
 
 import axios from "axios";
+import Logofont from "@/components/logofont.vue";
 
 export default {
-  name: 'LoginView',
+  name: 'login',
+  components: {Logofont},
   el: '#login',
   data() {
     return {
@@ -80,6 +82,7 @@ export default {
     login() {
       if (!this.userId || !this.password) {
         alert('아이디 또는 빈칸을 입력해 주세요.');
+        window.location.reload(); // 페이지 리로드
         return; // 함수 실행 중지
       }
       const userData = {
@@ -125,8 +128,9 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  width:90%;
+  width:100%;
   margin: auto;
+  padding:130px;
 }
 
 nav {
@@ -165,14 +169,7 @@ nav a.router-link-exact-active {
   left:-40px;
 }
 
-.logofont {
-  text-decoration: none;
-  color: RGB(128, 200, 95);
-  font-weight: 600;
-  position: relative;
-  top:-80px;
-  left:80px;
-}
+
 
 .el-input {
   width: 500px;
@@ -209,14 +206,14 @@ nav a.router-link-exact-active {
   padding-bottom: 70px;
 }
 
-.btn-loginIn {
+.userbutton {
   background-color: RGB(128, 200, 95, 90%);
   color: cornsilk;
   border-color: #80C85F;
   border-radius: 6px;
   margin: 10px 10px;
   height: 52px;
-  font-size: 22px;
+  font-size: 19px;
   position: relative;
   width:380px;
   left:10px;
@@ -251,6 +248,8 @@ nav a.router-link-exact-active {
 .btn-naver-login-img {
   margin: 30px 20px;
   height: 50px;
+  position: relative;
+  top:20px;
 }
 
 
@@ -271,6 +270,8 @@ position: relative;
   height: 50px;
   width: 105px;
   margin: 10px 15px;
+  position: relative;
+  top:20px;
 }
 
 </style>

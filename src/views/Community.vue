@@ -13,15 +13,15 @@
           <router-link to="/GeneralBoard"><img src="@/assets/커뮤니티버튼.png" class="icon-image"></router-link>
         </div>
         <div class="usedBoard">
-          <h4>중고 <p>게시판</p></h4>
+          <h4>공모전 <p>게시판</p></h4>
           <router-link to="#"><img src="@/assets/커뮤니티버튼.png" class="icon-image"></router-link>
         </div>
         <div class="Interior">
           <h4>당신의 <br>인테리어를<br> 보여주세요</h4>
-          <router-link to="#"><img src="@/assets/커뮤니티버튼.png" class="icon-image_second"></router-link>
+          <router-link to="/GeneralBoardWrite"><img src="@/assets/커뮤니티버튼.png" class="icon-image_second"></router-link>
         </div>
         <div class="Board">
-          <h4>당신의 <br>중고 아이템을<br>보여주세요</h4>
+          <h4>가구 및 스타일<br> 분석하기</h4>
           <router-link to="#"><img src="@/assets/커뮤니티버튼.png" class="icon-image_second"></router-link>
         </div>
       </div>
