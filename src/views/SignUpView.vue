@@ -14,7 +14,7 @@
           <a style="font-size: 25px;"> 회원가입 </a>
           <div class="sns-login">
 
-              <div style="position: fixed; left:44.5%; top:215px; font-size: 16px"> sns 계정으로 간편 회원가입 </div>
+            <div style="position: fixed; left:44.5%; top:215px; font-size: 16px"> sns 계정으로 간편 회원가입 </div>
 
           </div>
           <div class="login-btn-class">
@@ -42,6 +42,7 @@
           <!-- 이메일 입력 -->
           <div class="input-group">
             <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId" @input="checkId" id="emailInput">
+            <button @click="checkIdbut" id="checkbtnid" style="position: absolute; top:-32px; left:14%; border-radius: 8px; font-weight:bolder;padding:4px; font-size: 12.5px;" class="btn btn-outline-success">중복 확인</button>
             <div><span id="checkId" style="font-size: 13px;" @input="checkId"></span></div>
           </div>
 
@@ -53,7 +54,7 @@
 
           <div class="form-group has-success">
             <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:495px;">
-            영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요.
+              영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요.
             </section>
             <!-- 비밀번호 입력 -->
             <input type="password" class="form-control valid" placeholder="비밀번호" id="pw" name="pw"
@@ -107,7 +108,10 @@ import axios from "axios";
 import Logofont from "@/components/logofont.vue";
 import UserName from "@/components/UserName.vue";
 
+//중복확인 버튼 클릭 여부에 대한 회원가입 동작
+
 export default {
+
   name: 'SignUpView',
   components: {UserName, Logofont},
   data() {
@@ -118,13 +122,14 @@ export default {
       nickname: '',
       passwordsMatch: false,
       repasswordEntered: false,
+      userIdDuplicate: false, // 사용자 ID 중복 여부
+      isIdChecked: false, // 중복 확인이 되었는지 여부를 추적하는 변수
     }
   },
   methods: {
 
+    //이메일 검증
     checkId() {
-
-      // ID(email) 형식 검증
       const validateEmail = (email) => {
         const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
         return emailPattern.test(email);
@@ -150,6 +155,8 @@ export default {
         signUpButton.disabled = true;
       }
     },
+
+    //패스워드 검증
     checkPasswords() {
       this.checkPassword();
     },
@@ -174,13 +181,20 @@ export default {
       }
     }
     ,
+
+    //회원가입 비동기 통신
     signup() {
-        // 입력 필드 확인
-        if (!this.userId.trim() || !this.password.trim() || !this.nickname.trim()) {
-          alert('빈칸을 입력해주세요.');
-          window.location.reload(); // 페이지 리로드
-          return;
-        }
+      //중복확인 여부
+      if (!this.isIdChecked) {
+        alert('중복 확인을 해주세요.');
+        return; // 추가적인 회원가입 로직을 방지
+      }
+      // 입력 필드 확인
+      if (!this.userId.trim() || !this.password.trim() || !this.nickname.trim()) {
+        alert('빈칸을 입력해주세요.');
+        window.location.reload(); // 페이지 리로드
+        return;
+      }
 
       const userData = {
         userId: this.userId,
@@ -211,7 +225,43 @@ export default {
           .finally(() => {
             // 필요한 최종 처리
           });
-    }
+    },
+
+    //중복확인 버튼에 대한 비동기 통신
+    checkIdbut() {
+      //중복확인 여부에 대한 boolean
+      this.isIdChecked = true;
+
+      function isValidEmail(email) {
+        const regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@(([^<>()[\]\\.,;:\s@"]+\.)+[^<>()[\]\\.,;:\s@"]{2,})$/i;
+        return regex.test(email);
+      }
+
+      if (!this.userId.trim()) {
+        alert('이메일을 입력해주세요.');
+        return;
+      }
+      if (!isValidEmail(this.userId)) {
+        alert('유효하지 않은 이메일 형식입니다.');
+        return; // 유효하지 않으면 여기서 함수 종료
+      }
+      axios.get(`http://jerry6475.iptime.org:20000/checkUserId/${encodeURIComponent(this.userId)}`, {
+        headers: {
+          'Content-Type': 'application/json',
+        }
+      })
+          .then(response => {
+              if(this.userIdDuplicate === false) {
+                alert('사용 가능한 아이디입니다.');
+              }
+          })
+          .catch(error => {
+            if (error.response && error.response.status === 401) {
+              // 여기서 401 상태 코드를 확인하고, 사용자에게 알림
+              alert("이미 사용중인 아이디입니다.");
+            }
+          });
+    },
   }
 }
 </script>
