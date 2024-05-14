@@ -14,7 +14,7 @@
           <a style="font-size: 26px; position: relative; top:-25px; font-weight: bolder;"> 회원가입 </a>
           <div class="sns-login">
 
-            <div style="position: fixed; left:44.5%; top:255px; font-size: 16px"> sns 계정으로 간편 회원가입 </div>
+            <div style="position: relative;  top:-10px; font-size: 16px"> sns 계정으로 간편 회원가입 </div>
 
           </div>
           <div class="login-btn-class">
