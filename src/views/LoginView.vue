@@ -11,30 +11,30 @@
         <div class="el-input el-input-line">
           <!-- email 입력 -->
           <form>
-            <div class="form-group">
+            <div class="form-group" style="position: relative; top:-30px;">
               <input type="text" class="form-control invalid" id="inputEmail" aria-describedby="emailHelp" placeholder="Email" v-model="userId">
               <div><span id="checkId"></span></div>
             </div>
             <!-- password 입력 -->
-            <div class="form-group has-success">
+            <div class="form-group has-success" style="position: relative; top:-10px;">
               <!-- 비밀번호 입력 -->
               <input type="password" class="form-control valid" id="inputPW" name="PW" placeholder="Password" v-model="password">
               <div class="valid-feedback"></div>
             </div>
 
             <div class="d-grid gap-2">
-              <button v-on:click="loginClick" class="userbutton" @click="login"> 로그인 </button>
+              <button v-on:click="loginClick" class="userbutton" @click="login" style="position: relative;  top:10px;left:-50px; width:365px;"> 로그인 </button>
               <div> <h2> {{num}} </h2></div>
             </div>
             <section class="bottom-login">
-              <section class="signup-container">
+              <section class="signup-con">
                 <nav>
-                  <router-link to="/signup">회원가입</router-link>
+                  <router-link to="/signup" style="text-decoration: none; color:gray">회원가입</router-link>
                 </nav>
               </section>
               <section class="passwordFind-container">
                 <nav>
-                  <router-link to="/password">비밀번호 찾기</router-link>
+                  <router-link to="/password" style="text-decoration: none; color:gray">비밀번호 찾기</router-link>
                 </nav>
               </section>
               <router-view></router-view>
@@ -42,17 +42,17 @@
           </form>
         </div>
 
-        <div class="sns-login" style="position: fixed; left:16.5%; top:600px;">
+        <div class="sns-login" style="font-weight: bolder; font-size: 17px;">
           sns 계정으로 간편 로그인
         </div>
 
         <div class="login-btn-class">
           <section class="login-btn-wrapper">
             <el-button type="button" class="btn-kakao-login">
-              <img src="../assets/kakao_login_large.png" class="btn-kakao-login-img">
+              <img src="../assets/kakao_login_large.png" class="btn-kakao-login-img" style="position: relative; top:20px; width: 80px; height: 40px;">
             </el-button>
             <el-button type="button" class="btn-naver-login">
-              <img src="../assets/naver_login_btn.png" class="btn-naver-login-img">
+              <img src="../assets/naver_login_btn.png" class="btn-naver-login-img"style="position: relative; top:20px; width: 95px; height: 40px;">
             </el-button>
           </section>
         </div>
@@ -118,161 +118,118 @@ export default {
             });
       }
     }
-}
   }
+}
 </script>
 
 <style>
-
 #login {
-  font-family: Inter;
+  font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  width:100%;
+  width: 100%;
   margin: auto;
-  padding:130px;
-}
-
-nav {
-  padding: 10px;
-}
-
-nav a {
-  font-weight: 460;
-  color: RGB(117, 117, 117);
-  text-decoration: none;
-  font-size: 16px;
-}
-
-nav a.router-link-exact-active {
-  color: #42b983;
+  padding: 180px 0;
 }
 
 .login-container {
-  width: 50%;
-  max-width: 1280px;
-
-  margin: auto;
+  max-width: 600px; /* 로그인 컨테이너 최대 너비 설정 */
+  margin: 0 auto; /* 중앙 정렬 */
+  padding: 20px;
+  background-color: #ffffff; /* 배경색 설정 */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1); /* 그림자 효과 추가 */
+  border-radius: 8px; /* 모서리 둥글게 */
 }
 
 .login-wrapper {
-  width: 50%;
+  padding: 20px;
+}
+
+.login-header .logo-container img {
+  width: 120px; /* 로고 이미지 크기 조정 */
+  margin-bottom: 20px;
+}
+
+.el-input, .form-group {
+  margin-bottom: 20px; /* 입력 필드 간격 조정 */
+  width:300px;
   margin: auto;
 }
 
-.login-header {
-  position: relative;
-  font-size: 42px;
-  margin: auto;
-  gap: 13px;
-  width:100%;
-  left:-40px;
-}
-
-
-
-.el-input {
-  width: 500px;
-  position: relative;
-  font-size: 14px;
-  display: inline-block;
-  margin: 15px 3px;
-}
-
-.el-input-line .el-input__inner {
-  padding-right: 15px;
-  width: 500px;
-}
-
-.el-input__inner:focus {
-  border-color: #15611D;
-}
-
-.el-input__inner {
-  background-color: #fff;
-  border-radius: 4px;
-  border: 1px solid #dcdfe6;
-  box-sizing: border-box;
-  height: 40px;
+.form-control {
   width: 100%;
-  line-height: 40px;
-  padding: 0 15px;
-}
-
-.form-group {
-  margin: 5px 10px;
-  height: 30px;
-  width: 400px;
-  padding-bottom: 70px;
+  padding: 10px;
+  border: 1px solid #ccc; /* 테두리 색상 */
+  border-radius: 5px; /* 입력 필드 모서리 둥글게 */
+  font-size: 16px; /* 폰트 크기 */
 }
 
 .userbutton {
-  background-color: RGB(128, 200, 95, 90%);
-  color: cornsilk;
-  border-color: #80C85F;
-  border-radius: 6px;
-  margin: 10px 10px;
-  height: 52px;
-  font-size: 19px;
-  position: relative;
-  width:380px;
-  left:10px;
-  font-weight: bolder;
+  width: 100%;
+  padding: 10px 20px;
+  background-color: #007bff; /* 버튼 배경색 */
+  color: #ffffff; /* 버튼 글자색 */
+  border: none;
+  border-radius: 5px; /* 버튼 모서리 둥글게 */
+  cursor: pointer; /* 마우스 오버 시 커서 변경 */
+  font-size: 16px; /* 폰트 크기 */
+  margin-bottom: 10px; /* 버튼 간격 */
+}
+
+.userbutton:hover {
+  background-color: #0056b3; /* 호버 시 버튼 색상 변경 */
 }
 
 .bottom-login {
-  grid-column: span 2;
-  display: flex !important;
-  position: relative;
-  font-size: 20px;
-  margin: auto;
-  gap: 15px;
+  margin-top: 20px; /* 하단 섹션 간격 조정 */
+}
+
+.signup-con, .passwordFind-container {
+  display: inline-block; /* 옆으로 나란히 정렬 */
+  margin-right: 10px; /* 버튼 사이의 간격 */
+}
+
+.router-link {
+  color: #007bff;
   text-decoration: none;
-  color: #757575;
+}
+
+.router-link:hover {
+  text-decoration: underline;
+}
+
+.sns-login {
+  text-align: center; /* 중앙 정렬 */
+  margin-top: 20px; /* 상단 여백 */
   position: relative;
-  left:93px;
-  font-weight: bolder;
-}
-
-.passwordFind-container {
-  text-decoration: none;
-  color: #757575;
-  text-align: center;
-}
-
-.login-btn-class{
-  width:100%;
-  margin:auto;
-  position: relative;
-}
-.btn-naver-login-img {
-  margin: 30px 20px;
-  height: 50px;
-  position: relative;
-  top:20px;
+  left:-5px;
 }
 
 
-.sns-login{
-position: relative;
-  width: 68%;
-  text-align: center;
-  left:65px;
-  font-weight: bolder;
+.login-btn-class {
+  display: flex;
+  justify-content: center; /* 중앙 정렬 */
+  gap: 10px; /* 버튼 사이 간격 */
 }
-
 .btn-kakao-login {
-  margin: 20px 15px;
-  height: 50px;
-}
 
+  color: #3C1E1E; /* 글자 색상 */
+  border-radius: 5px; /* 모서리 둥글게 */
+}
+.btn-naver-login {
+
+  color: #FFFFFF; /* 글자 색상 */
+  border-radius: 5px; /* 모서리 둥글게 */
+}
 .btn-kakao-login-img {
-  height: 50px;
-  width: 105px;
-  margin: 10px 15px;
+  width: 90px; /* SNS 로그인 버튼 크기 조정 */
   position: relative;
-  top:20px;
+  left:-20px;
+  height: 45px;
 }
-
+.btn-naver-login-img{
+  width: 100px;
+  height: 40px;
+}
 </style>
