@@ -80,45 +80,46 @@ export default {
   },
   methods: {
     login() {
-      if (!this.userId || !this.password) {
-        alert('아이디 또는 빈칸을 입력해 주세요.');
-        window.location.reload(); // 페이지 리로드
-        return; // 함수 실행 중지
+      // 입력값 검증
+      if (!this.userId && !this.password) {
+        alert('아이디와 비밀번호를 입력해 주세요.');
+      } else if (!this.userId) {
+        alert('아이디를 입력해 주세요.');
+      } else if (!this.password) {
+        alert('비밀번호를 입력해 주세요.');
+      } else {
+        const userData = {
+          userId: this.userId,
+          password: this.password,
+        };
+
+        // 보내기 전 데이터 확인
+        console.log('Sending data', userData);
+
+        axios.post('http://jerry6475.iptime.org:20000/login', userData, {
+          headers: {
+            'Content-Type': 'application/json'
+          }
+        })
+            .then(response => {
+              // 서버 응답 로그
+              console.log('Response data', response.data);
+              // 로그인 성공 알림
+              alert('로그인에 성공하였습니다.');
+              // 세션 값 저장
+              this.$store.commit('setUserId', response.data.userId);
+              // 페이지 이동
+              this.$router.push('/');
+            })
+            .catch(error => {
+              // 사용자에게 친절한 에러 메시지 표시
+              alert('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해 주세요.');
+              console.error('Error data', error);
+            });
       }
-      const userData = {
-        userId: this.userId,
-        password: this.password,
-      };
-
-      // 보내기 전 데이터 확인
-      console.log('Sending data', userData);
-
-      axios.post('https://85fa0ceb-630c-4aa0-b333-1084fe8b5dc5.mock.pstmn.io/login', userData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
-      })
-          .then(response => {
-            // 서버 응답 로그
-            console.log('Response data', response.data);
-            // 여기서 response.data를 사용하여 this.userId, this.password, this.nickname 값을 업데이트
-            alert('로그인 성공에 성공하였습니다.');
-            //세션 값 저장
-            this.$store.commit('setUserId', response.data.userId);
-            //페이지 이동
-            this.$router.push('/');
-
-          })
-          .catch(error => {
-            // 에러 로그
-            console.error('Error data', error);
-          })
-          .finally(() => {
-            // 필요한 최종 처리
-          });
     }
-  }
 }
+  }
 </script>
 
 <style>
