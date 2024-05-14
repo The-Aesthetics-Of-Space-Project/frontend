@@ -35,7 +35,7 @@ service.interceptors.response.use(
         }
         console.log("res.data 값이다", response.data);
         return response;
-        },
+    },
     async(error) =>{
         if (error.response?.status === 401) {
             error.config.headers = {
