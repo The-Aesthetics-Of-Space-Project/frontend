@@ -11,19 +11,19 @@
     <div class="signup-container">
       <section class="signup-header">
         <section class="signup-wrapper">
-          <a style="font-size: 25px;"> 회원가입 </a>
+          <a style="font-size: 26px; position: relative; top:-25px; font-weight: bolder;"> 회원가입 </a>
           <div class="sns-login">
 
-            <div style="position: fixed; left:44.5%; top:215px; font-size: 16px"> sns 계정으로 간편 회원가입 </div>
+            <div style="position: fixed; left:44.5%; top:255px; font-size: 16px"> sns 계정으로 간편 회원가입 </div>
 
           </div>
           <div class="login-btn-class">
             <section class="login-btn-wrapper">
               <el-button type="button" class="btn-kakao-login">
-                <img src="../assets/kakao_login_large.png" class="btn-kakao-login-img">
+                <img src="../assets/kakao_login_large.png" class="btn-kakao-login-img" style="width: 80px; height: 40px; position: relative; left:-15px; top:10px;">
               </el-button>
               <el-button type="button" class="btn-naver-login">
-                <img src="../assets/naver_login_btn.png" class="btn-naver-login-img">
+                <img src="../assets/naver_login_btn.png" class="btn-naver-login-img" style="width: 95px; height: 40px; position: relative; left:5px; top:10px;">
               </el-button>
             </section>
           </div>
@@ -37,11 +37,11 @@
       <section class="signup-content">
         <section class="email-wrapper">
           <section class="email-content">
-            <a class="email-title"> 이메일 </a>
+            <a class="email-title" style="text-decoration: none; position: relative; left:-190px; top:-3.5px; font-weight: bolder; color: black; font-size: 17px;"> 이메일 </a>
           </section>
           <!-- 이메일 입력 -->
-          <div class="input-group">
-            <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId" @input="checkId" id="emailInput">
+          <div class="input-group" style="width: 400px; position: relative; left:40px;">
+            <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId" @input="checkId" id="emailInput" style="border-radius: 6px; height: 40px;">
             <button @click="checkIdbut" id="checkbtnid" style="position: absolute; top:-32px; left:14%; border-radius: 8px; font-weight:bolder;padding:4px; font-size: 12.5px;" class="btn btn-outline-success">중복 확인</button>
             <div><span id="checkId" style="font-size: 13px;" @input="checkId"></span></div>
           </div>
@@ -49,12 +49,12 @@
         </section>
         <section class="password-wrapper email-wrapper">
           <section class="password-content email-content">
-            <a class="pw-title"> 비밀번호 </a>
+            <a class="pw-title" style="text-decoration: none; position: relative; left:-180px; top:-3.5px; font-weight: bolder; color: black; font-size: 17px;"> 비밀번호 </a>
           </section>
 
-          <div class="form-group has-success">
-            <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:495px;">
-              영문, 숫자, 특수문자를 포함한 8자 이상의 비밀번호를 입력해주세요.
+          <div class="form-group has-success" style="width: 400px; position: relative; left:-10px;">
+            <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:40px;">
+              영문, 숫자, 특수문자를 포함한 8자 이상을 입력하세요.
             </section>
             <!-- 비밀번호 입력 -->
             <input type="password" class="form-control valid" placeholder="비밀번호" id="pw" name="pw"
@@ -63,9 +63,9 @@
           </div>
         </section>
 
-        <section class="re-password-wrapper email-wrapper">
+        <section class="re-password-wrapper email-wrapper" style="width: 400px; position: relative; left:40px; top:35px;">
           <section class="re-password-content email-content">
-            <a class="re-pw-title"> 비밀번호 재확인 </a>
+            <a class="re-pw-title"  style="text-decoration: none; position: relative; left:-142px; top:-3.5px; font-weight: bolder; color: black; font-size: 17px;"> 비밀번호 재확인 </a>
             <input type="password" class="form-control valid" placeholder="비밀번호" id="confirm-password" name="confirm-PW"
                    v-model="repassword" @input="checkPasswords">
             <span class="password-match" v-if="passwordsMatch && repasswordEntered">비밀번호가 일치합니다.</span>
@@ -77,18 +77,18 @@
           </div>
         </section>
 
-        <section class="nickname-wrapper email-wrapper" style="position: relative; top:-50px;">
+        <section class="nickname-wrapper email-wrapper" style="position: relative; top:30px;">
           <section class="nickname-content email-content">
-            <a class="nickname-title"> 닉네임 </a>
+            <a class="nickname-title" style="text-decoration: none; position: relative; left:-188px; top:15px; font-weight: bolder; color: black; font-size: 17px;"> 닉네임 </a>
           </section>
 
-          <section class="form-text-nickname form-text" style="font-size: 14px; position: absolute; top:66px; left:33%;">
+          <section class="form-text-nickname form-text" style="font-size: 14px; position: relative; top:60px; left:-48px;">
             <a> 다른 유저와 겹치지 않도록 입력해주세요. (2~15자) </a>
           </section>
 
-          <div class="form-group-nickname form-group">
+          <div class="form-group-nickname form-group" style="width: 400px; position: relative; left:-10px; top:80px;">
             <!-- 닉네임 입력 -->
-            <input type="nickname" class="form-control invalid" placeholder="닉네임" id="nickname" v-model="nickname">
+            <input type="nickname" class="form-control invalid" placeholder="닉네임" id="nickname" v-model="nickname" style="position: relative; top:-85px;">
 
           </div>
         </section>
@@ -266,137 +266,125 @@ export default {
 }
 </script>
 
-<style scoped>
-#signup{
-  padding:30px;
-}
-/* 상대적 크기와 여백 조정 */
-.signup-wrapper, .email-wrapper, .nickname-wrapper {
-  margin: 0 auto; /* 가운데 정렬 */
-  width: 80%; /* 뷰포트 너비의 80% 사용 */
-  font-weight: bolder;
-  font-size: 18px;
-  padding:10px;
+<style>
+/* 전체 페이지 스타일링 */
+/* 전체 페이지 스타일링 */
+body {
+  font-family: 'Noto Sans KR', sans-serif;
+  background-color: #f8f9fa;
+  color: #212529;
 }
 
-.input-group, .form-group {
-  margin: 13px auto; /* 가운데 정렬 */
-  width: 35%; /* 부모 요소의 너비를 전체 사용 */
+/* a 태그 스타일 제거 */
+a {
+  text-decoration: none;
+  color: #007bff; /* 링크의 기본 색상 지정, 필요에 따라 변경 가능 */
 }
 
-.btn-loginIn {
-  margin: auto;
-}
-/* 유효성 검사 메시지 위치 조정 */
-.form-group .validation-message {
-  color: #d9534f; /* 오류 메시지 색상 */
-  font-size: 13px; /* 메시지 글꼴 크기 */
-  margin-top: 5px; /* 입력 필드와의 여백 */
+a:hover {
+  color: #0056b3; /* 링크에 마우스를 올렸을 때의 색상, 필요에 따라 변경 가능 */
 }
 
-/* 디자인 일관성 */
-.form-control, .btn-loginIn {
-  height: 40px; /* 입력 필드와 버튼의 높이 통일 */
-  border-radius: 5px; /* 모서리 둥글기 */
+/* 로고 이미지 및 텍스트 스타일링 */
+.logo-image-wrapper img {
+  width: 120px; /* 로고 이미지 크기 조정 */
+  height: auto;
+  display: block;
+  margin: 0 auto; /* 중앙 정렬 */
 }
 
-/* 반응형 디자인을 위한 미디어 쿼리 추가 */
-@media (max-width: 768px) {
-  .signup-wrapper, .email-wrapper, .nickname-wrapper {
-    width: 35%; /* 모바일 화면에서 너비 조정 */
-  }
+/* 회원가입 컨테이너 스타일링 */
+.signup-container {
+  background-color: white;
+  width: 560px; /* 가로 크기 조정 */
+  height: 720px;
+  margin: 40px auto; /* 상하 여백 조정 */
+  padding: 30px; /* 내부 여백 조정 */
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+  border-radius: 8px;
+  font-size: 14px; /* 폰트 크기 조정 */
+}
 
-  .btn-loginIn {
-    width: 70%; /* 모바일 화면에서 버튼 너비 조정 */
-  }
-}
-#emailInput {
-  min-height: 40px; /* 또는 원하는 높이 */
-  width: 100%; /* 또는 원하는 너비 */
-}
-.is-valid, .is-invalid {
-  border-width: 1px; /* 기존 테두리 두께 유지 */
-  padding: .375rem .75rem; /* 기존 패딩 유지 */
-}
-#confirm-password{
-  width:35%;
-  margin: auto;
-}
-.password-match, .password-not-match{
-  font-size: 13px;
-  position: absolute;
-  left:64%;
-  top:570px;
-}
-.password-match{
-  color: darkgreen;
-}
-.password-not-match{
-  color:red;
-}
-.login-btn-wrapper {
+/* SNS 로그인 버튼 스타일링 */
+.login-btn-class {
   display: flex;
-  justify-content: center; /* 가로 방향으로 중앙 정렬 */
-  align-items: center; /* 세로 방향으로 중앙 정렬 */
-  gap: 10px; /* 버튼 사이의 간격 */
-  padding-right: 50px;
+  justify-content: center;
+  gap: 10px;
+  margin-bottom: 20px;
 }
 
-.btn-kakao-login{
-  flex: 1; /* 버튼들이 사용 가능한 공간을 균등하게 나누어 가짐 */
-  max-width: 90px; /* 버튼의 최대 너비 설정 */
-}
-.btn-naver-login {
-  flex: 1; /* 버튼들이 사용 가능한 공간을 균등하게 나누어 가짐 */
-  max-width: 110px; /* 버튼의 최대 너비 설정 */
-  max-height: 88px;
+.btn-kakao-login, .btn-naver-login {
+  border: none;
+  cursor: pointer;
 }
 
 .btn-kakao-login-img, .btn-naver-login-img {
-  width: 105%; /* 이미지가 버튼의 크기에 맞게 조절되도록 설정 */
-  height: auto; /* 이미지의 비율을 유지하면서 높이 조절 */
+  width: 40px;
+  height: 40px;
+}
+
+/* 입력 필드 스타일링 */
+.input-group {
   position: relative;
-  top:20px;
+  margin-bottom: 20px;
 }
-.userbutton{
-  margin: auto;
+
+.input-group input[type="text"],
+.input-group input[type="password"],
+.input-group input[type="nickname"] {
+  width: 100%;
+  padding: 12px; /* 패딩 조정 */
+  margin: 5px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px; /* 폰트 크기 조정 */
 }
-#checkId{
+
+/* 회원가입 버튼 스타일링 */
+.userbutton {
+  font-size: 16px;
+  color: white;
+  background-color: #green;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+  padding: 10px 20px; /* 버튼 패딩 조정 */
+  transition: background-color 0.2s ease-in-out;
+  position: relative;
+  top:80px;
+  left:140px;
+}
+
+.userbutton:hover {
+  background-color: #0056b3;
+}
+
+/* 선 스타일링 */
+.line-content hr {
+  border-top: 1px solid #ccc;
+  margin: 20px 0;
+}
+
+/* 폼 그룹 스타일링 */
+.form-group.has-success, .form-group.has-danger {
+  margin-bottom: 15px;
+}
+
+/* 비밀번호 일치 / 불일치 메시지 스타일링 */
+.password-match, .password-not-match {
+  font-size: 14px;
   position: absolute;
-  width:200px;
-  top:10px;
-  left:101%;
+  left:0.5px;
+
 }
-.email-title{
-  text-decoration: none;
-  color:black;
-  position: absolute;
-  top:340px;
-  left:36.5%;
-  font-size: 19px;
+
+.password-match {
+  color: #28a745;
 }
-.pw-title{
-  text-decoration: none;
-  color:black;
-  position: absolute;
-  top:428px;
-  left:36.5%;
-  font-size: 19px;
-}
-.re-pw-title{
-  text-decoration: none;
-  color:black;
-  position: absolute;
-  top:528px;
-  left:36.5%;
-  font-size: 19px;
-}
-.nickname-title{
-  text-decoration: none;
-  color:black;
-  position: absolute;
-  top:-10px;
-  left:32.55%;
-  font-size: 19px;
+
+.password-not-match {
+  color: red;
 }
 </style>
