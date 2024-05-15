@@ -109,9 +109,15 @@ export default {
 </script>
 
 <style>
-.header{
+.login-a:hover, .signup-a:hover {
+  opacity: 0.8;
+}
+
+.header {
+  padding: 20px 40px;
   height:170px;
 }
+
 #app {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
@@ -203,7 +209,7 @@ div
 
 .menu a:hover, #header-board-write button:hover
 {
-  color:#1F8D2D;
+  opacity: 0.8;
   font-weight: bolder;
 }
 
@@ -264,16 +270,18 @@ div
 
 .login-a{
   position: relative;
-  left:425px;
+  left:475px;
   top:-130px;
   text-decoration: none;
   color: black;
   font-size: 16px;
   font-weight: bolder;
   font-family: 'SOGANGUNIVERSITYTTF';
-  border-radius: 13px;
-  border:1px solid gray;
-  padding:10px;
+
+  transition: all 0.3s ease;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 20px;
 }
 .signup-a{
   position: relative;
@@ -282,11 +290,12 @@ div
   text-decoration: none;
   color: black;
   font-size: 16px;
-  font-weight: bolder;
+  font-weight: bold;
   font-family: 'SOGANGUNIVERSITYTTF';
-  border-radius: 13px;
-  border:1px solid gray;
-  padding:10px;
+  transition: all 0.3s ease;
+  padding: 10px 20px;
+  margin: 5px;
+  border-radius: 20px;
 }
 .username{
   position: relative;

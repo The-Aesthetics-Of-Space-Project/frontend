@@ -1,16 +1,12 @@
 <template>
   <div id="my-page">
-    <div class="container">
+    <div class="my-page-container">
       <section class="header-container-wrapper">
         <section class="container-header-wrapper-profile">
-          <nav>
             <router-link to="/profile"> 프로필 </router-link>
-          </nav>
         </section>
         <section class="container-header-wrapper-setting">
-          <nav>
           <router-link to="/setting"> 설정 </router-link>
-          </nav>
         </section>
 
       </section>
@@ -90,12 +86,6 @@
             </section>
 
 
-
-
-
-
-
-
           </section>
 
         </section>
@@ -114,16 +104,6 @@
 
           </section>
 
-            <section class="used-container">
-              <section class="used-header house-header">
-                <a> 중고게시판 </a>
-              </section>
-
-              <section class="used-content house-content">
-
-              </section>
-
-            </section>
 
 
             <section class="competition-container">
@@ -169,59 +149,76 @@ export default {
 </script>
 
 
-
 <style scoped>
-
 #my-page{
   font-family: Inter;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  width: 100%;
+  width: 80%;
+  margin: 0;
 }
-.container{
-  width: 100%;
+.my-page-container{
+  position: relative;
+  width: 110%;
 }
 .header-container-wrapper{
   grid-column: span 2;
   display: flex!important;
-  margin: 10px 550px;
-  gap: 35px;
-  font-size: 25px;
+  position: relative;
+  width: 70%;
+  margin: 10px 50%;
+  font-size: 19px;
+  gap: 40px;
+}
+.container-header-wrapper-profile a{
+  text-decoration: none;
+  color: #80C85F;
+  font-weight: 560;
+  font-size: 20px;
+}
+.container-header-wrapper-setting a{
+  text-decoration: none;
+  color: #757575;
+  font-weight: 550;
+}
+.content-container{
+  display: flex!important;
+  margin: 10% 8%;
+  width: 80%;
 }
 .house-header{
+  position: relative;
   font-weight: 550;
   margin: 2px 15px;
   text-align: left;
 }
-.content-container{
-  margin: 10% 8%;
-  grid-column: span 2;
-  display: flex!important;
-}
 .house-content{
-  width: 520px;
+  position: relative;
+  width: 560px;
   height: 230px;
   margin: 5px 15px;
   border: 1px dashed #CCC5C5;
   border-radius: 10px;
 }
 .left-container{
-  width: 35%;
-  margin: 0px -5px;
+  position: relative;
+  width: 90%;
+  margin: 0px 10%;
   height: 270%;
   border: 1px solid #CCC5C5;
   border-radius: 10px;
+  align-items: center;
+  align-content: center;
 }
 .left-content{
-  margin: 10% 1%;
+  margin: 13% 1%;
   width: 100%;
   height: 260%;
 }
 .right-container{
-  position: absolute;
+  position: relative;
   width: 63%;
-  margin: 0% 32%;
   height: 530px;
   grid-row: span 3;
 }
@@ -268,7 +265,7 @@ export default {
   color: #787575;
   position: absolute;
   text-decoration: none;
-  margin: 0% -4%;
+  margin: 0% -15%;
   align-items: center;
 }
 .follower-count{
@@ -283,8 +280,11 @@ export default {
   height: 10px;
   color: #787575;
 }
-.used-container{
-  margin: 25px 0px;
+.competition-header{
+  position: relative;
+  margin-left: 14px;
+  margin-top: 40px;
+
 }
 .share-button-wrapper{
   background-color: white;

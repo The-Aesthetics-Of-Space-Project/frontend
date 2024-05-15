@@ -23,7 +23,7 @@
             </div>
 
             <div class="d-grid gap-2">
-              <button v-on:click="loginClick" class="userbutton" @click="login" style="position: relative;  top:10px;left:-50px; width:365px;"> 로그인 </button>
+              <button v-on:click="loginClick" class="userbutton" @click="login" style="position: relative;  top:10px;left:10px; width:255px;"> 로그인 </button>
               <div> <h2> {{num}} </h2></div>
             </div>
             <section class="bottom-login">
@@ -96,7 +96,7 @@ export default {
         // 보내기 전 데이터 확인
         console.log('Sending data', userData);
 
-        axios.post('http://jerry6475.iptime.org:20000/login', userData, {
+        axios.post('https://85fa0ceb-630c-4aa0-b333-1084fe8b5dc5.mock.pstmn.io/login', userData, {
           headers: {
             'Content-Type': 'application/json'
           }
@@ -120,6 +120,11 @@ export default {
     }
   }
 }
+
+
+
+
+
 </script>
 
 <style>
