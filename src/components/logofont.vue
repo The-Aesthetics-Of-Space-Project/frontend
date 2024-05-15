@@ -12,4 +12,7 @@
   left:80px;
   font-size: 30px;
 }
+.logofont:hover{
+  color:black;
+}
 </style>

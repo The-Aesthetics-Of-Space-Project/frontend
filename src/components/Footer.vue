@@ -13,7 +13,7 @@
       <p>Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이용약관&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소개</p>
       <p>문의 : 010 - xxxx - xxxx</p>
       <div class="footer-sub-contnet">
-        <p>Copy right @2024; Designed by .zip</p>
+        <p>Copy right @2024; Designed by Aesthetics Of Space</p>
       </div>
     </div>
   </div>
@@ -28,77 +28,32 @@ export default
 </script>
 
 <style>
-.Footer
-{
-  height:210px;
-  padding-top: 50px;
+body {
+  margin: 0;
+  padding: 0;
+  font-family: 'Arial', sans-serif;
 }
-
-
-.footer
-{
-  width:100%;
-  height:210px;
-  background-color: #1C1C1C;
+.Footer {
+  background-color: #f2f2f2;
+  text-align: center;
+  padding: 20px 0;
   position: relative;
-  opacity: 0.95;
+  bottom: 0;
+  width: 100%;
 }
-
-.footer h4
-{
-  position: relative;
-  bottom:-115px;
+.socialIcons a {
+  margin: 0 10px;
+  display: inline-block;
 }
-.footer p{
-  position: relative;
-  top:63px;
-  font-size: 18px;
-  color:white;
+.socialIcons img, .socialIcons i {
+  vertical-align: middle;
 }
-.footer-sub-contnet{
-  width:100%;
-  height:70px;
-  background-color: #151515;
-  position: relative;
-  top:54px;
-  color:white;
+.footer p {
+  color: #666;
+  margin: 10px 0;
 }
-.footer-sub-contnet p{
-  position: relative;
-  top:20px;
-  font-size: 18px;
-}
-
-.socialIcons{
-  display: flex;
-  justify-content: center;
-}
-.socialIcons a{
-  width: 50px;
-  height:50px;
-  text-decoration: none;
-  background-color: white;
-  margin: 10px;
-  border-radius: 50%;
-  position: relative;
-  top:50px;
-}
-.socialIcons a i{
-  font-size: 2em;
-  color: black;
-  opacity: 0.9;
-}
-/* Hover affect on social media icon */
-.socialIcons a:hover{
-  background-color: #111;
-  transition: 0.5s;
-}
-.socialIcons a:hover i{
-  color: white;
-  transition: 0.5s;
-}
-img{
-  position: relative;
-  top:-5px;
+.footer-sub-contnet p {
+  color: #aaa;
+  font-size: 14px;
 }
 </style>
