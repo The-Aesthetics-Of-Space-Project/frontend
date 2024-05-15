@@ -3,7 +3,7 @@
     <div class="my-page-container">
       <section class="header-container-wrapper">
         <section class="container-header-wrapper-profile">
-            <router-link to="/profile"> 프로필 </router-link>
+          <router-link to="/profile"> 프로필 </router-link>
         </section>
         <section class="container-header-wrapper-setting">
           <router-link to="/setting"> 설정 </router-link>
@@ -36,17 +36,17 @@
             <section class="follow-list-container">
               <section class="follow-list-wrapper">
                 <section class="follow-list-wrapper-follower">
-                    <router-link to="/follower"> 팔로워 </router-link>
+                  <router-link to="/follower"> 팔로워 </router-link>
                   <br>
                   <section class="follower-count">
-                     <!--{{ number }}-->  0
+                    <!--{{ number }}-->  0
                   </section>
                 </section>
 
                 <section class="line"> | </section>
 
                 <section class="follow-list-wrapper-following">
-                    <router-link to="/following"> 팔로잉 </router-link>
+                  <router-link to="/following"> 팔로잉 </router-link>
                   <br>
                   <section class="following-count">
                     <!--{{ number }}-->  0
@@ -102,7 +102,7 @@
 
               </section>
 
-          </section>
+            </section>
 
 
 
@@ -118,9 +118,9 @@
             </section>
 
 
-        </section>
+          </section>
 
-      </section>
+        </section>
 
       </section>
 
@@ -157,6 +157,7 @@ export default {
   text-align: center;
   width: 80%;
   margin: 0;
+  align-content: center;
 }
 .my-page-container{
   position: relative;
