@@ -62,7 +62,7 @@
           </ul>
         </div>
 
-
+        <router-link to="/Chat" style="position: relative; text-decoration: none; color:black; top:-200px; left:410px;">채팅목록</router-link>
       </template>
       <!-- 로그인 전 -->
       <template v-else>

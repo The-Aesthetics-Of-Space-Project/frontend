@@ -1,12 +1,12 @@
 <template>
-  <div class="chat">
+  <div class="chat" > <!--세션 아이디-->
     <button id="fullscreenButton"><img src="@/assets/fullscreen.png" width="40" height="40"></button> <!-- 풀 스크린 버튼 추가 -->
     <div class="chat-container">
       <!-- 대화상대 리스트 -->
       <div class="chat-list">
         <h3>대화상대</h3>
         <ul>
-          <li>user_name0</li> <!-- 백 브론트 단에 데이터 바인딩 필요 -->
+          <li>user_name3</li> <!-- 백 브론트 단에 데이터 바인딩 필요 -->
           <li>user_name1</li>
           <li>user_name2</li>
         </ul>
@@ -20,20 +20,25 @@
         </div>
         <div class="chat-history">
           <!-- 메시지 목록 -->
-          <div v-for="(message, index) in messages" :key="index" :class="['message', message.isMine ? 'my-message' : 'other-message']">
+          <div class="message my-message">
             <div class="message-content">
-              <p>{{ message.content }}</p>
+              <p>Hello, this is my message!</p>
             </div>
           </div>
-        </div>
+          <div class="message other-message">
+            <div class="message-content">
+              <p>Hello, this is the other person's message!</p>
+            </div>
+          </div>
+          </div>
         <div class="chat-input">
           <!-- 입력 필드와 전송 버튼 -->
           <input type="text" id="chat-input" v-model="inputMessage" placeholder="send a message" @keyup.enter="sendMessage">
           <button id="sendMessageButton" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
         </div>
       </div>
+      </div>
     </div>
-  </div>
 </template>
 
 
@@ -50,6 +55,7 @@ export default {
     }
   },
   methods: {
+
     // 메시지 전송 메소드
     sendMessage() {
       if (this.inputMessage.trim() !== '') {

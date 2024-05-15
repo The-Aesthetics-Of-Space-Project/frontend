@@ -54,32 +54,32 @@
       </div>
     </div>
 
-  <div class="guide-content">
-    <div class="guide-text">
-      <h2 ref="mainText"style="font-family: 'SOGANGUNIVERSITYTTF'; font-size: 29px;">인테리어 추천 가이드</h2>
-    </div>
+    <div class="guide-content">
+      <div class="guide-text">
+        <h2 ref="mainText"style="font-family: 'SOGANGUNIVERSITYTTF'; font-size: 29px;">인테리어 추천 가이드</h2>
+      </div>
 
-    <div class="card-view">
-      <router-link to="/InteriorGuide" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
-        <span style="float:right; position: relative; left:50px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
-      </router-link>
-      <div class="card-list">
-        <div class="card" v-for="(card, index) in cards" :key="index">
-          <div class="card-body">
-            <!--<h5 class="card-title">{{ card.title }}</h5>-->
-            <!-- <p class="card-text">{{ card.text }}</p>-->
+      <div class="card-view">
+        <router-link to="/InteriorGuide" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
+          <span style="float:right; position: relative; left:50px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
+        </router-link>
+        <div class="card-list">
+          <div class="card" v-for="(card, index) in cards" :key="index">
+            <div class="card-body">
+              <!--<h5 class="card-title">{{ card.title }}</h5>-->
+              <!-- <p class="card-text">{{ card.text }}</p>-->
 
               <img :src="card.imageSrc" alt="Card Image" width="112%" height="117%" style="position: relative; left:-6%; top:-16px;">
               <router-link to="InteriorGuide" style="text-decoration: none; color: #333333; font-weight: bolder">
-            <span class="card-guide-content" id="router-link-custom"> {{card.text}}</span>
+                <span class="card-guide-content" id="router-link-custom"> {{card.text}}</span>
               </router-link>
+            </div>
           </div>
         </div>
       </div>
+
+
     </div>
-
-
-  </div>
     <div class="Home-Styling-title">
       <h2>Home Styling</h2>
     </div>
@@ -132,9 +132,9 @@ export default {
         {
           backgroundColor: 'lightgray',
           interval: 4000,
-      //    title:
+          //    title:
           titleTop: '-130px',
-        //  content:
+          //  content:
           contentTop: '-130px',
           fontsize: '100px'
         },
