@@ -14,6 +14,8 @@ import GeneralBoardWrite from "@/views/GeneralBoard/GeneralBoardWrite.vue";
 import IntroduceView from "@/views/IntroduceView.vue";
 import FollowerView from "@/views/FollowerView.vue";
 import interiorGuideView from "@/views/InteriorGuideView.vue";
+import CompetitionMain from "@/views/Competition/CompetitionMain.vue";
+import CompetitionWrite from "@/views/Competition/CompetitionWrite.vue";
 
 Vue.use(VueRouter)
 
@@ -31,7 +33,9 @@ const routes = [
     { path: '/GeneralBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: false }},
     { path: '/GeneralBoardWrite', component: GeneralBoardWrite, meta: { hideHeader: false, hideFooter: true }},
     { path: '/Introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
-    {path: '/follower', component: FollowerView}
+    {path: '/follower', component: FollowerView},
+    {path: '/comMain', component: CompetitionMain, meta: { hideHeader: false, hideFooter: false }},
+    {path: '/comWrite', component: CompetitionWrite, meta: {hideHeader: false, hideFooter: true}}
 ]
 
 const router = new VueRouter({

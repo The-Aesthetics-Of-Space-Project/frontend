@@ -14,7 +14,7 @@
         </div>
         <div class="usedBoard">
           <h4>공모전 <p>게시판</p></h4>
-          <router-link to="#"><img src="@/assets/커뮤니티버튼.png" class="icon-image"></router-link>
+          <router-link to="/comMain"><img src="@/assets/커뮤니티버튼.png" class="icon-image"></router-link>
         </div>
         <div class="Interior">
           <h4>당신의 <br>인테리어를<br> 보여주세요</h4>
