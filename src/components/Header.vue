@@ -1,25 +1,25 @@
 <template>
   <div class="header">
     <div class="menu">
-    <h4>
-      <router-link
-          v-for="(menu, index) in menus"
-          :key="menu"
-          :to="menuLinks[index]"
-      >
-        {{ menu }}
-      </router-link>
-    </h4>
-      <router-link to="#">
+      <h4>
+        <router-link
+            v-for="(menu, index) in menus"
+            :key="menu"
+            :to="menuLinks[index]"
+        >
+          {{ menu }}
+        </router-link>
+      </h4>
+      <router-link :to="isUserLogin ? '/#':'/login'">
         <img class="scrap-image" src="@/assets/스크랩.png">
       </router-link>
-
-      <img class="alarm-image" src="@/assets/알람.png">
-
-      <router-link to="/my-page">
+      <router-link :to="isUserLogin ? '/#':'/login'">
+        <img class="alarm-image" src="@/assets/알람.png">
+      </router-link>
+      <router-link :to="isUserLogin ? '/my-page':'/login'">
         <img class="mypage-image" src="@/assets/마이페이지.png" alt="마이페이지">
       </router-link>
-      </div>
+    </div>
     <div class="navigations">
 
 
@@ -62,7 +62,7 @@
           </ul>
         </div>
 
-
+        <router-link to="/Chat" style="position: relative; text-decoration: none; color:black; top:-200px; left:410px;">채팅목록</router-link>
       </template>
       <!-- 로그인 전 -->
       <template v-else>
@@ -219,7 +219,7 @@ div
   height: 53px;
   position: relative;
   top:-50px;
-  left: 400px;
+  left: 430px;
   padding:10px;
 }
 .mypage-image{
@@ -236,7 +236,7 @@ div
   height: 55px;
   position: relative;
   top:-50px;
-  left:210px;
+  left:410px;
   padding:8px;
 }
 

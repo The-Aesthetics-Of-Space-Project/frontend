@@ -2,19 +2,17 @@
   <div id="signup">
     <div class="header-container">
       <section class="header-wrapper">
-        <section class="logo-image-wrapper">
-          <img src="../assets/ziplogo.png">
-        </section>
-        <logofont></logofont>
+        <ZipLogo style="position: relative; top:60px;"></ZipLogo>
+        <logofont style="position: relative; top:-35px;"></logofont>
       </section>
     </div>
     <div class="signup-container">
       <section class="signup-header">
         <section class="signup-wrapper">
-          <a style="font-size: 26px; position: relative; top:-25px; font-weight: bolder;"> 회원가입 </a>
+          <a style="font-size: 26px; position: relative; top:-15px; font-weight: bolder;"> 회원가입 </a>
           <div class="sns-login">
 
-            <div style="position: relative;  top:-10px; font-size: 16px"> sns 계정으로 간편 회원가입 </div>
+            <div style="position: relative;  top:-10px; font-size: 16px; font-family: MyCustomFont2"> sns 계정으로 간편 회원가입 </div>
 
           </div>
           <div class="login-btn-class">
@@ -42,7 +40,7 @@
           <!-- 이메일 입력 -->
           <div class="input-group" style="width: 400px; position: relative; left:40px;">
             <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId" @input="checkId" id="emailInput" style="border-radius: 6px; height: 40px;">
-            <button @click="checkIdbut" id="checkbtnid" style="position: absolute; top:-32px; left:14%; border-radius: 8px; font-weight:bolder;padding:4px; font-size: 12.5px;" class="btn btn-outline-success">중복 확인</button>
+            <button @click="checkIdbut" id="checkbtnid" style="position: absolute; top:-32px; left:14%; border-radius: 8px; font-weight:bolder;padding:4px; font-size: 13px;" class="btn btn-outline-success">중복 확인</button>
             <div><span id="checkId" style="font-size: 13px;" @input="checkId"></span></div>
           </div>
 
@@ -65,7 +63,7 @@
 
         <section class="re-password-wrapper email-wrapper" style="width: 400px; position: relative; left:40px; top:35px;">
           <section class="re-password-content email-content">
-            <a class="re-pw-title"  style="text-decoration: none; position: relative; left:-142px; top:-3.5px; font-weight: bolder; color: black; font-size: 17px;"> 비밀번호 재확인 </a>
+            <a class="re-pw-title"  style="text-decoration: none; position: relative; left:-145px; top:-3.5px; font-weight: bolder; color: black; font-size: 17px;"> 비밀번호 재확인 </a>
             <input type="password" class="form-control valid" placeholder="비밀번호" id="confirm-password" name="confirm-PW"
                    v-model="repassword" @input="checkPasswords">
             <span class="password-match" v-if="passwordsMatch && repasswordEntered">비밀번호가 일치합니다.</span>
@@ -107,13 +105,14 @@
 import axios from "axios";
 import Logofont from "@/components/logofont.vue";
 import UserName from "@/components/UserName.vue";
+import ZipLogo from "@/components/ZipLogo.vue";
 
 //중복확인 버튼 클릭 여부에 대한 회원가입 동작
 
 export default {
 
   name: 'SignUpView',
-  components: {UserName, Logofont},
+  components: {ZipLogo, UserName, Logofont},
   data() {
     return {
       userId: '',
@@ -286,12 +285,6 @@ a:hover {
 }
 
 /* 로고 이미지 및 텍스트 스타일링 */
-.logo-image-wrapper img {
-  width: 120px; /* 로고 이미지 크기 조정 */
-  height: auto;
-  display: block;
-  margin: 0 auto; /* 중앙 정렬 */
-}
 
 /* 회원가입 컨테이너 스타일링 */
 .signup-container {
@@ -386,5 +379,8 @@ a:hover {
 
 .password-not-match {
   color: red;
+}
+.email-title, .pw-title, .re-pw-title, .nickname-title{
+  font-family: MyCustomFont2;
 }
 </style>

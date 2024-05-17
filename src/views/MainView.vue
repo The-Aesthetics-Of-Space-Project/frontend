@@ -1,88 +1,134 @@
 <template>
   <div class="main">
-    <section class="banner-container">
-      <div class="title-home">
-        <h3>INTERIOR DESIGN COMPANY </h3>
-        <H1>Experience Interior <br> Design</H1>
-
-        <div class="item_grid">
-          <div class="item_box flex">
-            <img src="@/assets/banner_icon/i1.png" width="80px">
-            <div class="text">
-              <router-link to="/generalboard" class="router-link-custom">
-                <p>게시판</p>
-              </router-link>
-              <p>You can also write your own posts.</p>
-            </div>
-          </div>
-          <div class="item_box flex">
-            <img src="@/assets/banner_icon/i2.png" width="80px">
-            <div class="text">
-              <router-link to="/community" class="router-link-custom">
-                <p>커뮤니티</p>
-              </router-link>
-              <p>community space for communication.</p>
-            </div>
-          </div>
-          <div class="item_box flex">
-            <img src="@/assets/banner_icon/i3.png" width="80px" >
-            <div class="text">
-              <router-link to="/Introduce" class="router-link-custom">
-                <p>소개</p>
-              </router-link>
-              <p>information about the website.</p>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
     <div class="main-banner">
       <div class="main-banner-title">
         <h1>당신의 공간을 재창조하다</h1>
         <p>영감을 공유하고 새로운 트렌드를 발견하세요.</p>
       </div>
       <div class="main-banner-content">
-        <h5 style="font-family: 'SOGANGUNIVERSITYTTF';">집에서 시작하는 새로운 이야기</h5>
+        <h5>집에서 시작하는 새로운 이야기</h5>
         <p>당신의 공간을 재창조하며 새로운 이야기를 쓰세요. 인테리어 아이디어와 영감이 가득한 곳에서 당신만의 스토리를 시작하세요.</p>
         <br>
-        <h5 style="font-family: 'SOGANGUNIVERSITYTTF';">영감을 주는 공간, 함께 만드는 아름다움</h5>
+        <h5>영감을 주는 공간, 함께 만드는 아름다움</h5>
         <p>인테리어 디자인의 무한한 가능성을 탐험하고, 커뮤니티와 함께 나만의 공간을 완성하세요.</p>
         <br>
-        <h5 style="font-family: 'SOGANGUNIVERSITYTTF';">꿈꾸는 공간을 현실로</h5>
+        <h5>꿈꾸는 공간을 현실로</h5>
         <p> 당신의 이상적인 공간이 현실이 됩니다. 인테리어 디자인의 모든 것을 탐험하고, 공유하고, 실현해보세요.</p>
       </div>
     </div>
+    <div class="guide-content">
+      <div class="guide-text">
+        <h2 ref="mainText">초보자를 위한 가이드</h2>
+      </div>
 
-  <div class="guide-content">
-    <div class="guide-text">
-      <h2 ref="mainText"style="font-family: 'SOGANGUNIVERSITYTTF'; font-size: 29px;">인테리어 추천 가이드</h2>
-    </div>
-
-    <div class="card-view">
-      <router-link to="/InteriorGuide" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
-        <span style="float:right; position: relative; left:50px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
-      </router-link>
-      <div class="card-list">
-        <div class="card" v-for="(card, index) in cards" :key="index">
-          <div class="card-body">
-            <!--<h5 class="card-title">{{ card.title }}</h5>-->
-            <!-- <p class="card-text">{{ card.text }}</p>-->
+      <div class="card-view">
+        <router-link to="/InteriorGuide" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
+          <span style="float:right; position: relative; left:50px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
+        </router-link>
+        <div class="card-list">
+          <div class="card" v-for="(card, index) in cards" :key="index">
+            <div class="card-body">
+              <!--<h5 class="card-title">{{ card.title }}</h5>-->
+              <!-- <p class="card-text">{{ card.text }}</p>-->
 
               <img :src="card.imageSrc" alt="Card Image" width="112%" height="117%" style="position: relative; left:-6%; top:-16px;">
               <router-link to="InteriorGuide" style="text-decoration: none; color: #333333; font-weight: bolder">
-            <span class="card-guide-content" id="router-link-custom"> {{card.text}}</span>
+                <span class="card-guide-content" id="router-link-custom"> {{card.text}}</span>
               </router-link>
+            </div>
           </div>
         </div>
       </div>
+
     </div>
 
+    <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel">
+      <div class="carousel-indicators">
+        <button type="button" data-bs-target="#carouselExampleDark" v-for="(slide, index) in slides"
+                :data-bs-slide-to="index" :class="{ 'active': index === 0 }" :aria-current="index === 0"
+                :aria-label="'Slide ' + (index + 1)" :key="'indicator-' + index"></button>
+      </div>
+      <div class="carousel-inner" >
+        <div v-for="(slide, index) in slides" :class="{ 'carousel-item': true, 'active': index === 0 }"
+             :data-bs-interval="slide.interval" :key="'slide-' + index">
+          <img :src="slide.image" class="d-block w-100" width="100%" height="1000vh"
+               :style="{ 'background-color': slide.backgroundColor}">
+          <div class="image-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4);"></div>
+          <div class="carousel-caption d-none d-md-block">
+            <div class="animated-title" v-if="index === 0">
+              <div class="track">
+                <div class="content"><blockquote class="blockquote">
+                  <p>&nbsp;Welcome to our website. &nbsp; We are continuously developing for a more
+                    convenient environment.
+                    If you have any questions, please contact the person in charge. &nbsp;Enjoy your stay and have a nice
+                    day.</p>
+                </blockquote></div>
+              </div>
+            </div>
 
-  </div>
+            <div class="title-home" v-if="index === 0">
+              <h3>INTERIOR DESIGN COMPANY </h3>
+              <H1>Experience Interior <br> Design</H1>
+
+              <div class="item_grid">
+                <div class="item_box flex">
+                  <img src="@/assets/banner_icon/i1.png" width="80px">
+                  <div class="text">
+                    <router-link to="/generalboard" class="router-link-custom">
+                      <p>게시판</p>
+                    </router-link>
+                    <p>Take a look around the various interiors of our users. You can also write your own posts.</p>
+                  </div>
+                </div>
+                <div class="item_box flex">
+                  <img src="@/assets/banner_icon/i2.png" width="80px">
+                  <div class="text">
+                    <router-link to="/community" class="router-link-custom">
+                      <p>커뮤니티</p>
+                    </router-link>
+                    <p>This is a community space for communication with users.</p>
+                  </div>
+                </div>
+                <div class="item_box flex">
+                  <img src="@/assets/banner_icon/i3.png" width="80px" >
+                  <div class="text">
+                    <router-link to="/Introduce" class="router-link-custom">
+                      <p>소개</p>
+                    </router-link>
+                    <p>This is where information about the website is introduced. Take a look around</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div v-if="index === 1">
+              <a id="btn-btn-success" class="btn btn-dark" href="#" role="button">바로가기</a>
+            </div>
+            <div v-if="index === 1" class="slide2-image"> <!--style="background-image: url('/image/공모전.png');-->
+            </div>
+
+
+            <h5 v-if="slide.title"
+                :style="{ 'position': 'relative', 'top': slide.titleTop, 'font-size': slide.fontsize, 'color': slide.color }">{{
+                slide.title }}</h5>
+            <p
+                :style="{ 'position': 'relative', 'top': slide.contentTop, 'font-size': slide.fontsize, 'color': slide.color }">
+              {{ slide.content }}</p>
+          </div>
+        </div>
+      </div>
+      <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="prev">
+        <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Previous</span>
+      </button>
+      <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleDark" data-bs-slide="next">
+        <span class="carousel-control-next-icon" aria-hidden="true"></span>
+        <span class="visually-hidden">Next</span>
+      </button>
+    </div>
     <div class="Home-Styling-title">
       <h2>Home Styling</h2>
     </div>
+
     <div class="board-write-list">
       <div class="card-view">
         <div class="card-list">
@@ -132,9 +178,9 @@ export default {
         {
           backgroundColor: 'lightgray',
           interval: 4000,
-      //    title:
+          //    title:
           titleTop: '-130px',
-        //  content:
+          //  content:
           contentTop: '-130px',
           fontsize: '100px'
         },
@@ -159,44 +205,37 @@ body {
 
 .router-link-custom{
   text-decoration: none;
-  color : #2c3e50;
-  font-size: 15px;
+  color:white;
+  font-size: 18px;
   font-weight: bolder;
-  font-family: 'SOGANGUNIVERSITYTTF';
 }
 .item_grid{
   display: grid;
   grid-template-columns: repeat(3, 1fr); /* 3열로 나눔 */
+  gap: 20px; /* 항목들 사이의 간격 */
   position: relative;
   bottom:30px;
 }
 
 .title-home h1{
   position: relative;
-  top:180px;
-  font-size: 50px;
-  color:gray;
-  font-weight: bolder;
+  bottom:200px;
+  font-size: 90px;
 }
 .title-home h3{
   position: relative;
-  font-size: 27px;
-  top:160px;
-  font-weight: bolder;
-  color : #333333;
+  bottom:210px;
+  font-size: 40px;
 
 }
 .item_box{
-  background-color: rgba(211, 211, 211, 0.5);
+  background-color: rgba(0,0,0,0.4);
+  padding:20px;
   border-radius: 5px;
   transition: 0.5s;
-  position: relative;
-  top:260px;
-  width:330px;
-  left:35px;
 }
 .item_box:hover{
-  background-color : darkgray;
+  background-color: wheat;
   color:black;
 }
 .title-home img{
@@ -211,7 +250,7 @@ div {
   box-sizing: border-box;
 }
 .main{
-  height:2650px;
+  height:3100px;
 }
 @keyframes fadeInDown {
   0% {
@@ -356,6 +395,7 @@ div {
   justify-content: space-between;
   flex-wrap: wrap; /* 필요에 따라 추가: 카드가 너무 많아 한 줄에 다 담지 못할 경우 다음 줄로 넘어가게 하는 속성 */
   padding:15px;
+
 }
 .card {
   width: 23%;
@@ -366,7 +406,7 @@ div {
 .board-write-list .card-view {
   display: inline-block;
   text-align: center;
-  top:-30px;
+  top:100px;
   position: relative;
   width:80%;
   height:500px;
@@ -387,7 +427,7 @@ div {
 
 .Home-Styling-title{
   position: relative;
-  top:-30px;
+  top:100px;
 }
 
 #carouselExampleDark{
@@ -501,7 +541,12 @@ div {
     opacity: 1;
   }
 }
-
+.main-banner-content h5{
+  font-family: 'SOGANGUNIVERSITYTTF';
+}
+.main-banner-content:hover{
+  background-color: darkslategrey;
+}
 .card {
   box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   transition: transform 0.3s ease;

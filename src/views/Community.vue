@@ -18,7 +18,7 @@
         </div>
         <div class="Interior">
           <h4>당신의 <br>인테리어를<br> 보여주세요</h4>
-          <router-link to="/GeneralBoardWrite"><img src="@/assets/커뮤니티버튼.png" class="icon-image_second"></router-link>
+          <router-link :to="isUserLogin ? '/GeneralBoardWrite':'/login'"><img src="@/assets/커뮤니티버튼.png" class="icon-image_second"></router-link>
         </div>
         <div class="Board">
           <h4>가구 및 스타일<br> 분석하기</h4>
@@ -31,6 +31,12 @@
 </template>
 <script>
 export default {
+  computed: {
+    // 로그인 유무 확인
+    isUserLogin() {
+      return this.$store.getters.isLogin;
+    }
+  },
 
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Community',
