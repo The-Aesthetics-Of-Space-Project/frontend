@@ -1,133 +1,100 @@
 <template>
   <div id="my-page">
     <div class="my-page-container">
+      <!-- 프로필/설정 (헤더) -->
       <section class="header-container-wrapper">
         <section class="container-header-wrapper-profile">
-            <router-link to="/profile"> 프로필 </router-link>
+          <router-link to="/profile"> 프로필 </router-link>
         </section>
         <section class="container-header-wrapper-setting">
           <router-link to="/setting"> 설정 </router-link>
         </section>
-
       </section>
 
-      <section class="content-container">
-        <section class="left-container">
-          <section class="left-content">
-            <section class="share-button-container">
-              <button @click="click()" class="share-button-wrapper">
-                <img src="../assets/공유_1.png">
-                <!--<h2>클릭결과: {{ result }}</h2>-->
-              </button>
-            </section>
-            <section class="profile-container">
-              <section class="profile-wrapper">
-                <img src="../assets/프로필_2.png">
+      <section class="my-page-content-container">
+        <section class="my-page-content-wrapper">
+          <!-- 왼쪽 컨텐츠 -->
+          <section class="left-container">
+            <section class="left-content">
+              <!-- 공유 버튼 -->
+              <section class="share-button-container">
+                <button @click="copyUrl()" class="share-button-wrapper"><img src="../assets/mypageShareIcon.png" style="width: 70px; height: 62px; left: 5px;"><!--<h2>클릭결과: {{ result }}</h2>--></button>
               </section>
-
-            </section>
-
-            <section class="nickname-container">
-              <section class="nickname-content">
-                <a> 닉네임 </a>
+              <!-- 프로필 컨테이너 -->
+              <section class="profile-container">
+                <section class="profile-wrapper"><!--<img src="../assets/banner1.jpg" style="width: 100%; height: 100%; border-radius: 50%;">--></section>
               </section>
-            </section>
-
-            <section class="follow-list-container">
-              <section class="follow-list-wrapper">
-                <section class="follow-list-wrapper-follower">
+              <!-- 닉네임 -->
+              <section class="nickname-container">
+                <section class="nickname-content"><a> 닉네임 </a></section>
+              </section>
+              <!-- 팔로워 -->
+              <section class="follow-list-container">
+                <section class="follow-list-wrapper">
+                  <section class="follow-list-wrapper-follower">
                     <router-link to="/follower"> 팔로워 </router-link>
-                  <br>
-                  <section class="follower-count">
-                     <!--{{ number }}-->  0
+                    <br>
+                    <section class="follower-count"><!--{{ number }}-->  0</section>
                   </section>
-                </section>
-
-                <section class="line"> | </section>
-
-                <section class="follow-list-wrapper-following">
+                  <section class="line"> | </section>
+                  <!-- 팔로잉 -->
+                  <section class="follow-list-wrapper-following">
                     <router-link to="/following"> 팔로잉 </router-link>
-                  <br>
-                  <section class="following-count">
-                    <!--{{ number }}-->  0
+                    <br>
+                    <section class="following-count"><!--{{ number }}-->  0 </section>
                   </section>
+
                 </section>
 
               </section>
+              <!-- 줄 -->
+              <section class="line-container"><hr/></section>
 
-            </section>
-
-            <section class="line-container">
-              <hr/>
-            </section>
-
-            <section class="content-under-container">
-              <section class="content-under-wrapper">
-
-                <section class="img-wrapper-scrap">
-                  <img src="../assets/scrapbook.png">
-                </section>
-
-                <section class="img-wrapper-like">
-                  <img src="../assets/like.png">
-                </section>
-
-
-                <section class="scrap-content">
-                  <a> 스크랩북 <br> 0</a>
-
-                </section>
-
-                <section class="like-content">
-                  <a> 좋아요 <br> 0 </a>
+              <section class="content-under-container">
+                <section class="content-under-wrapper">
+                  <!-- 스크랩 이미지 -->
+                  <section class="img-wrapper-scrap"><img src="../assets/scrapbook.png"></section>
+                  <!-- 좋아요 이미지 -->
+                  <section class="img-wrapper-like"><img src="../assets/like.png"></section>
+                  <!-- 스크랩 -->
+                  <section class="scrap-content"><a> 스크랩북 <br> 0</a></section>
+                  <!-- 좋아요 -->
+                  <section class="like-content"><a> 좋아요 <br> 0 </a></section>
                 </section>
               </section>
 
             </section>
+          </section>
 
+          <!-- 오른쪽 컨텐츠 -->
+          <section class="right-container">
+            <section class="right-content">
+              <!-- 집들이 -->
+              <section class="house-container">
+                <section class="house-header">
+                  <a> 집들이 </a>
+                </section>
+                <section class="house-content"></section>
+              </section>
 
+              <!-- 공모전 -->
+              <section class="competition-container">
+                <section class="competition-header house-header">
+                  <a> 공모전 </a>
+                </section>
+                <section class="competition-content"></section>
+              </section>
+            </section>
           </section>
 
         </section>
 
-        <section class="right-container">
-          <section class="right-content">
 
-            <section class="house-container">
-              <section class="house-header">
-                <a> 집들이 </a>
-              </section>
-
-              <section class="house-content">
-
-              </section>
-
-          </section>
-
-
-
-            <section class="competition-container">
-              <section class="competition-header house-header">
-                <a> 공모전 </a>
-              </section>
-
-              <section class="competition-content house-content">
-
-              </section>
-
-            </section>
-
-
-        </section>
-
-      </section>
 
       </section>
 
     </div>
-
   </div>
-
 </template>
 
 
@@ -141,8 +108,14 @@ export default {
     }
   },
   methods:{
-    click(){
-      this.result = this.input
+    copyUrl(){
+      const pageUrl = window.location.href; // 현재 페이지의 URL
+      navigator.clipboard.writeText(pageUrl).then(() => {
+        alert("클립보드에 복사되었습니다.");
+      }).catch(err => {
+        alert("URL 복사에 실패했습니다. 브라우저가 클립보드 복사를 지원하지 않습니다.");
+        console.error("Could not copy text: ", err);
+      });
     }
   }
 }
@@ -155,38 +128,291 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
-  width: 80%;
+  position: relative;
+  width: 100%;
+  height: 1080px;
   margin: 0;
+  align-content: center;
 }
 .my-page-container{
   position: relative;
-  width: 110%;
+  width: 100%;
+  height: 60%;
 }
 .header-container-wrapper{
-  grid-column: span 2;
-  display: flex!important;
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr;
+  width: 15%;
+  height: 2%;
+  left: 44%;
+  top: -8em;
+  font-size: 19px;
+  gap: 4px;
+}
+.container-header-wrapper-profile{
   position: relative;
   width: 70%;
-  margin: 10px 50%;
-  font-size: 19px;
-  gap: 40px;
+  color: #80C85F;
+  font-weight: 560;
+  font-size: 20px;
 }
 .container-header-wrapper-profile a{
+  position: relative;
+  width: 10%;
   text-decoration: none;
   color: #80C85F;
   font-weight: 560;
   font-size: 20px;
 }
-.container-header-wrapper-setting a{
+.container-header-wrapper-setting{
+  position: relative;
+  width: 70%;
   text-decoration: none;
   color: #757575;
   font-weight: 550;
 }
-.content-container{
-  display: flex!important;
-  margin: 10% 8%;
+.container-header-wrapper-setting a{
+  position: relative;
   width: 80%;
+  text-decoration: none;
+  color: #757575;
+  font-weight: 550;
 }
+.my-page-content-container{
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+}
+.my-page-content-wrapper{
+  position: relative;
+  width: 80%;
+  height: 100%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  grid-template-rows: 1fr;
+}
+.left-container{
+  position: relative;
+  width: 66%;
+  height: 110%;
+  margin: auto;
+  border: 1px solid #CCC5C5;
+  border-radius: 10px;
+  left: 3.5%;
+  top: -2em;
+  align-items: center;
+  align-content: center;
+}
+.left-content{
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+}
+/* 공유버튼 */
+.share-button-container{
+  position: relative;
+  width: 25%;
+  height: 12%;
+  left: 74%;
+  top: 1.3em;
+}
+.share-button-wrapper{
+  position: relative;
+  width: 100%;
+  margin: auto;
+  background-color: white;
+  border: 0px;
+}
+/* 프로필 */
+.profile-container{
+  position: relative;
+  width: 80%;
+  height: 260px;
+  margin: auto;
+}
+.profile-wrapper{
+  position: relative;
+  width: 87%;
+  height: 240px;
+  top: 10px;
+  margin: auto;
+  border: 1px solid #CCC5C5;
+  border-radius: 50%;
+}
+/* 닉네임 */
+.nickname-container{
+  position: relative;
+  width: 100%;
+  height: 5%;
+  top: 15px;
+  margin: auto;
+}
+.nickname-content{
+  position: relative;
+  width: 50%;
+  height: 80%;
+  margin: auto;
+  font-weight: 700;
+  font-size: 22px;
+  line-height: 150%;
+}
+/* 팔로워 팔로잉 */
+.follow-list-container{
+  position: relative;
+  width: 100%;
+  height: 10%;
+  top: 30px;
+  margin: auto;
+}
+.follow-list-wrapper{
+  position: relative;
+  width: 70%;
+  height: 10%;
+  margin: auto;
+  display: grid;
+  grid-template-columns: 10fr 1fr 10fr;
+  grid-column-gap: -5px;
+  font-weight: 700;
+  font-size: 17px;
+  line-height: 200%;
+}
+/* 팔로워 0 | 팔로잉 0 */
+.follow-list-wrapper-follower a{
+  position: relative;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  color: #787575;
+  text-decoration: none;
+  margin-left: -1px;
+}
+.follower-count{
+  position: relative;
+  margin: auto;
+  width: 120px;
+  height: 10px;
+  color: #787575;
+}
+.following-count{
+  position: relative;
+  margin: auto;
+  width: 5%;
+  height: 10px;
+  color: #787575;
+}
+.line{
+  position: relative;
+  width: 5%;
+  margin: auto;
+  color: #787575;
+  align-items: center;
+}
+.follow-list-wrapper-following a{
+  position: relative;
+  width: 70px;
+  height: 70px;
+  text-align: center;
+  color: #787575;
+  text-decoration: none;
+  margin: 0% -15%;
+  align-items: center;
+}
+/* 구분선 */
+.line-container{
+  position: relative;
+  width: 80%;
+  height: 5%;
+  top: 30px;
+  margin: auto;
+  align-items: center;
+  align-content: center;
+}
+hr{
+  position: relative;
+  width: 100%;
+  height: 1.3px;
+  background-color: #757575;
+}
+.content-under-container{
+  position: relative;
+  width: 100%;
+  height: 20%;
+  top: 30px;
+  margin: auto;
+}
+.content-under-wrapper{
+  position: relative;
+  display: grid;
+  grid-template-columns: repeat(2, 2fr);
+  grid-template-rows: 3fr 2fr;
+  grid-column-gap: 1px;
+  grid-row-gap: 1px;
+  width: 80%;
+  height: 80%;
+  align-items: center;
+  align-content: center;
+  margin: auto;
+}
+.img-wrapper-like{
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 100%;
+}
+.img-wrapper-scrap{
+  position: relative;
+  margin: auto;
+  width: 100%;
+  height: 75%;
+}
+/* 스크랩북 */
+.scrap-content{
+  position: relative;
+  font-size: 16px;
+  font-weight: 700;
+  color: #787575;
+  width: 100px;
+  height: 20px;
+  line-height: 200%;
+  align-items: center;
+  text-align: center;
+  margin: auto;
+}
+/* 좋아요 */
+.like-content{
+  position: relative;
+  font-weight: 700;
+  font-size: 16px;
+  width: 82px;
+  height: 20px;
+  line-height: 200%;
+  align-items: center;
+  text-align: center;
+  color: #787575;
+  margin: auto;
+}
+/* 오른쪽 컨테이너 */
+.right-container{
+  position: relative;
+  top: -30px;
+  left: 80px;
+  width: 90%;
+  height: 100%;
+}
+.right-content{
+  position: relative;
+  width: 100%;
+  height: 95%;
+  display: grid;
+  grid-template-columns: 1fr;
+  grid-template-rows: repeat(2, 1fr);
+}
+/* 집들이 헤더 */
 .house-header{
   position: relative;
   font-weight: 550;
@@ -195,190 +421,26 @@ export default {
 }
 .house-content{
   position: relative;
-  width: 560px;
-  height: 230px;
+  width: 75%;
+  height: 100%;
   margin: 5px 15px;
   border: 1px dashed #CCC5C5;
   border-radius: 10px;
 }
-.left-container{
-  position: relative;
-  width: 90%;
-  margin: 0px 10%;
-  height: 270%;
-  border: 1px solid #CCC5C5;
-  border-radius: 10px;
-  align-items: center;
-  align-content: center;
-}
-.left-content{
-  margin: 13% 1%;
-  width: 100%;
-  height: 260%;
-}
-.right-container{
-  position: relative;
-  width: 63%;
-  height: 530px;
-  grid-row: span 3;
-}
-.share-button-container{
-  position: absolute;
-  margin: -25px 300px;
-  width: 40px;
-  height: 40px;
-}
-.follow-list-wrapper{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  grid-template-rows: 1fr;
-  grid-column-gap: 30px;
-  align-items: center;
-  margin: 4% 10.5%;
-  width: 40%;
-  height: 8%;
-  font-weight: 700;
-  font-size: 17px;
-  line-height: 200%;
-}
-/* 팔로워 0 | 팔로잉 0 */
-.follow-list-wrapper-follower a{
-  width: 70px;
-  height: 70px;
-  text-align: center;
-  color: #787575;
-  position: absolute;
-  text-decoration: none;
-  margin-left: -1px;
-  align-items: center;
-}
-.line{
-  margin-right: 40%;
-  margin-bottom: 25px;
-  color: #787575;
-  align-items: center;
-}
-.follow-list-wrapper-following a{
-  width: 70px;
-  height: 70px;
-  text-align: center;
-  color: #787575;
-  position: absolute;
-  text-decoration: none;
-  margin: 0% -15%;
-  align-items: center;
-}
-.follower-count{
-  margin: 5% 30%;
-  width: 120px;
-  height: 10px;
-  color: #787575;
-}
-.following-count{
-  margin: 5% -25%;
-  width: 120px;
-  height: 10px;
-  color: #787575;
-}
+/* 공모전 헤더 */
 .competition-header{
   position: relative;
-  margin-left: 14px;
-  margin-top: 40px;
+  top: 60px;
+}
+.competition-content{
+  position: relative;
+  top: 60px;
+  width: 75%;
+  height: 100%;
+  margin: 5px 15px;
+  border: 1px dashed #CCC5C5;
+  border-radius: 10px;
 
 }
-.share-button-wrapper{
-  background-color: white;
-  border: 0px;
-}
-.profile-container{
-  margin: 2% 10%;
-  width: 267.96px;
-  height: 50%;
-}
-.profile-wrapper{
-  margin: 0% 5%;
-}
-/* 닉네임 */
-.nickname-container{
-  width: 45%;
-  height: 5%;
-  margin: 0% 37%;
-}
-.nickname-content{
-  margin: 1% 6%;
-  width: 141px;
-  height: 34px;
-  font-weight: 700;
-  font-size: 25px;
-  line-height: 150%;
-  /* or 45px */
-  display: flex;
-  align-items: center;
-  text-align: center;
-}
-.line-container{
-  margin: 17% 12%;
-  align-items: center;
-}
-hr{
-  width: 100%;
-  height: 1.3px;
-  background-color: #757575;
-}
-.content-under-wrapper{
-  display: grid;
-  grid-template-columns: repeat(2, 2fr);
-  grid-template-rows: 3fr 2fr;
-  grid-column-gap: 1px;
-  grid-row-gap: 1px;
-  width: 80%;
-  height: 70%;
-  position: relative;
-  align-items: center;
-  align-content: center;
-  margin: 10% 10%;
-}
-.img-wrapper-like{
-  margin: 0% 1%;
-  width: 100%;
-  height: 100%;
-}
-.img-wrapper-scrap{
-  margin: 0% 8%;
-  width: 100%;
-  height: 75%;
-}
-.content-under-container{
-  width: 100%;
-  height: 40%;
-  margin: 10px 0px;
-}
-/* 스크랩북 */
-.scrap-content{
-  font-size: 16px;
-  font-weight: 700;
-  color: #787575;
-  width: 100px;
-  height: 20px;
-  line-height: 200%;
-  /* identical to box height, or 22px */
-  display: flex;
-  align-items: center;
-  text-align: center;
-  margin: 5% 35%;
-}
-/* 좋아요 */
-.like-content{
-  font-weight: 700;
-  font-size: 16px;
-  width: 82px;
-  height: 20px;
-  line-height: 200%;
-  /* identical to box height, or 22px */
-  display: flex;
-  align-items: center;
-  text-align: center;
-  color: #787575;
-  margin: 5% 35%;
-}
+
 </style>
