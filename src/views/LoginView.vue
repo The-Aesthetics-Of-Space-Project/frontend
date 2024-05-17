@@ -10,13 +10,13 @@
           <!-- email 입력 -->
           <form>
             <div class="form-group" style="position: relative; top:-30px;">
-              <input type="text" class="form-control invalid" id="inputEmail" aria-describedby="emailHelp" placeholder="이메일" v-model="userId" style="height: 45px; border-radius: 2px; font-size: 14px;">
+              <input type="text" id="inputEmail" class="text-put-clas" aria-describedby="emailHelp" placeholder="이메일" v-model="userId" style="height: 45px; border-radius: 3px; font-size: 14px; width: 300px;">
               <div><span id="checkId"></span></div>
             </div>
             <!-- password 입력 -->
             <div class="form-group has-success" style="position: relative; top:-10px;">
               <!-- 비밀번호 입력 -->
-              <input type="password" class="form-control valid" id="inputPW" name="PW" placeholder="비밀번호" v-model="password" style="height: 45px; position: relative; top: -20.5px; border-radius: 2px; font-size: 14px;">
+              <input type="password"  id="inputPW" class="text-put-clas" name="PW" placeholder="비밀번호" v-model="password" style="height: 45px; position: relative; top: -21px; border-radius: 3px; font-size: 14px;width: 300px;">
               <div class="valid-feedback"></div>
             </div>
 
@@ -241,5 +241,8 @@ export default {
   position: relative;
   top:-35px;
   font-size: 14px;
+}
+.text-put-clas{
+  border: 1px solid lightgray;
 }
 </style>

@@ -2,37 +2,37 @@
   <div class="main">
     <div class="main-banner">
       <div class="main-banner-title">
-        <h1>당신의 공간을 재창조하다</h1>
+        <h1><span style=" transform: skewX(1deg);font-style: italic; ">zip</span>&nbsp;에서 시작하는 새로운 이야기</h1>
         <p>영감을 공유하고 새로운 트렌드를 발견하세요.</p>
       </div>
       <div class="main-banner-content">
-        <h5>집에서 시작하는 새로운 이야기</h5>
-        <p>당신의 공간을 재창조하며 새로운 이야기를 쓰세요. 인테리어 아이디어와 영감이 가득한 곳에서 당신만의 스토리를 시작하세요.</p>
+        <h5 >집에서 시작하는 새로운 이야기</h5>
+        <p>당신의 공간을 재창조하며 새로운 이야기를 쓰세요. <br>인테리어 아이디어와 영감이 가득한 곳에서 당신만의 스토리를 시작하세요.</p>
         <br>
         <h5>영감을 주는 공간, 함께 만드는 아름다움</h5>
-        <p>인테리어 디자인의 무한한 가능성을 탐험하고, 커뮤니티와 함께 나만의 공간을 완성하세요.</p>
+        <p>인테리어 디자인의 무한한 가능성을 탐험하세요. <br> 커뮤니티와 함께 나만의 공간을 완성하세요.</p>
         <br>
-        <h5>꿈꾸는 공간을 현실로</h5>
-        <p> 당신의 이상적인 공간이 현실이 됩니다. 인테리어 디자인의 모든 것을 탐험하고, 공유하고, 실현해보세요.</p>
+        <h5 >꿈꾸는 공간을 현실로</h5>
+        <p> 당신의 이상적인 공간이 현실이 됩니다. <br> 인테리어 디자인의 모든 것을 탐험하고, 공유하고, 실현해보세요.</p>
       </div>
     </div>
     <div class="guide-content">
       <div class="guide-text">
-        <h2 ref="mainText">초보자를 위한 가이드</h2>
+        <h2 ref="mainText" style="font-family: MyCustomFont2">초보자를 위한 가이드</h2>
       </div>
 
       <div class="card-view">
         <router-link to="/InteriorGuide" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
           <span style="float:right; position: relative; left:50px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
         </router-link>
+
         <div class="card-list">
           <div class="card" v-for="(card, index) in cards" :key="index">
             <div class="card-body">
               <!--<h5 class="card-title">{{ card.title }}</h5>-->
               <!-- <p class="card-text">{{ card.text }}</p>-->
-
-              <img :src="card.imageSrc" alt="Card Image" width="112%" height="117%" style="position: relative; left:-6%; top:-16px;">
               <router-link to="InteriorGuide" style="text-decoration: none; color: #333333; font-weight: bolder">
+              <img :src="card.imageSrc" alt="Card Image" width="112%" height="117%" style="position: relative; left:-6%; top:-16px;">
                 <span class="card-guide-content" id="router-link-custom"> {{card.text}}</span>
               </router-link>
             </div>
@@ -75,7 +75,7 @@
                   <img src="@/assets/banner_icon/i1.png" width="80px">
                   <div class="text">
                     <router-link to="/generalboard" class="router-link-custom">
-                      <p>게시판</p>
+                      <p style="font-family: MyCustomFont3">게시판</p>
                     </router-link>
                     <p>Take a look around the various interiors of our users. You can also write your own posts.</p>
                   </div>
@@ -84,16 +84,16 @@
                   <img src="@/assets/banner_icon/i2.png" width="80px">
                   <div class="text">
                     <router-link to="/community" class="router-link-custom">
-                      <p>커뮤니티</p>
+                      <p style="font-family: MyCustomFont3">커뮤니티</p>
                     </router-link>
-                    <p>This is a community space for communication with users.</p>
+                    <p >This is a community space for communication with users.</p>
                   </div>
                 </div>
                 <div class="item_box flex">
                   <img src="@/assets/banner_icon/i3.png" width="80px" >
                   <div class="text">
                     <router-link to="/Introduce" class="router-link-custom">
-                      <p>소개</p>
+                      <p style="font-family: MyCustomFont3;">소개</p>
                     </router-link>
                     <p>This is where information about the website is introduced. Take a look around</p>
                   </div>
@@ -126,7 +126,7 @@
       </button>
     </div>
     <div class="Home-Styling-title">
-      <h2>Home Styling</h2>
+      <h2  style="font-family: MyCustomFont2">Home Styling</h2>
     </div>
 
     <div class="board-write-list">
@@ -277,7 +277,7 @@ div {
 
 .guide-content{
   position: relative;
-  top:50px;
+  top:60px;
   width:100%;
   height:600px;
 }
@@ -452,32 +452,35 @@ div {
   position: relative;
   top:50px;
   width: 100%;
-  height:800px;
+  height:680px;
   background: linear-gradient(rgba(0,0,0,0.8),rgba(0,0,0,0.8)),url(@/assets/room.jpg);
   background-size: cover;
 }
-
+.main-banner-content p{
+  font-family: MyCustomFont2;
+  font-weight: normal;
+}
 .main-banner-title{
   position: relative;
-  left:-30%;
-  top:230px;
+  top:300px;
   color: white;
   font-size: 40px;
   font-family: 'SOGANGUNIVERSITYTTF';
-  animation: slides 2s ease-out;
+  animation: slides 5s ease-out;
 }
+.main-banner-content p
 @keyframes slides {
   from{
-    left:-400px;
+    left:800px;
   }
   to{
-    left:-30%;
+    left:800px;
   }
 }
 .main-banner-title p{
   position: relative;
   top:20px;
-  font-size: 22px;
+  font-size: 21px;
   animation: slides_second 4s ease-out;
 }
 @keyframes slides_second {
@@ -489,24 +492,6 @@ div {
   }
 }
 
-.main-banner-content{
-  outline: none;
-  cursor:pointer;
-  border:3px solid darkseagreen;
-  color: white;
-  width:33%;
-  height:370px;
-  border-radius: 20px;
-  transition: all .4s;
-  background: none;
-  left:54%;
-  top:50px;
-  position: relative;
-  padding:17px;
-  font-weight: bolder;
-  font-size: 17px;
-  animation: slide_third 10s;
-}
 
 .main-banner-content{
   outline: none;
@@ -518,31 +503,21 @@ div {
   border-radius: 20px;
   transition: all .4s;
   background: none;
-  left:56%;
-  top:70px;
+  left:65%;
+  top:30px;
   position: relative;
   padding:17px;
   font-weight: bolder;
   font-size: 17px;
-  animation: slide_third 3.5s;
-  opacity: 0.8;
+  animation: slide_third 5s;
+  opacity: 0.2;
 }
-
-@keyframes slide_third {
-  0% {
-    opacity: 0;
-  }
-
-  90% {
-    opacity: 0.2; /* 절반의 시간 동안 매우 천천히 opacity 증가 */
-  }
-
-  100% {
-    opacity: 1;
-  }
+.main-banner-content:hover{
+ opacity: 0.55;
 }
 .main-banner-content h5{
-  font-family: 'SOGANGUNIVERSITYTTF';
+  font-family : MyCustomFont3;
+  font-size : 21px;
 }
 .main-banner-content:hover{
   background-color: darkslategrey;
@@ -556,16 +531,5 @@ div {
   transform: translateY(-10px);
 }
 
-.banner-container{
-  background-color : #FFFFFF;
-  width: 1300px; /* 가로 크기 조정 */
-  height: 700px;
-  margin: 40px auto; /* 상하 여백 조정 */
-  padding: 30px; /* 내부 여백 조정 */
-  box-shadow: 50px 50px 150px rgba(0,0,0,0.2);
-  border-radius: 8px;
-  font-size: 14px; /* 폰트 크기 조정 */
-  position: relative;
-  top:30px;
-}
+
 </style>

@@ -2,8 +2,8 @@
   <div id="signup">
     <div class="header-container">
       <section class="header-wrapper">
-        <ZipLogo style="position: relative; top:60px;"></ZipLogo>
-        <logofont style="position: relative; top:-35px;"></logofont>
+        <ZipLogo style="position: relative; top:90px;"></ZipLogo>
+        <logofont style="position: relative; top:-15px;"></logofont>
       </section>
     </div>
     <div class="signup-container">
@@ -39,7 +39,7 @@
           </section>
           <!-- 이메일 입력 -->
           <div class="input-group" style="width: 400px; position: relative; left:40px;">
-            <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId" @input="checkId" id="emailInput" style="border-radius: 6px; height: 40px;">
+            <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId" @input="checkId" id="emailInput" style="border-radius: 6px; height: 40px; font-size: 14px;">
             <button @click="checkIdbut" id="checkbtnid" style="position: absolute; top:-32px; left:14%; border-radius: 8px; font-weight:bolder;padding:4px; font-size: 13px;" class="btn btn-outline-success">중복 확인</button>
             <div><span id="checkId" style="font-size: 13px;" @input="checkId"></span></div>
           </div>
@@ -55,7 +55,7 @@
               영문, 숫자, 특수문자를 포함한 8자 이상을 입력하세요.
             </section>
             <!-- 비밀번호 입력 -->
-            <input type="password" class="form-control valid" placeholder="비밀번호" id="pw" name="pw"
+            <input type="password" class="form-control valid" placeholder="비밀번호" id="pw" name="pw" style="font-size: 14px; height: 40px"
                    v-model="password" @input="checkPasswords">
             <div class="valid-feedback"></div>
           </div>
@@ -64,8 +64,8 @@
         <section class="re-password-wrapper email-wrapper" style="width: 400px; position: relative; left:40px; top:35px;">
           <section class="re-password-content email-content">
             <a class="re-pw-title"  style="text-decoration: none; position: relative; left:-145px; top:-3.5px; font-weight: bolder; color: black; font-size: 17px;"> 비밀번호 재확인 </a>
-            <input type="password" class="form-control valid" placeholder="비밀번호" id="confirm-password" name="confirm-PW"
-                   v-model="repassword" @input="checkPasswords">
+            <input type="password" class="form-control valid" placeholder="비밀번호" id="confirm-password" name="confirm-PW" style="font-size: 14px; height: 40px; "
+                   v-model="repassword" @input="checkPasswords" >
             <span class="password-match" v-if="passwordsMatch && repasswordEntered">비밀번호가 일치합니다.</span>
             <span class="password-not-match"  v-else-if="repasswordEntered">비밀번호가 일치하지 않습니다.</span>
           </section>
@@ -86,7 +86,7 @@
 
           <div class="form-group-nickname form-group" style="width: 400px; position: relative; left:-10px; top:80px;">
             <!-- 닉네임 입력 -->
-            <input type="nickname" class="form-control invalid" placeholder="닉네임" id="nickname" v-model="nickname" style="position: relative; top:-85px;">
+            <input type="nickname" class="form-control invalid" placeholder="닉네임" id="nickname" v-model="nickname" style="position: relative; top:-85px; font-size: 14px; height: 40px;">
 
           </div>
         </section>
