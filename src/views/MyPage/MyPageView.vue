@@ -18,7 +18,7 @@
             <section class="left-content">
               <!-- 공유 버튼 -->
               <section class="share-button-container">
-                <button @click="copyUrl()" class="share-button-wrapper"><img src="../assets/mypageShareIcon.png" style="width: 70px; height: 62px; left: 5px;"><!--<h2>클릭결과: {{ result }}</h2>--></button>
+                <button @click="copyUrl()" class="share-button-wrapper"><img src="../../assets/mypageShareIcon.png" style="width: 70px; height: 62px; left: 5px;"><!--<h2>클릭결과: {{ result }}</h2>--></button>
               </section>
               <!-- 프로필 컨테이너 -->
               <section class="profile-container">
@@ -53,9 +53,9 @@
               <section class="content-under-container">
                 <section class="content-under-wrapper">
                   <!-- 스크랩 이미지 -->
-                  <section class="img-wrapper-scrap"><img src="../assets/scrapbook.png"></section>
+                  <section class="img-wrapper-scrap"><img src="../../assets/scrapbook.png"></section>
                   <!-- 좋아요 이미지 -->
-                  <section class="img-wrapper-like"><img src="../assets/like.png"></section>
+                  <section class="img-wrapper-like"><img src="../../assets/like.png"></section>
                   <!-- 스크랩 -->
                   <section class="scrap-content"><a> 스크랩북 <br> 0</a></section>
                   <!-- 좋아요 -->
@@ -440,7 +440,6 @@ hr{
   margin: 5px 15px;
   border: 1px dashed #CCC5C5;
   border-radius: 10px;
-
 }
 
 </style>
