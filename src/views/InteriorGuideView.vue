@@ -6,27 +6,35 @@
       <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
         <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
         인테리어 이미지를</span>
-        <span  v-if="currentStep === 2" style="position: relative; left:-200px; color:darkgreen">
+        <span  v-if="currentStep === 2" style="position: relative; left:-220px; color:darkgreen">
+        컬러 색감을</span>
+        <span  v-if="currentStep === 3" style="position: relative; left:-200px; color:darkgreen">
         가구 이미지를</span>
         <br>
-        <span style="position: relative; left:-205px;">선택해 주세요</span></h1>
+        <span style="position: relative; left:-205px;">선택해 주세요</span>
+      </h1>
       <p class="guide-textcontent">{{ textContent }}</p>
-      <router-link to="/" id="anlay-btn" style="position: relative; left:-80px;" class="btn btn-outline-success"><span class="font-analye_1">뒤로 가기</span></router-link>
+      <router-link to="/" id="anlay-btn" style="position: relative; left:-180px;" class="btn btn-outline-success"><span class="font-analye_1">뒤로 가기</span></router-link>
+      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;" @click="goToStep2" v-if="currentStep === 1"><span style="position: relative; top:-5px;">다음</span></button>
+      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;" @click="goToStep3" v-if="currentStep === 2"><span style="position: relative; top:-5px;">다음</span></button>
+      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;" @click="analyzeSelectedImages" v-if="currentStep === 3"><span style="position: relative; top:-5px;">분석하기</span></button>
 
     </div>
 
-
+    <span style="position: relative; left: 680px; top:15px; font-weight: bolder; color: darkslategrey">{{ currentStep }}/3</span>
     <div class="right-section">
+      <div class="step-counter">
+        <div class="progress" :style="{width: progressWidth + '%'}"></div>
+      </div>
       <div class="image-gallery">
       <div v-for="(image, index) in currentImages" :key="index" @click="selectImage(index)" :class="{'selected': isSelected(index)}">
-        <img :src="image.src" alt="Interior Style" width="195px" height="180px">
+        <img :src="image.src" alt="Interior Style" width="200px" height="180px">
       </div>
          </div>
-      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:20px; left:-5px; padding:20px;" @click="goToStep2" v-if="currentStep === 1"><span style="position: relative; top:-5px;">Next</span></button>
+
       <div v-if="isLoading" class="loading-overlay">
         로딩 중...
       </div>
-      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:20px; left:-5px; padding:20px;" @click="analyzeSelectedImages" v-if="currentStep === 2"><span style="position: relative; top:-5px;">분석하기</span></button>
     </div>
 
     <modal v-if="showModal" @close="closeModal" class="modal-custom">
@@ -69,7 +77,7 @@ export default {
   data() {
     return {
       isLoading: false,
-      textContent: "원하시는 인테리어 스타일 3가지를 선택하면 취향에 맞게 결과를 분석해드립니다.",
+      textContent: "원하는 인테리어 스타일 3가지를 선택하면 취향에 맞게 결과를 분석해드립니다.",
       firstStepImages: [
         { src: require('@/assets/interiorguide_image_list/natural.png')},
         { src: require('@/assets/interiorguide_image_list/natural2.png')},
@@ -91,6 +99,19 @@ export default {
         { src: require('@/assets/interiorguide_image_list/vintage3.png')}
         // Add more images here
       ],  secondStepImages: [
+        // 새로운 17개 이미지 배열을 여기에 추가하세요.
+        { src: require('@/assets/interiorguide_image_list/color/Teal.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Brown.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Green.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Lavender blue.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Navy.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Netural.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Orange.png')},
+        { src: require('@/assets/interiorguide_image_list/color/PurPle.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Red.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Blue.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Yellow.png')},
+      ], thirdStepImages: [
         // 새로운 17개 이미지 배열을 여기에 추가하세요.
         { src: require('@/assets/interiorguide_image_list/furniture/furniture-natural.png')},
         { src: require('@/assets/interiorguide_image_list/furniture/furniture-vintage4.png')},
@@ -118,11 +139,22 @@ export default {
       showModal: false,
       selectedImagesStep2: [],
       currentStep: 1,
+      selectedImagesStep3: [],
+      selectedImagesStep4: [],
     }
   },
   computed: {
+    progressWidth() {
+      return (this.currentStep / 3) * 100;
+    },
     currentImages() {
-      return this.currentStep === 1 ? this.firstStepImages : this.secondStepImages;
+      if (this.currentStep === 1) {
+        return this.firstStepImages;
+      } else if (this.currentStep === 2) {
+        return this.secondStepImages;
+      } else if (this.currentStep === 3) {
+        return this.thirdStepImages; // 세 번째 단계 이미지를 반환하도록 추가
+      }
     }
   },
   methods: {
@@ -139,8 +171,30 @@ export default {
         alert("3개의 인테리어 이미지를 선택해 주세요.");
       }
     },
+    goToStep3() {
+      this.currentStep = 2;
+      // 이전에 selectedImagesStep3를 초기화하는 코드를 삭제하거나 주석 처리합니다.
+      // this.selectedImagesStep3 = [];
+      this.selectedImagesStep3 = [];
+      if (this.selectedImages.length === 3) {
+        // 선택된 이미지가 3개일 경우, 다음 단계로 넘어감
+        this.currentStep = 3;
+        // 여기에 누락된 로직을 추가합니다: 두 번째 단계에서 선택된 이미지를 세 번째 단계의 선택 목록에 추가
+        this.selectedImagesStep3 = [];
+      } else {
+        // 선택된 이미지가 3개가 아닐 경우, 사용자에게 경고 창 표시
+        alert("3개의 인테리어 이미지를 선택해 주세요.");
+      }
+    },
     selectImage(index) {
-      const targetArray = this.currentStep === 1 ? this.selectedImages : this.selectedImagesStep2;
+      let targetArray;
+      if (this.currentStep === 1) {
+        targetArray = this.selectedImages;
+      } else if (this.currentStep === 2) {
+        targetArray = this.selectedImagesStep2;
+      } else if (this.currentStep === 3) {
+        targetArray = this.selectedImagesStep3; // 세 번째 단계에서도 선택된 이미지를 처리할 수 있도록 추가
+      }
       const selectedIndex = targetArray.indexOf(index);
       if (selectedIndex === -1) {
         if (targetArray.length < 3) { // 최대 3개까지만 선택 가능
@@ -151,12 +205,19 @@ export default {
       }
     },
     isSelected(index) {
-      const targetArray = this.currentStep === 1 ? this.selectedImages : this.selectedImagesStep2;
+      let targetArray;
+      if (this.currentStep === 1) {
+        targetArray = this.selectedImages;
+      } else if (this.currentStep === 2) {
+        targetArray = this.selectedImagesStep2;
+      } else if (this.currentStep === 3) {
+        targetArray = this.selectedImagesStep3; // 세 번째 단계의 배열 사용
+      }
       return targetArray.includes(index);
     },
     analyzeSelectedImages() {
-      this.currentStep = 2;
-      if (this.selectedImages.length === 3 && this.selectedImagesStep2.length === 3) {
+      this.currentStep = 3;
+      if (this.selectedImages.length === 3 && this.selectedImagesStep2.length === 3 && this.selectedImagesStep3.length === 3) {
         this.isLoading = true;
 
         //로딩 함수
@@ -180,6 +241,19 @@ export default {
             '17': ['vintage'],
           };
           const imageStyles2 = {
+            '0': ['modern','simple','natural','classic'],
+            '1': ['modern', 'natural','vintage'],
+            '2': ['natural'],
+            '3': ['natural'],
+            '4': ['natural'],
+            '5': ['natural'],
+            '6': ['vintage'],
+            '7': ['simple'],
+            '8': ['vintage'],
+            '9': ['simple'],
+            '10': ['vintage'],
+          }
+          const imageStyles3 = {
             '0': ['natural'],
             '1': ['vintage', 'classic'],
             '2': ['vintage'],
@@ -196,7 +270,6 @@ export default {
             '13': ['modern'],
             '14': ['vintage'],
           }
-
           let styleScores = {
             'modern': 0,
             'natural': 0,
@@ -215,9 +288,17 @@ export default {
               });
             }
           });
-
-// 두 번째 단계 이미지 스타일 점수 합산
           this.selectedImagesStep2.forEach(imageId => {
+            const styles = imageStyles3[imageId];
+            if (styles) {
+              styles.forEach(style => {
+                if (!styleScores[style]) styleScores[style] = 0; // 이 줄은 사실상 필요 없으나, 다른 스타일이 추가될 경우를 대비해 둡니다.
+                styleScores[style]++;
+              });
+            }
+          });
+// 두 번째 단계 이미지 스타일 점수 합산
+          this.selectedImagesStep3.forEach(imageId => {
             const styles = imageStyles2[imageId];
             if (styles) {
               styles.forEach(style => {
@@ -318,7 +399,7 @@ export default {
 .guide-textcontent{
   position: relative;
   top:200px;
-  left:-85px;
+  left:-100px;
 }
 .left-section {
   flex: 1;
@@ -473,5 +554,19 @@ export default {
     transform: rotate(360deg);
   }
 }
+.step-counter {
+  width: 100%;
+  background-color : darkslategrey;
+  border-radius: 20px;
+  position: relative;
+  height: 16px;
+  margin-bottom: 10px;
+}
 
+.progress {
+  background-color: #4caf50;
+  height: 100%;
+  border-radius: 18px;
+  transition: width 0.3s ease;
+}
 </style>
