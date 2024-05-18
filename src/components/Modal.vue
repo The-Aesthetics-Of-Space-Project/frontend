@@ -9,7 +9,6 @@
         </div>
         <footer class="modal-footer">
           <slot name="footer">
-            <button class="btn btn-primary"@click="$emit('close')">Close</button>
           </slot>
         </footer>
       </div>

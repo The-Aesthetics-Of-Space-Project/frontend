@@ -21,36 +21,35 @@
       <div v-for="(image, index) in currentImages" :key="index" @click="selectImage(index)" :class="{'selected': isSelected(index)}">
         <img :src="image.src" alt="Interior Style" width="195px" height="180px">
       </div>
-        </div>
+         </div>
       <button id="anlay-btn" class="btn btn-success" style="position: relative; top:20px; left:-5px; padding:20px;" @click="goToStep2" v-if="currentStep === 1"><span style="position: relative; top:-5px;">Next</span></button>
-      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:20px; left:-5px;" @click="analyzeSelectedImages" v-if="currentStep === 2">분석하기</button>
+      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:20px; left:-5px; padding:20px;" @click="analyzeSelectedImages" v-if="currentStep === 2"><span style="position: relative; top:-5px;">분석하기</span></button>
     </div>
 
-    <modal v-if="showModal" @close="closeModal">
-      <h2>Preference Analysis</h2>
-      <br>
-      <div class="first-section">
-      <span style="font-size: 27px; font-weight: bolder; position: relative; left:-250px;">결과는? 두둥탁</span>
-      <p style="font-size: 18px;">{{ analysisResult }}</p>
-      <div style="width:88%; margin: auto; border-top: 1px solid"></div>
-      <br>
-      <div style="width:87%; margin: auto;">{{analysistext}}</div>
+    <modal v-if="showModal" @close="closeModal" class="modal-custom">
+      <div class="modal-header">
+        <h2>Preference Analysis</h2>
       </div>
-      <br>
-
-      <div class="second-section">
-        <h3 style="position: relative; left:-310px; font-weight: bolder">TIPS</h3>
-        <div style="width:85%; margin: auto;">
-          {{tip}}
-          <br>
-          {{tip_second}}
-          <br>
-      </div>
-        <div class="bottom-section">
-          <h3 style="position: relative; left:-300px; font-weight: bolder">Colors</h3>
-          <br>
-         <span style="font-size: 40px"> {{color}}</span>
+      <div class="modal-body">
+        <div class="section">
+          <h3>결과는? 두둥탁</h3>
+          <p>귀하의 선택에 기반하여, <strong style="font-size: 22px; color: black">{{ analysisResult }}</strong> 인테리어를 추천합니다.</p>
         </div>
+        <div class="section" style="text-align: left; border-top: 1px solid lightgray; padding:5px;">
+          <h3>내용</h3>
+          {{analysistext}}
+        </div>
+        <div class="section">
+          <h3>팁 설명</h3>
+          <p>{{ tip }}<br>{{ tip_second }}</p>
+        </div>
+        <div class="section">
+          <h3>색깔 추천</h3>
+          <div class="colors">{{ color }}</div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button @click="closeModal">Close</button>
       </div>
     </modal>
   </div>
@@ -231,7 +230,7 @@ export default {
         // 추천 스타일에 따른 결과
         switch(recommendedStyle) {
           case 'modern':
-            this.analysisResult = " 귀하의 선택에 기반하여, 🧱'모던 스타일'🧱 인테리어를 추천 ";
+            this.analysisResult = " 🧱'모던 스타일'🧱";
             this.analysistext = "메탈, 대리석 소재를 지나치게 사용하면 차가운느낌이 너무 강해질수 있다. 그럴 때는 러그, 화분, 따듯한 느낌의 조명등을 이용하여 차가운 느낌을 중화시키면서 간결하고 깔끔하게 연출할 수 있다.\n" +
                 "단색, 모노톤의 심플한 너무 화려하지 않은디자인의 액자를 배치하여 세련된 감각을 줄 수 있다.";
             this.tip = "✔ 메탈, 대리석 소재를 지나치게 사용하면 차가운 느낌이 들 수 있다.";
@@ -239,28 +238,28 @@ export default {
             this.color = "🟫⬜⬛";
             break;
           case 'simple':
-            this.analysisResult = "귀하의 선택에 기반하여, ⭐'미니멀리스트&심플 스타일'⭐ 인테리어를 추천 ";
+            this.analysisResult = "⭐'미니멀리스트&심플 스타일'⭐";
             this.analysistext = "과거의 감성을 현대적으로 재해석한 스타일을 선호합니다. 고유의 색감과 패턴이 돋보이는 가구와 소품을 사용하여 개성 있는 공간을 연출합니다. 골동품이나 레트로한 디자인의 소품을 활용하여 시간을 초월하는 매력을 더할 수 있습니다.";
             this.tip = "✔ 고유의 색감과 패턴이 돋보이는 가구 사용하기";
             this.tip_second ="✔ 골동품 및 레트로한 디자인의 소품 활용하기";
             this.color = "⬜🔘⬛";
             break;
           case 'natural':
-            this.analysisResult = "귀하의 선택에 기반하여, 🌙'Natural 스타일'🌙 인테리어를 추천 ";
+            this.analysisResult = "🌙'Natural 스타일'🌙";
             this.analysistext= "자연 소재를 많이 사용하고, 식물이나 나무 요소를 포함시켜 실내외 연결감을 강화할 수 있습니다. 자연광을 최대한 활용하고, 통풍이 잘 되도록 구성하는 것이 중요합니다.";
             this.tip= "✔ 식물이나 나무 요소를 포함시키기";
             this.tip_second = "✔ 자연광을 최대한 활용하기";
             this.color = "🟩⬜🟫⬛";
             break;
           case 'vintage':
-            this.analysisResult = "귀하의 선택에 기반하여, 🎇'빈티지&레트로 스타일'🎇 인테리어를 추천 ";
+            this.analysisResult = "🎇'빈티지&레트로 스타일'🎇";
             this.analysistext = "과거의 감성을 현대적으로 재해석한 스타일을 선호합니다. 고유의 색감과 패턴이 돋보이는 가구와 소품을 사용하여 개성 있는 공간을 연출합니다. 골동품이나 레트로한 디자인의 소품을 활용하여 시간을 초월하는 매력을 더할 수 있습니다.";
             this.tip = "✔ 고유의 색감과 패턴이 돋보이는 가구 사용하기"
             this.tip_second = "✔ 골동품 및 레트로한 디자인의 소품 활용하기";
             this.color = "🟫🟨🟧";
             break;
           case 'classic':
-            this.analysisResult = "귀하의 선택에 기반하여, ✨'클래식 스타일'✨ 인테리어를 추천 ";
+            this.analysisResult = "✨'클래식 스타일'✨";
             this.analysistext = "우아하고 고전적인 느낌을 주는 가구와 장식품을 선택합니다. 깊은 색상의 목재, 정교한 패턴의 직물, 그리고 클래식한 라인의 조명 등을 사용하여 고급스러움을 연출할 수 있습니다.";
             this.tips= "✔ 우아하고 고전적인 느낌의 가구 선택하기";
             this.tip_second = "✔ 깊은 색상의 목재 사용하기";
@@ -361,5 +360,68 @@ export default {
  .selected {
    border: 2px solid blue; /* 선택된 이미지를 파란색 테두리로 강조 */
  }
+.modal-custom {
+  background: white;
+  border-radius: 8px;
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  overflow: hidden;
+}
 
+.modal-header {
+  background: #f9f9f9;
+  padding: 20px;
+  text-align: center;
+  border-bottom: 1px solid #eee;
+  width: 100%;
+}
+
+.modal-header h2 {
+  margin: 0;
+  font-family: 'MyCustomFont3', sans-serif;
+  color: #333;
+  font-weight: bolder;
+  font-size: 30px;
+}
+
+.modal-body {
+  padding: 20px;
+}
+
+.section h3 {
+  font-family: 'MyCustomFont3', sans-serif;
+  color: #333;
+  text-align: left;
+}
+
+.section p, .section strong {
+  font-family: 'MyCustomFont3', sans-serif;
+  text-align: left;
+}
+
+.colors {
+  font-size: 40px;
+  display: flex;
+  text-align: left;
+}
+
+.modal-footer {
+  text-align: center;
+  padding: 20px;
+  background: #f9f9f9;
+  border-top: 1px solid #eee;
+}
+
+.modal-footer button {
+  padding: 10px 20px;
+  background: #007bff;
+  color: white;
+  border: none;
+  border-radius: 5px;
+  cursor: pointer;
+  transition: background 0.5s ease; /* 부드러운 배경색 전환 효과 */
+}
+
+.modal-footer button:hover {
+  background: #0056b3; /* 마우스를 올렸을 때의 배경색 */
+}
 </style>
