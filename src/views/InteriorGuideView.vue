@@ -3,8 +3,12 @@
   <div class="interirorguideview">
   <div class="container">
     <div class="left-section">
-      <h1 class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br><span style="position: relative; left:-165px; color:darkgreen">
-        인테리어 이미지를</span> <br>
+      <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
+        <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
+        인테리어 이미지를</span>
+        <span  v-if="currentStep === 2" style="position: relative; left:-200px; color:darkgreen">
+        가구 이미지를</span>
+        <br>
         <span style="position: relative; left:-205px;">선택해 주세요</span></h1>
       <p class="guide-textcontent">{{ textContent }}</p>
       <router-link to="/" id="anlay-btn" style="position: relative; left:-80px;" class="btn btn-outline-success"><span class="font-analye_1">뒤로 가기</span></router-link>
@@ -15,7 +19,7 @@
     <div class="right-section">
       <div class="image-gallery">
       <div v-for="(image, index) in currentImages" :key="index" @click="selectImage(index)" :class="{'selected': isSelected(index)}">
-        <img :src="image.src" alt="Interior Style" width="200px" height="200px">
+        <img :src="image.src" alt="Interior Style" width="195px" height="180px">
       </div>
         </div>
       <button id="anlay-btn" class="btn btn-success" style="position: relative; top:20px; left:-5px; padding:20px;" @click="goToStep2" v-if="currentStep === 1"><span style="position: relative; top:-5px;">Next</span></button>
@@ -85,23 +89,21 @@ export default {
         // Add more images here
       ],  secondStepImages: [
         // 새로운 17개 이미지 배열을 여기에 추가하세요.
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (17).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (30).png')},
-        { src:require('@/assets/interiorguide_image_list/furniture/Untitled (29).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (18).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (28).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (19).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (27).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (20).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (26).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (21).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (25).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (22).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (24).png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/Untitled (23).png')},
-
-
-        // Add more images here
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-natural.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-vintage4.png')},
+        { src:require('@/assets/interiorguide_image_list/furniture/furniture-vintage3.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-natural2.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-vintage2.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-natural3.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-vintage.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-natural4.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-simple3.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-modern.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-simple2.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-modern2.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-simple.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-modern3.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/furniture-vintage5.png')},
       ],
       selectedImages: [],
       showAnalysis: false,
@@ -131,7 +133,7 @@ export default {
         this.selectedImagesStep2 = [];
       } else {
         // 선택된 이미지가 3개가 아닐 경우, 사용자에게 경고 창 표시
-        alert("첫 번째 단계에서 3개의 이미지를 선택해야 합니다.");
+        alert("3개의 인테리어 이미지를 선택해 주세요.");
       }
     },
     selectImage(index) {
@@ -153,22 +155,14 @@ export default {
       this.currentStep = 2;
       if (this.selectedImages.length === 3 && this.selectedImagesStep2.length === 3) {
         // 스타일 별로 점수를 계산
-        let styleScores = {
-          'modern': 0,
-          'minimalist': 0,
-          'natural': 0,
-          'vintage': 0,
-          'classic': 0
-        };
-
         // 각 이미지에 대한 스타일 태그
         const imageStyles = {
           '2': ['modern'],
           '5': ['modern', 'classic'],
           '10': ['modern', 'natural'],
-          '4': ['minimalist'],
-          '7': ['minimalist', 'classic'],
-          '16': ['minimalist'],
+          '4': ['simple'],
+          '7': ['simple', 'classic'],
+          '16': ['simple'],
           '0': ['natural'],
           '1': ['natural'],
           '3': ['natural'],
@@ -177,18 +171,54 @@ export default {
           '11': ['vintage'],
           '17': ['vintage'],
         };
+        const imageStyles2 = {
+          '0': ['natural'],
+          '1': ['vintage', 'classic'],
+          '2': ['vintage'],
+          '3': ['natural'],
+          '4': ['vintage', 'classic'],
+          '5': ['natural'],
+          '6': ['vintage'],
+          '7': ['natural'],
+          '8': ['simple'],
+          '9': ['modern'],
+          '10': ['simple'],
+          '11': ['modern'],
+          '12': ['simple'],
+          '13': ['modern'],
+          '14': ['vintage'],
+        }
+
+        let styleScores = {
+          'modern': 0,
+          'natural': 0,
+          'vintage': 0,
+          'classic': 0,
+          'simple' :0,
+        };
 
         // 선택된 이미지들에 대해 스타일 점수 계산
         this.selectedImages.forEach(imageId => {
           const styles = imageStyles[imageId];
           if (styles) {
             styles.forEach(style => {
+              if (!styleScores[style]) styleScores[style] = 0; // 이 줄은 사실상 필요 없으나, 다른 스타일이 추가될 경우를 대비해 둡니다.
               styleScores[style]++;
             });
           }
         });
 
-        // 가장 점수가 높은 스타일 찾기
+// 두 번째 단계 이미지 스타일 점수 합산
+        this.selectedImagesStep2.forEach(imageId => {
+          const styles = imageStyles2[imageId];
+          if (styles) {
+            styles.forEach(style => {
+              if (!styleScores[style]) styleScores[style] = 0; // 마찬가지로 필요 없지만, 확장성을 고려
+              styleScores[style]++;
+            });
+          }
+        });
+// 가장 점수가 높은 스타일 찾기
         let highestScore = 0;
         let recommendedStyle = '';
         for (let style in styleScores) {
@@ -197,7 +227,7 @@ export default {
             recommendedStyle = style;
           }
         }
-
+        console.log(`추천 스타일: ${recommendedStyle}, 점수: ${highestScore}`);
         // 추천 스타일에 따른 결과
         switch(recommendedStyle) {
           case 'modern':
@@ -208,7 +238,7 @@ export default {
             this.tip_second = "✔ 러그, 화분, 따듯한 느낌의 조명등을 이용하여 중화를 시키는 방법 !";
             this.color = "🟫⬜⬛";
             break;
-          case 'minimalist':
+          case 'simple':
             this.analysisResult = "귀하의 선택에 기반하여, ⭐'미니멀리스트&심플 스타일'⭐ 인테리어를 추천 ";
             this.analysistext = "과거의 감성을 현대적으로 재해석한 스타일을 선호합니다. 고유의 색감과 패턴이 돋보이는 가구와 소품을 사용하여 개성 있는 공간을 연출합니다. 골동품이나 레트로한 디자인의 소품을 활용하여 시간을 초월하는 매력을 더할 수 있습니다.";
             this.tip = "✔ 고유의 색감과 패턴이 돋보이는 가구 사용하기";
@@ -244,7 +274,7 @@ export default {
         // 모달 창을 보여주는 로직
         this.showModal = true;
       } else {
-        alert("각 단계에서 최소 3개의 이미지를 선택해야 합니다.");
+        alert("3개의 가구를 선택해 주세요.");
       }
     },
     closeModal() {
