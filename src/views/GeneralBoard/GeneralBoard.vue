@@ -1,8 +1,9 @@
 <template>
   <div id="generalboard">
-    <div class="content-container">
+    <div class="content-wrapper">
       <div class="content-wrapper">
-          <section class="box-content1">
+          <section class="box-content1" v-for="user in users">
+            <!--<img :src="user.thumnail">-->
             <section class="heart-contents">
               <button type="button" class="heart-button">
                 <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px" />
@@ -14,23 +15,18 @@
             </section>
             <section class="content-title-wrapper">
               <section class="content-title">
-                <a> 게시물 제목 </a>
+                <a> {{ user.userId }} </a>
               </section>
               <section class="content-nickname content-title">
-                <a> 닉네임 </a>
+                <section class="user-profile">
+                  <img :src="user.profile"/>
+                </section>
 
+                <a> {{ user.nickname }} </a>
 
               </section>
-              <!--<button type="button" @click="onClick(getDataId)">axios Get</button>
-              <li v-for="(v, i) in data.data" :key="`data${i}`">
-                <p> id: {{ v.id }} </p>
-                <p> title: {{ v.title }}</p>
-              </li>
-              {{data}}-->
 
             </section>
-
-
 
           </section>
 
@@ -51,7 +47,6 @@
             </section>
 
           </section>
-
 
 
         <section class="box-content4 box-content1">
@@ -81,6 +76,34 @@
 
         </section>
 
+        <section class="box-content7 box-content1">
+          <section class="heart-contents">
+            <button type="button" class="heart-button">
+              <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px"/>
+            </button>
+          </section>
+
+        </section>
+
+        <section class="box-content8 box-content1">
+          <section class="heart-contents">
+            <button type="button" class="heart-button">
+              <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px"/>
+            </button>
+          </section>
+
+        </section>
+
+        <section class="box-content9 box-content1">
+          <section class="heart-contents">
+            <button type="button" class="heart-button">
+              <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px"/>
+            </button>
+          </section>
+
+        </section>
+
+
 
       </div>
 
@@ -89,42 +112,40 @@
   </div>
 </template>
 
-
 <script>
 //import {api} from "@/api/api";
-import data from "bootstrap/js/src/dom/data";
 import axios from "axios";
+import {api} from "@/api/api";
 
 export default {
   name: 'HeartButton',
-  computed: {
-    data() {
-      return data
-    }
-  },
   data() {
     return {
       liked: false,
-      HeartImg: require('@/assets/heart.png'),
-      EmptyHeartImg: require('@/assets/emptyheart.png'),
+      HeartImg: require('@/assets/generalboardpage_icon/heart.png'),
+      EmptyHeartImg: require('@/assets/generalboardpage_icon/emptyheart.png'),
+      users: [], //data에 데이터를 넣기 위한 users 리스트 초기화
 
       // eslint-disable-next-line vue/no-dupe-keys
       data: "null",
-    };
+    }
+  },
+  created() {
+    this.init();
   },
   methods: {
-    toggleLike() {
-      this.liked = !this.liked;
-      // 여기서 서버에 좋아요 상태 업데이트를 위한 API 호출을 할 수 있습니다.
-
-    },
-    /*async init(){
+    async init() {
+      await api.getUser('/user').then(res => {
+        this.users = res;
+        console.log("res:", res);
+      })
+      /*async init(){
       await api.getUser().then(res => {
         this.setUser(res)
       })
     },*/
 
-/*onClick(){
+      /*onClick(){
   axios
       .get('https://my-json-server.typicode.com/typicode/demo/posts', {})
       .then((res)=> {
@@ -137,17 +158,14 @@ export default {
       })
 
 }*/
-},
-};
+    },
 
+  },
+}
 
 </script>
 
-
-<style scoped>
-html{
-  scroll-behavior: smooth;
-}
+<style>
 #generalboard{
   font-family: Inter;
   -webkit-font-smoothing: antialiased;
@@ -158,15 +176,10 @@ html{
   height: 1080px;
   margin: 0;
 }
-a{
-  font-family: Inter;
-  font-size: 17px;
-}
-.content-container{
+.content-wrapper{
   position: absolute;
   margin: 0.5% 5%;
   width: 90%;
-  height: 250%;
 }
 .content-wrapper{
   display: grid;
@@ -223,45 +236,70 @@ a{
   grid-template-columns: 1fr;
   grid-template-rows: repeat(2, 1fr);
   width: 100%;
-  height: 44%;
+  height: 40%;
   margin-top: -120px;
   align-items: center;
-  gap: -1px;
+  gap: -5px;
 }
 .content-title{
+  position: relative;
+  font-size: 18px;
+  height: 100%;
   font-weight: 550;
 }
 .content-nickname{
+  display: grid;
+  grid-template-columns: 1fr 4fr;
+  grid-template-rows: 1fr;
+  text-align: left;
+  font-size: 15px;
   width: 100%;
   height: 100%;
+  margin-bottom: 1px;
+}
+.user-profile{
+  position: relative;
+  margin: auto;
+  width: 60%;
+  height: 100%;
+  border-radius: 50%;
+  background-color: cornflowerblue;
 }
 .box-content2{
+  position: relative;
   margin-left: 7%;
 }
 .box-content3{
+  position: relative;
   margin-left: 14%;
 }
 .box-content4{
+  position: relative;
   margin-top: 40%;
 }
 .box-content5{
+  position: relative;
   margin-top: 40%;
   margin-left: 7%;
 }
 .box-content6{
+  position: relative;
   margin-top: 40%;
   margin-left: 14%;
 }
 .box-content7{
-  margin-top: 75%;
+  position: relative;
+  margin-top: 41%;
 }
 .box-content8{
-  margin-top: 75%;
-  margin-left: 20%;
+  position: relative;
+  margin-top: 41%;
+  margin-left: 10%;
 }
 .box-content9{
-  margin-top: 75%;
-  margin-left: 40%;
+  position: relative;
+  margin-top: 41%;
+  margin-left: 17%;
 }
 .heart-content{
   width: 14%;
