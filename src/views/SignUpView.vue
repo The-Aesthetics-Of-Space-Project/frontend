@@ -139,14 +139,14 @@ export default {
       const emailMessage = document.querySelector("#checkId");
 
       if (validateEmail(email)) {
-        emailMessage.textContent = '이메일 양식이 일치합니다.';
+        emailMessage.textContent = '올바른 이메일 형식입니다.';
         emailMessage.style.color = 'darkgreen';
         document.getElementById("emailInput").classList.remove("is-invalid");
         document.getElementById("emailInput").classList.add("is-valid");
         const signUpButton = document.querySelector("#signUpButton");
         signUpButton.disabled = false;
       } else {
-        emailMessage.textContent = '이메일 양식이 일치하지 않습니다.';
+        emailMessage.textContent = '올바른 이메일 형식이 아닙니다.';
         emailMessage.style.color = 'red';
         document.getElementById("emailInput").classList.remove("is-valid");
         document.getElementById("emailInput").classList.add("is-invalid");
