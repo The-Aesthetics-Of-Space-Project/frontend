@@ -21,9 +21,10 @@
             </section>
             <!-- 이메일 입력 폼 -->
             <section class="email-input-wrapper">
-              <div class="input-group">
-                <input type="text" class="form-control invalid" placeholder="이메일" v-model="user.userId" id="emailInput" aria-describedby="emailHelp" @input="checkUserId" style="border-radius: 6px; height: 40px; font-size: 14px;">
-                <div><span id="checkId" style="font-size: 13px;" @input="checkUserId"></span></div>
+              <div class="input-group" style="position: relative; margin-bottom: 20px;">
+                <input type="text" class="form-control invalid" placeholder="이메일" v-model="user.userId"
+                       id="emailInput" aria-describedby="emailHelp" @input="checkUserId" style="border-radius: 6px; height: 40px; font-size: 14px;">
+                <div><span id="checkId" style="width: 100px; font-size: 13px; top:-10px;" @input="checkUserId"></span></div>
               </div>
 
             </section>
@@ -39,7 +40,11 @@
             </section>
             <!-- 닉네임 입력 form -->
             <section class="form-group-nickname-wrapper">
-              <input type="text" v-model="user.nickname" class="nickname-input-form" placeholder="닉네임" aria-label="Nickname">
+              <div class="input-group" style="top: 10px; left: 35px; position: relative; width: 89%; margin-bottom: 10px;">
+                <input type="nickname" v-model="user.nickname" class="form-control invalid" placeholder="닉네임" aria-label="Nickname"
+                       id="nicknameInput" @input="checkNickname" maxlength="15" style="border-radius: 6px; height: 40px; font-size: 14px;">
+                <div><span id="checkNickname" style="width: 100px; font-size: 13px;" @input="checkNickname"></span></div>
+              </div>
             </section>
 
           </section>
@@ -52,21 +57,31 @@
             </section>
 
             <section class="setting-profile-wrapper">
-              <label class="profile-img-wrapper">
+              <section class="profile-img-wrapper">
                 <img :src="imgUrl" v-if="imagePreview" alt="이미지 미리보기"/>
-                <input type="file" class="btn-img-button"  style="position: relative; border: none;
-                background-color: white; border-radius: 50%; width: 60%; height: 60%; top: 30px;"/>
-                <img src="../../assets/mypage_icon/plusimage.png" class="upload-btn-img" @change="handleFileUpload">
-
-              </label>
+              </section>
             </section>
+            <section class="profile-submit-btn" style="position: relative; width: 56%; height: 19%; display: grid; grid-template-columns: 1fr 3fr; grid-template-rows: 1fr;
+                                                          top: 1.5em; left: 2.5em;" >
+              <label style="position: relative;width: 73%; height: 84%; margin: auto; cursor: pointer;">
+
+                <img src="../../assets/mypage_icon/plusimage.png" class="upload-btn-img"  style="position: relative;
+               border-radius: 50%; width: 100%; height: 100%;">
+                <input type="file" class="btn-img-button" style="position: relative; border: 1px solid chocolate; margin: auto;
+                background-color: white; border-radius: 50%; width: 100%; height: 100%; display: none;" @change="handleFileUpload">
+              </label>
+              <section style="position: relative; margin: auto; height: 50%; left: -2.4em; top: 3px; font-size: 14px; font-weight: bold; color:rgb(0,0,0,60%);">
+                <p> 플러스 버튼을 눌러보세요! </p>
+              </section>
+
+            </section>
+
+
           </section>
           <!-- 수정 완료 버튼 -->
           <div class="user-modify-btn-wrapper">
             <button type="button" class="btn-modify" id="modifyButton" @click="userInfoModify($store.state.userId)"> 수정하기 </button>
           </div>
-
-
 
         </div>
       </section>
@@ -77,7 +92,6 @@
 
 <script>
 import {api} from "@/api/api";
-import Store from "@/store/index";
 
 export default {
   data() {
@@ -88,6 +102,7 @@ export default {
         email:'',
         profile: '',
       },
+      users:[],
       imgUrl: null,
       image: null,
     }
@@ -96,8 +111,20 @@ export default {
     imagePreview() {
       return this.image ? URL.createObjectURL(this.image) : '';
     },
+    hasImg(){
+      return !!this.image;
+    }
+  },
+  mounted() {
+    this.getUser();
   },
   methods: {
+    /* user 목록 조회 */
+    async getUser() {
+      await api.getUser('/user').then(res => {
+        this.users = res.data;
+      })
+    },
     checkUserId() {
       // ID(email) 입력란 변수화
       const idInput = document.querySelector("#emailInput");
@@ -111,7 +138,7 @@ export default {
       // ID(email) 형식 확인
       const checkEmail = () => {
         const email = idInput.value;
-        const emailMessage = document.querySelector("#emailInput");
+        const emailMessage = document.querySelector("#checkId");
 
         if (validateEmail(email)) {
           emailMessage.textContent = '올바른 이메일 형식입니다.';
@@ -125,27 +152,55 @@ export default {
           document.getElementById("emailInput").classList.add("is-invalid");
         }
       };
-
       // ID(email) 입력란에 keyup 이벤트 핸들러 추가
       idInput.addEventListener("keyup", checkEmail);
+    },
+    async checkNickname(){
+
+      const nicknameInput = document.querySelector("#nicknameInput");
+      const nicknameMessage = document.querySelector("#checkNickname");
+
+      const nickname = this.user.nickname;
+      console.log("nickname: ",nickname);
+      if (nickname.length < 2 || nickname.length > 15) {
+        nicknameMessage.textContent = '닉네임은 2~15자 사이여야 합니다.';
+        return;
+      }
+      const checkNickname = () => {
+
+        const available = this.users.every(user => user.nickname !== nickname);
+        console.log("출력하셈미", available);
+
+        if (available) {
+          nicknameMessage.textContent = '사용 가능한 닉네임입니다.';
+          nicknameMessage.style.color = '#2fb380';
+          document.getElementById("nicknameInput").classList.remove("is-invalid");
+          document.getElementById("nicknameInput").classList.add("is-valid");
+        } else {
+          nicknameMessage.textContent = '이미 사용 중인 닉네임입니다.';
+          nicknameMessage.style.color = '#dc3545';
+          document.getElementById("nicknameInput").classList.remove("is-valid");
+          document.getElementById("nicknameInput").classList.add("is-invalid");
+        }
+      }
+
+      // ID(email) 입력란에 keyup 이벤트 핸들러 추가
+      nicknameInput.addEventListener("keyup", checkNickname);
 
     },
     /* 이미지 업로드 */
     handleFileUpload(event) {
-      this.user.profile = event.target.files[0];
-      if(!this.user.profile){
+      const file = event.target.files[0];
+      if (!file) {
         return;
       }
-      this.image = this.user.profile; // 이미지 파일을 저장
-
-      const formData = new FormData(); // file전송시 FormData 형식으로 전송
-      formData.append('filelist', file);
+      this.image = file; // 이미지 파일을 저장
 
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imgUrl = e.target.result;
       };
-      reader.readAsDataURL(this.user.profile);
+      reader.readAsDataURL(file);
     },
     async userInfoModify(userId){
       const presentUserId=userId;
@@ -172,7 +227,7 @@ export default {
 
 <style>
 #setting {
-  font-family: Inter;
+  font-family: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -247,13 +302,16 @@ export default {
   height: 60%;
   top: 26px;
 }
-.valid-text-container{
-  position: relative;
-  margin: auto;
-  width: 50%;
-  height: 40%;
-  text-align: left;
-  left: -6em;
+.input-group input[type="text"],
+.input-group input[type="nickname"] {
+  width: 100%;
+  padding: 10px; /* 패딩 조정 */
+  margin: 5px 0;
+  display: inline-block;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  box-sizing: border-box;
+  font-size: 14px; /* 폰트 크기 조정 */
 }
 /* 닉네임 */
 .setting-nickname-wrapper{
@@ -280,31 +338,11 @@ export default {
 }
 .form-group-nickname-wrapper{
   position: relative;
-  width: 91%;
-  height: 30%;
-  top: 35px;
+  width: 90%;
+  height: 60%;
+  top: 30px;
   left: -5px;
   margin: auto;
-  align-content: center;
-}
-.nickname-input-form{
-  position: relative;
-  width: 90%;
-  height: 98%;
-  left: 10px;
-  border: 1px solid rgb(141,141,141,80%);
-  border-radius: 7px;
-  margin: auto;
-}
-.nickname-input-form:focus{
-  position: relative;
-  width: 90%;
-  height: 98%;
-  left: 10px;
-  border: none;
-  border-radius: 7px;
-  margin: auto;
-  outline: 2px solid rgb(48,82,58,100%);
 }
 /* 프로필 */
 .profile-content-wrapper{
@@ -323,39 +361,35 @@ export default {
 }
 .setting-profile-wrapper{
   position: relative;
-  left: -130px;
+  left: 3.5em;
   top: 15px;
-  width: 32%;
-  height: 53%;
-  margin: auto;
+  width: 40%;
+  height: 65%;
   border: 1px solid #D9D9D9;
-  border-radius: 6px;
+  border-radius: 7px;
 }
 .profile-img-wrapper{
   position: relative;
   width: 100%;
   height: 100%;
-  cursor: pointer;
 }
-.upload-btn-img{
+.profile-img-wrapper img{
   position: relative;
-  width: 90%;
+  width: 100%;
   height: 100%;
-  margin: auto;
-  top: -90px;
 }
 /* 버튼 */
 .user-modify-btn-wrapper{
   position: relative;
   width: 45%;
-  height: 20%;
-  top: -50px;
+  height: 10%;
+  top: 1.3em;
   align-content: center;
   margin: auto;
 }
 .btn-modify{
   width: 40%;
-  height: 30%;
+  height: 62%;
   font-weight: 550;
   border: none;
   border-radius: 12px;
