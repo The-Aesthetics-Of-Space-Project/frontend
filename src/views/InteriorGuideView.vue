@@ -422,8 +422,13 @@ export default {
   display: grid;
   grid-template-columns: repeat(3, 1fr);
   grid-gap: 10px;
+  box-sizing: border-box; /* 테두리를 내부 크기에 포함 */
 }
 
+.selected {
+  outline: 2px solid blue; /* 선택된 이미지를 파란색 테두리로 강조 */
+  box-sizing: border-box; /* 테두리를 내부 크기에 포함 */
+}
 .image-container img {
   width: 100%;
   height: auto;
@@ -451,9 +456,7 @@ export default {
   position: relative;
   top:8px;
 }
- .selected {
-   border: 2px solid blue; /* 선택된 이미지를 파란색 테두리로 강조 */
- }
+
 .modal-custom {
   background: white;
   border-radius: 8px;
