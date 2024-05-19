@@ -1,5 +1,7 @@
 <template>
   <div class="community">
+    <!-- 24.05.19 23:36 pull 확인용 -->
+
     <div class="main-sc-container">
       <div class="title-container">
         <h1 style=" color: #333333; font-size: 31px;   font-family: MyCustomFont2; ">모두를 위한 커뮤니티</h1>
