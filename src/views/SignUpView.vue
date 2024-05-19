@@ -2,19 +2,17 @@
   <div id="signup">
     <div class="header-container">
       <section class="header-wrapper">
-        <section class="logo-image-wrapper">
-          <img src="../assets/ziplogo.png">
-        </section>
-        <logofont></logofont>
+        <ZipLogo style="position: relative; top:90px;"></ZipLogo>
+        <logofont style="position: relative; top:-15px;"></logofont>
       </section>
     </div>
     <div class="signup-container">
       <section class="signup-header">
         <section class="signup-wrapper">
-          <a style="font-size: 26px; position: relative; top:-25px; font-weight: bolder;"> 회원가입 </a>
+          <a style="font-size: 26px; position: relative; top:-15px; font-weight: bolder;"> 회원가입 </a>
           <div class="sns-login">
 
-            <div style="position: relative;  top:-10px; font-size: 16px"> sns 계정으로 간편 회원가입 </div>
+            <div style="position: relative;  top:-10px; font-size: 16px; font-family: MyCustomFont2"> sns 계정으로 간편 회원가입 </div>
 
           </div>
           <div class="login-btn-class">
@@ -41,8 +39,8 @@
           </section>
           <!-- 이메일 입력 -->
           <div class="input-group" style="width: 400px; position: relative; left:40px;">
-            <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId" @input="checkId" id="emailInput" style="border-radius: 6px; height: 40px;">
-            <button @click="checkIdbut" id="checkbtnid" style="position: absolute; top:-32px; left:14%; border-radius: 8px; font-weight:bolder;padding:4px; font-size: 12.5px;" class="btn btn-outline-success">중복 확인</button>
+            <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId" @input="checkId" id="emailInput" style="border-radius: 6px; height: 40px; font-size: 14px;">
+            <button @click="checkIdbut" id="checkbtnid" style="position: absolute; top:-32px; left:14%; border-radius: 8px; font-weight:bolder;padding:4px; font-size: 13px;" class="btn btn-outline-success">중복 확인</button>
             <div><span id="checkId" style="font-size: 13px;" @input="checkId"></span></div>
           </div>
 
@@ -57,7 +55,7 @@
               영문, 숫자, 특수문자를 포함한 8자 이상을 입력하세요.
             </section>
             <!-- 비밀번호 입력 -->
-            <input type="password" class="form-control valid" placeholder="비밀번호" id="pw" name="pw"
+            <input type="password" class="form-control valid" placeholder="비밀번호" id="pw" name="pw" style="font-size: 14px; height: 40px"
                    v-model="password" @input="checkPasswords">
             <div class="valid-feedback"></div>
           </div>
@@ -65,9 +63,9 @@
 
         <section class="re-password-wrapper email-wrapper" style="width: 400px; position: relative; left:40px; top:35px;">
           <section class="re-password-content email-content">
-            <a class="re-pw-title"  style="text-decoration: none; position: relative; left:-142px; top:-3.5px; font-weight: bolder; color: black; font-size: 17px;"> 비밀번호 재확인 </a>
-            <input type="password" class="form-control valid" placeholder="비밀번호" id="confirm-password" name="confirm-PW"
-                   v-model="repassword" @input="checkPasswords">
+            <a class="re-pw-title"  style="text-decoration: none; position: relative; left:-145px; top:-3.5px; font-weight: bolder; color: black; font-size: 17px;"> 비밀번호 재확인 </a>
+            <input type="password" class="form-control valid" placeholder="비밀번호" id="confirm-password" name="confirm-PW" style="font-size: 14px; height: 40px; "
+                   v-model="repassword" @input="checkPasswords" >
             <span class="password-match" v-if="passwordsMatch && repasswordEntered">비밀번호가 일치합니다.</span>
             <span class="password-not-match"  v-else-if="repasswordEntered">비밀번호가 일치하지 않습니다.</span>
           </section>
@@ -88,7 +86,7 @@
 
           <div class="form-group-nickname form-group" style="width: 400px; position: relative; left:-10px; top:80px;">
             <!-- 닉네임 입력 -->
-            <input type="nickname" class="form-control invalid" placeholder="닉네임" id="nickname" v-model="nickname" style="position: relative; top:-85px;">
+            <input type="nickname" class="form-control invalid" placeholder="닉네임" id="nickname" v-model="nickname" style="position: relative; top:-85px; font-size: 14px; height: 40px;">
 
           </div>
         </section>
@@ -107,13 +105,14 @@
 import axios from "axios";
 import Logofont from "@/components/logofont.vue";
 import UserName from "@/components/UserName.vue";
+import ZipLogo from "@/components/ZipLogo.vue";
 
 //중복확인 버튼 클릭 여부에 대한 회원가입 동작
 
 export default {
 
   name: 'SignUpView',
-  components: {UserName, Logofont},
+  components: {ZipLogo, UserName, Logofont},
   data() {
     return {
       userId: '',
@@ -140,14 +139,14 @@ export default {
       const emailMessage = document.querySelector("#checkId");
 
       if (validateEmail(email)) {
-        emailMessage.textContent = '이메일 양식이 일치한 양식입니다.';
+        emailMessage.textContent = '올바른 이메일 형식입니다.';
         emailMessage.style.color = 'darkgreen';
         document.getElementById("emailInput").classList.remove("is-invalid");
         document.getElementById("emailInput").classList.add("is-valid");
         const signUpButton = document.querySelector("#signUpButton");
         signUpButton.disabled = false;
       } else {
-        emailMessage.textContent = '이메일 양식이 일치하지 않습니다.';
+        emailMessage.textContent = '올바른 이메일 형식이 아닙니다.';
         emailMessage.style.color = 'red';
         document.getElementById("emailInput").classList.remove("is-valid");
         document.getElementById("emailInput").classList.add("is-invalid");
@@ -268,32 +267,21 @@ export default {
 
 <style>
 /* 전체 페이지 스타일링 */
-/* 전체 페이지 스타일링 */
 body {
   font-family: 'Noto Sans KR', sans-serif;
   background-color: #f8f9fa;
   color: #212529;
 }
 
-/* a 태그 스타일 제거 */
 a {
   text-decoration: none;
-  color: #007bff; /* 링크의 기본 색상 지정, 필요에 따라 변경 가능 */
+  color: #007bff;
 }
 
 a:hover {
-  color: #0056b3; /* 링크에 마우스를 올렸을 때의 색상, 필요에 따라 변경 가능 */
+  color: #0056b3;
 }
 
-/* 로고 이미지 및 텍스트 스타일링 */
-.logo-image-wrapper img {
-  width: 120px; /* 로고 이미지 크기 조정 */
-  height: auto;
-  display: block;
-  margin: 0 auto; /* 중앙 정렬 */
-}
-
-/* 회원가입 컨테이너 스타일링 */
 .signup-container {
   background-color: white;
   width: 560px; /* 가로 크기 조정 */
@@ -346,7 +334,7 @@ a:hover {
 .userbutton {
   font-size: 16px;
   color: white;
-  background-color: #green;
+  background-color: #80C85F;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -361,18 +349,15 @@ a:hover {
   background-color: #0056b3;
 }
 
-/* 선 스타일링 */
 .line-content hr {
   border-top: 1px solid #ccc;
   margin: 20px 0;
 }
 
-/* 폼 그룹 스타일링 */
 .form-group.has-success, .form-group.has-danger {
   margin-bottom: 15px;
 }
 
-/* 비밀번호 일치 / 불일치 메시지 스타일링 */
 .password-match, .password-not-match {
   font-size: 14px;
   position: absolute;
@@ -386,5 +371,8 @@ a:hover {
 
 .password-not-match {
   color: red;
+}
+.email-title, .pw-title, .re-pw-title, .nickname-title{
+  font-family: MyCustomFont2;
 }
 </style>

@@ -3,56 +3,57 @@
     <div class="login-container">
       <div class="login-wrapper">
         <section class="login-header">
-          <section class="logo-container" href="/login">
-            <img src="../assets/ziplogo.png">
-          </section>
-          <logofont></logofont>
+          <ZipLogo></ZipLogo>
+          <logofont style="position:relative; top:-100px;"></logofont>
         </section>
         <div class="el-input el-input-line">
           <!-- email 입력 -->
           <form>
             <div class="form-group" style="position: relative; top:-30px;">
-              <input type="text" class="form-control invalid" id="inputEmail" aria-describedby="emailHelp" placeholder="Email" v-model="userId">
+              <input type="text" id="inputEmail" class="text-put-clas" aria-describedby="emailHelp" placeholder="이메일" v-model="userId" style="height: 45px; border-radius: 3px; font-size: 14px; width: 300px;">
               <div><span id="checkId"></span></div>
             </div>
             <!-- password 입력 -->
             <div class="form-group has-success" style="position: relative; top:-10px;">
               <!-- 비밀번호 입력 -->
-              <input type="password" class="form-control valid" id="inputPW" name="PW" placeholder="Password" v-model="password">
+              <input type="password"  id="inputPW" class="text-put-clas" name="PW" placeholder="비밀번호" v-model="password" style="height: 45px; position: relative; top: -21px; border-radius: 3px; font-size: 14px;width: 300px;">
               <div class="valid-feedback"></div>
             </div>
 
             <div class="d-grid gap-2">
-              <button v-on:click="loginClick" class="userbutton" @click="login" style="position: relative;  top:10px;left:10px; width:255px;"> 로그인 </button>
+              <button v-on:click="loginClick" class="userbutton" @click="login" style="position: relative; top:-35px;left:-5px; width:290px;"> 로그인 </button>
               <div> <h2> {{num}} </h2></div>
             </div>
             <section class="bottom-login">
               <section class="signup-con">
                 <nav>
-                  <router-link to="/signup" style="text-decoration: none; color:gray">회원가입</router-link>
+                  <router-link to="/signup" style="text-decoration: none; color:gray; font-family: MyCustomFont2" class="rou-sgn">회원가입</router-link>
                 </nav>
               </section>
               <section class="passwordFind-container">
                 <nav>
-                  <router-link to="/password" style="text-decoration: none; color:gray">비밀번호 찾기</router-link>
+                  <router-link to="/password" style="text-decoration: none; color:gray; font-family: MyCustomFont2" class="rou-sgn">비밀번호 찾기</router-link>
                 </nav>
               </section>
               <router-view></router-view>
             </section>
           </form>
+        </div
+        >
+        <div style="border: 1px solid lightgray; border-bottom: thin; position: relative; top:-27px; width:55%; margin: auto;">
         </div>
 
-        <div class="sns-login" style="font-weight: bolder; font-size: 17px;">
+        <div class="sns-login" style="font-weight: bold; font-size: 16px; position: relative; top:-25px; font-family: MyCustomFont2;">
           sns 계정으로 간편 로그인
         </div>
 
         <div class="login-btn-class">
           <section class="login-btn-wrapper">
             <el-button type="button" class="btn-kakao-login">
-              <img src="../assets/kakao_login_large.png" class="btn-kakao-login-img" style="position: relative; top:20px; width: 80px; height: 40px;">
+              <img src="../assets/kakao_login_large.png" class="btn-kakao-login-img" style="position: relative; top:-10px; width: 80px; height: 40px;">
             </el-button>
             <el-button type="button" class="btn-naver-login">
-              <img src="../assets/naver_login_btn.png" class="btn-naver-login-img"style="position: relative; top:20px; width: 95px; height: 40px;">
+              <img src="../assets/naver_login_btn.png" class="btn-naver-login-img"style="position: relative; top:-10px; width: 95px; height: 40px;">
             </el-button>
           </section>
         </div>
@@ -67,10 +68,11 @@
 
 import axios from "axios";
 import Logofont from "@/components/logofont.vue";
+import ZipLogo from "@/components/ZipLogo.vue";
 
 export default {
   name: 'login',
-  components: {Logofont},
+  components: {ZipLogo, Logofont},
   el: '#login',
   data() {
     return {
@@ -128,6 +130,13 @@ export default {
 </script>
 
 <style>
+@font-face {
+  font-family: 'MyCustomFont2';
+  src: url('../fonts/Interop-Regular.otf') format('woff');
+  font-weight: normal;
+  font-style: normal;
+}
+
 #login {
   font-family: 'Inter', sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -151,23 +160,11 @@ export default {
   padding: 20px;
 }
 
-.login-header .logo-container img {
-  width: 120px; /* 로고 이미지 크기 조정 */
-  margin-bottom: 20px;
-}
 
 .el-input, .form-group {
   margin-bottom: 20px; /* 입력 필드 간격 조정 */
   width:300px;
   margin: auto;
-}
-
-.form-control {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc; /* 테두리 색상 */
-  border-radius: 5px; /* 입력 필드 모서리 둥글게 */
-  font-size: 16px; /* 폰트 크기 */
 }
 
 .userbutton {
@@ -195,15 +192,6 @@ export default {
   margin-right: 10px; /* 버튼 사이의 간격 */
 }
 
-.router-link {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.router-link:hover {
-  text-decoration: underline;
-}
-
 .sns-login {
   text-align: center; /* 중앙 정렬 */
   margin-top: 20px; /* 상단 여백 */
@@ -214,21 +202,21 @@ export default {
 
 .login-btn-class {
   display: flex;
-  justify-content: center; /* 중앙 정렬 */
+  justify-content: center;
   gap: 10px; /* 버튼 사이 간격 */
 }
 .btn-kakao-login {
 
-  color: #3C1E1E; /* 글자 색상 */
-  border-radius: 5px; /* 모서리 둥글게 */
+  color: #3C1E1E;
+  border-radius: 5px;
 }
 .btn-naver-login {
 
   color: #FFFFFF; /* 글자 색상 */
-  border-radius: 5px; /* 모서리 둥글게 */
+  border-radius: 5px;
 }
 .btn-kakao-login-img {
-  width: 90px; /* SNS 로그인 버튼 크기 조정 */
+  width: 90px;
   position: relative;
   left:-20px;
   height: 45px;
@@ -236,5 +224,13 @@ export default {
 .btn-naver-login-img{
   width: 100px;
   height: 40px;
+}
+.rou-sgn{
+  position: relative;
+  top:-35px;
+  font-size: 14px;
+}
+.text-put-clas{
+  border: 1px solid lightgray;
 }
 </style>

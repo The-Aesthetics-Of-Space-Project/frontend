@@ -1,7 +1,7 @@
 <template>
   <div class="community">
     <div class="community-title">
-      <h2 class="community-first-title">.zip이 바꿀 인테리어</h2>
+      <h2 class="community-first-title"><span style="  transform: skewX(1deg); font-style: italic;">zip</span>&nbsp;의 공간, 커뮤니티</h2>
       <h5 class="community-second-title"><p>모두를 위한, 커뮤니티를 만들고자 합니다.</p></h5>
     </div>
 
@@ -18,7 +18,7 @@
         </div>
         <div class="Interior">
           <h4>당신의 <br>인테리어를<br> 보여주세요</h4>
-          <router-link to="/GeneralBoardWrite"><img src="@/assets/커뮤니티버튼.png" class="icon-image_second"></router-link>
+          <router-link :to="isUserLogin ? '/GeneralBoardWrite':'/login'"><img src="@/assets/커뮤니티버튼.png" class="icon-image_second"></router-link>
         </div>
         <div class="Board">
           <h4>가구 및 스타일<br> 분석하기</h4>
@@ -31,6 +31,12 @@
 </template>
 <script>
 export default {
+  computed: {
+    // 로그인 유무 확인
+    isUserLogin() {
+      return this.$store.getters.isLogin;
+    }
+  },
 
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Community',
@@ -77,7 +83,7 @@ export default {
   animation: slides 6s;
   font-weight: bolder;
   color: #333;
-  font-size: 25px;
+  font-size: 22px;
   font-family: 'SOGANGUNIVERSITYTTF';
 }
 
