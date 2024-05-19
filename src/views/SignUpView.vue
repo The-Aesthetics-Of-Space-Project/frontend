@@ -106,6 +106,7 @@ import axios from "axios";
 import Logofont from "@/components/logofont.vue";
 import UserName from "@/components/UserName.vue";
 import ZipLogo from "@/components/ZipLogo.vue";
+import {api} from "@/api/api";
 
 //중복확인 버튼 클릭 여부에 대한 회원가입 동작
 
@@ -182,7 +183,7 @@ export default {
     ,
 
     //회원가입 비동기 통신
-    signup() {
+    async signup() {
       //중복확인 여부
       if (!this.isIdChecked) {
         alert('중복 확인을 해주세요.');
@@ -202,32 +203,25 @@ export default {
         nickname: this.nickname
       };
 
-      // 보내기 전 데이터 확인
-      console.log('Sending data', userData);
-
-      axios.post('http://jerry6475.iptime.org:20000/signup', userData, {
-        headers: {
-          'Content-Type': 'application/json'
-        }
+      await api.setUser('/users', userData).then(res => {
+        this.users = res.data;
+        console.log('Response data', res.data);
+        alert('회원가입에 성공하였습니다.');
+        this.$router.push('/login');
       })
-          .then(response => {
-            // 서버 응답 로그
-            console.log('Response data', response.data);
-            // 여기서 response.data를 사용하여 this.userId, this.password, this.nickname 값을 업데이트
-            alert('회원가입에 성공하였습니다.');
-            this.$router.push('/login');
-          })
           .catch(error => {
             // 에러 로그
+            alert('회원가입에 실패하였습니다.');
             console.error('Error data', error);
           })
           .finally(() => {
             // 필요한 최종 처리
           });
+
     },
 
     //중복확인 버튼에 대한 비동기 통신
-    checkIdbut() {
+    async checkIdbut() {
       //중복확인 여부에 대한 boolean
       this.isIdChecked = true;
 
@@ -244,23 +238,25 @@ export default {
         alert('유효하지 않은 이메일 형식입니다.');
         return; // 유효하지 않으면 여기서 함수 종료
       }
-      axios.get(`http://jerry6475.iptime.org:20000/checkUserId/${encodeURIComponent(this.userId)}`, {
-        headers: {
-          'Content-Type': 'application/json',
-        }
-      })
-          .then(response => {
-              if(this.userIdDuplicate === false) {
-                alert('사용 가능한 아이디입니다.');
-              }
-          })
-          .catch(error => {
-            if (error.response && error.response.status === 401) {
-              // 여기서 401 상태 코드를 확인하고, 사용자에게 알림
+
+      await api.getUser(`/users?userId=${encodeURIComponent(this.userId)}`).then(res => {
+        this.users = res.data;
+            if (res.data.length === 0) {
+              alert('사용 가능한 아이디입니다.');
+            } else {
               alert("이미 사용중인 아이디입니다.");
             }
+          })
+          .catch(error => {
+            if (error.response) {
+              alert("서버 오류가 발생했습니다. 나중에 다시 시도z해주세요.");
+            } else if (error.request) {
+              alert("서버 응답이 없습니다. 네트워크 연결을 확인해주세요.");
+            } else {
+              alert("요청을 처리하는 중 오류가 발생했습니다.");
+            }
           });
-    },
+    }
   }
 }
 </script>
