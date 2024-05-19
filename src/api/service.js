@@ -49,24 +49,42 @@ service.interceptors.response.use(
         return Promise.reject(error);
     }
 );
+const args="";
+const params="";
 
-service.get('/user')
-    .then((res) => {
+// 조회
+service.get(args).then((res) => {
         console.log("응답 성공!_!", res.data);
         return res.data;
-
     })
     .catch((error) => {
         console.log("에러입니다!!!",error);
     })
 
-// 각 메소드별 함수를 생성해 주세요.
+// 삭제
+service.delete(args).then((res) => {
+    console.log("삭제 성공!_!", res);
+    return res;
+})
+    .catch((error) => {
+        console.log("삭제 에러입니다!!!",error);
+    })
+
+service.put(args, params).then((res) => {
+    console.log("수정 성공!_!", res);
+    return res;
+})
+    .catch((error) => {
+        console.log("수정 에러입니다!!!",error);
+    })
+
 export default {
-    async get(url) {
+    async get(args) {
         try {
-            const res = await service.get(url)
+            const res = await service.get(args)
             console.log("service.js: res값 -> ", res)
-            return res
+            return res;
+
         } catch (e) {
             return console.log("error")
         }
@@ -76,12 +94,26 @@ export default {
         // 공통
 
     },
-
+    // 수정
     async put(options) {
-        // 공통
+        try {
+            const res = await service.put(args, params);
+            console.log("service.js: res값 -> ", res);
+            return res;
+        } catch (e) {
+            console.log("error");
+            return null;
+        }
     },
 
-    async delete(options) {
-        // 공통
+    async delete(args) {
+        try {
+            const res = await service.delete(args);
+            console.log("service.js: res값 -> ", res);
+            return res;
+        } catch (e) {
+            console.log("error");
+            return null;
+        }
     },
 }
