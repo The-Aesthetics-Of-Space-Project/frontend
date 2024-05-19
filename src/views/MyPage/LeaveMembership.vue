@@ -27,24 +27,20 @@
 
 <script>
 import {api} from "@/api/api";
+import Store from "@/store/index";
 export default {
 
   data() {
     return {
+
     };
   },
   mounted(){
     this.getUser();
   },
   methods: {
-    /* id 조회 */
-    async getUser() {
-      await api.getUser('/user').then(res => {
-        this.users = res.data;
-        console.log("res: ", res);
-      })
-    },
     async deleteUsers(userId){
+      console.log("userId: ", userId);
       const args='/user';
       const params = userId;
       await api.deleteUser(args, params).then(res =>{

@@ -10,10 +10,10 @@ export const api = {
         return service.get(args)
     },
     setUser(args,param) {
-        return service.post(`http://localhost:3000/api/article`,param)
+        return service.post(args, param)
     },
     updateUser(args, param) { // args와 param이 동시 존재하는 경우
-        return service.put(`${API_URL}${API.user(args)}`, param)
+        return service.put(args, param)
     },
     /* 사용자 목록 삭제(=회원 탈퇴) */
     deleteUser(args, params){

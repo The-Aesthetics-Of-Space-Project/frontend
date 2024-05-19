@@ -7,41 +7,45 @@
           <router-link to="/profile"> 프로필 </router-link>
         </section>
         <section class="container-header-wrapper-setting">
-          <router-link to="/setting"> 설정 </router-link>
+          <router-link to="/setting"> <a>설정</a> </router-link>
         </section>
       </section>
 
       <section class="my-page-content-container">
-        <section class="my-page-content-wrapper">
+        <section class="my-page-content-wrapper" v-for="user in users">
           <!-- 왼쪽 컨텐츠 -->
           <section class="left-container">
             <section class="left-content">
               <!-- 공유 버튼 -->
               <section class="share-button-container">
-                <button @click="copyUrl()" class="share-button-wrapper"><img src="../../assets/mypageShareIcon.png" style="width: 70px; height: 62px; left: 5px;"><!--<h2>클릭결과: {{ result }}</h2>--></button>
+                <button @click="copyUrl()" class="share-button-wrapper"><img src="../../assets/mypage_icon/mypageShareIcon.png" style="width: 70px; height: 62px; left: 5px;"><!--<h2>클릭결과: {{ result }}</h2>--></button>
               </section>
               <!-- 프로필 컨테이너 -->
               <section class="profile-container">
-                <section class="profile-wrapper"><!--<img src="../assets/banner1.jpg" style="width: 100%; height: 100%; border-radius: 50%;">--></section>
+                <section class="profile-wrapper"><img :src="user.profile" style="width: 100%; height: 100%; border-radius: 50%;"></section>
               </section>
               <!-- 닉네임 -->
               <section class="nickname-container">
-                <section class="nickname-content"><a> 닉네임 </a></section>
+                <section class="nickname-content"><a> {{ user.nickname }} </a></section>
+              </section>
+              <!-- 채팅 버튼 -->
+              <section class="chat-container">
+                <section class="chat-wrapper">
+                  <button class="chat-icon-btn"><router-link to="/Chat"> <img src="../../assets/mypage_icon/chatIcon.png" style="position: relative; width: 42px; height: 41px; right: 5px;"></router-link></button>
+                  <section class="chat-message-content"><router-link to="/chat"> <a>채팅하기</a> </router-link></section>
+                </section>
               </section>
               <!-- 팔로워 -->
               <section class="follow-list-container">
                 <section class="follow-list-wrapper">
                   <section class="follow-list-wrapper-follower">
-                    <router-link to="/follower"> 팔로워 </router-link>
-                    <br>
-                    <section class="follower-count"><!--{{ number }}-->  0</section>
+                    <router-link to="/follower"> <a>팔로워</a><br> <a>0</a></router-link>
                   </section>
                   <section class="line"> | </section>
                   <!-- 팔로잉 -->
                   <section class="follow-list-wrapper-following">
-                    <router-link to="/following"> 팔로잉 </router-link>
-                    <br>
-                    <section class="following-count"><!--{{ number }}-->  0 </section>
+                    <router-link to="/following"> <a>팔로잉</a>
+                    <br><a>0</a></router-link>
                   </section>
 
                 </section>
@@ -53,13 +57,13 @@
               <section class="content-under-container">
                 <section class="content-under-wrapper">
                   <!-- 스크랩 이미지 -->
-                  <section class="img-wrapper-scrap"><img src="../../assets/scrapbook.png"></section>
+                  <section class="img-wrapper-scrap"><img src="../../assets/mypage_icon/scrapbook.png"></section>
                   <!-- 좋아요 이미지 -->
-                  <section class="img-wrapper-like"><img src="../../assets/like.png"></section>
+                  <section class="img-wrapper-like"><img src="../../assets/mypage_icon/like.png"></section>
                   <!-- 스크랩 -->
-                  <section class="scrap-content"><a> 스크랩북 <br> 0</a></section>
+                  <section class="scrap-content"><router-link to="/scrap"><a> 스크랩북 <br> 0</a></router-link></section>
                   <!-- 좋아요 -->
-                  <section class="like-content"><a> 좋아요 <br> 0 </a></section>
+                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> 0 </a></router-link></section>
                 </section>
               </section>
 
@@ -99,15 +103,31 @@
 
 
 <script>
+import Store from "@/store/index";
+import {api} from "@/api/api";
+
 export default {
   name: 'MyPageView',
   data(){
     return{
       input: '',
-      result:''
+      result:'',
+      data: "null",
+      users: [],
+      userId: Store.state.userId,
     }
   },
+  mounted(){
+    this.getUser();
+  },
   methods:{
+    async getUser(){
+      const args=`/user`;
+      await api.getUser(args).then(res => {
+        this.users=res.data;
+        console.log("응답 성공", res);
+      })
+    },
     copyUrl(){
       const pageUrl = window.location.href; // 현재 페이지의 URL
       navigator.clipboard.writeText(pageUrl).then(() => {
@@ -122,9 +142,9 @@ export default {
 </script>
 
 
-<style scoped>
+<style>
 #my-page{
-  font-family: Inter;
+  font-family: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -179,6 +199,10 @@ export default {
   text-decoration: none;
   color: #757575;
   font-weight: 550;
+}
+.container-header-wrapper-setting a:hover{
+  color: rgb(128,200,95,100%);
+  font-weight: bold;
 }
 .my-page-content-container{
   position: relative;
@@ -239,7 +263,7 @@ export default {
   position: relative;
   width: 87%;
   height: 240px;
-  top: 10px;
+  top: 1px;
   margin: auto;
   border: 1px solid #CCC5C5;
   border-radius: 50%;
@@ -249,30 +273,71 @@ export default {
   position: relative;
   width: 100%;
   height: 5%;
-  top: 15px;
+  top: 5px;
   margin: auto;
 }
 .nickname-content{
   position: relative;
-  width: 50%;
-  height: 80%;
+  width: 80%;
   margin: auto;
-  font-weight: 700;
-  font-size: 22px;
+  font-weight: 650;
+  font-size: 21px;
   line-height: 150%;
+}
+/* 채팅 */
+.chat-container{
+  position: relative;
+  top: 12px;
+  width: 80%;
+  height: 6%;
+  margin: auto;
+}
+.chat-wrapper{
+  position: relative;
+  width: 70%;
+  display: grid;
+  grid-template-columns: 1fr 3fr;
+  grid-template-rows: 1fr;
+  margin: auto;
+  left: 20px;
+}
+.chat-icon-btn{
+  padding: -5px;
+  margin: auto;
+  width: 62%;
+  left: -10px;
+  border: none;
+  background-color: white;
+}
+.chat-message-content{
+  position: relative;
+  width: 50%;
+  height: 50%;
+  margin: auto;
+  left: -27px;
+}
+.chat-message-content a{
+  text-decoration: none;
+  color: rgb(0,0,0,65%);
+  font-weight: bold;
+  font-size: 1.0em;
+}
+.chat-message-content a:hover{
+  color: rgb(128,200,95,100%);
+  font-weight: bold;
 }
 /* 팔로워 팔로잉 */
 .follow-list-container{
   position: relative;
   width: 100%;
   height: 10%;
-  top: 30px;
+  top: 20px;
   margin: auto;
 }
 .follow-list-wrapper{
   position: relative;
   width: 70%;
-  height: 10%;
+  height:100%;
   margin: auto;
   display: grid;
   grid-template-columns: 10fr 1fr 10fr;
@@ -281,7 +346,14 @@ export default {
   font-size: 17px;
   line-height: 200%;
 }
-/* 팔로워 0 | 팔로잉 0 */
+/* 팔로워 */
+.follow-list-wrapper-follower{
+  position: relative;
+  width: 90%;
+  height: 80%;
+  margin: auto;
+}
+/* 팔로워 0 */
 .follow-list-wrapper-follower a{
   position: relative;
   width: 70px;
@@ -291,19 +363,25 @@ export default {
   text-decoration: none;
   margin-left: -1px;
 }
-.follower-count{
-  position: relative;
-  margin: auto;
-  width: 120px;
-  height: 10px;
-  color: #787575;
+.follow-list-wrapper-follower a:hover{
+  color: rgb(128,200,95,100%);
+  font-weight: bold;
 }
-.following-count{
+/* 팔로잉 0 */
+.follow-list-wrapper-following{
   position: relative;
+  width: 90%;
+  height: 80%;
   margin: auto;
-  width: 5%;
-  height: 10px;
+  text-decoration: none;
+}
+.follow-list-wrapper-following a{
   color: #787575;
+  text-decoration: none;
+}
+.follow-list-wrapper-following a:hover{
+  color: rgb(128,200,95,100%);
+  font-weight: bold;
 }
 .line{
   position: relative;
@@ -312,22 +390,13 @@ export default {
   color: #787575;
   align-items: center;
 }
-.follow-list-wrapper-following a{
-  position: relative;
-  width: 70px;
-  height: 70px;
-  text-align: center;
-  color: #787575;
-  text-decoration: none;
-  margin: 0% -15%;
-  align-items: center;
-}
+
 /* 구분선 */
 .line-container{
   position: relative;
   width: 80%;
   height: 5%;
-  top: 30px;
+  top: 22px;
   margin: auto;
   align-items: center;
   align-content: center;
@@ -342,7 +411,7 @@ hr{
   position: relative;
   width: 100%;
   height: 20%;
-  top: 30px;
+  top: 19px;
   margin: auto;
 }
 .content-under-wrapper{
@@ -383,6 +452,14 @@ hr{
   text-align: center;
   margin: auto;
 }
+.scrap-content a{
+  color: #787575;
+  text-decoration: none;
+}
+.scrap-content a:hover{
+  color: rgb(128,200,95,100%);
+  text-decoration: none;
+}
 /* 좋아요 */
 .like-content{
   position: relative;
@@ -395,6 +472,14 @@ hr{
   text-align: center;
   color: #787575;
   margin: auto;
+}
+.like-content a{
+  color: #787575;
+  text-decoration: none;
+}
+.like-content a:hover{
+  color: rgb(128,200,95,100%);
+  text-decoration: none;
 }
 /* 오른쪽 컨테이너 */
 .right-container{

@@ -28,10 +28,10 @@ const routes = [
     { path: '/interiorguide', component: interiorGuideView, meta: { hideHeader: true,hideFooter: true }},
     { path: '/', component: MainView},
     { path: '/guideandtips', component: GuideAndTips, meta: { hideHeader: false, hideFooter: true }},
-    { path: '/GeneralBoard', component: GeneralBoard, meta: { hideHeader: false, hideFooter: false }},
-    { path: '/GeneralBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: false }},
-    { path: '/GeneralBoardWrite', component: GeneralBoardWrite, meta: { hideHeader: false, hideFooter: true }},
-    { path: '/Introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
+    { path: '/generalBoard', component: GeneralBoard, meta: { hideHeader: false, hideFooter: false }},
+    { path: '/generalBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: false }},
+    { path: '/generalBoardWrite', component: GeneralBoardWrite, meta: { hideHeader: false, hideFooter: true }},
+    { path: '/introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
     { path: '/follower', component: FollowerListView, meta: {hideHeader: false, hideFooter: false}},
     { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }}
 ]

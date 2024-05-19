@@ -70,12 +70,21 @@ service.delete(args, params).then((res) => {
         console.log("삭제 에러입니다!!!",error);
     })
 
+service.put(args, params).then((res) => {
+    console.log("수정 성공!_!", res);
+    return res;
+})
+    .catch((error) => {
+        console.log("수정 에러입니다!!!",error);
+    })
+
 export default {
     async get(args) {
         try {
             const res = await service.get(args)
             console.log("service.js: res값 -> ", res)
-            return res
+            return res;
+
         } catch (e) {
             return console.log("error")
         }
@@ -85,9 +94,16 @@ export default {
         // 공통
 
     },
-
+    // 수정
     async put(options) {
-        // 공통
+        try {
+            const res = await service.put(args, params);
+            console.log("service.js: res값 -> ", res);
+            return res;
+        } catch (e) {
+            console.log("error");
+            return null;
+        }
     },
 
     async delete(args, params) {
