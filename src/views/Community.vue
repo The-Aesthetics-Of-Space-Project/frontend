@@ -1,7 +1,7 @@
 <template>
   <div class="community">
     <div class="community-title">
-      <h2 class="community-first-title">.zip이 바꿀 인테리어</h2>
+      <h2 class="community-first-title"><span style="  transform: skewX(1deg); font-style: italic;">zip</span>&nbsp;의 공간, 커뮤니티</h2>
       <h5 class="community-second-title"><p>모두를 위한, 커뮤니티를 만들고자 합니다.</p></h5>
     </div>
 
@@ -83,7 +83,7 @@ export default {
   animation: slides 6s;
   font-weight: bolder;
   color: #333;
-  font-size: 25px;
+  font-size: 22px;
   font-family: 'SOGANGUNIVERSITYTTF';
 }
 

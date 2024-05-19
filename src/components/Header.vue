@@ -72,8 +72,8 @@
             </li>
           </ul>
         </div>
-        <router-link to="/login" class="login-a" >로그인</router-link>
-        <router-link to="/signup" class="signup-a">회원가입</router-link>
+        <router-link to="/login" class="login-a" style="  font-family: MyCustomFont2;" >로그인</router-link>
+        <router-link to="/signup" class="signup-a"  style="font-family: MyCustomFont2;">회원가입</router-link>
       </template>
 
 
@@ -149,13 +149,6 @@ export default {
   height:110px;
 }
 
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 15px;
-}
 @font-face {
   font-family: 'SOGANGUNIVERSITYTTF';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/SOGANGUNIVERSITYTTF.woff2') format('woff2');
@@ -216,7 +209,7 @@ div
   color:#333;
   font-weight: bolder;
   padding:9px;
-  font-family: 'SOGANGUNIVERSITYTTF';
+  font-family: MyCustomFont2;
 }
 @font-face {
   font-family: 'MyCustomFont3';
@@ -278,13 +271,6 @@ div
   padding:8px;
 }
 
-.dropdown{
-  position: relative;
-  top:-138px;
-  left:300px;
-  color:#333;
-}
-
 .dropdown a{
   color:#333;
   font-weight: bolder;
@@ -294,11 +280,6 @@ div
   color:green;
   font-weight: bolder;
   font-weight: bolder;
-}
-#dropdownMenuLink{
-  border: white;
-  color:#333;
-  background-color: white;
 }
 
 .dropdown li a{

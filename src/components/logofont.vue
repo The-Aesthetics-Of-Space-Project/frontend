@@ -12,12 +12,12 @@
   left: 45px;
   font-size: 45px;
   transform: skewX(1deg); /* 글자 기울기 추가 */
-  font-style: italic; /* 글자 기울기 추가 */
+  font-style: italic;
 }
 
 .logofont:hover {
   color: darkgreen;
-  font-style: italic; /* 글자 기울기 추가 */
-  transform: skewX(1deg); /* 마우스 hover 시 기울기 변경 */
+  font-style: italic;
+  transform: skewX(1deg);
 }
 </style>

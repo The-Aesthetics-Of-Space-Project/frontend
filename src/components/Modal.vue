@@ -34,9 +34,9 @@
     background: rgba(0, 0, 0, 0.5);
   }
   .modal-window {
-    max-width: 800px; /* 모달 창의 최대 너비 설정 */
+    max-width: 800px;
     width: 90%; /* 모달 창의 너비 설정 */
-    max-height: 300px; /* 모달 창의 최대 높이 설정 */
+    max-height: 300px;
   }
   &-window {
     background: white;
