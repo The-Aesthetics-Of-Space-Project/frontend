@@ -1,6 +1,6 @@
 <template>
   <div id="my-page">
-    <div class="my-page-container">
+    <div class="my-page-container" >
       <!-- 프로필/설정 (헤더) -->
       <section class="header-container-wrapper">
         <section class="container-header-wrapper-profile">
@@ -12,7 +12,7 @@
       </section>
 
       <section class="my-page-content-container">
-        <section class="my-page-content-wrapper" v-for="user in users">
+        <section class="my-page-content-wrapper" >
           <!-- 왼쪽 컨텐츠 -->
           <section class="left-container">
             <section class="left-content">
@@ -22,11 +22,11 @@
               </section>
               <!-- 프로필 컨테이너 -->
               <section class="profile-container">
-                <section class="profile-wrapper"><img :src="user.profile" style="width: 100%; height: 100%; border-radius: 50%;"></section>
+                <section class="profile-wrapper"><img :src="this.users.profile" style="width: 100%; height: 100%; border-radius: 50%;"></section>
               </section>
               <!-- 닉네임 -->
               <section class="nickname-container">
-                <section class="nickname-content"><a> {{ user.nickname }} </a></section>
+                <section class="nickname-content"><a>  {{this.users.nickname}}  </a></section>
               </section>
               <!-- 채팅 버튼 -->
               <section class="chat-container">
@@ -105,6 +105,7 @@
 <script>
 import Store from "@/store/index";
 import {api} from "@/api/api";
+import axios from "axios";
 
 export default {
   name: 'MyPageView',
@@ -122,18 +123,26 @@ export default {
   },
   methods:{
     async getUser(){
-      const args=`/user`;
-      await api.getUser(args).then(res => {
-        this.users=res.data;
-        console.log("응답 성공", res);
-      })
+      if (this.users.length) {
+        return;
+      }
+      try {
+        const args = `/user/${encodeURIComponent(this.userId)}`;
+        console.error("args: ", args);
+        const res = await api.getUserInfo(args);
+        this.users = res.data;
+
+        console.error("user:", this.users.nickname);
+      } catch (error) {
+        console.error(error);
+      }
     },
     copyUrl(){
       const pageUrl = window.location.href; // 현재 페이지의 URL
       navigator.clipboard.writeText(pageUrl).then(() => {
         alert("클립보드에 복사되었습니다.");
       }).catch(err => {
-        alert("URL 복사에 실패했습니다. 브라우저가 클립보드 복사를 지원하지 않습니다.");
+        alert("URL 복사에 실패했습니다.");
         console.error("Could not copy text: ", err);
       });
     }

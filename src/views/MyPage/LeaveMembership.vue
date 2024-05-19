@@ -10,14 +10,14 @@
       </section>
       <section class="agree-container">
         <div class="agree-wrapper form-check">
-          <input class="form-check-input" type="checkbox" value="" id="flexCheckDefault">
+          <input class="form-check-input" type="checkbox" v-model="isAgreed" id="flexCheckDefault">
           <label class="form-check-label" for="flexCheckDefault">
             안내 사항을 확인하였으며, 이에 동의합니다.
           </label>
         </div>
       </section>
       <section class="agree-btn-wrapper">
-        <button type="button" class="btn-agree" @click="deleteUsers($store.state.userId)"> 확인 </button>
+        <button type="button" class="btn-agree" :disabled="!isAgreed" @click="deleteUsers($store.state.userId)"> 확인 </button>
       </section>
 
     </div>
@@ -29,10 +29,9 @@
 import {api} from "@/api/api";
 import Store from "@/store/index";
 export default {
-
   data() {
     return {
-
+      isAgreed: false, // 체크박스 상태 관리
     };
   },
   mounted(){
@@ -40,10 +39,8 @@ export default {
   },
   methods: {
     async deleteUsers(userId){
-      console.log("userId: ", userId);
-      const args='/user';
-      const params = userId;
-      await api.deleteUser(args, params).then(res =>{
+      const args=`/user/${encodeURIComponent(userId)}`;
+      await api.deleteUser(args).then(res =>{
         alert("회원 탈퇴 되었습니다.");
         console.log("res: ", res);
       })
@@ -101,6 +98,10 @@ export default {
   border-color: #B1B3B9;
   box-shadow: #80C85F;
   accent-color: green;
+}
+.btn-agree:disabled {
+  background-color: #d3d3d3;
+  cursor: not-allowed;
 }
 .agree-btn-wrapper {
   width: 20%;

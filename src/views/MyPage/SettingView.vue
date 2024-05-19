@@ -184,7 +184,7 @@ export default {
         }
       }
 
-      // ID(email) 입력란에 keyup 이벤트 핸들러 추가
+      // 닉네임 입력란에 keyup 이벤트 핸들러 추가
       nicknameInput.addEventListener("keyup", checkNickname);
 
     },
@@ -205,13 +205,13 @@ export default {
     async userInfoModify(userId){
       const presentUserId=userId;
       const formData = new FormData();
-      formData.append('userId', this.user.userId+'@'+this.user.email);
+      formData.append('userId', this.user.userId);
       formData.append('nickname', this.user.nickname);
       if (this.user.profile) {
         formData.append('profile', this.user.profile);
       }
 
-      const args=`/user/${presentUserId}`;
+      const args=`/user/${encodeURIComponent(presentUserId)}`;
       const params = formData;
       await api.updateUser(args, params).then(res => {
         console.log("수정 성공: ", res);

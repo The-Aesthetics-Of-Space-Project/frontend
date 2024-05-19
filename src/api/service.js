@@ -62,7 +62,7 @@ service.get(args).then((res) => {
     })
 
 // 삭제
-service.delete(args, params).then((res) => {
+service.delete(args).then((res) => {
     console.log("삭제 성공!_!", res);
     return res;
 })
@@ -106,9 +106,9 @@ export default {
         }
     },
 
-    async delete(args, params) {
+    async delete(args) {
         try {
-            const res = await service.delete(args, params);
+            const res = await service.delete(args);
             console.log("service.js: res값 -> ", res);
             return res;
         } catch (e) {

@@ -5,6 +5,11 @@ export const api = {
     getUser(args) {
         return service.get(args)
     },
+    /* 사용자 ID로 목록 조회 */
+    getUserInfo(args){
+        console.log("args: "+args);
+        return service.get(args)
+    },
     /* 팔로워/팔로잉 목록 조회 */
     getFollow(args) {
         return service.get(args)
@@ -16,8 +21,8 @@ export const api = {
         return service.put(args, param)
     },
     /* 사용자 목록 삭제(=회원 탈퇴) */
-    deleteUser(args, params){
-        return service.delete(args, params);
+    deleteUser(args){
+        return service.delete(args);
     },
     /* 팔로워/팔로잉 삭제 요청 */
     deleteFollow(args, params){
