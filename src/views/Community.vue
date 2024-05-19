@@ -1,233 +1,127 @@
 <template>
   <div class="community">
-    <div class="community-title">
-      <h2 class="community-first-title"><span style="  transform: skewX(1deg); font-style: italic;">zip</span>&nbsp;의 공간, 커뮤니티</h2>
-      <h5 class="community-second-title"><p>모두를 위한, 커뮤니티를 만들고자 합니다.</p></h5>
-    </div>
+    <div class="main-sc-container">
+      <div class="title-container">
+        <h1 style="font-family: MyCustomFont4; color: #333333; font-size: 31px; ">모두를 위한 커뮤니티</h1>
+      </div>
+      <div class="grid-container">
+        <div class="image-sc-container">
+          <router-link to="/interiorguide">
+            <img src="@/assets/community_image_list/ckdwha.png" alt="인테리어 사진" class="image-sc">
+          </router-link>
+          <div class="title-sc" style="position: relative; left:-135px;">일반 게시판</div>
+          <div class="title-sc" style="font-size: 19px; position: relative; left:-55px; font-family: MyCustomFont5;">다양한 주제의 소통 공간입니다.</div>
 
+        </div>
 
-    <template>
-      <div class="community-body">
-        <div class="GeneralBoard">
-          <h4>일반 <p>게시판</p></h4>
-          <router-link to="/GeneralBoard"><img src="@/assets/커뮤니티버튼.png" class="icon-image"></router-link>
+        <div class="image-sc-container">
+          <router-link :to="isUserLogin ? '/GeneralBoard':'/login'">
+            <img src="@/assets/community_image_list/board_write.png" alt="유저들의 콘텐츠" class="image-sc">
+          </router-link>
+          <div class="title-sc" style="position: relative; left:-105px;">일반 게시판 글쓰기</div>
+          <div class="title-sc" style="font-size: 19px; position: relative; left:-55px; font-family: MyCustomFont5;"> 생각과 경험을 나누는 창입니다.</div>
+
         </div>
-        <div class="usedBoard">
-          <h4>공모전 <p>게시판</p></h4>
-          <router-link to="#"><img src="@/assets/커뮤니티버튼.png" class="icon-image"></router-link>
+
+        <div class="image-sc-container">
+          <router-link to="/Community">
+            <img src="@/assets/community_image_list/competition.png" alt="커뮤니티" class="image-sc">
+          </router-link>
+          <div class="title-sc" style="position: relative; left:-125px;">공모전 게시판</div>
+          <div class="title-sc" style="font-size: 19px; position: relative; left:-25px; font-family: MyCustomFont5;">창의력에 대한 도전을 펼칠 수 있습니다.</div>
+
         </div>
-        <div class="Interior">
-          <h4>당신의 <br>인테리어를<br> 보여주세요</h4>
-          <router-link :to="isUserLogin ? '/GeneralBoardWrite':'/login'"><img src="@/assets/커뮤니티버튼.png" class="icon-image_second"></router-link>
-        </div>
-        <div class="Board">
-          <h4>가구 및 스타일<br> 분석하기</h4>
-          <router-link to="#"><img src="@/assets/커뮤니티버튼.png" class="icon-image_second"></router-link>
+
+        <div class="image-sc-container">
+          <router-link to="/Community">
+            <img src="@/assets/community_image_list/comptetition_write.png" alt="커뮤니티" class="image-sc">
+          </router-link>
+          <div class="title-sc" style="position: relative; left:-95px;">공모전 게시판 글쓰기</div>
+          <div class="title-sc" style="font-size: 19px; position: relative; left:-45px; font-family: MyCustomFont5;">아이디어를 경쟁의 무대에 올립니다.</div>
         </div>
       </div>
-    </template>
-
+    </div>
+    <router-link to="/">
+   <img src="@/assets/community_image_list/back.png" width="50px" style="opacity: 0.7">
+    </router-link>
   </div>
 </template>
+
 <script>
 export default {
   computed: {
-    // 로그인 유무 확인
     isUserLogin() {
       return this.$store.getters.isLogin;
     }
   },
-
-  // eslint-disable-next-line vue/multi-word-component-names
   name: 'Community',
-  components: {
-
-  },
 }
 </script>
 
 <style>
-.GeneralBoard h4, .usedBoard h4, .Interior h4, .Board h4{
-  position: relative;
-  top:15px;
-  font-weight: bolder;
-  color:white;
-  font-family: 'Georgia', Sans-serif;
-  animation: fadeIn 4s;
-  font-size: 30px;
-}
-@keyframes fadeIn {
-  0% {opacity: 0;}
-  100% {opacity: 1;}
-}
-.community-title
-{
+.main-sc-container {
+  width: 47%;
   margin: auto;
-  width:100%;
+  position: relative;
+  padding: 20px;
+  box-sizing: border-box;
+}
+
+.title-container {
+  text-align: center;
+  margin-bottom: 50px;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr); /* 2x2 그리드 */
+  gap: 50px; /* 그리드 아이템 간의 간격 */
+}
+
+.image-sc-container {
+  background-color: #f8f8f8;
+  padding: 20px;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2);
+  border-radius: 10px;
+  text-align: center;
+  transition: transform 0.3s ease-in-out;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  position: relative;
+  height: 370px;
+  top:-20px;
+  opacity: 0.9;
+}
+
+.image-sc-container:hover {
+  transform: scale(1.05);
+}
+
+.image-sc {
+  width: 100%;
+  height: 240px;
+  object-fit: cover;
+  border-radius: 8px;
+  opacity: 0.9;
+  position: relative;
+  top:70px;
+}
+
+.title-sc {
+  margin-top: 15px;
+  position: relative;
+  top:-250px;
+  left:-90px;
+  font-size: 20px;
+  font-family: MyCustomFont2;
+  color : #212529;
   font-weight: bolder;
-  position: relative;
-  top:15px;
 }
 
-.community-first-title
-{
-  font-weight: bolder;
-  padding:15px;
-  color: black;
-  animation: slides 4s;
-  font-size: 33px;
-  font-family: 'SOGANGUNIVERSITYTTF';
-}
-.community-second-title{
-  padding:15px;
-  animation: slides 6s;
-  font-weight: bolder;
-  color: #333;
-  font-size: 22px;
-  font-family: 'SOGANGUNIVERSITYTTF';
-}
-
-
-.community-line_bottom
-{
-  border-top: 1px solid lightsteelblue;
-  position: relative;
-  top:25px;
-  width:51%;
-  margin: auto;
-}
-@keyframes slides{
-  from{
-    position: relative;
-    left:-300px;
-    opacity: 0;
-  }
-  to{
-    position: relative;
-    left:0px;
-    opacity: 1;
-  }
-}
-
-.community-body
-{
-  width:90%;
-  margin:auto;
-  height:1000px;
-}
-
-.community
-{
-  height:1380px;
-}
-
-.GeneralBoard
-{
-  width:25%;
-  height:450px;
-  background-color: lightgray;
-  display: inline-block;
-  position: relative;
-  left: -3%;
-  border-radius: 10px;
-  background-image: url("@/assets/asd.jpg");
-  background-size: cover;
-}
-
-.GeneralBoard h4
-{
-  position: relative;
-
-  top:80px;
-  font-size: 45px;
-}
-.usedBoard
-{
-  float:right;
-  width:25%;
-  height:450px;
-  background-color: lightgray;
-  display: inline-block;
-  position: relative;
-  left: -21.5%;
-  border-radius: 10px;
-  background-image: url("@/assets/asd1.png");
-  background-size: cover;
-}
-
-.usedBoard h4
-{
-  position: relative;
-
-  top:80px;
-  font-size: 45px;
-}
-
-.Interior
-{
-  width:25%;
-  height:450px;
-  background-color: lightgray;
-  position: relative;
-  left: 22%;
-  border-radius: 10px;
-  top:50px;
-  background-image: url("@/assets/asd2.png");
-  background-size: cover;
-}
-.Interior h4
-{
-  position: relative;
-  top:35px;
-  font-size: 45px;
-}
-.Board
-{
-  float: right;
-  width:25%;
-  height:450px;
-  background-color: lightgray;
-  position: relative;
-  top:-400px;
-  left:-21.5%;
-  border-radius: 10px;
-  background-image: url("@/assets/asd3.jpg");
-  background-size: cover;
-}
-.Board h4
-{
-  position: relative;
-  top:35px;
-  font-size: 45px;
-}
-.icon-image
-{
-  transform: rotate(180deg); /* 90도 회전 */
-  /* 애니메이션 효과를 적용하고 싶다면 transition 속성을 사용합니다. */
-  transition: transform 0.5s ease-in-out;
-  width:50px;
-  height:50px;
-  position: relative;
-  top:58%;
-
-}
-.icon-image_second
-{
-  transform: rotate(180deg); /* 90도 회전 */
-  /* 애니메이션 효과를 적용하고 싶다면 transition 속성을 사용합니다. */
-  transition: transform 0.5s ease-in-out;
-  width:50px;
-  height:50px;
-  position: relative;
-  top:48%;
-
-}
-/* :hover 선택자를 이용하여 마우스 오버 시 회전하게 할 수도 있습니다. */
-.icon-image:hover
-{
-  transform: rotate(90deg); /* 180도 회전 */
-}
-.icon-image_second:hover{
-  transform: rotate(90deg); /* 180도 회전 */
+.description-sc {
+  color: #666;
+  margin-top: 10px;
+  font-size: 0.9em;
 }
 </style>
