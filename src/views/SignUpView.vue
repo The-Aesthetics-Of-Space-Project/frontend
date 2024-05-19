@@ -139,14 +139,14 @@ export default {
       const emailMessage = document.querySelector("#checkId");
 
       if (validateEmail(email)) {
-        emailMessage.textContent = '이메일 양식이 일치한 양식입니다.';
+        emailMessage.textContent = '올바른 이메일 형식입니다.';
         emailMessage.style.color = 'darkgreen';
         document.getElementById("emailInput").classList.remove("is-invalid");
         document.getElementById("emailInput").classList.add("is-valid");
         const signUpButton = document.querySelector("#signUpButton");
         signUpButton.disabled = false;
       } else {
-        emailMessage.textContent = '이메일 양식이 일치하지 않습니다.';
+        emailMessage.textContent = '올바른 이메일 형식이 아닙니다.';
         emailMessage.style.color = 'red';
         document.getElementById("emailInput").classList.remove("is-valid");
         document.getElementById("emailInput").classList.add("is-invalid");
@@ -267,26 +267,21 @@ export default {
 
 <style>
 /* 전체 페이지 스타일링 */
-/* 전체 페이지 스타일링 */
 body {
   font-family: 'Noto Sans KR', sans-serif;
   background-color: #f8f9fa;
   color: #212529;
 }
 
-/* a 태그 스타일 제거 */
 a {
   text-decoration: none;
-  color: #007bff; /* 링크의 기본 색상 지정, 필요에 따라 변경 가능 */
+  color: #007bff;
 }
 
 a:hover {
-  color: #0056b3; /* 링크에 마우스를 올렸을 때의 색상, 필요에 따라 변경 가능 */
+  color: #0056b3;
 }
 
-/* 로고 이미지 및 텍스트 스타일링 */
-
-/* 회원가입 컨테이너 스타일링 */
 .signup-container {
   background-color: white;
   width: 560px; /* 가로 크기 조정 */
@@ -339,7 +334,7 @@ a:hover {
 .userbutton {
   font-size: 16px;
   color: white;
-  background-color: #green;
+  background-color: #80C85F;
   border: none;
   border-radius: 4px;
   cursor: pointer;
@@ -354,18 +349,15 @@ a:hover {
   background-color: #0056b3;
 }
 
-/* 선 스타일링 */
 .line-content hr {
   border-top: 1px solid #ccc;
   margin: 20px 0;
 }
 
-/* 폼 그룹 스타일링 */
 .form-group.has-success, .form-group.has-danger {
   margin-bottom: 15px;
 }
 
-/* 비밀번호 일치 / 불일치 메시지 스타일링 */
 .password-match, .password-not-match {
   font-size: 14px;
   position: absolute;

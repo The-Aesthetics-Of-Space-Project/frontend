@@ -162,14 +162,6 @@ export default {
   margin: auto;
 }
 
-.form-control {
-  width: 100%;
-  padding: 10px;
-  border: 1px solid #ccc; /* 테두리 색상 */
-  border-radius: 5px; /* 입력 필드 모서리 둥글게 */
-  font-size: 16px; /* 폰트 크기 */
-}
-
 .userbutton {
   width: 100%;
   padding: 10px 20px;
@@ -195,15 +187,6 @@ export default {
   margin-right: 10px; /* 버튼 사이의 간격 */
 }
 
-.router-link {
-  color: #007bff;
-  text-decoration: none;
-}
-
-.router-link:hover {
-  text-decoration: underline;
-}
-
 .sns-login {
   text-align: center; /* 중앙 정렬 */
   margin-top: 20px; /* 상단 여백 */
@@ -214,21 +197,21 @@ export default {
 
 .login-btn-class {
   display: flex;
-  justify-content: center; /* 중앙 정렬 */
+  justify-content: center;
   gap: 10px; /* 버튼 사이 간격 */
 }
 .btn-kakao-login {
 
-  color: #3C1E1E; /* 글자 색상 */
-  border-radius: 5px; /* 모서리 둥글게 */
+  color: #3C1E1E;
+  border-radius: 5px;
 }
 .btn-naver-login {
 
   color: #FFFFFF; /* 글자 색상 */
-  border-radius: 5px; /* 모서리 둥글게 */
+  border-radius: 5px;
 }
 .btn-kakao-login-img {
-  width: 90px; /* SNS 로그인 버튼 크기 조정 */
+  width: 90px;
   position: relative;
   left:-20px;
   height: 45px;

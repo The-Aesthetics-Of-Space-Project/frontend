@@ -7,7 +7,7 @@
 </script>
 <style>
 .logo-container img {
-  width: 120px; /* 로고 이미지 크기 조정 */
+  width: 120px;
   margin-bottom: 20px;
   position: relative;
   left:-40px;
