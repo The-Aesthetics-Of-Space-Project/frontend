@@ -24,7 +24,7 @@ const routes = [
     { path: '/my-page', component: MyPageView },
     { path: '/setting', component: SettingView },
     { path: '/leave', component: LeaveMembership },
-    { path: '/community', component: Community,meta: {hideFooter: true }},
+    { path: '/community', component: Community,meta: {hideFooter: true, hideHeader: true }},
     { path: '/interiorguide', component: interiorGuideView, meta: { hideHeader: true,hideFooter: true }},
     { path: '/', component: MainView},
     { path: '/guideandtips', component: GuideAndTips, meta: { hideHeader: false, hideFooter: true }},
