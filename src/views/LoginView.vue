@@ -83,8 +83,8 @@ export default {
   },
   methods: {
 
-    async login() {
-
+    async login(event) {
+      event.preventDefault();
       // 입력값 검증
       if (!this.userId && !this.password) {
         alert('아이디와 비밀번호를 입력해 주세요.');
@@ -111,6 +111,7 @@ export default {
               this.$router.push('/');
             })
             .catch(error => {
+              //통신할 때 401에러 처리
               // 사용자에게 친절한 에러 메시지 표시
               alert('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해 주세요.');
               console.error('Error data', error);
