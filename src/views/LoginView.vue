@@ -94,7 +94,12 @@ export default {
         alert('비밀번호를 입력해 주세요.');
       } else {
 
-        await api.getUser('/users').then(res => {
+        const userData = {
+          userId: this.userId,
+          password: this.password,
+        };
+
+        await api.setUser('/users',userData).then(res => {
           this.users = res.data;
               // 서버 응답 로그
               console.log('Response data', res.data);
