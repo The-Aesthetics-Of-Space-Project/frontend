@@ -39,6 +39,7 @@
         <section class="email-wrapper">
           <section class="email-content">
             <a class="email-title"
+            <a class="email-title"
                style="text-decoration: none; position: relative; left:-190px; top:-3.5px; font-weight: bolder; color: black; font-size: 17px;">
               이메일 </a>
           </section>
@@ -47,10 +48,10 @@
             <input type="text" class="form-control" placeholder="이메일" aria-label="Username" v-model="userId"
                    @input="checkId" id="emailInput" style="border-radius: 6px; height: 40px; font-size: 14px;">
             <button @click="checkIdbut" id="checkbtnid"
-                    style="position: absolute; top:-32px; left:14%; border-radius: 8px; font-weight:bolder;padding:4px; font-size: 13px;"
-                    class="btn btn-outline-success">중복 확인
+                    style="position: absolute; top:-32px; left:13.5%; border-radius: 8px; font-weight:bolder;padding:4px; font-size: 13px; width: 60px"
+                    class="btn btn-outline-success">Check
             </button>
-            <div><span id="checkId" style="font-size: 13px;" @input="checkId"></span></div>
+            <div><span id="checkId" style="font-size: 13px; position: relative; left: 3px" @input="checkId"></span></div>
           </div>
 
         </section>
@@ -61,10 +62,10 @@
               비밀번호 </a>
           </section>
 
-          <div class="form-group has-success" style="width: 400px; position: relative; left:-10px;">
-            <section :style="{ color: inputStarted ? (isValid ? 'green' : 'red') : 'black' }" id="pw-length" class="form-text-nickname form-text"
-                     style="font-size: 14px; position: absolute; top:40px;" >
-           영문, 숫자, 특수문자를 포함한 8자 이상을 입력하세요.
+          <div class="form-group has-success" style="width: 400px; position: relative; left:-10px; ">
+            <section :style="{ color: inputStarted ? (isValid ? 'green' : 'red') : 'dimgray' }" id="pw-length" class="form-text-nickname form-text"
+                     style="font-size: 13px; position: absolute; top:40px; left:3px; " >
+           <span >대소문자, 숫자, 특수문자를 포함한 8자 이상을 입력하세요.</span>
             </section>
             <!-- 비밀번호 입력 -->
             <input type="password" class="form-control valid" placeholder="비밀번호" id="pw" name="pw"
@@ -93,6 +94,8 @@
         </section>
 
         <section class="nickname-wrapper email-wrapper" style="position: relative; top:30px;">
+          <button  style="position: absolute; top:15px; left:95px;  border-radius: 8px; font-weight:bolder;padding:4px; font-size: 13px; width: 60px"
+                   class="btn btn-outline-success" @click="checknicknamebut">Check</button>
           <section class="nickname-content email-content">
             <a class="nickname-title"
                style="text-decoration: none; position: relative; left:-188px; top:15px; font-weight: bolder; color: black; font-size: 17px;">
@@ -100,7 +103,7 @@
           </section>
 
           <section class="form-text-nickname form-text" id="nick-le"
-                   style="font-size: 14px; position: relative; top:60px; left:-48px; color: black;">
+                   style="font-size: 13px; position: relative; top:60px; left:-60px; color: dimgray;">
             <a> 닉네임의 길이는 (4~15자) 사이로 입력을 해주세요. </a>
           </section>
 
@@ -121,7 +124,6 @@
 
       </section>
     </div>
-
   </div>
 </template>
 
@@ -148,12 +150,15 @@ export default {
       repasswordEntered: false,
       userIdDuplicate: false, // 사용자 ID 중복 여부
       isIdChecked: false, // 중복 확인이 되었는지 여부를 추적하는 변수
+      isNicknameChecked : false,
       isValid: false,
-      inputStarted: false // 사용자 입력이 시작됐는지 추적하는 새로운 데이터 속성
+      inputStarted: false, // 사용자 입력이 시작됐는지 추적하는 새로운 데이터 속성
+      isIdAvailable: false, // 아이디 중복 확인 결과
+      isNicknameAvailable: false, // 닉네임 중복 확인 결과
     }
   },
   methods: {
-    checkPasswords(){
+    checkPasswords() {
       this.handleInput();
       this.checkPassword();
     },
@@ -199,8 +204,8 @@ export default {
       const emailMessage = document.querySelector("#checkId");
 
       if (validateEmail(email)) {
-        emailMessage.textContent = '올바른 이메일 형식입니다.';
-        emailMessage.style.color = 'darkgreen';
+        emailMessage.textContent = ' 올바른 이메일 형식입니다.';
+        emailMessage.style.color = 'green';
         document.getElementById("emailInput").classList.remove("is-invalid");
         document.getElementById("emailInput").classList.add("is-valid");
         const signUpButton = document.querySelector("#signUpButton");
@@ -239,8 +244,16 @@ export default {
         alert('중복 확인을 해주세요.');
         return; // 추가적인 회원가입 로직을 방지
       }
+      if (!this.isIdChecked || !this.isIdAvailable) {
+        alert('아이디 중복 확인을 해주세요.');
+        return;
+      }
+      if (!this.isNicknameChecked || !this.isNicknameAvailable) {
+        alert('닉네임 중복 확인을 해주세요.');
+        return;
+      }
       // 입력 필드 확인
-      if (!this.userId.trim() || !this.password.trim() || !this.nickname.trim() ||  !this.nickname.trim()) {
+      if (!this.userId.trim() || !this.password.trim() || !this.nickname.trim() || !this.nickname.trim()) {
         alert('빈칸을 입력해주세요.');
         return;
       }
@@ -259,7 +272,6 @@ export default {
       const userData = {
         userId: this.userId,
         password: this.password,
-        repassword: this.repassowrd,
         nickname: this.nickname
       };
 
@@ -279,7 +291,6 @@ export default {
           });
 
     },
-
     //중복확인 버튼에 대한 비동기 통신
     async checkIdbut() {
       //중복확인 여부에 대한 boolean
@@ -299,22 +310,39 @@ export default {
         return; // 유효하지 않으면 여기서 함수 종료
       }
       await api.getUser(`/users?userId=${encodeURIComponent(this.userId)}`).then(res => {
-        this.users = res.data;
-        if (res.data.length === 0) {
-          alert('사용 가능한 아이디입니다.');
-        } else {
-          alert("이미 사용중인 아이디입니다.");
-        }
-      })
+            this.users = res.data;
+            if (res.data.length === 0) {
+              alert('사용 가능한 아이디입니다.');
+              this.isIdAvailable = true; // 아이디 사용 가능 상태 업데이트
+            } else {
+              alert("이미 사용중인 아이디입니다.");
+              this.isIdAvailable = false; // 아이디 사용 불가 상태 업데이트
+            }
+          }
+      )
           .catch(error => {
             if (error.response) {
-              alert("서버 오류가 발생했습니다. 나중에 다시 시도z해주세요.");
+              alert("서버 오류가 발생했습니다. 나중에 다시 시도해주세요.");
             } else if (error.request) {
               alert("서버 응답이 없습니다. 네트워크 연결을 확인해주세요.");
             } else {
               alert("요청을 처리하는 중 오류가 발생했습니다.");
             }
           });
+    },
+    async checknicknamebut() {
+      this.isNicknameChecked=true;
+      await api.getUser(`/users?nickname=${encodeURIComponent(this.nickname)}`).then(res => {
+        this.users = res.data;
+        if (res.data.length === 0) {
+          alert('사용 가능한 닉네임입니다.');
+          this.isNicknameAvailable = true; // 닉네임 사용 가능 상태 업데이트
+        } else {
+          alert("이미 사용중인 닉네임입니다..");
+          console.log("닉네임 :",res.data.nickname);
+          this.isNicknameAvailable = false; // 닉네임 사용 불가 상태 업데이트
+        }
+      })
     }
   }
 }
@@ -421,7 +449,7 @@ a:hover {
 }
 
 .password-match {
-  color: #28a745;
+  color: green;
 }
 
 .password-not-match {
