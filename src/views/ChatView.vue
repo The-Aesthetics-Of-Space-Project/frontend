@@ -1,5 +1,5 @@
 <template>
-  <div class="custom-chat"> <!--세션 아이디-->
+  <div class="custom-chat" > <!--세션 아이디-->
     <button id="fullscreenButton"><img src="@/assets/fullscreen.png" width="40" height="40"></button> <!-- 풀 스크린 버튼 추가 -->
     <div class="custom-chat-container">
       <!-- 대화상대 리스트 -->
@@ -17,23 +17,22 @@
         <div class="custom-chat-navbar">
           <span class="custom-chat-partner-name"></span>
         </div>
-        <div class="custom-chat-history">
-          <!-- 메시지 목록 -->
-          <div class="custom-message custom-my-message">
-            <div class="custom-message-content">
+        <div class="chat-history">
+          <div class="message my-message">
+            <div class="message-content" >
               <p>Hello, this is my message!</p>
             </div>
           </div>
-          <div class="custom-message custom-other-message">
-            <div class="custom-message-content">
+          <div class="message other-message">
+            <div class="message-content" >
               <p>Hello, this is the other person's message!</p>
             </div>
           </div>
         </div>
         <div class="custom-chat-input">
           <!-- 입력 필드와 전송 버튼 -->
-          <input type="text" id="custom-chat-input" v-model="inputMessage" placeholder="send a message" @keyup.enter="sendMessage">
-          <button id="custom-sendMessageButton" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
+          <input type="text" id="chat-input" v-model="inputMessage" placeholder="send a message" @keyup.enter="sendMessage">
+          <button id="sendMessageButton" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
         </div>
       </div>
     </div>
@@ -51,9 +50,10 @@ export default {
       inputMessage: '',
       messages: [],
       userId: this.$store.state.userId,
-      nickname: this.$store.state.nickname,
       chatPartners: '',
-      selectedUser: '' // 선택된 유저를 저장할 변수
+      selectedUser: '', // 선택된 유저를 저장할 변수
+      receiver:'',
+      sender:'',
     }
   },
   mounted() {
@@ -71,31 +71,52 @@ export default {
           });
     },
     // 메시지 전송 메소드
-    sendMessage() {
-      if (this.inputMessage.trim() !== '') {
-        const newMessage = {
-          content: this.inputMessage,
-          type: 'custom-my-message'
-        };
-        this.messages.push(newMessage);
-        this.inputMessage = '';
-      }
-    },
+
     // 유저 선택 메소드
     selectUser(user) {
       this.selectedUser = user;
 
       axios.post(`http://jerry6475.iptime.org:20000/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
         userId: this.userId,
-        selectedUser: this.selectedUser
+        selectedUser: this.selectedUser,
       })
-          .then(response => {
-            console.log('서버 응답:', response.data);
+          .then(res => {
+            console.log('서버 응답:', res.data);
+            this.displayMessages(res.data);
           })
           .catch(error => {
             console.error('서버 요청 실패:', error);
-          })
+          });
+    },
+
+    displayMessages(messages) {
+      const chatHistoryElement = document.querySelector('.chat-history');
+
+      // 기존의 모든 메시지 삭제
+      chatHistoryElement.innerHTML = '';
+
+      messages.forEach(message => {
+        const messageElement = document.createElement("div");
+        messageElement.classList.add("message");
+
+        if (message.sender === this.userId) {
+          messageElement.classList.add("my-message");
+        } else {
+          messageElement.classList.add("other-message");
+        }
+
+        const contentElement = document.createElement("div");
+        contentElement.classList.add("message-content");
+
+        const p1 = document.createElement("p");
+        p1.textContent = message.content;
+
+        contentElement.appendChild(p1);
+        messageElement.appendChild(contentElement);
+        chatHistoryElement.append(messageElement);
+      });
     }
+
   },
   name: 'ChatView'
 }
@@ -137,7 +158,7 @@ document.addEventListener('DOMContentLoaded', function() {
 <style>
 /* 추가적인 스타일링이 필요한 경우 여기에 추가 */
 .custom-chat {
-  height: 1000px;
+  height: 980px;
 }
 
 body, html {
@@ -163,22 +184,10 @@ body, html {
   display: none;
 }
 
-.custom-my-message {
-  text-align: right; /* 오른쪽 정렬 */
-  margin-left: auto; /* 왼쪽 마진을 자동으로 설정하여 오른쪽 정렬 */
-}
-
-.custom-other-message {
-  text-align: left; /* 왼쪽 정렬 */
-  margin-right: auto; /* 오른쪽 마진을 자동으로 설정하여 왼쪽 정렬 */
-}
-
-.custom-chat-container {
-  height: 1000px;
-}
 
 .custom-chat-container {
   display: flex;
+  height: calc(100% - 50px);
 }
 
 .custom-chat-list {
@@ -240,7 +249,7 @@ body, html {
   font-weight: bold;
 }
 
-.custom-chat-history {
+.chat-history {
   flex: 1 1 auto;
   overflow-y: scroll;
   padding: 20px;
@@ -249,9 +258,52 @@ body, html {
   margin-bottom: 20px;
 }
 
-.custom-chat-input {
+#chat-input {
   display: flex;
   justify-content: space-between;
+  border-radius: 8px;
+  width: 90%;
+  height: 60px;
+  position: relative;
+  left:15px;
+  top:15px;
+}
+.my-message,
+.other-message {
+  margin-bottom :10px ; /* 위아래 간격 조절 */
+  padding :10px ;
+  border-radius :15px ;
+}
 
+
+.my-message {
+  display:flex ;
+  justify-content:flex-end ;
+}
+.other-message {
+  display:flex ;
+  justify-content:flex-start ;
+}
+.message-content{
+  max-width :50% ;
+  padding :10px ;
+  border-radius :15px ;
+  word-wrap :break-word ; /* 단어가 행 끝에 도달하면 다음 행으로 이동 */
+}
+
+
+.my-message .message-content {
+  background-color:#0dcaf0 ; /* 자신의 메시지 배경색 */
+}
+.other-message .message-content{
+  background-color:#ffc107; /* 상대방의 메시지 배경색 */
+}
+#sendMessageButton{
+ border-radius: 5px;
+  position: relative;
+  left: 45%;
+  width: 80px;
+  height: 60px;
+  top:-45px;
 }
 </style>
