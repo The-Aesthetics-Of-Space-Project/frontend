@@ -17,7 +17,7 @@
         </div>
       </section>
       <section class="agree-btn-wrapper">
-        <button type="button" class="btn-agree" :disabled="!isAgreed" @click="deleteUsers($store.state.userId)"> 확인 </button>
+        <button type="button" class="btn-agree" :disabled="!isAgreed" @click="deleteUsers()"> 확인 </button>
       </section>
 
     </div>
@@ -32,21 +32,22 @@ export default {
   data() {
     return {
       isAgreed: false, // 체크박스 상태 관리
+      userId: Store.state.userId
     };
   },
   mounted(){
-    this.getUser();
   },
   methods: {
-    async deleteUsers(userId){
-      const args=`/user/${encodeURIComponent(userId)}`;
+    async deleteUsers(){
+      const args=`/users/delete?userId=${encodeURIComponent(this.userId)}`;
       await api.deleteUser(args).then(res =>{
         alert("회원 탈퇴 되었습니다.");
-        console.log("res: ", res);
+        this.$store.commit('clearUsername');
+        // 로그인 페이지로 이동
+        this.$router.push('/login');
       })
     }
   },
-
 };
 </script>
 

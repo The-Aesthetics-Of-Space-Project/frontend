@@ -11,7 +11,6 @@
           </div>
           <section class="header-wrapper"><a> 회원정보 수정 </a></section>
         </div>
-
         <!-- 내용 -->
         <div class="setting-content-wrapper">
           <!-- 이메일 헤더 -->
@@ -26,9 +25,7 @@
                        id="emailInput" aria-describedby="emailHelp" @input="checkUserId" style="border-radius: 6px; height: 40px; font-size: 14px;">
                 <div><span id="checkId" style="width: 100px; font-size: 13px; top:-10px;" @input="checkUserId"></span></div>
               </div>
-
             </section>
-
           </section>
           <!-- 닉네임 헤더 -->
           <section class="setting-nickname-wrapper">
@@ -42,11 +39,10 @@
             <section class="form-group-nickname-wrapper">
               <div class="input-group" style="top: 10px; left: 35px; position: relative; width: 89%; margin-bottom: 10px;">
                 <input type="nickname" v-model="user.nickname" class="form-control invalid" placeholder="닉네임" aria-label="Nickname"
-                       id="nicknameInput" @input="checkNickname" maxlength="15" style="border-radius: 6px; height: 40px; font-size: 14px;">
+                       id="nicknameInput" @input="checkNickname" minlength="2" maxlength="15" style="border-radius: 6px; height: 40px; font-size: 14px;">
                 <div><span id="checkNickname" style="width: 100px; font-size: 13px;" @input="checkNickname"></span></div>
               </div>
             </section>
-
           </section>
           <!-- 프로필 -->
           <section class="profile-content-wrapper">
@@ -55,7 +51,6 @@
                 <a> 프로필 </a>
               </section>
             </section>
-
             <section class="setting-profile-wrapper">
               <section class="profile-img-wrapper">
                 <img :src="imgUrl" v-if="imagePreview" alt="이미지 미리보기"/>
@@ -64,7 +59,6 @@
             <section class="profile-submit-btn" style="position: relative; width: 56%; height: 19%; display: grid; grid-template-columns: 1fr 3fr; grid-template-rows: 1fr;
                                                           top: 1.5em; left: 2.5em;" >
               <label style="position: relative;width: 73%; height: 84%; margin: auto; cursor: pointer;">
-
                 <img src="../../assets/mypage_icon/plusimage.png" class="upload-btn-img"  style="position: relative;
                border-radius: 50%; width: 100%; height: 100%;">
                 <input type="file" class="btn-img-button" style="position: relative; border: 1px solid chocolate; margin: auto;
@@ -73,38 +67,34 @@
               <section style="position: relative; margin: auto; height: 50%; left: -2.4em; top: 3px; font-size: 14px; font-weight: bold; color:rgb(0,0,0,60%);">
                 <p> 플러스 버튼을 눌러보세요! </p>
               </section>
-
             </section>
-
-
           </section>
           <!-- 수정 완료 버튼 -->
           <div class="user-modify-btn-wrapper">
-            <button type="button" class="btn-modify" id="modifyButton" @click="userInfoModify($store.state.userId)"> 수정하기 </button>
+            <button type="button" class="btn-modify" id="modifyButton" @click="userInfoModify()"> 수정하기 </button>
           </div>
-
         </div>
       </section>
     </div>
   </div>
-
 </template>
 
 <script>
 import {api} from "@/api/api";
+import Store from "@/store/index";
 
 export default {
   data() {
     return{
+      userId: Store.state.userId,
+      imgUrl: null,
+      image: null,
       user:{
         userId: '',
         nickname: '',
-        email:'',
-        profile: '',
+        profile: ''
       },
-      users:[],
-      imgUrl: null,
-      image: null,
+      isNicknameChecked : false,
     }
   },
   computed:{
@@ -116,15 +106,8 @@ export default {
     }
   },
   mounted() {
-    this.getUser();
   },
   methods: {
-    /* user 목록 조회 */
-    async getUser() {
-      await api.getUser('/user').then(res => {
-        this.users = res.data;
-      })
-    },
     checkUserId() {
       // ID(email) 입력란 변수화
       const idInput = document.querySelector("#emailInput");
@@ -139,12 +122,38 @@ export default {
       const checkEmail = () => {
         const email = idInput.value;
         const emailMessage = document.querySelector("#checkId");
+        const args = `/checkUserId/${encodeURIComponent(email)}`;
 
         if (validateEmail(email)) {
           emailMessage.textContent = '올바른 이메일 형식입니다.';
           emailMessage.style.color = '#2fb380';
           document.getElementById("emailInput").classList.remove("is-invalid");
           document.getElementById("emailInput").classList.add("is-valid");
+
+          api.getUser(args).then(res => {
+                const available = res.data;
+                if (available) {
+                  emailMessage.textContent = '사용 가능한 이메일입니다.';
+                  emailMessage.style.color = '#2fb380';
+                  document.getElementById("emailInput").classList.remove("is-invalid");
+                  document.getElementById("emailInput").classList.add("is-valid");
+                } else {
+                  emailMessage.textContent = '이미 사용 중인 이메일입니다.';
+                  emailMessage.style.color = '#dc3545';
+                  document.getElementById("emailInput").classList.remove("is-valid");
+                  document.getElementById("emailInput").classList.add("is-invalid");
+                }
+              }
+          ).catch(error => {
+            if (error.response) {
+              alert("서버 오류가 발생했습니다. 나중에 다시 시도해주세요.");
+            } else if (error.request) {
+              alert("서버 응답이 없습니다. 네트워크 연결을 확인해주세요.");
+            } else {
+              alert("요청을 처리하는 중 오류가 발생했습니다.");
+            }
+          });
+
         } else {
           emailMessage.textContent = '올바른 이메일 형식이 아닙니다.';
           emailMessage.style.color = '#dc3545';
@@ -155,38 +164,51 @@ export default {
       // ID(email) 입력란에 keyup 이벤트 핸들러 추가
       idInput.addEventListener("keyup", checkEmail);
     },
-    async checkNickname(){
-
+    checkNickname(){
       const nicknameInput = document.querySelector("#nicknameInput");
       const nicknameMessage = document.querySelector("#checkNickname");
-
       const nickname = this.user.nickname;
-      console.log("nickname: ",nickname);
-      if (nickname.length < 2 || nickname.length > 15) {
-        nicknameMessage.textContent = '닉네임은 2~15자 사이여야 합니다.';
-        return;
-      }
-      const checkNickname = () => {
 
-        const available = this.users.every(user => user.nickname !== nickname);
-        console.log("출력하셈미", available);
-
-        if (available) {
-          nicknameMessage.textContent = '사용 가능한 닉네임입니다.';
-          nicknameMessage.style.color = '#2fb380';
-          document.getElementById("nicknameInput").classList.remove("is-invalid");
-          document.getElementById("nicknameInput").classList.add("is-valid");
-        } else {
-          nicknameMessage.textContent = '이미 사용 중인 닉네임입니다.';
-          nicknameMessage.style.color = '#dc3545';
-          document.getElementById("nicknameInput").classList.remove("is-valid");
-          document.getElementById("nicknameInput").classList.add("is-invalid");
+      if (nickname.length > 2 || nickname.length < 15) {
+        const NicknameCheck = () => {
+          const nicknameValue = nicknameInput.value;
+          const args = `/checknickname/${nicknameValue}`;
+          this.isNicknameChecked=true;
+          api.getUser(args).then(res => {
+                const result = res.data;
+                console.log("result 값임!!!!: ", result)
+                if (result) {
+                  nicknameMessage.textContent = '사용 가능한 닉네임입니다.';
+                  nicknameMessage.style.color = '#2fb380';
+                  document.getElementById("nicknameInput").classList.remove("is-invalid");
+                  document.getElementById("nicknameInput").classList.add("is-valid");
+                  this.isNicknameAvailable = true;
+                } else if(!result) {
+                  nicknameMessage.textContent = '이미 사용 중인 닉네임입니다.';
+                  nicknameMessage.style.color = '#dc3545';
+                  document.getElementById("nicknameInput").classList.remove("is-valid");
+                  document.getElementById("nicknameInput").classList.add("is-invalid");
+                  this.isNicknameAvailable = false;
+                }
+              }
+          ).catch(error => {
+            if (error.response) {
+              alert("서버 오류가 발생했습니다. 나중에 다시 시도해주세요.");
+            } else if (error.request) {
+              alert("서버 응답이 없습니다. 네트워크 연결을 확인해주세요.");
+            } else {
+              alert("요청을 처리하는 중 오류가 발생했습니다.");
+            }
+          });
         }
+        const handleKeyup = () => {
+          let debounceTimer;
+          clearTimeout(debounceTimer); // 기존 타이머 취소
+          debounceTimer = setTimeout(NicknameCheck, 2000); // 2초 후에 중복 검사 함수 실행
+        };
+        // 닉네임 입력란에 keyup 이벤트 핸들러 추가
+        nicknameInput.addEventListener("keyup", handleKeyup);
       }
-
-      // 닉네임 입력란에 keyup 이벤트 핸들러 추가
-      nicknameInput.addEventListener("keyup", checkNickname);
-
     },
     /* 이미지 업로드 */
     handleFileUpload(event) {
@@ -195,23 +217,28 @@ export default {
         return;
       }
       this.image = file; // 이미지 파일을 저장
+      this.user.profile = this.image;
 
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imgUrl = e.target.result;
       };
       reader.readAsDataURL(file);
+
     },
-    async userInfoModify(userId){
-      const presentUserId=userId;
+    async userInfoModify(){
       const formData = new FormData();
+      const presentUserId = this.userId;
+
       formData.append('userId', this.user.userId);
       formData.append('nickname', this.user.nickname);
-      if (this.user.profile) {
-        formData.append('profile', this.user.profile);
+      formData.append('profile', this.image);
+
+      for (let key of formData.keys()) {
+        console.log(key, ":", formData.get(key));
       }
 
-      const args=`/user/${encodeURIComponent(presentUserId)}`;
+      const args=`/users/update?userId=${encodeURIComponent(presentUserId)}`;
       const params = formData;
       await api.updateUser(args, params).then(res => {
         console.log("수정 성공: ", res);
