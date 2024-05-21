@@ -1,5 +1,6 @@
 <template>
   <div class="header">
+    <button @click="chatseesion"><router-link :to="isUserLogin ?`/chatroom/${this.userId}` :'login'">채팅 목록</router-link></button>
     <div class="menu">
       <h4>
         <router-link
@@ -21,7 +22,6 @@
         <router-link :to="isUserLogin ? '/#':'/login'">
           <img class="scrap-image" src="@/assets/스크랩.png">
         </router-link>
-
         <div class="btn-group" style="position: relative; top:-50px; cursor: pointer; ">
           <img id="alarm-image" data-bs-toggle="dropdown" aria-expanded="false" src="@/assets/마이페이지.png">
           <ul class="dropdown-menu" style="text-align: center; min-width: 120px; padding:10px; font-family: MyCustomFont2;">
@@ -84,8 +84,10 @@
 <script>
 import Logofont from "@/components/logofont.vue";
 import ZipLogo from "@/components/ZipLogo.vue";
+import axios from "axios";
 
 export default {
+
   components: {ZipLogo, Logofont},
   computed: {
     // 로그인 유무 확인
@@ -93,6 +95,7 @@ export default {
       return this.$store.getters.isLogin;
     }
   },
+
   methods: {
     // 로그아웃 처리
     logoutUser() {
@@ -100,11 +103,26 @@ export default {
       // 로그인 페이지로 이동
       this.$router.push('/login');
     },
+    chatseesion() {
+      axios.get(`http://jerry6475.iptime.org:20000/chatroom/${encodeURIComponent(this.userId)}`)
+          .then(res => {
+            this.users = res.data;
+            console.log('Response data', res.data.userId);
+
+            // 여기서 라우터 이동
+            this.$router.push({ path: `/chatroom/${this.userId}` });
+          })
+          .catch(error => {
+            // 통신할 때 401에러 처리
+            console.error('Error data', error);
+          });
+    }
   },
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Header',
   data() {
     return {
+      userId : this.$store.state.userId,
       menus: ['zip', '가구 인식', '커뮤니티', '인테리어 가이드', '소개'],
       menuItems: [
         {

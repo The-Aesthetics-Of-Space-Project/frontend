@@ -1,68 +1,83 @@
 <template>
-  <div class="chat" > <!--세션 아이디-->
+  <div class="custom-chat"> <!--세션 아이디-->
     <button id="fullscreenButton"><img src="@/assets/fullscreen.png" width="40" height="40"></button> <!-- 풀 스크린 버튼 추가 -->
-    <div class="chat-container">
+    <div class="custom-chat-container">
       <!-- 대화상대 리스트 -->
-      <div class="chat-list">
+      <div class="custom-chat-list">
         <h3>대화상대</h3>
         <ul>
-          <li>user_name3</li> <!-- 백 브론트 단에 데이터 바인딩 필요 -->
-          <li>user_name1</li>
-          <li>user_name2</li>
+          <button @click='partername'>목록</button>
+          <li v-for="user in users" :key="user.id"><span style="color: black; font-size: 500px;">{{ user.name }}</span></li>
         </ul>
       </div>
       <input type="hidden" id="hid-roomid">
       <!-- 채팅 뷰 페이지 -->
-      <div class="chat-view">
+      <div class="custom-chat-view">
         <!-- 채팅 상대 이름 표시 -->
-        <div class="chat-navbar">
-          <span class="chat-partner-name"></span>
+        <div class="custom-chat-navbar">
+          <span class="custom-chat-partner-name"></span>
         </div>
-        <div class="chat-history">
+        <div class="custom-chat-history">
           <!-- 메시지 목록 -->
-          <div class="message my-message">
-            <div class="message-content">
+          <div class="custom-message custom-my-message">
+            <div class="custom-message-content">
               <p>Hello, this is my message!</p>
             </div>
           </div>
-          <div class="message other-message">
-            <div class="message-content">
+          <div class="custom-message custom-other-message">
+            <div class="custom-message-content">
               <p>Hello, this is the other person's message!</p>
             </div>
           </div>
-          </div>
-        <div class="chat-input">
+        </div>
+        <div class="custom-chat-input">
           <!-- 입력 필드와 전송 버튼 -->
-          <input type="text" id="chat-input" v-model="inputMessage" placeholder="send a message" @keyup.enter="sendMessage">
-          <button id="sendMessageButton" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
+          <input type="text" id="custom-chat-input" v-model="inputMessage" placeholder="send a message" @keyup.enter="sendMessage">
+          <button id="custom-sendMessageButton" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
         </div>
       </div>
-      </div>
     </div>
+  </div>
 </template>
-
-
 
 <script>
 // @ is an alias to /src
+import axios from "axios";
+
 export default {
   data() {
+
     return {
+      users : [],
       // 채팅 입력 데이터
       inputMessage: '',
       // 채팅 기록
-      messages: []
+      messages: [],
+      userId : this.$store.state.userId,
+      chatPartners: '',
     }
   },
+  mounted() {
+    this.partername();
+  },
   methods: {
-
+    partername(){
+      axios.get(`http://jerry6475.iptime.org:20000/chatroom/${encodeURIComponent(this.userId)}`)
+          .then(res => {
+            this.users = res.data.list;
+            console.log(res.data.list);
+          })
+          .catch(error => {
+            console.log("list-failed");
+          });
+    },
     // 메시지 전송 메소드
     sendMessage() {
       if (this.inputMessage.trim() !== '') {
         // 새 메시지 객체 생성
         const newMessage = {
           content: this.inputMessage,
-          type: 'my-message' // 'my-message' 또는 'other-message'
+          type: 'custom-my-message' // 'custom-my-message' 또는 'custom-other-message'
         };
         // 메시지 목록에 추가
         this.messages.push(newMessage);
@@ -75,7 +90,7 @@ export default {
 }
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('fullscreenButton').addEventListener('click', function () {
-    var chatView = document.querySelector('.chat-view'); // chat-view 요소 선택
+    var chatView = document.querySelector('.custom-chat-view'); // custom-chat-view 요소 선택
     if (!document.fullscreenElement) { // 현재 전체 화면 모드가 아니라면
       if (chatView.requestFullscreen) { // 표준 메서드
         chatView.requestFullscreen();
@@ -89,8 +104,8 @@ document.addEventListener('DOMContentLoaded', function() {
 });
 
 document.addEventListener('DOMContentLoaded', function() {
-  var input = document.getElementById('chat-input');
-  var sendButton = document.getElementById('sendMessageButton');
+  var input = document.getElementById('custom-chat-input');
+  var sendButton = document.getElementById('custom-sendMessageButton');
 
   function updateButtonState() {
     if (input.value.trim() !== '') {
@@ -107,15 +122,12 @@ document.addEventListener('DOMContentLoaded', function() {
   // 페이지 로딩 시 버튼 상태 초기화
   updateButtonState();
 });
-
 </script>
 
 <style>
-
-
 /* 추가적인 스타일링이 필요한 경우 여기에 추가 */
-.chat{
-  height:1000px;
+.custom-chat {
+  height: 1000px;
 }
 
 body, html {
@@ -129,8 +141,8 @@ body, html {
   padding: 0;
   margin: 0;
   position: absolute;
-  left:250px;
-  top:5px;
+  left: 250px;
+  top: 5px;
 }
 
 #fullscreenButton:focus {
@@ -141,30 +153,32 @@ body, html {
   display: none;
 }
 
-.my-message {
+.custom-my-message {
   text-align: right; /* 오른쪽 정렬 */
   margin-left: auto; /* 왼쪽 마진을 자동으로 설정하여 오른쪽 정렬 */
 }
 
-.other-message {
+.custom-other-message {
   text-align: left; /* 왼쪽 정렬 */
   margin-right: auto; /* 오른쪽 마진을 자동으로 설정하여 왼쪽 정렬 */
 }
-.chat-container{
-  height:1000px;
+
+.custom-chat-container {
+  height: 1000px;
 }
 
-.chat-container {
+.custom-chat-container {
   display: flex;
 }
-.chat-list {
+
+.custom-chat-list {
   width: 300px;
-  border-right: 1px solid ;
+  border-right: 1px solid;
 }
 
-.chat-list h3 {
+.custom-chat-list h3 {
   position: relative;
-  bottom:-50px;
+  bottom: -50px;
   margin-top: 0;
   margin-bottom: 10px;
   font-size: 18px;
@@ -172,16 +186,16 @@ body, html {
   color: #333;
 }
 
-.chat-list ul {
+.custom-chat-list ul {
   list-style-type: none;
   padding: 0;
   margin: 0;
   position: relative;
-  bottom:-60px;
-  left:15px;
+  bottom: -60px;
+  left: 15px;
 }
 
-.chat-list li {
+.custom-chat-list li {
   font-size: 16px;
   padding: 13px;
   border-radius: 5px;
@@ -189,15 +203,14 @@ body, html {
   cursor: pointer;
   background-color: #f0f0f0;
   transition: background-color 0.2s;
-  width:270px;
-
+  width: 270px;
 }
 
-.chat-list li:hover {
+.custom-chat-list li:hover {
   background-color: #e0e0e0;
 }
 
-.chat-view {
+.custom-chat-view {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -206,7 +219,7 @@ body, html {
   background-color: white;
 }
 
-.chat-navbar {
+.custom-chat-navbar {
   height: 50px;
   background-color: #fafafa;
   box-shadow: 0px 3px 5px 0px #ccc;
@@ -217,7 +230,7 @@ body, html {
   font-weight: bold;
 }
 
-.chat-history {
+.custom-chat-history {
   flex: 1 1 auto;
   overflow-y: scroll;
   padding: 20px;
@@ -226,54 +239,9 @@ body, html {
   margin-bottom: 20px;
 }
 
-.chat-input {
+.custom-chat-input {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  background-color: white;
-  padding: 10px 20px;
-  border-radius: 10px;
-  box-shadow: 0px 3px 5px 0px #ccc;
-  width:90%;
-  margin: auto;
-  border-radius: 30px;
-  border : 1px solid lightgray;
-  position: relative;
-  top:-10px;
-}
 
-.chat-input input {
-  flex: 1;
-  margin-right: 10px;
-  padding: 10px;
-  font-size: 16px;
-  border-radius: 5px;
-  border: none;
-  outline: none;
-}
-
-.chat-input button {
-  padding: 10px 20px;
-  font-size: 16px;
-  font-weight: bold;
-  border-radius: 30px;
-  border: none;
-  background-color: #333;
-  color: #fff;
-  cursor: pointer;
-  transition: background-color 0.2s;
-  background-color: #0dcaf0;
-}
-
-/* 비활성화된 버튼 스타일 */
-button:disabled {
-  color: #999;
-  background-color: #ddd;
-  cursor: default;
-}
-
-/* 활성화된 버튼에 대한 hover 스타일, active 클래스가 있을 때만 적용 */
-.chat-input:hover {
-  cursor: pointer; /* 또는 원하는 커서 스타일 */
 }
 </style>

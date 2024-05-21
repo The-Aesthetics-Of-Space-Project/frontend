@@ -34,7 +34,8 @@ const routes = [
     { path: '/generalBoardWrite', component: GeneralBoardWrite, meta: { hideHeader: false, hideFooter: true }},
     { path: '/introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
     { path: '/follower', component: FollowerListView, meta: {hideHeader: false, hideFooter: false}},
-    { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }}
+    { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
+    { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }}
 ]
 
 const router = new VueRouter({
