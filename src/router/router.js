@@ -15,6 +15,8 @@ import IntroduceView from "@/views/IntroduceView.vue";
 import FollowerListView from "@/views/MyPage/FollowerListView.vue";
 import FollowingListView from "@/views/MyPage/FollowingListView.vue";
 import interiorGuideView from "@/views/InteriorGuideView.vue";
+import ScrapListView from "@/views/MyPage/ScrapListView.vue";
+import LikeListView from "@/views/MyPage/LikeListView.vue";
 
 Vue.use(VueRouter)
 
@@ -33,7 +35,9 @@ const routes = [
     { path: '/generalBoardWrite', component: GeneralBoardWrite, meta: { hideHeader: false, hideFooter: true }},
     { path: '/introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
     { path: '/follower', component: FollowerListView, meta: {hideHeader: false, hideFooter: false}},
-    { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }}
+    { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
+    { path: '/scrap', component: ScrapListView, meta: {hideHeader: false, hideFooter: false}},
+    { path: '/like', component: LikeListView, meta: {hideHeader: false, hideFooter: false }},
 ]
 
 const router = new VueRouter({

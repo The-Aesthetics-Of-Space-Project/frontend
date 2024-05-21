@@ -5,7 +5,6 @@
         <section class="list-profile-img-container">
           <img :src="follower.profile" style="width: 76px; height: 76px; border: 1px solid black; border-radius: 50%;" />
         </section>
-
         <section class="list-name-container">
           <section class="list-userId-container">
             {{ follower.userId }}
@@ -14,7 +13,6 @@
             {{ follower.nickname }}
           </section>
         </section>
-
         <section class="list-follower-delete-btn">
           <button class="follower-delete-btn" @click="deleteFollow(follower.userId)"> 삭제 </button>
         </section>
@@ -26,11 +24,13 @@
 
 <script>
 import {api} from "@/api/api";
+import Store from "@/store/index"
 export default {
   data() {
     return {
       followers: [],
       data: "null",
+      userId: Store.state.userId
     };
   },
   mounted() {
@@ -39,7 +39,8 @@ export default {
   methods: {
     /* 팔로워 목록 조회 */
     async getFollowers() {
-      await api.getFollow('/follow').then(res => {
+      const args = `/users/followers?userId=${this.userId}`;
+      await api.getFollow(args).then(res => {
         this.followers = res.data;
         console.log("res: ", res);
       })
