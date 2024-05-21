@@ -1,50 +1,42 @@
 <template>
   <div class="header">
     <div class="menu">
-    <h4>
-      <router-link
-          v-for="(menu, index) in menus"
-          :key="menu"
-          :to="menuLinks[index]"
-      >
-        {{ menu }}
-      </router-link>
-    </h4>
-      <router-link to="#">
-        <img class="scrap-image" src="@/assets/스크랩.png">
-      </router-link>
-
-      <img class="alarm-image" src="@/assets/알람.png">
-
-      <router-link to="/my-page">
-        <img class="mypage-image" src="@/assets/마이페이지.png" alt="마이페이지">
-      </router-link>
-      </div>
+      <h4>
+        <router-link
+            v-for="(menu, index) in menus"
+            :key="menu"
+            :to="menuLinks[index]"
+        >
+          {{ menu }}
+        </router-link>
+      </h4>
+      <img src="../assets/ziplogo.png" style="position: relative; left:-650px; top:-95px;  width: 120px; /* 로고 이미지 크기 조정 */">
+    </div>
     <div class="navigations">
 
 
 
       <!-- 로그인 후 -->
       <template v-if="isUserLogin">
+        <router-link :to="isUserLogin ? '/#':'/login'">
+          <img class="scrap-image" src="@/assets/스크랩.png">
+        </router-link>
 
-<span id="dropdown-a" class="dropdown" style="position: relative; left:630px; border-color: white;">
-  <router-link
-      to="#"
-      class="btn btn-secondary"
-      role="button"
-      id="dropdownMenuLink"
-      data-bs-toggle="dropdown"
-      aria-expanded="false"
-  >
-    {{ $store.state.userId}}님
-  </router-link>
+        <div class="btn-group" style="position: relative; top:-50px; cursor: pointer; ">
+          <img id="alarm-image" data-bs-toggle="dropdown" aria-expanded="false" src="@/assets/마이페이지.png">
+          <ul class="dropdown-menu" style="text-align: center; min-width: 120px; padding:10px; font-family: MyCustomFont2;">
+            <router-link :to="isUserLogin ? '/my-page':'/login'" style="text-decoration: none; color:black; font-weight: bolder; font-size:15px;">마이페이지</router-link>
+            <li><hr class="dropdown-divider"></li>
+            <li><a href="javascript:;" @click="logoutUser" class="dropdown-item" style="font-weight: bolder; font-size:15px;">로그아웃</a></li>
+          </ul>
+        </div>
 
-  <ul class="dropdown-menu" aria-labelledby="dropdownMenuLink" style="border-color: white; text-align: center;">
-   <li class="dropdown-item"> <router-link to="/Chat" style="text-decoration: none">채팅목록</router-link></li>
-    <li><hr class="dropdown-divider"></li>
-    <li><a href="javascript:;" @click="logoutUser" class="dropdown-item">로그아웃</a></li>
-  </ul>
-</span>
+
+        <router-link :to="isUserLogin ? '/':'/login'">
+          <img class="mypage-image" src="@/assets/알람.png" alt="마이페이지">
+        </router-link>
+
+
 
         <span class="username"></span>
         <div id="header-board-write" class="btn-group">
@@ -54,7 +46,7 @@
           </button>
           <ul class="dropdown-menu" id="dropdown" >
             <li v-for="(item, index) in menuItems" :key="item.text" >
-              <router-link :to="item.href" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: center;">
+              <router-link :to="item.href(isUserLogin)" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: center;">
                 <img :class="item.class" :src="item.imgSrc">{{ item.text }}
               </router-link>
               <hr class="dropdown-divider" v-if="index < menuItems.length - 1">
@@ -62,12 +54,26 @@
           </ul>
         </div>
 
-        <router-link to="/Chat" style="position: relative; text-decoration: none; color:black; top:-200px; left:410px;">채팅목록</router-link>
+        <!--  <router-link to="/Chat" style="position: relative; text-decoration: none; color:black; top:-200px; left:410px;">채팅목록</router-link> -->
       </template>
       <!-- 로그인 전 -->
       <template v-else>
-        <router-link to="/login" class="login-a">로그인</router-link>
-        <router-link to="/signup" class="signup-a">회원가입</router-link>
+        <div id="header-board-write" class="btn-group" style="position: relative; left:610px; top:-198px;">
+          <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
+            글쓰기
+            <span class="visually-hidden">Toggle Dropdown</span>
+          </button>
+          <ul class="dropdown-menu" id="dropdown" >
+            <li v-for="(item, index) in menuItems" :key="item.text" >
+              <router-link :to="item.href(isUserLogin)" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: center;">
+                <img :class="item.class" :src="item.imgSrc">{{ item.text }}
+              </router-link>
+              <hr class="dropdown-divider" v-if="index < menuItems.length - 1">
+            </li>
+          </ul>
+        </div>
+        <router-link to="/login" class="login-a" style="  font-family: MyCustomFont2;" >로그인</router-link>
+        <router-link to="/signup" class="signup-a"  style="font-family: MyCustomFont2;">회원가입</router-link>
       </template>
 
 
@@ -76,7 +82,11 @@
 </template>
 
 <script>
+import Logofont from "@/components/logofont.vue";
+import ZipLogo from "@/components/ZipLogo.vue";
+
 export default {
+  components: {ZipLogo, Logofont},
   computed: {
     // 로그인 유무 확인
     isUserLogin() {
@@ -93,38 +103,52 @@ export default {
   },
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'Header',
-  data(){
-    return{
-      menus: ['.ZIP','가구 인식', '커뮤니티', '인테리어 가이드', '소개'],
+  data() {
+    return {
+      menus: ['zip', '가구 인식', '커뮤니티', '인테리어 가이드', '소개'],
       menuItems: [
-        { text: '일반 게시판', imgSrc: require('../assets/header_write_icon_list/generalboard.png'), class: 'board-image', href:'/GeneralBoard' },
-        { text: '공모전 게시판', imgSrc: require('../assets/header_write_icon_list/usedboard.png'), class: 'board-image', href:'#' },
-        { text: '일반 게시판 글쓰기', imgSrc: require('../assets/header_write_icon_list/generalboard_write.png'), class: 'write-image', href:'/GeneralBoardWrite' },
-        { text: '공모전 게시판 글쓰기', imgSrc: require('../assets/header_write_icon_list/usedboard_write.png'), class: 'write-image', href:'#' },
+        {
+          text: '일반 게시판',
+          imgSrc: require('../assets/header_write_icon_list/generalboard.png'),
+          class: 'board-image',
+          href: () => '/GeneralBoard'
+        },
+        {
+          text: '공모전 게시판',
+          imgSrc: require('../assets/header_write_icon_list/usedboard.png'),
+          class: 'board-image',
+          href: (isUserLogin) => isUserLogin ? '/' : '/login'
+        },
+        {
+          text: '일반 게시판 글쓰기',
+          imgSrc: require('../assets/header_write_icon_list/generalboard_write.png'),
+          class: 'write-image',
+          href: (isUserLogin) => isUserLogin ? '/generalBoardWrite' : '/login'
+        },
+        {
+          text: '공모전 게시판 글쓰기',
+          imgSrc: require('../assets/header_write_icon_list/usedboard_write.png'),
+          class: 'write-image',
+          href: (isUserLogin) => isUserLogin ? '/' : '/login'
+        },
       ],
       menuLinks: ['/', '#', '/Community', 'InteriorGuide', '/Introduce'],
-    }
-  }
+    };
+  },
 }
 </script>
 
 <style>
 .login-a:hover, .signup-a:hover {
-  opacity: 0.8;
+  color: RGB(128, 200, 95);
+  font-weight: bolder;
 }
 
 .header {
-  padding: 20px 40px;
-  height:170px;
+  padding: 5px;
+  height:110px;
 }
 
-#app {
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  text-align: center;
-  color: #2c3e50;
-  margin-top: 15px;
-}
 @font-face {
   font-family: 'SOGANGUNIVERSITYTTF';
   src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2312-1@1.1/SOGANGUNIVERSITYTTF.woff2') format('woff2');
@@ -150,23 +174,24 @@ div
   color:#333;
 }
 
-
 .menu a:nth-child(1)
 {
   position: relative;
-  left:-300px;
-  font-size: 40px;
+  left:-310px;
+  font-size: 45px;
+  transform: skewX(1deg); /* 글자 기울기 추가 */
+  font-style: italic; /* 글자 기울기 추가 */
 }
 
 #header-board-write
 {
   position: relative;
-  left: 310px;
-  top: -138px;
+  left: 470px;
+  top: -205px;
   border-radius: 11px;
   border-color: black;
   font-size: 20px;
-  font-weight: bolder;
+  font-family: MyCustomFont2;
 }
 
 #header-board-write img
@@ -184,7 +209,13 @@ div
   color:#333;
   font-weight: bolder;
   padding:9px;
-  font-family: 'SOGANGUNIVERSITYTTF';
+  font-family: MyCustomFont2;
+}
+@font-face {
+  font-family: 'MyCustomFont3';
+  src: url('../fonts/kcc/KCC-Hanbit.ttf') format('woff');
+  font-weight: normal;
+  font-style: normal;
 }
 
 
@@ -199,9 +230,9 @@ div
 .menu a
 {
   position: relative;
-  left:-185px;
+  left:-155px;
   color: #333;
-  padding: 17px;
+  padding: 20px;
   font-size: 17px;
   text-decoration: none;
   font-weight:bolder;
@@ -209,7 +240,7 @@ div
 
 .menu a:hover, #header-board-write button:hover
 {
-  opacity: 0.8;
+  color: RGB(128, 200, 95);
   font-weight: bolder;
 }
 
@@ -218,33 +249,26 @@ div
   width: 53px;
   height: 53px;
   position: relative;
-  top:-50px;
-  left: 400px;
+  top:-205px;
+  left: 420px;
   padding:10px;
 }
 .mypage-image{
-  width: 56px;
-  height: 56px;
+  width: 59px;
+  height: 59px;
   position: relative;
-  top:-50px;
-  left: 390px;
+  top:-205px;
+  left: 365px;
   padding:10px;
 }
 
-.alarm-image{
+#alarm-image{
   width: 55px;
   height: 55px;
   position: relative;
-  top:-50px;
-  left:210px;
+  top:-155px;
+  left:480px;
   padding:8px;
-}
-
-.dropdown{
-  position: relative;
-  top:-138px;
-  left:300px;
-  color:#333;
 }
 
 .dropdown a{
@@ -257,45 +281,28 @@ div
   font-weight: bolder;
   font-weight: bolder;
 }
-#dropdownMenuLink{
-  border: white;
-  color:#333;
-  background-color: white;
-}
 
 .dropdown li a{
   font-size:15px;
   font-family: 'SOGANGUNIVERSITYTTF';
+
 }
 
 .login-a{
   position: relative;
-  left:475px;
-  top:-130px;
+  left:355px;
+  top:-195px;
   text-decoration: none;
   color: black;
   font-size: 16px;
-  font-weight: bolder;
-  font-family: 'SOGANGUNIVERSITYTTF';
-
-  transition: all 0.3s ease;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 20px;
 }
 .signup-a{
   position: relative;
-  left:455px;
-  top:-130px;
+  left:380px;
+  top:-195px;
   text-decoration: none;
   color: black;
   font-size: 16px;
-  font-weight: bold;
-  font-family: 'SOGANGUNIVERSITYTTF';
-  transition: all 0.3s ease;
-  padding: 10px 20px;
-  margin: 5px;
-  border-radius: 20px;
 }
 .username{
   position: relative;
