@@ -1,6 +1,6 @@
 <template>
   <div id="generalboard-write">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/codemirror/5.62.0/codemirror.css">
+    <link rel="stylesheet">
     <div class="general-content-container" style="display: grid; grid-template-columns: 4fr 1fr; grid-template-rows: 1fr; grid-column-gap: 0px; grid-row-gap: 0px;">
       <div class="image-upload-container">
         <div class="image-upload-wrapper">
@@ -28,7 +28,7 @@
         <div class="upload-img-wrapper">
           <label class="upload-img-btn" style="position: relative; width: 150px;height: 50px; left: 0px;
           border: 2px solid darkslategrey; border-radius: 10px; text-align: center; padding: 10px; cursor: pointer;">
-            <input type="file" @change="onImageChange" style="display:none;"/>
+            <input type="file" ref="serveyImg" @change="onImageChange" style="display:none;"/>
             이미지 업로드
           </label>
         </div>
@@ -49,13 +49,13 @@
     </div>
     <section class="board-title">
       <section class="mb-3">
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해 주세요." maxlength="50" v-model="title" style="outline: none; box-shadow: none; border-top: white; border-left: white; border-right: white;">
-        <p>{{ title.length }}/50</p>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해 주세요." maxlength="50" v-model="article.title" style="outline: none; box-shadow: none; border-top: white; border-left: white; border-right: white;">
+        <p>{{ article.title.length }}/50</p>
       </section>
     </section>
 
     <div id="editor" class="content-write">
-      <editor/>
+      <editor ref="toastEditorContent"/>
     </div>
 
     <section class="button">
@@ -70,6 +70,7 @@ import Editor from '@toast-ui/editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
 import axios from "axios";
 import {api} from "@/api/api";
+import Store from "@/store";
 
 export default {
   name: 'GeneralBoardWrite',
@@ -77,10 +78,20 @@ export default {
   },
   data() {
     return {
-      title: '',
-      thumnail:'',
       content: '',
-      article:[],
+      // 내가 보낼 데이터
+      article:{
+        title: '',
+        thumbnail:'',
+        content: '',
+        nickname: '',
+      },
+      users: {
+        userId: Store.state.userId,
+        nickname: Store.state.nickname,
+        profile: Store.state.profile,
+      },
+      editorImg: '',
       image: null,
       editor: null,
       uploadImg: null,
@@ -93,7 +104,9 @@ export default {
         </svg>
       `,
       isExistsTempModal: false,
-      editorText: '',
+      editorContent: '',
+      editorImageId:'',
+      thumbnailImgId: '',
     }
   },
   mounted(){
@@ -115,11 +128,39 @@ export default {
       hooks: {
         // blob: 삽입하려는 이미지 정보를 가지고 있음
         // callback: 이미지 처리된 걸 가지고 처리된 이미지를 태그로 만들어서 toast editor에 넣어주는 역할
-        addImageBlobHook: async(blob, callback) => {
-          // 백엔드 서버에 이미지 업로드 위임
-          const uploadResult = await this.uploadImage(blob);
-          // 위에서 업로드 된 이미지를 접근할 수 있는 url 세팅
-          callback(uploadResult.imageAccessUrl);
+        addImageBlobHook: async (file, callback) => {
+          try {
+            const formData = new FormData();
+            formData.append('file', file);
+
+            console.log("formData 출력: ", formData);
+
+            const args = '/api/general/post/image';
+            await api.setGeneralUser(args, formData)
+                .then(res => {
+                  console.log("res 출력: ", res);
+                  this.editorImg = res.data;
+                  // callback에 이미지 URL과 alt text를 전달
+                  callback(this.editorImg, 'alt_img');
+
+                  // 마지막 슬래시 이후의 부분을 분리
+                  const parts = this.editorImg.split('/');
+                  this.editorImageId = parts.pop(); // "2"
+                })
+                .catch(err => {
+                  console.error("이미지 업로드 중 오류 발생:", err);
+                });
+
+            //const imageUrl = args+`/${this.editorImageId}`;
+
+            /* 이미지 url 요청 */
+            /*axios.get(imageUrl).then(res => {
+              this.imgUrl=res.data;
+              console.log("res: ", res);
+            })*/
+           }catch (error) {
+              console.log('error:', error.response.data);
+          }
         }
       }
     });
@@ -133,65 +174,64 @@ export default {
     }
   },
   methods: {
-    async uploadImage(blob) {
-      const formData = new FormData();
-      formData.append('image',blob);
-
-      const options = {
-        method: 'POST',
-        body: formData,
-      }
-
-      let response = await fetch('https://localhost:3000/article', options);
-      let result = response.json();
-
-      return result;
-    },
+    /* 모달 창 */
     modalOpen() {
       this.modalCheck = !this.modalCheck;
       this.uploadImg = this.imgUrl;
       console.log("uploadImg 이란다! => ", this.uploadImg);
     },
+    /* 모달 창 닫기 버튼 */
     modalClose(){
       this.modalCheck = !this.modalCheck;
     },
-    onImageChange(event){
-      const file = event.target.files[0];
-      if(!file){
-        return;
-      }
-      this.image = file; // 이미지 파일을 저장
+    async onImageChange(){
+      this.article.thumnail = this.$refs.serveyImg.files;
+      console.log("this.article.thumbnail: ", this.article.thumbnail);
 
-      const formData = new FormData(); // file전송시 FormData 형식으로 전송
-      formData.append('filelist', file);
-
-      const reader = new FileReader();
-      reader.onload = (e) => {
-        this.imgUrl = e.target.result;
-      };
-      reader.readAsDataURL(file);
-
-    },
-    postArticle(){
-      // 현재 시간
-      const currentTime = new Date().toLocaleString();
+      const args='/api/general/post/image';
+      //const params=this.article.thumnail;
 
       const formData = new FormData();
-      formData.append('title', this.title);
-      formData.append('thumnail', this.uploadImg);
-      formData.append('content', this.editorText);
-      formData.append('date', currentTime);
+      formData.append('file', this.article.thumnail);
 
-      for (let key of formData.keys()) {
-        console.log(key, ":", formData.get(key));
+      /* 이미지 파일 전송 */
+      await api.setGeneralUser(args, formData).then(res => {
+
+        console.log("res: ", res);
+        this.article.thumnail=res.data;
+
+        // 마지막 슬래시 이후의 부분을 분리
+        const parts = this.article.thumnail.split('/');
+        this.thumbnailImgId = parts.pop(); // "2"
+      });
+
+      const imageUrl = args+`/${this.thumbnailImgId}`;
+
+      /* 이미지 url 요청 */
+      await api.getImg(imageUrl).then(res => {
+        this.imgUrl=res.data;
+        console.log("res: ", res);
+      })
+    },
+    /* 발행하기 버튼 클릭 시 실행 */
+    postArticle(){
+      const editorRef = useRef();
+      editorRef.current.getInstance().getMarkdown();
+
+      const markdown = this.$refs.toastEditorContent.getValue();
+      this.article.content = markdown;
+
+      const articleData = {
+        title: this.article.title,
+        thumbnail: this.article.thumbnail,
+        content: this.article.thumbnail,
+        nickname: this.users.nickname
       }
+      const args = '/api/general/post';
+      const params = articleData;
 
       // axios를 사용하여 POST 요청 보내기
-      axios.post('https://localhost:3000/article', formData, {
-        header: {
-          "Content-Type": "multipart/form-data",
-        }
-      })
+      api.setUser(args,params)
           .then(response => {
             // 요청이 성공했을 때 처리할 코드
             console.log('게시물이 성공적으로 등록되었습니다.', response);

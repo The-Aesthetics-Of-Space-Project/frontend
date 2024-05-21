@@ -29,7 +29,7 @@ const routes = [
     { path: '/', component: MainView},
     { path: '/guideandtips', component: GuideAndTips, meta: { hideHeader: false, hideFooter: true }},
     { path: '/generalBoard', component: GeneralBoard, meta: { hideHeader: false, hideFooter: false }},
-    { path: '/generalBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: false }},
+    { path: '/generalBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: true }},
     { path: '/generalBoardWrite', component: GeneralBoardWrite, meta: { hideHeader: false, hideFooter: true }},
     { path: '/introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
     { path: '/follower', component: FollowerListView, meta: {hideHeader: false, hideFooter: false}},
