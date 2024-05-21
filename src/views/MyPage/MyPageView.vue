@@ -26,12 +26,12 @@
               </section>
               <!-- 닉네임 -->
               <section class="nickname-container">
-                <section class="nickname-content"><a>  {{this.users.nickname}}  </a></section>
+                <section class="nickname-content"><a> {{this.users.nickname}} </a></section>
               </section>
               <!-- 채팅 버튼 -->
               <section class="chat-container">
                 <section class="chat-wrapper">
-                  <button class="chat-icon-btn"><router-link to="/Chat"> <img src="../../assets/mypage_icon/chatIcon.png" style="position: relative; width: 42px; height: 41px; right: 5px;"></router-link></button>
+                  <button class="chat-icon-btn"><router-link to="/chat"> <img src="../../assets/mypage_icon/chatIcon.png" style="position: relative; width: 42px; height: 41px; right: 5px;"></router-link></button>
                   <section class="chat-message-content"><router-link to="/chat"> <a>채팅하기</a> </router-link></section>
                 </section>
               </section>
@@ -39,13 +39,13 @@
               <section class="follow-list-container">
                 <section class="follow-list-wrapper">
                   <section class="follow-list-wrapper-follower">
-                    <router-link to="/follower"> <a>팔로워</a><br> <a>0</a></router-link>
+                    <router-link to="/follower"> <a>팔로워</a><br> <a>{{this.users.follower}}</a></router-link>
                   </section>
                   <section class="line"> | </section>
                   <!-- 팔로잉 -->
                   <section class="follow-list-wrapper-following">
                     <router-link to="/following"> <a>팔로잉</a>
-                    <br><a>0</a></router-link>
+                    <br><a>{{this.users.following}}</a></router-link>
                   </section>
 
                 </section>
@@ -61,9 +61,9 @@
                   <!-- 좋아요 이미지 -->
                   <section class="img-wrapper-like"><img src="../../assets/mypage_icon/like.png"></section>
                   <!-- 스크랩 -->
-                  <section class="scrap-content"><router-link to="/scrap"><a> 스크랩북 <br> 0</a></router-link></section>
+                  <section class="scrap-content"><router-link to="/scrap"><a> 스크랩북 <br> {{this.users.scraps}}</a></router-link></section>
                   <!-- 좋아요 -->
-                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> 0 </a></router-link></section>
+                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> {{this.users.liked}}</a></router-link></section>
                 </section>
               </section>
 
@@ -78,7 +78,14 @@
                 <section class="house-header">
                   <a> 집들이 </a>
                 </section>
-                <section class="house-content"></section>
+                <section class="house-content">
+                  <section class="user-posts-container" style="overflow-x: auto; white-space: nowrap;">
+                    <!-- 게시글 썸네일과 제목 -->
+                    <div v-for="post in posts" :key="post.id" class="post-thumbnail" style="display: inline-block; margin-right: 10px;">
+                      <img :src="post.thumbnail" alt="게시글 썸네일" class="thumbnail-image">
+                      <h3 class="post-title">{{ post.title }}</h3>
+                    </div>
+                </section>
               </section>
 
               <!-- 공모전 -->
@@ -86,17 +93,21 @@
                 <section class="competition-header house-header">
                   <a> 공모전 </a>
                 </section>
-                <section class="competition-content"></section>
+                <section class="competition-content">
+                  <section class="user-posts-container" style="overflow-x: auto; white-space: nowrap;">
+                    <!-- 게시글 썸네일과 제목 -->
+                    <div v-for="post in posts" :key="post.id" class="post-thumbnail" style="display: inline-block; margin-right: 10px;">
+                      <img :src="post.thumbnail" alt="게시글 썸네일" class="thumbnail-image">
+                      <h3 class="post-title">{{ post.title }}</h3>
+                    </div>
+                  </section>
+                </section>
               </section>
             </section>
           </section>
-
         </section>
-
-
-
       </section>
-
+      </section>
     </div>
   </div>
 </template>
@@ -113,28 +124,59 @@ export default {
     return{
       input: '',
       result:'',
-      data: "null",
-      users: [],
-      userId: Store.state.userId,
+      data: null,
+      users: {
+        userId: Store.state.userId,
+        profile: '',
+        nickname: '',
+        follower: '',
+        following: '',
+        liked: '',
+        scraps: '',
+      },
+      posts: {
+        articleId: '',
+        title: '',
+        thumbnail: '',
+        nickname: '',
+        likeCount: ''
+      },
     }
   },
   mounted(){
     this.getUser();
+    this.getPost();
+    this.getFollow();
+    this.fetchImg();
   },
   methods:{
+    /* 유저 정보 조회 */
     async getUser(){
-      if (this.users.length) {
-        return;
-      }
       try {
-        const args = `/user/${encodeURIComponent(this.userId)}`;
-        console.error("args: ", args);
+        const args = `/users/details?userId=${encodeURIComponent(this.users.userId)}`;
         const res = await api.getUserInfo(args);
         this.users = res.data;
-
-        console.error("user:", this.users.nickname);
       } catch (error) {
         console.error(error);
+      }
+    },
+    /* 게시글 목록 조회 */
+    async getPost(){
+      try {
+        const args = `/users/posts?userId=${encodeURIComponent(this.users.userId)}`;
+        const res = await api.getPost(args);
+        this.posts = res.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    async fetchImg(){
+      try {
+        const args = `/users/image?userId=${this.userId}`;
+        const res = await axios.get(args);
+        this.users.profile = res.data; // API 응답 데이터를 posts에 저장
+      } catch (error) {
+        console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
       }
     },
     copyUrl(){
