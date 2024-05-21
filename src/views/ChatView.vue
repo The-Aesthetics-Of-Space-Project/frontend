@@ -6,13 +6,13 @@
       <div class="custom-chat-list">
         <h3>대화상대</h3>
         <ul>
-          <button @click='partername'>목록</button>
-          <li v-for="user in users" :key="user.id"><span style="color: black; font-size: 500px;">{{ user.name }}</span></li>
-        </ul>
+          <li v-for="user in users" :key="user" @dblclick="selectUser(user)"> {{user}}</li>
+      </ul>
       </div>
       <input type="hidden" id="hid-roomid">
       <!-- 채팅 뷰 페이지 -->
       <div class="custom-chat-view">
+        <span style="position: relative; left:-40%; top:30px;">{{ selectedUser }}</span>
         <!-- 채팅 상대 이름 표시 -->
         <div class="custom-chat-navbar">
           <span class="custom-chat-partner-name"></span>
@@ -46,26 +46,25 @@ import axios from "axios";
 
 export default {
   data() {
-
     return {
-      users : [],
-      // 채팅 입력 데이터
+      users: [],
       inputMessage: '',
-      // 채팅 기록
       messages: [],
-      userId : this.$store.state.userId,
+      userId: this.$store.state.userId,
+      nickname: this.$store.state.nickname,
       chatPartners: '',
+      selectedUser: '' // 선택된 유저를 저장할 변수
     }
   },
   mounted() {
     this.partername();
   },
   methods: {
-    partername(){
+    partername() {
       axios.get(`http://jerry6475.iptime.org:20000/chatroom/${encodeURIComponent(this.userId)}`)
           .then(res => {
             this.users = res.data.list;
-            console.log(res.data.list);
+            console.log(res.data);
           })
           .catch(error => {
             console.log("list-failed");
@@ -74,28 +73,41 @@ export default {
     // 메시지 전송 메소드
     sendMessage() {
       if (this.inputMessage.trim() !== '') {
-        // 새 메시지 객체 생성
         const newMessage = {
           content: this.inputMessage,
-          type: 'custom-my-message' // 'custom-my-message' 또는 'custom-other-message'
+          type: 'custom-my-message'
         };
-        // 메시지 목록에 추가
         this.messages.push(newMessage);
-        // 입력 필드 초기화
         this.inputMessage = '';
       }
+    },
+    // 유저 선택 메소드
+    selectUser(user) {
+      this.selectedUser = user;
+
+      axios.post(`http://jerry6475.iptime.org:20000/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
+        userId: this.userId,
+        selectedUser: this.selectedUser
+      })
+          .then(response => {
+            console.log('서버 응답:', response.data);
+          })
+          .catch(error => {
+            console.error('서버 요청 실패:', error);
+          })
     }
   },
   name: 'ChatView'
 }
+
 document.addEventListener('DOMContentLoaded', function() {
   document.getElementById('fullscreenButton').addEventListener('click', function () {
-    var chatView = document.querySelector('.custom-chat-view'); // custom-chat-view 요소 선택
-    if (!document.fullscreenElement) { // 현재 전체 화면 모드가 아니라면
-      if (chatView.requestFullscreen) { // 표준 메서드
+    var chatView = document.querySelector('.custom-chat-view');
+    if (!document.fullscreenElement) {
+      if (chatView.requestFullscreen) {
         chatView.requestFullscreen();
       }
-    } else { // 이미 전체 화면 모드라면
+    } else {
       if (document.exitFullscreen) {
         document.exitFullscreen();
       }
@@ -110,16 +122,14 @@ document.addEventListener('DOMContentLoaded', function() {
   function updateButtonState() {
     if (input.value.trim() !== '') {
       sendButton.disabled = false;
-      sendButton.classList.add('active'); // 내용이 있을 때 active 클래스 추가
+      sendButton.classList.add('active');
     } else {
       sendButton.disabled = true;
-      sendButton.classList.remove('active'); // 내용이 없을 때 active 클래스 제거
+      sendButton.classList.remove('active');
     }
   }
 
   input.addEventListener('input', updateButtonState);
-
-  // 페이지 로딩 시 버튼 상태 초기화
   updateButtonState();
 });
 </script>
