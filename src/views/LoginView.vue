@@ -69,6 +69,7 @@
 import axios from "axios";
 import Logofont from "@/components/logofont.vue";
 import ZipLogo from "@/components/ZipLogo.vue";
+import {api} from "@/api/api";
 
 export default {
   name: 'login',
@@ -81,7 +82,9 @@ export default {
     }
   },
   methods: {
-    login() {
+
+    async login(event) {
+      event.preventDefault();
       // 입력값 검증
       if (!this.userId && !this.password) {
         alert('아이디와 비밀번호를 입력해 주세요.');
@@ -90,30 +93,25 @@ export default {
       } else if (!this.password) {
         alert('비밀번호를 입력해 주세요.');
       } else {
+
         const userData = {
           userId: this.userId,
           password: this.password,
         };
 
-        // 보내기 전 데이터 확인
-        console.log('Sending data', userData);
-
-        axios.post('https://85fa0ceb-630c-4aa0-b333-1084fe8b5dc5.mock.pstmn.io/login', userData, {
-          headers: {
-            'Content-Type': 'application/json'
-          }
-        })
-            .then(response => {
+        await api.setUser('/users',userData).then(res => {
+          this.users = res.data;
               // 서버 응답 로그
-              console.log('Response data', response.data);
+              console.log('Response data', res.data);
               // 로그인 성공 알림
               alert('로그인에 성공하였습니다.');
               // 세션 값 저장
-              this.$store.commit('setUserId', response.data.userId);
+              this.$store.commit('setUserId', res.data.userId);
               // 페이지 이동
               this.$router.push('/');
             })
             .catch(error => {
+              //통신할 때 401에러 처리
               // 사용자에게 친절한 에러 메시지 표시
               alert('로그인에 실패하였습니다. 아이디와 비밀번호를 확인해 주세요.');
               console.error('Error data', error);

@@ -66,7 +66,12 @@ export const testApi = {
     getTests() {
         return service.get(`${API_URL}${API.tests}`)
     },
-
+    /* test 등록하기
+     * @param { Object } args
+     * @param { string } args.args1 - 이것
+     * @param { string } args.args2 - 저것
+     * @param { string } args.args3 - 그것
+     */
     setTest(args) {
         // URL과 함께 args를 바디로 전달
         return service.post(`${API_URL}${API.test}`, args);
