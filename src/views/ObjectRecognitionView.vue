@@ -31,7 +31,7 @@ export default {
   display: flex;
   width: 60%;
   background-color: white;
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.5); /* 그림자 추가 */
+  box-shadow: 0 4px 8px rgba(50, 100, 100, 0.3); /* 그림자 추가 */
   border-radius: 16px; /* 테두리 둥글게 */
   overflow: hidden; /* 내용이 테두리를 넘지 않도록 */
   height: 800px;
