@@ -20,7 +20,7 @@ import LikeListView from "@/views/MyPage/LikeListView.vue";
 import ChatView from "@/views/ChatView.vue";
 
 Vue.use(VueRouter)
-
+/*  경로 설정*/
 const routes = [
     { path: '/login', component: LoginView, meta: { hideHeader: true,hideFooter: true } },
     { path: '/signup', component: SignUpView, meta: { hideFooter: true,hideHeader: true} },

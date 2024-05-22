@@ -28,7 +28,13 @@ import Store from "@/store/index"
 export default {
   data() {
     return {
-      followers: [],
+      followers: [
+        {
+          userId: '',
+          nickname: '',
+          profile: ''
+        },
+      ],
       data: "null",
       userId: Store.state.userId
     };
@@ -43,15 +49,17 @@ export default {
       await api.getFollow(args).then(res => {
         this.followers = res.data;
         console.log("res: ", res);
+        console.log("follower list: ", this.followers.userId);
       })
     },
     /* 팔로워 삭제 */
     async deleteFollow(userId) {
-      const args='/follow';
-      const params = userId;
-      await api.deleteFollow(args, params).then(res => {
+      const args=`/users/unfollower?userId=${this.userId}&follower=${userId}`;
+      await api.deleteFollow(args).then(res => {
         this.followers = this.followers.filter(follower => follower.userId !== userId);
         console.log("res: ", res);
+      }).catch(err=>{
+        console.log("err: ", err);
       })
     }
   }

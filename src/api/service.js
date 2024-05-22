@@ -38,7 +38,6 @@ service.interceptors.response.use(
         if (response.status === 404) {
             console.log("404 페이지로 넘어가야 함!");
         }
-        console.log("res.data 값이다", response.data);
         return response;
     },
     async(error) =>{
@@ -46,6 +45,7 @@ service.interceptors.response.use(
             error.config.headers = {
                 'Content-Type': 'application/json',
             };
+            console.log("응답 인터셉터 오류", error);
 
             const response = await axios.request(error.config);
             return response;

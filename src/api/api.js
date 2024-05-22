@@ -59,8 +59,8 @@ export const api = {
     },
     /* 팔로워 삭제 */
     /* 팔로워/팔로잉 삭제 요청 */
-    deleteFollow(args, params){
-        return service.delete(args, params)
+    deleteFollow(args){
+        return service.delete(args)
     }
 }
 
