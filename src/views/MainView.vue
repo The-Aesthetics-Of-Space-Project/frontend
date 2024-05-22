@@ -109,7 +109,7 @@
     </div>
     <div class="Home-Styling-title">
       <h2  style="font-family: MyCustomFont2; position: relative; top:70px;">Home Styling</h2>
-
+      <button @click='test'>test</button>
     <div class="board-write-list">
       <div class="card-view">
         <div class="card-list">
@@ -131,6 +131,8 @@
 
 <script>
 
+import {api} from "@/api/api";
+
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
   name: 'MainView',
@@ -138,6 +140,22 @@ export default {
     // 로그인 유무 확인
     isUserLogin() {
       return this.$store.getters.isLogin;
+    }
+  },
+  methods:{
+    async test(){
+      await api.getUser('/api/general/posts/popular').then(res => {
+        this.users = res.data.title;
+        this.users = res.data.thumnail;
+        this.users = res.data.nickname;
+        console.log('데이타', res.data);
+          }
+      )
+          .catch(error => {
+            if (error.response) {
+          console.log("error");
+            }
+          });
     }
   },
   components: {
