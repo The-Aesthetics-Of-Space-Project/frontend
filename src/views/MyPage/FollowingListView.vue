@@ -32,7 +32,13 @@ import axios from "axios";
 export default {
   data() {
     return {
-      following: [],
+      following: [
+        {
+          userId: '',
+          nickname: '',
+          profile: ''
+        },
+      ],
       data: "null",
       userId: Store.state.userId,
       profileImage: '',
@@ -54,12 +60,11 @@ export default {
     },
     /* 언팔로잉(=팔로잉 삭제) */
     async deleteFollow(userId) {
-      const args='/follow';
-      const params = userId;
-      await api.deleteFollow(args, params).then(res => {
+      const args=`/users/unfollowing?userId=${this.userId}&follow=${userId}`;
+      await api.deleteFollow(args).then(res => {
           // 3초 후에 팔로워가 목록에서 사라짐
           setTimeout(() => {
-            this.followers = this.followers.filter(follower => follower.userId !== userId);
+            this.following = this.following.filter(following => following.userId !== userId);
           }, 3000);
         console.log("res: ", res);
       })
