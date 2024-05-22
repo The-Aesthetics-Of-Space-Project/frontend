@@ -17,7 +17,7 @@ import FollowingListView from "@/views/MyPage/FollowingListView.vue";
 import interiorGuideView from "@/views/InteriorGuideView.vue";
 
 Vue.use(VueRouter)
-
+/*  경로 설정*/
 const routes = [
     { path: '/login', component: LoginView, meta: { hideHeader: true,hideFooter: true } },
     { path: '/signup', component: SignUpView, meta: { hideFooter: true,hideHeader: true} },
