@@ -17,6 +17,7 @@ import FollowingListView from "@/views/MyPage/FollowingListView.vue";
 import interiorGuideView from "@/views/InteriorGuideView.vue";
 import ScrapListView from "@/views/MyPage/ScrapListView.vue";
 import LikeListView from "@/views/MyPage/LikeListView.vue";
+import ChatView from "@/views/ChatView.vue";
 
 Vue.use(VueRouter)
 
@@ -38,6 +39,8 @@ const routes = [
     { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
     { path: '/scrap', component: ScrapListView, meta: {hideHeader: false, hideFooter: false}},
     { path: '/like', component: LikeListView, meta: {hideHeader: false, hideFooter: false }},
+    { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
+    { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }}
 ]
 
 const router = new VueRouter({
