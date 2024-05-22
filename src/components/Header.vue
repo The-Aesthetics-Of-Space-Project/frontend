@@ -1,6 +1,7 @@
 <template>
   <div class="header">
     <button @click="chatseesion"><router-link :to="isUserLogin ?`/chatroom/${this.userId}` :'login'">채팅 목록</router-link></button>
+    <button @click="chatgoing"><router-link :to="isUserLogin ?`/chat/${this.userId}` :'login'">채팅 하기</router-link></button>
     <div class="menu">
       <h4>
         <router-link
@@ -105,6 +106,20 @@ export default {
     },
     chatseesion() {
       axios.get(`http://jerry6475.iptime.org:20000/chatroom/${encodeURIComponent(this.userId)}`)
+          .then(res => {
+            this.users = res.data;
+            console.log('Response data', res.data.userId);
+
+            // 여기서 라우터 이동
+            this.$router.push({ path: `/chatroom/${this.userId}` });
+          })
+          .catch(error => {
+            // 통신할 때 401에러 처리
+            console.error('Error data', error);
+          });
+    },
+    chatgoing(){
+      axios.get(`http://jerry6475.iptime.org:20000/chat/${encodeURIComponent(this.userId)}`)
           .then(res => {
             this.users = res.data;
             console.log('Response data', res.data.userId);

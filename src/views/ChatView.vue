@@ -1,14 +1,15 @@
 <template>
-  <div class="custom-chat" > <!--세션 아이디-->
-    <button id="fullscreenButton"><img src="@/assets/fullscreen.png" width="40" height="40"></button> <!-- 풀 스크린 버튼 추가 -->
+  <div class="custom-chat"> <!--세션 아이디-->
+    <button id="fullscreenButton"><img src="@/assets/fullscreen.png" width="40" height="40"></button>
+    <!-- 풀 스크린 버튼 추가 -->
     <button @click=" $router.back()">뒤로가기</button>
     <div class="custom-chat-container">
       <!-- 대화상대 리스트 -->
       <div class="custom-chat-list">
         <h3>대화상대</h3>
         <ul>
-          <li v-for="user in users" :key="user" @dblclick="selectUser(user)"> {{user}}</li>
-      </ul>
+          <li v-for="user in users" :key="user" @dblclick="selectUser(user)"> {{ user }}</li>
+        </ul>
       </div>
       <input type="hidden" id="hid-roomid">
       <!-- 채팅 뷰 페이지 -->
@@ -21,19 +22,20 @@
         </div>
         <div class="chat-history">
           <div class="message my-message">
-            <div class="message-content" >
+            <div class="message-content">
               <p>Hello, this is my message!</p>
             </div>
           </div>
           <div class="message other-message">
-            <div class="message-content" >
+            <div class="message-content">
               <p>Hello, this is the other person's message!</p>
             </div>
           </div>
         </div>
         <div class="custom-chat-input">
           <!-- 입력 필드와 전송 버튼 -->
-          <input type="text" id="chat-input" v-model="inputMessage" placeholder="send a message" @keyup.enter="sendMessage">
+          <input type="text" id="chat-input" v-model="inputMessage" placeholder="send a message"
+                 @keyup.enter="sendMessage">
           <button id="sendMessageButton" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
         </div>
       </div>
@@ -45,19 +47,20 @@
 import axios from "axios";
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client'
+
 export default {
   data() {
     return {
-      users: [],
+      users: '',
       inputMessage: '',
       messages: [],
       userId: this.$store.state.userId,
       chatPartners: '',
       selectedUser: '',
-      receiver: '',
-      sender: '',
       socket: null,
       stompClient: null,
+      chatInput: '',
+      reciver : '',
     }
   },
   mounted() {
@@ -72,18 +75,20 @@ export default {
         return;
       }
 
-      this.connectAndSubscribe(this.roomId);
+      this.connectAndSubscribe(this.roomid);
     },
     connectAndSubscribe(roomId) {
       if (this.socket) {
         this.socket.close();
       }
       this.socket = new SockJS('http://jerry6475.iptime.org:20000/gs-guide-websocket');
-      this.stompClient = Stomp.over(this.socket);
+      this.stompClient = Stomp.over(this.socket, {
+        protocols: ['v12.stomp']
+      });
 
       this.stompClient.connect({}, (frame) => {
-        this.stompClient.subscribe(`/pub/${roomId}`, (message) => {
-          this.displayMessage(JSON.parse(message.body));
+        this.stompClient.subscribe(`/pub/${this.roomid}`, (message) => {
+          this.displayMessages(JSON.parse(message.body));
         });
       });
       console.log(roomId);
@@ -99,14 +104,15 @@ export default {
           });
     },
     selectUser(user) {
-      this.selectedUser = user;
 
+      this.selectedUser = user;
+      this.chatPartners = user;
       axios.post(`http://jerry6475.iptime.org:20000/api/chat_room/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`)
           .then(response => response.data)
           .then(newRoomId => {
-            console.log('Updating roomId from', this.roomId, 'to', newRoomId);
-            this.roomId = newRoomId;
-            this.connectAndSubscribe(this.roomId);
+            console.log('Updating roomId from', this.roomid, 'to', newRoomId);
+            this.roomid = newRoomId;
+            this.connectAndSubscribe(this.roomid);
           })
           .catch(error => {
             console.error('Error creating chat room:', error);
@@ -123,12 +129,22 @@ export default {
           .catch(error => {
             console.error('Server request failed:', error);
           });
+
+
+      if (this.chatPartners === '') {
+        alert('상대방을 선택해주세염');
+        return;
+      }
+      this.sendMessage();
     },
     displayMessages(messages) {
       const chatHistoryElement = document.querySelector('.chat-history');
 
       // Clear existing messages
-      chatHistoryElement.innerHTML = '';
+      // Convert object to array if it's not already
+      if (!Array.isArray(messages)) {
+        messages = [messages];
+      }
 
       messages.forEach(message => {
         const messageElement = document.createElement("div");
@@ -151,11 +167,26 @@ export default {
         chatHistoryElement.append(messageElement);
       });
     }
+,
+    sendMessage(message,inputMessage) {
+      console.log('sendMessage', this.inputMessage);
+
+      if (this.stompClient && this.inputMessage) {
+        const messageObj = {
+          content: this.inputMessage,
+          sender: this.userId,
+          reciver: this.chatPartners,
+          roomid: this.roomid
+        };
+
+        this.stompClient.send(`/app/${this.roomid}`,  JSON.stringify(messageObj),{});
+      }
+    }
   },
   name: 'ChatView'
 }
 
-document.addEventListener('DOMContentLoaded', function() {
+document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('fullscreenButton').addEventListener('click', function () {
     var chatView = document.querySelector('.custom-chat-view');
     if (!document.fullscreenElement) {
@@ -169,6 +200,7 @@ document.addEventListener('DOMContentLoaded', function() {
     }
   });
 });
+
 </script>
 
 <style>
@@ -281,45 +313,50 @@ body, html {
   width: 90%;
   height: 60px;
   position: relative;
-  left:15px;
-  top:15px;
+  left: 15px;
+  top: 15px;
 }
+
 .my-message,
 .other-message {
-  margin-bottom :10px ; /* 위아래 간격 조절 */
-  padding :10px ;
-  border-radius :15px ;
+  margin-bottom: 10px; /* 위아래 간격 조절 */
+  padding: 10px;
+  border-radius: 15px;
 }
 
 
 .my-message {
-  display:flex ;
-  justify-content:flex-end ;
+  display: flex;
+  justify-content: flex-end;
 }
+
 .other-message {
-  display:flex ;
-  justify-content:flex-start ;
+  display: flex;
+  justify-content: flex-start;
 }
-.message-content{
-  max-width :50% ;
-  padding :10px ;
-  border-radius :15px ;
-  word-wrap :break-word ; /* 단어가 행 끝에 도달하면 다음 행으로 이동 */
+
+.message-content {
+  max-width: 50%;
+  padding: 10px;
+  border-radius: 15px;
+  word-wrap: break-word; /* 단어가 행 끝에 도달하면 다음 행으로 이동 */
 }
 
 
 .my-message .message-content {
-  background-color:#0dcaf0 ; /* 자신의 메시지 배경색 */
+  background-color: #0dcaf0; /* 자신의 메시지 배경색 */
 }
-.other-message .message-content{
-  background-color:#ffc107; /* 상대방의 메시지 배경색 */
+
+.other-message .message-content {
+  background-color: #ffc107; /* 상대방의 메시지 배경색 */
 }
-#sendMessageButton{
- border-radius: 5px;
+
+#sendMessageButton {
+  border-radius: 5px;
   position: relative;
   left: 45%;
   width: 80px;
   height: 60px;
-  top:-45px;
+  top: -45px;
 }
 </style>
