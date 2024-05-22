@@ -13,23 +13,27 @@
         </div>
         <!-- 내용 -->
         <div class="setting-content-wrapper">
-          <!-- 이메일 헤더 -->
-          <section class="setting-email-wrapper">
-            <section class="setting-email-content">
-              <a> 이메일 </a>
+          <!-- 비밀번호 헤더 -->
+          <section class="setting-password-wrapper">
+            <section class="setting-password-content">
+              <a> 비밀번호 </a>
+              <section class="setting-form-text-pass setting-form-text-nickname"
+              style="position: relative;width: 75%;height: 10%;top: 4px;margin: auto;left: 15.7em;font-size: 13px; font-weight: normal;">
+                <a> 대소문자, 숫자, 특수문자를 포함한 8자 이상을 입력하세요. </a>
+              </section>
             </section>
-            <!-- 이메일 입력 폼 -->
-            <section class="email-input-wrapper">
+            <!-- 비밀번호 입력 폼 -->
+            <section class="password-input-wrapper">
               <div class="input-group" style="position: relative; margin-bottom: 20px;">
-                <input type="text" class="form-control invalid" placeholder="이메일" v-model="user.userId"
-                       id="emailInput" aria-describedby="emailHelp" @input="checkUserId" style="border-radius: 6px; height: 40px; font-size: 14px;">
-                <div><span id="checkId" style="width: 100px; font-size: 13px; top:-10px;" @input="checkUserId"></span></div>
+                <input type="text" class="form-control invalid" placeholder="비밀번호" v-model="user.password"
+                       id="passwordInput" aria-describedby="passwordHelp" @input="setCheckPassword" style="border-radius: 6px; height: 40px; font-size: 14px;">
+                <div><span id="checkpassword" style="width: 100px; font-size: 13px; top:-10px;" @input="setCheckPassword"></span></div>
               </div>
             </section>
           </section>
           <!-- 닉네임 헤더 -->
           <section class="setting-nickname-wrapper">
-            <section class="setting-email-content">
+            <section class="setting-password-content">
               <a> 닉네임 </a>
             </section>
             <section class="setting-form-text-nickname">
@@ -46,7 +50,7 @@
           </section>
           <!-- 프로필 -->
           <section class="profile-content-wrapper">
-            <section class="profile-header-wrapper setting-email-content">
+            <section class="profile-header-wrapper setting-password-content">
               <section class="profile-header-content">
                 <a> 프로필 </a>
               </section>
@@ -92,7 +96,8 @@ export default {
       user:{
         userId: '',
         nickname: '',
-        profile: ''
+        profile: '',
+        password: ''
       },
       isNicknameChecked : false,
     }
@@ -108,61 +113,35 @@ export default {
   mounted() {
   },
   methods: {
-    checkUserId() {
-      // ID(email) 입력란 변수화
-      const idInput = document.querySelector("#emailInput");
+    setCheckPassword() {
+      // 입력란 변수화
+      const passwordInput = document.querySelector("#passwordInput");
 
-      // ID(email) 형식 검증
-      const validateEmail = (email) => {
-        const emailPattern = /^[a-zA-Z0-9._-]+@[a-zA-Z0-9.-]+\.[a-zA-Z]{2,4}$/;
-        return emailPattern.test(email);
+      // 형식 검증
+      const validatePass = (password) => {
+        const passPattern = /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[\W]).{8,}$/;
+        return passPattern.test(password);
       };
 
-      // ID(email) 형식 확인
-      const checkEmail = () => {
-        const email = idInput.value;
-        const emailMessage = document.querySelector("#checkId");
-        const args = `/checkUserId/${encodeURIComponent(email)}`;
+      // 형식 확인
+      const checkPass = () => {
+        const password = passwordInput.value;
+        const passMessage = document.querySelector("#checkpassword");
 
-        if (validateEmail(email)) {
-          emailMessage.textContent = '올바른 이메일 형식입니다.';
-          emailMessage.style.color = '#2fb380';
-          document.getElementById("emailInput").classList.remove("is-invalid");
-          document.getElementById("emailInput").classList.add("is-valid");
-
-          api.getUser(args).then(res => {
-                const available = res.data;
-                if (available) {
-                  emailMessage.textContent = '사용 가능한 이메일입니다.';
-                  emailMessage.style.color = '#2fb380';
-                  document.getElementById("emailInput").classList.remove("is-invalid");
-                  document.getElementById("emailInput").classList.add("is-valid");
-                } else {
-                  emailMessage.textContent = '이미 사용 중인 이메일입니다.';
-                  emailMessage.style.color = '#dc3545';
-                  document.getElementById("emailInput").classList.remove("is-valid");
-                  document.getElementById("emailInput").classList.add("is-invalid");
-                }
-              }
-          ).catch(error => {
-            if (error.response) {
-              alert("서버 오류가 발생했습니다. 나중에 다시 시도해주세요.");
-            } else if (error.request) {
-              alert("서버 응답이 없습니다. 네트워크 연결을 확인해주세요.");
-            } else {
-              alert("요청을 처리하는 중 오류가 발생했습니다.");
-            }
-          });
-
+        if (validatePass(password)) {
+          passMessage.textContent = '올바른 비밀번호 형식입니다.';
+          passMessage.style.color = '#2fb380';
+          document.getElementById("passwordInput").classList.remove("is-invalid");
+          document.getElementById("passwordInput").classList.add("is-valid");
         } else {
-          emailMessage.textContent = '올바른 이메일 형식이 아닙니다.';
-          emailMessage.style.color = '#dc3545';
-          document.getElementById("emailInput").classList.remove("is-valid");
-          document.getElementById("emailInput").classList.add("is-invalid");
+          passMessage.textContent = '올바른 비밀번호 형식이 아닙니다.';
+          passMessage.style.color = '#dc3545';
+          document.getElementById("passwordInput").classList.remove("is-valid");
+          document.getElementById("passwordInput").classList.add("is-invalid");
         }
       };
-      // ID(email) 입력란에 keyup 이벤트 핸들러 추가
-      idInput.addEventListener("keyup", checkEmail);
+      // 입력란에 keyup 이벤트 핸들러 추가
+      passwordInput.addEventListener("keyup", checkPass);
     },
     checkNickname(){
       const nicknameInput = document.querySelector("#nicknameInput");
@@ -230,7 +209,7 @@ export default {
       const formData = new FormData();
       const presentUserId = this.userId;
 
-      formData.append('userId', this.user.userId);
+      formData.append('password', this.user.password);
       formData.append('nickname', this.user.nickname);
       formData.append('profile', this.image);
 
@@ -307,14 +286,14 @@ export default {
   height: 90%;
   margin: auto;
 }
-/* 이메일 */
-.setting-email-wrapper{
+/* 비밀번호 */
+.setting-password-wrapper{
   position: relative;
   width: 50%;
   height: 17%;
   margin: auto;
 }
-.setting-email-content{
+.setting-password-content{
   position: relative;
   right: 35%;
   top: 20px;
@@ -322,7 +301,7 @@ export default {
   font-weight: 550;
 }
 /* 이메일 입력칸 */
-.email-input-wrapper{
+.password-input-wrapper{
   position: relative;
   margin: auto;
   width: 80%;
@@ -345,7 +324,7 @@ export default {
   position: relative;
   width: 50%;
   height: 18%;
-  top: -10px;
+  top: 8px;
   margin: auto;
 }
 .setting-form-text-nickname{
@@ -367,7 +346,7 @@ export default {
   position: relative;
   width: 90%;
   height: 60%;
-  top: 30px;
+  top: 25px;
   left: -5px;
   margin: auto;
 }
@@ -376,7 +355,7 @@ export default {
   position: relative;
   width: 50%;
   height: 40%;
-  top: 10px;
+  top: 25px;
   margin: auto;
 }
 .profile-header-wrapper{
@@ -410,7 +389,7 @@ export default {
   position: relative;
   width: 45%;
   height: 10%;
-  top: 1.3em;
+  top: 2.6em;
   align-content: center;
   margin: auto;
 }

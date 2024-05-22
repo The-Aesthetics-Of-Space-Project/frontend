@@ -45,6 +45,9 @@ export default {
         this.$store.commit('clearUsername');
         // 로그인 페이지로 이동
         this.$router.push('/login');
+      }).catch(err => {
+        alert("회원 탈퇴에 실패했습니다.");
+        console.log(err);
       })
     }
   },
