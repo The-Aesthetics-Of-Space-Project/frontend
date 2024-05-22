@@ -1,6 +1,7 @@
 <template>
   <div class="custom-chat" > <!--세션 아이디-->
     <button id="fullscreenButton"><img src="@/assets/fullscreen.png" width="40" height="40"></button> <!-- 풀 스크린 버튼 추가 -->
+    <button @click=" $router.back()">뒤로가기</button>
     <div class="custom-chat-container">
       <!-- 대화상대 리스트 -->
       <div class="custom-chat-list">
@@ -13,6 +14,7 @@
       <!-- 채팅 뷰 페이지 -->
       <div class="custom-chat-view">
         <span style="position: relative; left:-40%; top:30px;">{{ selectedUser }}</span>
+
         <!-- 채팅 상대 이름 표시 -->
         <div class="custom-chat-navbar">
           <span class="custom-chat-partner-name"></span>
@@ -40,9 +42,9 @@
 </template>
 
 <script>
-// @ is an alias to /src
 import axios from "axios";
-
+import SockJS from 'sockjs-client';
+import Stomp from 'webstomp-client'
 export default {
   data() {
     return {
@@ -51,15 +53,41 @@ export default {
       messages: [],
       userId: this.$store.state.userId,
       chatPartners: '',
-      selectedUser: '', // 선택된 유저를 저장할 변수
-      receiver:'',
-      sender:'',
+      selectedUser: '',
+      receiver: '',
+      sender: '',
+      socket: null,
+      stompClient: null,
     }
   },
   mounted() {
     this.partername();
+    this.initWebSocket();
   },
   methods: {
+    initWebSocket() {
+      this.userId = this.$store.state.userId;
+      if (!this.userId) {
+        console.error('세션 ID가 없거나 유효하지 않습니다.');
+        return;
+      }
+
+      this.connectAndSubscribe(this.roomId);
+    },
+    connectAndSubscribe(roomId) {
+      if (this.socket) {
+        this.socket.close();
+      }
+      this.socket = new SockJS('http://jerry6475.iptime.org:20000/gs-guide-websocket');
+      this.stompClient = Stomp.over(this.socket);
+
+      this.stompClient.connect({}, (frame) => {
+        this.stompClient.subscribe(`/pub/${roomId}`, (message) => {
+          this.displayMessage(JSON.parse(message.body));
+        });
+      });
+      console.log(roomId);
+    },
     partername() {
       axios.get(`http://jerry6475.iptime.org:20000/chatroom/${encodeURIComponent(this.userId)}`)
           .then(res => {
@@ -70,29 +98,36 @@ export default {
             console.log("list-failed");
           });
     },
-    // 메시지 전송 메소드
-
-    // 유저 선택 메소드
     selectUser(user) {
       this.selectedUser = user;
+
+      axios.post(`http://jerry6475.iptime.org:20000/api/chat_room/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`)
+          .then(response => response.data)
+          .then(newRoomId => {
+            console.log('Updating roomId from', this.roomId, 'to', newRoomId);
+            this.roomId = newRoomId;
+            this.connectAndSubscribe(this.roomId);
+          })
+          .catch(error => {
+            console.error('Error creating chat room:', error);
+          });
 
       axios.post(`http://jerry6475.iptime.org:20000/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
         userId: this.userId,
         selectedUser: this.selectedUser,
       })
           .then(res => {
-            console.log('서버 응답:', res.data);
+            console.log('Server response:', res.data);
             this.displayMessages(res.data);
           })
           .catch(error => {
-            console.error('서버 요청 실패:', error);
+            console.error('Server request failed:', error);
           });
     },
-
     displayMessages(messages) {
       const chatHistoryElement = document.querySelector('.chat-history');
 
-      // 기존의 모든 메시지 삭제
+      // Clear existing messages
       chatHistoryElement.innerHTML = '';
 
       messages.forEach(message => {
@@ -116,7 +151,6 @@ export default {
         chatHistoryElement.append(messageElement);
       });
     }
-
   },
   name: 'ChatView'
 }
@@ -134,24 +168,6 @@ document.addEventListener('DOMContentLoaded', function() {
       }
     }
   });
-});
-
-document.addEventListener('DOMContentLoaded', function() {
-  var input = document.getElementById('custom-chat-input');
-  var sendButton = document.getElementById('custom-sendMessageButton');
-
-  function updateButtonState() {
-    if (input.value.trim() !== '') {
-      sendButton.disabled = false;
-      sendButton.classList.add('active');
-    } else {
-      sendButton.disabled = true;
-      sendButton.classList.remove('active');
-    }
-  }
-
-  input.addEventListener('input', updateButtonState);
-  updateButtonState();
 });
 </script>
 
