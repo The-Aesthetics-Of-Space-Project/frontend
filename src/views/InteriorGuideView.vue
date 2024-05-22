@@ -1,74 +1,77 @@
 <!-- InteriorGuide.vue -->
 <template>
   <div class="interirorguideview">
-  <div class="container">
-    <div class="left-section">
-      <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
-        <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
+    <div class="container">
+      <div class="left-section">
+        <button @click='test'>test</button>
+        <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
+          <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
         인테리어 이미지를</span>
-        <span  v-if="currentStep === 2" style="position: relative; left:-220px; color:darkgreen">
+          <span  v-if="currentStep === 2" style="position: relative; left:-220px; color:darkgreen">
         컬러 색감을</span>
-        <span  v-if="currentStep === 3" style="position: relative; left:-200px; color:darkgreen">
+          <span  v-if="currentStep === 3" style="position: relative; left:-200px; color:darkgreen">
         가구 이미지를</span>
-        <br>
-        <span style="position: relative; left:-205px;">선택해 주세요</span>
-      </h1>
-      <p class="guide-textcontent">{{ textContent }}</p>
-      <router-link to="/" id="anlay-btn" style="position: relative; left:-180px;" class="btn btn-outline-success"><span class="font-analye_1">뒤로 가기</span></router-link>
-      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;" @click="goToStep2" v-if="currentStep === 1"><span style="position: relative; top:-5px;">다음</span></button>
-      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;" @click="goToStep3" v-if="currentStep === 2"><span style="position: relative; top:-5px;">다음</span></button>
-      <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;" @click="analyzeSelectedImages" v-if="currentStep === 3"><span style="position: relative; top:-5px;">분석하기</span></button>
+          <br>
+          <span style="position: relative; left:-205px;">선택해 주세요</span>
+        </h1>
+        <p class="guide-textcontent">{{ textContent }}</p>
+        <router-link to="/" id="anlay-btn" style="position: relative; left:-180px;" class="btn btn-outline-success"><span class="font-analye_1">뒤로 가기</span></router-link>
+        <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;" @click="goToStep2" v-if="currentStep === 1"><span style="position: relative; top:-5px;">다음</span></button>
+        <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;" @click="goToStep3" v-if="currentStep === 2"><span style="position: relative; top:-5px;">다음</span></button>
+        <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;" @click="analyzeSelectedImages" v-if="currentStep === 3"><span style="position: relative; top:-5px;">분석하기</span></button>
 
+      </div>
+
+      <span style="position: relative; left: 680px; top:15px; font-weight: bolder; color: darkslategrey">{{ currentStep }}/3</span>
+      <div class="right-section">
+        <div class="step-counter">
+          <div class="progress" :style="{width: progressWidth + '%'}"></div>
+        </div>
+        <div class="image-gallery">
+          <div v-for="(image, index) in currentImages" :key="index" @click="selectImage(index)" :class="{'selected': isSelected(index)}">
+            <img :src="image.src" alt="Interior Style" width="200px" height="180px">
+          </div>
+        </div>
+
+        <div v-if="isLoading" class="loading-overlay">
+          로딩 중...
+        </div>
+      </div>
+
+      <modal v-if="showModal" @close="closeModal" class="modal-custom">
+        <div class="modal-header">
+          <h2>Preference Analysis</h2>
+        </div>
+        <div class="modal-body">
+          <div class="section">
+            <h3>결과는? 두둥탁</h3>
+            <p>귀하의 선택에 기반하여, <strong style="font-size: 22px; color: black">{{ analysisResult }}</strong> 인테리어를 추천합니다.</p>
+          </div>
+          <div class="section" style="text-align: left; border-top: 1px solid lightgray; padding:5px;">
+            <h3>내용</h3>
+            {{analysistext}}
+          </div>
+          <div class="section">
+            <h3>팁 설명</h3>
+            <p>{{ tip }}<br>{{ tip_second }}</p>
+          </div>
+          <div class="section">
+            <h3>색깔 추천</h3>
+            <div class="colors">{{ color }}</div>
+          </div>
+        </div>
+        <div class="modal-footer">
+          <button @click="closeModal">Close</button>
+        </div>
+      </modal>
     </div>
-
-    <span style="position: relative; left: 680px; top:15px; font-weight: bolder; color: darkslategrey">{{ currentStep }}/3</span>
-    <div class="right-section">
-      <div class="step-counter">
-        <div class="progress" :style="{width: progressWidth + '%'}"></div>
-      </div>
-      <div class="image-gallery">
-      <div v-for="(image, index) in currentImages" :key="index" @click="selectImage(index)" :class="{'selected': isSelected(index)}">
-        <img :src="image.src" alt="Interior Style" width="200px" height="180px">
-      </div>
-         </div>
-
-      <div v-if="isLoading" class="loading-overlay">
-        로딩 중...
-      </div>
-    </div>
-
-    <modal v-if="showModal" @close="closeModal" class="modal-custom">
-      <div class="modal-header">
-        <h2>Preference Analysis</h2>
-      </div>
-      <div class="modal-body">
-        <div class="section">
-          <h3>결과는? 두둥탁</h3>
-          <p>귀하의 선택에 기반하여, <strong style="font-size: 22px; color: black">{{ analysisResult }}</strong> 인테리어를 추천합니다.</p>
-        </div>
-        <div class="section" style="text-align: left; border-top: 1px solid lightgray; padding:5px;">
-          <h3>내용</h3>
-          {{analysistext}}
-        </div>
-        <div class="section">
-          <h3>팁 설명</h3>
-          <p>{{ tip }}<br>{{ tip_second }}</p>
-        </div>
-        <div class="section">
-          <h3>색깔 추천</h3>
-          <div class="colors">{{ color }}</div>
-        </div>
-      </div>
-      <div class="modal-footer">
-        <button @click="closeModal">Close</button>
-      </div>
-    </modal>
-  </div>
   </div>
 </template>
 
 <script>
 import Modal from '@/components/Modal.vue'
+import {api} from "@/api/api";
+import axios from "axios";
 
 export default {
   components: {
@@ -141,6 +144,7 @@ export default {
       currentStep: 1,
       selectedImagesStep3: [],
       selectedImagesStep4: [],
+      id :'1',
     }
   },
   computed: {
@@ -156,8 +160,21 @@ export default {
         return this.thirdStepImages; // 세 번째 단계 이미지를 반환하도록 추가
       }
     }
-  },
+    },
   methods: {
+    async test(){
+      axios.get(`http://jerry6475.iptime.org:20000/api/interior/style/${encodeURIComponent(this.id)}`)
+          .then(res => {
+        this.users = res.data.about;
+        this.users = res.data.tips;
+        this.users = res.data.color;
+        // 서버 응답 로그
+        console.log('Response data', res.data);
+      })
+          .catch(error => {
+            console.error('Error data', error);
+          });
+    },
     goToStep2() {
       this.currentStep = 1;
       this.selectedImagesStep2 = [];
