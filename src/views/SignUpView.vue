@@ -124,6 +124,7 @@
 
       </section>
     </div>
+
   </div>
 </template>
 
@@ -204,8 +205,8 @@ export default {
       const emailMessage = document.querySelector("#checkId");
 
       if (validateEmail(email)) {
-        emailMessage.textContent = ' 올바른 이메일 형식입니다.';
-        emailMessage.style.color = 'green';
+        emailMessage.textContent = '올바른 이메일 형식입니다.';
+        emailMessage.style.color = 'darkgreen';
         document.getElementById("emailInput").classList.remove("is-invalid");
         document.getElementById("emailInput").classList.add("is-valid");
         const signUpButton = document.querySelector("#signUpButton");
@@ -275,7 +276,7 @@ export default {
         nickname: this.nickname
       };
 
-      await api.setUser('/users', userData).then(res => {
+      await api.setUser('/signup', userData).then(res => {
         this.users = res.data;
         console.log('Response data', res.data);
         alert('회원가입에 성공하였습니다.');
@@ -309,12 +310,12 @@ export default {
         alert('유효하지 않은 이메일 형식입니다.');
         return; // 유효하지 않으면 여기서 함수 종료
       }
-      await api.getUser(`/users?userId=${encodeURIComponent(this.userId)}`).then(res => {
-            this.users = res.data;
-            if (res.data.length === 0) {
+      await api.getUser(`/checkUserId/${encodeURIComponent(this.userId)}`).then(res => {
+        const result = res.data;
+            if (result) {
               alert('사용 가능한 아이디입니다.');
               this.isIdAvailable = true; // 아이디 사용 가능 상태 업데이트
-            } else {
+            } else{
               alert("이미 사용중인 아이디입니다.");
               this.isIdAvailable = false; // 아이디 사용 불가 상태 업데이트
             }
@@ -332,14 +333,14 @@ export default {
     },
     async checknicknamebut() {
       this.isNicknameChecked=true;
-      await api.getUser(`/users?nickname=${encodeURIComponent(this.nickname)}`).then(res => {
-        this.users = res.data;
-        if (res.data.length === 0) {
+      await api.getUser(`/checknickname/${this.nickname}`).then(res => {
+        const result = res.data;
+        if (result) {
           alert('사용 가능한 닉네임입니다.');
           this.isNicknameAvailable = true; // 닉네임 사용 가능 상태 업데이트
-        } else {
+        } else if(!result) {
           alert("이미 사용중인 닉네임입니다..");
-          console.log("닉네임 :",res.data.nickname);
+          console.log("닉네임 :", res.data.nickname);
           this.isNicknameAvailable = false; // 닉네임 사용 불가 상태 업데이트
         }
       })
@@ -371,7 +372,7 @@ a:hover {
   height: 720px;
   margin: 40px auto; /* 상하 여백 조정 */
   padding: 30px; /* 내부 여백 조정 */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  box-shadow: 0 4px 8px rgba(0,0,0,0.1);
   border-radius: 8px;
   font-size: 14px; /* 폰트 크기 조정 */
 }
