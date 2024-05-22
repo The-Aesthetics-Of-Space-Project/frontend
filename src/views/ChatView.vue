@@ -164,11 +164,11 @@ export default {
 
         contentElement.appendChild(p1);
         messageElement.appendChild(contentElement);
-        chatHistoryElement.appendChild(messageElement);
+        chatHistoryElement.append(messageElement);
       });
     }
 ,
-    sendMessage(message) {
+    sendMessage(message,inputMessage) {
       console.log('sendMessage', this.inputMessage);
 
       if (this.stompClient && this.inputMessage) {

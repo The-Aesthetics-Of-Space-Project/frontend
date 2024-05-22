@@ -35,7 +35,8 @@ const routes = [
     { path: '/introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
     { path: '/follower', component: FollowerListView, meta: {hideHeader: false, hideFooter: false}},
     { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
-    { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }}
+    { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
+    { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }}
 ]
 
 const router = new VueRouter({
