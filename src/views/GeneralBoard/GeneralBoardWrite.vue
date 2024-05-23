@@ -1,10 +1,9 @@
 <template>
   <div id="generalboard-write">
-    <link rel="stylesheet">
     <div class="general-content-container" style="display: grid; grid-template-columns: 4fr 1fr; grid-template-rows: 1fr; grid-column-gap: 0px; grid-row-gap: 0px;">
       <div class="image-upload-container">
         <div class="image-upload-wrapper">
-          <img class="upload-image-wrapper" id="preview" :src="uploadImg">
+          <img class="upload-image-wrapper" id="preview" :src="uploadImg" v-model="posts.thumbnail">
           <h6 class="image-size-explanation" v-if="!hasImg" style="position: relative; top: -53%; left: 55%;
             transform: translate(-50%,-50%); font-size: 14px; color: #333;">
             *권장사이즈
@@ -12,17 +11,14 @@
             <p>PC : 1920 x 1080, 최소 1400 x 787 (16:9 비율)</p>
           </h6>
           <button @click="modalOpen" class="modal-open" v-if="!hasImg">커버 사진 추가하기</button>
-
         </div>
       </div>
-
       <div class="side-upload-img-btn-wrapper" style="position: relative; width: 50%; height: 350px; left:-10%; top: 0%; text-align: left;">
         <button @click="modalOpen" v-if="hasImg" style="position: relative; width: 42%; height: 15%; border-radius: 50%; border: 1px solid darkslategrey; background-color: white; bottom: -380px;">
           <span v-html="svgIcon"/>
         </button>
       </div>
     </div>
-
     <div class="modal-wrap" v-show="modalCheck" @click="modalOpen">
       <div class="modal-container" @click.stop="">
         <div class="upload-img-wrapper">
@@ -32,16 +28,18 @@
             이미지 업로드
           </label>
         </div>
+
         <section class="modal-content">
           <section class="modal-img-container" >
             <img :src="imgUrl" v-if="imagePreview" alt="이미지 미리보기"/>
           </section>
+
         </section>
 
         <section class="modal-btn" style="position: relative; width: 100%; top: 12px;">
           <button @click="modalClose" class="close-btn" style="width: 80px; height: 50px; position: relative; border-radius: 10px;
           background-color: white; color: black; border: 1px solid darkslategrey;"> 닫기 </button>
-          <button @click="modalOpen" class="open-btn" style="position: relative; width: 80px; height: 50px; border-radius: 10px;
+          <button @click="modalOk" class="open-btn" style="position: relative; width: 80px; height: 50px; border-radius: 10px;
           background-color: darkslategrey; border: 1px solid darkslategrey; color: white;"> 확인 </button>
         </section>
 
@@ -55,7 +53,7 @@
     </section>
 
     <div id="editor" class="content-write">
-      <editor ref="toastEditorContent"/>
+      <editor @submit="submitArticle"/>
     </div>
 
     <section class="button">
@@ -68,9 +66,8 @@
 <script>
 import Editor from '@toast-ui/editor';
 import '@toast-ui/editor/dist/toastui-editor.css';
-import axios from "axios";
 import {api} from "@/api/api";
-import Store from "@/store";
+import Store from "@/store/index";
 
 export default {
   name: 'GeneralBoardWrite',
@@ -78,18 +75,24 @@ export default {
   },
   data() {
     return {
+      baseUrl: 'http://jerry6475.iptime.org:20000',
       content: '',
       // 내가 보낼 데이터
       article:{
         title: '',
         thumbnail:'',
         content: '',
-        nickname: '',
+        nickname: Store.state.nickname
       },
       users: {
         userId: Store.state.userId,
         nickname: Store.state.nickname,
-        profile: Store.state.profile,
+      },
+      posts:{
+        articleId: '',
+        title: '',
+        thumbnail: '',
+        content: '',
       },
       editorImg: '',
       image: null,
@@ -106,11 +109,14 @@ export default {
       isExistsTempModal: false,
       editorContent: '',
       editorImageId:'',
-      thumbnailImgId: '',
+      resUrlId: '',
+      resUrl: '', // response img URL,
+      editorImgUrl: '',
+      getArticleId: ''
     }
   },
   mounted(){
-    this.editor = new Editor({
+      this.editor = new Editor({
       el: document.querySelector('#editor'),
       height: '550px',
       initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
@@ -129,41 +135,35 @@ export default {
         // blob: 삽입하려는 이미지 정보를 가지고 있음
         // callback: 이미지 처리된 걸 가지고 처리된 이미지를 태그로 만들어서 toast editor에 넣어주는 역할
         addImageBlobHook: async (file, callback) => {
-          try {
             const formData = new FormData();
             formData.append('file', file);
-
-            console.log("formData 출력: ", formData);
 
             const args = '/api/general/post/image';
             await api.setGeneralUser(args, formData)
                 .then(res => {
                   console.log("res 출력: ", res);
-                  this.editorImg = res.data;
-                  // callback에 이미지 URL과 alt text를 전달
-                  callback(this.editorImg, 'alt_img');
+                  this.editorImgUrl = res.data;
+                  const editorFullImgUrl = this.baseUrl + this.editorImgUrl;
 
-                  // 마지막 슬래시 이후의 부분을 분리
-                  const parts = this.editorImg.split('/');
-                  this.editorImageId = parts.pop(); // "2"
+                  callback(editorFullImgUrl, 'alt_img');
                 })
                 .catch(err => {
                   console.error("이미지 업로드 중 오류 발생:", err);
                 });
-
-            //const imageUrl = args+`/${this.editorImageId}`;
-
-            /* 이미지 url 요청 */
-            /*axios.get(imageUrl).then(res => {
-              this.imgUrl=res.data;
-              console.log("res: ", res);
-            })*/
-           }catch (error) {
-              console.log('error:', error.response.data);
-          }
         }
       }
     });
+  },
+  async created() {
+    // 현재 페이지 URL에서 파라미터를 추출하여 URLSearchParams 객체 생성
+    const urlStr = window.location.href;
+    // 마지막 = 이후의 부분을 분리
+    const parts = urlStr.split('=');
+    this.getArticleId = parts.pop();
+
+    if (this.getArticleId) {
+      await this.loadArticleData(this.getArticleId);
+    }
   },
   computed: {
     imagePreview() {
@@ -174,75 +174,86 @@ export default {
     }
   },
   methods: {
+    async loadArticleData(getArticleId) {
+      const args = `/api/general/post/${getArticleId}`;
+      try {
+        const res = await api.getPost(args);
+        this.posts = res.data;
+      } catch (error) {
+        console.error('Error loading article:', error);
+      }
+    },
     /* 모달 창 */
     modalOpen() {
       this.modalCheck = !this.modalCheck;
       this.uploadImg = this.imgUrl;
-      console.log("uploadImg 이란다! => ", this.uploadImg);
     },
-    /* 모달 창 닫기 버튼 */
+    /* 모달 창 - 확인 버튼 */
+    modalOk(){
+      this.modalCheck = !this.modalCheck;
+
+      const args='/api/general/post/image';
+      const formData = new FormData();
+      formData.append('file', this.image);
+
+      console.log("r이미지 파일: ", this.image);
+
+      /* 이미지 파일 전송 */
+      api.setGeneralUser(args, formData).then(res => {
+        console.log("res 이미지 파일 전송 후: ", res);
+        this.uploadImg = this.baseUrl+res.data;
+        this.article.thumbnail = this.uploadImg;
+      });
+    },
+    /* 모달 창 - 닫기 버튼 */
     modalClose(){
       this.modalCheck = !this.modalCheck;
     },
-    async onImageChange(){
-      this.article.thumnail = this.$refs.serveyImg.files;
-      console.log("this.article.thumbnail: ", this.article.thumbnail);
+    // 이미지 미리보기
+    onImageChange(event){
+      const file = event.target.files[0];
+      if (!file) {
+        return;
+      }
+      this.image = file; // 이미지 파일을 저장
 
-      const args='/api/general/post/image';
-      //const params=this.article.thumnail;
-
-      const formData = new FormData();
-      formData.append('file', this.article.thumnail);
-
-      /* 이미지 파일 전송 */
-      await api.setGeneralUser(args, formData).then(res => {
-
-        console.log("res: ", res);
-        this.article.thumnail=res.data;
-
-        // 마지막 슬래시 이후의 부분을 분리
-        const parts = this.article.thumnail.split('/');
-        this.thumbnailImgId = parts.pop(); // "2"
-      });
-
-      const imageUrl = args+`/${this.thumbnailImgId}`;
-
-      /* 이미지 url 요청 */
-      await api.getImg(imageUrl).then(res => {
-        this.imgUrl=res.data;
-        console.log("res: ", res);
-      })
+      const reader = new FileReader();
+      reader.onload = (e) => {
+        this.imgUrl = e.target.result;
+      };
+      reader.readAsDataURL(file);
+    },
+    submitArticle(data){
+      this.article.content = data;
     },
     /* 발행하기 버튼 클릭 시 실행 */
     postArticle(){
-      const editorRef = useRef();
-      editorRef.current.getInstance().getMarkdown();
-
-      const markdown = this.$refs.toastEditorContent.getValue();
-      this.article.content = markdown;
+      this.article.content = this.editor.getMarkdown();
 
       const articleData = {
         title: this.article.title,
         thumbnail: this.article.thumbnail,
-        content: this.article.thumbnail,
-        nickname: this.users.nickname
+        content: this.article.content,
+        nickname: this.article.nickname
       }
+
+      console.log("articleData: ", articleData);
+
       const args = '/api/general/post';
       const params = articleData;
 
       // axios를 사용하여 POST 요청 보내기
-      api.setUser(args,params)
+      api.setUser(args, params)
           .then(response => {
             // 요청이 성공했을 때 처리할 코드
             console.log('게시물이 성공적으로 등록되었습니다.', response);
-            // 게시물 등록 후 필요한 작업 수행 (예: 페이지 이동 등)
+            this.$router.push('/generalBoard');
           })
           .catch(error => {
             // 요청이 실패했을 때 처리할 코드
             console.error('게시물 등록에 실패했습니다.', error);
             // 실패 시 사용자에게 알림을 표시하거나 재시도 안내 등의 작업 수행
           });
-
     },
   },
 
@@ -282,6 +293,7 @@ html::-webkit-scrollbar {
   position: relative;
   width: 72%;
   height: 100%;
+  top: 5em;
   margin: auto;
   left: 70px;
 }
@@ -332,7 +344,6 @@ html::-webkit-scrollbar {
 /* modal or popup */
 .modal-container {
   position: relative;
-//transform: translate(-50%, -50%);
   top: -170px;
   margin: auto;
   width: 35%;
@@ -375,7 +386,7 @@ html::-webkit-scrollbar {
   width: 80%;
   left: 70%;
   transform: translateX(-50%);
-  top: 20px;
+  top: 7.5em;
 }
 .button button {
   position: relative;
@@ -388,9 +399,10 @@ html::-webkit-scrollbar {
 }
 .content-write{
   position: relative;
-  width: 50%;
+  width: 45%;
   height: 50%;
-  margin: 15px 24%;
+  top: 4.5em;
+  left: 27.5em;
 }
 .mb-3 input {
   height: 50px;
@@ -421,7 +433,7 @@ html::-webkit-scrollbar {
   margin: 0px 27.5%;
   padding: 10px;
   width: 42.5%;
-  top: 10px;
+  top: 4em;
 }
 h6 {
   position: relative;
@@ -432,6 +444,4 @@ h6 {
 h6 p {
   padding: 8px;
 }
-
-
 </style>
