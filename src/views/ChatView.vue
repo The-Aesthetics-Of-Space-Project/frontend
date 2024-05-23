@@ -2,13 +2,13 @@
   <div class="custom-chat"> <!--세션 아이디-->
     <button id="fullscreenButton"><img src="@/assets/fullscreen.png" width="40" height="40"></button>
     <!-- 풀 스크린 버튼 추가 -->
-    <button @click=" $router.back()">뒤로가기</button>
     <div class="custom-chat-container">
       <!-- 대화상대 리스트 -->
       <div class="custom-chat-list">
+        <img id="chat-hover"src='@/assets/community_image_list/back.png' width="33px" height="33px" @click=" $router.back()" style="position: relative; left:-40%; top:1.1%;">
         <h3>대화상대</h3>
         <ul>
-          <li v-for="user in users" :key="user" @dblclick="selectUser(user)"> {{ user }}</li>
+          <li v-for="user in users" :key="user" @dblclick="selectUser(user)" > {{ user }}</li>
         </ul>
       </div>
       <input type="hidden" id="hid-roomid">
@@ -34,9 +34,9 @@
         </div>
         <div class="custom-chat-input">
           <!-- 입력 필드와 전송 버튼 -->
-          <input type="text" id="chat-input" v-model="inputMessage" placeholder="send a message"
+          <input type="text" id="chat-input" v-model="inputMessage" placeholder="send a message..." style="font-size: 15px;"
                  @keyup.enter="sendMessage">
-          <button id="sendMessageButton" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
+          <button class="btn btn-outline-secondary" id="sendMessageButton" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
         </div>
       </div>
     </div>
@@ -206,7 +206,7 @@ document.addEventListener('DOMContentLoaded', function () {
 <style>
 /* 추가적인 스타일링이 필요한 경우 여기에 추가 */
 .custom-chat {
-  height: 980px;
+  height: 1000px;
 }
 
 body, html {
@@ -235,7 +235,7 @@ body, html {
 
 .custom-chat-container {
   display: flex;
-  height: calc(100% - 50px);
+  height: 1000px;
 }
 
 .custom-chat-list {
@@ -288,7 +288,7 @@ body, html {
 
 .custom-chat-navbar {
   height: 50px;
-  background-color: #fafafa;
+  background-color: #f5f5f5;
   box-shadow: 0px 3px 5px 0px #ccc;
   display: flex;
   align-items: center;
@@ -308,47 +308,67 @@ body, html {
 
 #chat-input {
   display: flex;
-  justify-content: space-between;
-  border-radius: 8px;
+  border-radius: 5px;
   width: 90%;
-  height: 60px;
+  height: 50px;
   position: relative;
   left: 15px;
   top: 15px;
 }
 
-.my-message,
-.other-message {
-  margin-bottom: 10px; /* 위아래 간격 조절 */
-  padding: 10px;
-  border-radius: 15px;
-}
-
-
-.my-message {
-  display: flex;
-  justify-content: flex-end;
-}
-
-.other-message {
-  display: flex;
-  justify-content: flex-start;
-}
-
 .message-content {
   max-width: 50%;
-  padding: 10px;
-  border-radius: 15px;
-  word-wrap: break-word; /* 단어가 행 끝에 도달하면 다음 행으로 이동 */
+  padding: 10px 20px; /* 패딩 조정 */
+  border-radius: 20px; /* 둥근 모서리 조정 */
+  word-wrap: break-word;
+  position: relative; /* 말풍선 꼬리를 위한 설정 */
+  margin: 10px 0; /* 간격 조정 */
 }
 
+/* 나의 메시지 스타일 */
+.my-message {
+  display: flex;
+  justify-content: flex-end; /* 오른쪽 정렬 */
+}
 
 .my-message .message-content {
-  background-color: #0dcaf0; /* 자신의 메시지 배경색 */
+  background-color: #0dcaf0; /* 배경색 변경 */
+  color: white; /* 글자색 변경 */
+  border: none; /* 테두리 제거 */
+}
+
+.my-message .message-content::after {
+  content: "";
+  position: absolute;
+  top: 50%;
+  right: -10px; /* 오른쪽으로 조금 더 나가게 조정 */
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent transparent transparent #0dcaf0; /* 오른쪽 말풍선 꼬리 */
+  transform: translateY(-50%);
+  left:223px;
+}
+
+/* 상대방 메시지 스타일 */
+.other-message {
+  display: flex;
+  justify-content: flex-start; /* 왼쪽 정렬 */
 }
 
 .other-message .message-content {
-  background-color: #ffc107; /* 상대방의 메시지 배경색 */
+  background-color: #ffc107; /* 배경색 변경 */
+  color: black; /* 글자색 변경 */
+  border: none; /* 테두리 제거 */
+}
+
+.other-message .message-content::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  border-width: 10px;
+  border-style: solid;
+  border-color: transparent #ffc107 transparent transparent; /* 왼쪽 말풍선 꼬리 */
+  transform: translateY(-90%);
 }
 
 #sendMessageButton {
@@ -356,7 +376,14 @@ body, html {
   position: relative;
   left: 45%;
   width: 80px;
-  height: 60px;
-  top: -45px;
+  height: 50px;
+  top: -35px;
+}
+#sendMessageButton:hover{
+  background-color : white;
+  color:black;
+}
+#chat-hover:hover{
+  cursor: pointer;
 }
 </style>
