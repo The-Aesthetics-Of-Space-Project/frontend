@@ -18,6 +18,7 @@ import interiorGuideView from "@/views/InteriorGuideView.vue";
 import ScrapListView from "@/views/MyPage/ScrapListView.vue";
 import LikeListView from "@/views/MyPage/LikeListView.vue";
 import ChatView from "@/views/ChatView.vue";
+import GeneralReWrite from "@/views/GeneralBoard/GeneralReWrite.vue";
 
 Vue.use(VueRouter)
 /*  경로 설정*/
@@ -41,7 +42,8 @@ const routes = [
     { path: '/like', component: LikeListView, meta: {hideHeader: false, hideFooter: false }},
     { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
     { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
-    { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }}
+    { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
+    { path: '/generalReWrite', component: GeneralReWrite, meta: {hideHeader: false, hideFooter: true }},
 ]
 
 const router = new VueRouter({

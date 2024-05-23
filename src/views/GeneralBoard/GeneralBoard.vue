@@ -3,9 +3,9 @@
     <div class="content-wrapper">
       <div class="grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
-          <section class="thumbnail" style="cursor: pointer;" >
-            <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail" width="100px" height="50px"
-                 @click="goToPostDetails(post.articleId)">
+          <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:80%;" >
+                <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
+                @click="goToPostDetails(post.articleId)">
           </section>
           <section class="content-title" @click="goToPostDetails(post.articleId)" >
             <span style="cursor: pointer;">{{ post.title }}</span>
@@ -32,6 +32,7 @@
 
 <script>
 import { api } from "@/api/api";
+import router from "@/router/guard";
 
 export default {
   name: 'GeneralBoardPage',
@@ -46,6 +47,7 @@ export default {
       },
       liked: '',
       heartImg: require('@/assets/mypage_icon/like.png'),
+      baseUrl: 'http://jerry6475.iptime.org:20000',
     };
   },
   created() {
@@ -54,21 +56,25 @@ export default {
   methods: {
     async fetchPosts() {
       try {
-        const response = await api.getPost('/posts');
-        this.posts = response.data;
-        console.error('response posts:', response);
+        const res = await api.getPost('/api/general/posts');
+        this.posts = res.data;
+        this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
+        console.error('response posts:', res);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     },
-    goToPostDetails(postId) {
-      this.$router.push({ name: 'GeneralBoardPage', params: { id: postId } });
+    goToPostDetails(articleId) {
+      this.$router.push({
+        path: "GeneralBoardPage",
+        query: {articleId: articleId}
+      });
     },
     goToUserDetails(userId) {
       // Add the logic to navigate to the user details page if needed
       console.log(`Navigate to user details with ID: ${userId}`);
     }
-  }
+  },
 };
 </script>
 
@@ -101,21 +107,22 @@ export default {
   flex: 1 1 calc(33.333% - 40px);
   max-width: calc(33.333% - 40px);
   border: 1px solid #ddd;
+  height: 430px;
   border-radius: 10px;
   padding: 10px;
   text-align: center;
   box-sizing: border-box;
 }
 .thumbnail img {
-  width: 90%;
-  height: 40%;
+  width: 95%;
+  height: 90%;
   border-radius: 10px;
 }
 .heart-contents {
   display: flex;
   align-items: center;
   justify-content: center;
-  margin-top: 10px;
+  margin-top: -2px;
 }
 .count-number {
   margin-left: 10px;
@@ -126,7 +133,7 @@ export default {
 .content-title {
   font-size: 15px;
   font-weight: bold;
-  margin-top: 15px;
+  margin-top: -15px;
 }
 .content-nickname {
   display: flex;

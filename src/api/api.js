@@ -13,9 +13,9 @@ export const api = {
     getFollow(args) {
         return service.get(args)
     },
-    /* 서버쪽에 이미지 요청 */
-    getImg(args){
-        return service.get(args)
+    /* 댓글 목록 조회 */
+    getComment(args){
+      return service.get(args)
     },
     /* 게시글 전체 목록 조회*/
     getPost(args){
@@ -52,14 +52,18 @@ export const api = {
     updateUser(args, param) { // args와 param이 동시 존재하는 경우
         return service.put(args, param)
     },
-    /* 마이페이지 유저 정보 삭제(=탈퇴) */
-    /* 사용자 목록 삭제(=회원 탈퇴) */
-    deleteUser(args){
-        return service.delete(args);
+    editPost(args, params){
+        return service.put(args, params)
     },
-    /* 팔로워 삭제 */
+    /* 마이페이지 유저 정보 삭제(=탈퇴) */
+    deleteUser(args){
+        return service.delete(args)
+    },
     /* 팔로워/팔로잉 삭제 요청 */
     deleteFollow(args){
+        return service.delete(args)
+    },
+    deletePost(args){
         return service.delete(args)
     }
 }
