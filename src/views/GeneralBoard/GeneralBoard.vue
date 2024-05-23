@@ -3,7 +3,7 @@
     <div class="content-wrapper">
       <div class="grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
-          <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:80%;" >
+          <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
                 <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
                 @click="goToPostDetails(post.articleId)">
           </section>
@@ -115,7 +115,7 @@ export default {
 }
 .thumbnail img {
   width: 95%;
-  height: 90%;
+  height: 100%;
   border-radius: 10px;
 }
 .heart-contents {
@@ -133,7 +133,7 @@ export default {
 .content-title {
   font-size: 15px;
   font-weight: bold;
-  margin-top: -15px;
+  margin-top: 14px;
 }
 .content-nickname {
   display: flex;
