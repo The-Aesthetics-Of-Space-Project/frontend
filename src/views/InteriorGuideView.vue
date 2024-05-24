@@ -3,7 +3,7 @@
   <div class="interirorguideview">
     <div class="container">
       <div class="left-section">
-        <button @click='test'>test</button>
+        <!--<button @click='test'>test</button> -->
         <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
           <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
         인테리어 이미지를</span>
