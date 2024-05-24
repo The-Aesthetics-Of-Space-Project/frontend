@@ -3,7 +3,7 @@
   <div class="interirorguideview">
     <div class="container">
       <div class="left-section">
-        <button @click='test'>test</button>
+        <!-- <button @click='test'>test</button> -->
         <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
           <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
         인테리어 이미지를</span>
@@ -38,26 +38,54 @@
         </div>
       </div>
 
-      <modal v-if="showModal" @close="closeModal" class="modal-custom">
+      <modal v-if="showModal" @close="closeModal" class="modal-custom" style="color: #333333">
         <div class="modal-header">
-          <h2>Preference Analysis</h2>
         </div>
         <div class="modal-body">
-          <div class="section">
-            <h3>결과는? 두둥탁</h3>
-            <p>귀하의 선택에 기반하여, <strong style="font-size: 22px; color: black">{{ analysisResult }}</strong> 인테리어를 추천합니다.</p>
-          </div>
-          <div class="section" style="text-align: left; border-top: 1px solid lightgray; padding:5px;">
-            <h3>내용</h3>
-            {{analysistext}}
-          </div>
-          <div class="section">
-            <h3>팁 설명</h3>
-            <p>{{ tip }}<br>{{ tip_second }}</p>
-          </div>
-          <div class="section">
-            <h3>색깔 추천</h3>
-            <div class="colors">{{ color }}</div>
+          <div class="content-layout">
+            <div class="text-section">
+              <div class="home-style">
+                <h6 style="position: relative; left:-260px; top:5px; font-size: 16px; color:black; font-family: MyCustomFont3">AnalysisResult</h6>
+              </div>
+              <div class="analysis-result">
+               <strong style="font-size: 25px; color: black; position: relative; left:-202px; top:10px; text-align: left;">{{ analysisResult }}</strong>
+              </div>
+              <div class="analysis-items" style="padding-top: 20px;">
+                <ul>
+                  <li v-for="(item, index) in analysistext" :key="index" style="text-align:left; position:relative; list-style: none; left:19px;">-&nbsp;{{ item }}</li>
+                </ul>
+              </div>
+              <div class="tips-section" style="border-top: 1px solid lightgrey; width: 91%; margin: auto; top:20px;">
+                <ul>
+                  <span style="font-size: 16px; position: relative; left:-290px; color:black; font-family: MyCustomFont3">Interior Tip</span>
+                  <li v-for="(tips, index) in tip" :key="index" style=" text-align:left; position:relative; list-style: none; left:-12px;">-&nbsp;{{ tips }}</li>
+                </ul>
+              </div>
+              <div class="color-section">
+                <h3  style="font-size: 16px; position: relative; left:-269px; top:20px; color:black; font-family: MyCustomFont3 ">Mood Color</h3>
+                <div class="recommended-colors" style="text-align:left; position: relative;  top:20px; left:22px;">
+                  <img v-for="(color, index) in color" :key="index" :src="color" alt="추천 색상 이미지" class="recommended-color">
+                </div>
+              </div>
+            </div>
+            <div class="image-section">
+              <h3 style="font-size: 16px; font-family: MyCustomFont3">홈 스타일</h3>
+            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+              <div class="carousel-inner">
+                <div v-for="(image, index) in interiorImages" :key="index" :class="['carousel-item', { 'active': index === 0 }]">
+                  <img :src="image" class="d-block w-100" alt="Interior Image" width="300px;" height="400px;">
+                </div>
+              </div>
+              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Previous</span>
+              </button>
+              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                <span class="visually-hidden">Next</span>
+              </button>
+            </div>
+            </div>
           </div>
         </div>
         <div class="modal-footer">
@@ -69,6 +97,7 @@
 </template>
 
 <script>
+
 import Modal from '@/components/Modal.vue'
 import {api} from "@/api/api";
 import axios from "axios";
@@ -138,13 +167,26 @@ export default {
       analysistext: "",
       tip: "",
       tip_second: "",
+      interiorImages:"",
       color:"",
       showModal: false,
       selectedImagesStep2: [],
       currentStep: 1,
       selectedImagesStep3: [],
       selectedImagesStep4: [],
-      id :'1',
+      firstid:'1',
+      secondid:'2',
+      thirdid:'3',
+      fourid:'4',
+      fiveid:'5',
+      styleToId: {
+        'modern': '1',
+        'natural': '2',
+        'vintage': '3',
+        'classic': '4',
+        'simple': '5'
+      },
+
     }
   },
   computed: {
@@ -162,19 +204,30 @@ export default {
     }
     },
   methods: {
-    async test(){
-      axios.get(`http://jerry6475.iptime.org:20000/api/interior/style/${encodeURIComponent(this.id)}`)
-          .then(res => {
-        this.users = res.data.about;
-        this.users = res.data.tips;
-        this.users = res.data.color;
-        // 서버 응답 로그
-        console.log('Response data', res.data);
-      })
-          .catch(error => {
-            console.error('Error data', error);
-          });
+    async test() {
+      // 여러 ID를 배열로 관리
+      const ids = [this.firstid, this.secondid, this.thirdid, this.fourid, this.fiveid];
+      // 모든 ID에 대한 요청을 준비
+      const requests = ids.map(id =>
+          axios.get(`http://jerry6475.iptime.org:20000/api/interior/style/${encodeURIComponent(id)}`)
+      );
+
+      // 모든 요청을 동시에 실행하고, 모든 결과를 기다림
+      try {
+        const responses = await axios.all(requests);
+        // 각 응답을 순회하며 처리
+        responses.forEach(res => {
+          this.about = res.data.about;
+          this.tips = res.data.tips;
+          this.color = res.data.color;
+          // 서버 응답 로그
+          console.log('Response data', res.data);
+        });
+      } catch (error) {
+        console.error('Error data', error);
+      }
     },
+
     goToStep2() {
       this.currentStep = 1;
       this.selectedImagesStep2 = [];
@@ -237,8 +290,8 @@ export default {
       if (this.selectedImages.length === 3 && this.selectedImagesStep2.length === 3 && this.selectedImagesStep3.length === 3) {
         this.isLoading = true;
 
-        //로딩 함수
-        setTimeout(() => {
+        // 로딩 함수
+        setTimeout(async () => {
 
           // 스타일 별로 점수를 계산
           // 각 이미지에 대한 스타일 태그
@@ -257,9 +310,10 @@ export default {
             '11': ['vintage'],
             '17': ['vintage'],
           };
+
           const imageStyles2 = {
-            '0': ['modern','simple','natural','classic'],
-            '1': ['modern', 'natural','vintage'],
+            '0': ['modern', 'simple', 'natural', 'classic'],
+            '1': ['modern', 'natural', 'vintage'],
             '2': ['natural'],
             '3': ['natural'],
             '4': ['natural'],
@@ -269,7 +323,8 @@ export default {
             '8': ['vintage'],
             '9': ['simple'],
             '10': ['vintage'],
-          }
+          };
+
           const imageStyles3 = {
             '0': ['natural'],
             '1': ['vintage', 'classic'],
@@ -286,7 +341,8 @@ export default {
             '12': ['simple'],
             '13': ['modern'],
             '14': ['vintage'],
-          }
+          };
+
           let styleScores = {
             'modern': 0,
             'natural': 0,
@@ -305,6 +361,7 @@ export default {
               });
             }
           });
+
           this.selectedImagesStep2.forEach(imageId => {
             const styles = imageStyles3[imageId];
             if (styles) {
@@ -314,7 +371,8 @@ export default {
               });
             }
           });
-// 두 번째 단계 이미지 스타일 점수 합산
+
+          // 두 번째 단계 이미지 스타일 점수 합산
           this.selectedImagesStep3.forEach(imageId => {
             const styles = imageStyles2[imageId];
             if (styles) {
@@ -324,7 +382,8 @@ export default {
               });
             }
           });
-// 가장 점수가 높은 스타일 찾기
+
+          // 가장 점수가 높은 스타일 찾기
           let highestScore = 0;
           let recommendedStyle = '';
           for (let style in styleScores) {
@@ -334,55 +393,24 @@ export default {
             }
           }
           console.log(`추천 스타일: ${recommendedStyle}, 점수: ${highestScore}`);
-          // 추천 스타일에 따른 결과
-          switch (recommendedStyle) {
-            case 'modern':
-              this.analysisResult = " 🧱'모던 스타일'🧱";
-              this.analysistext = "메탈, 대리석 소재를 지나치게 사용하면 차가운느낌이 너무 강해질수 있다. 그럴 때는 러그, 화분, 따듯한 느낌의 조명등을 이용하여 차가운 느낌을 중화시키면서 간결하고 깔끔하게 연출할 수 있다.\n" +
-                  "단색, 모노톤의 심플한 너무 화려하지 않은디자인의 액자를 배치하여 세련된 감각을 줄 수 있다.";
-              this.tip = "✔ 메탈, 대리석 소재를 지나치게 사용하면 차가운 느낌이 들 수 있다.";
-              this.tip_second = "✔ 러그, 화분, 따듯한 느낌의 조명등을 이용하여 중화를 시키는 방법 !";
-              this.color = "🟫⬜⬛";
-              break;
-            case 'simple':
-              this.analysisResult = "⭐'미니멀리스트&심플 스타일'⭐";
-              this.analysistext = "과거의 감성을 현대적으로 재해석한 스타일을 선호합니다. 고유의 색감과 패턴이 돋보이는 가구와 소품을 사용하여 개성 있는 공간을 연출합니다. 골동품이나 레트로한 디자인의 소품을 활용하여 시간을 초월하는 매력을 더할 수 있습니다.";
-              this.tip = "✔ 고유의 색감과 패턴이 돋보이는 가구 사용하기";
-              this.tip_second = "✔ 골동품 및 레트로한 디자인의 소품 활용하기";
-              this.color = "⬜🔘⬛";
-              break;
-            case 'natural':
-              this.analysisResult = "🌙'Natural 스타일'🌙";
-              this.analysistext = "자연 소재를 많이 사용하고, 식물이나 나무 요소를 포함시켜 실내외 연결감을 강화할 수 있습니다. 자연광을 최대한 활용하고, 통풍이 잘 되도록 구성하는 것이 중요합니다.";
-              this.tip = "✔ 식물이나 나무 요소를 포함시키기";
-              this.tip_second = "✔ 자연광을 최대한 활용하기";
-              this.color = "🟩⬜🟫⬛";
-              break;
-            case 'vintage':
-              this.analysisResult = "🎇'빈티지&레트로 스타일'🎇";
-              this.analysistext = "과거의 감성을 현대적으로 재해석한 스타일을 선호합니다. 고유의 색감과 패턴이 돋보이는 가구와 소품을 사용하여 개성 있는 공간을 연출합니다. 골동품이나 레트로한 디자인의 소품을 활용하여 시간을 초월하는 매력을 더할 수 있습니다.";
-              this.tip = "✔ 고유의 색감과 패턴이 돋보이는 가구 사용하기"
-              this.tip_second = "✔ 골동품 및 레트로한 디자인의 소품 활용하기";
-              this.color = "🟫🟨🟧";
-              break;
-            case 'classic':
-              this.analysisResult = "✨'클래식 스타일'✨";
-              this.analysistext = "우아하고 고전적인 느낌을 주는 가구와 장식품을 선택합니다. 깊은 색상의 목재, 정교한 패턴의 직물, 그리고 클래식한 라인의 조명 등을 사용하여 고급스러움을 연출할 수 있습니다.";
-              this.tips = "✔ 우아하고 고전적인 느낌의 가구 선택하기";
-              this.tip_second = "✔ 깊은 색상의 목재 사용하기";
-              this.color = "⬜⬛";
-              break;
 
-            default:
-              this.analysisResult = "분석 가능한 선택이 아닙니다. 다른 이미지를 선택해 주세요.";
-              break;
+          const styleId = this.styleToId[recommendedStyle];
+
+          try {
+            const response = await axios.get(`http://jerry6475.iptime.org:20000/api/interior/style/${encodeURIComponent(styleId)}`);
+            this.analysisResult =response.data.style;
+            this.analysistext = response.data.about;
+            this.tip = response.data.tips;
+            this.color = response.data.color.map(colorPath => `http://jerry6475.iptime.org:20000${colorPath}`);
+            this.interiorImages = response.data.interiorImage.map(imagePath => `http://jerry6475.iptime.org:20000${imagePath}`);
+
+            this.showModal = true;
+          } catch (error) {
+            console.error('Error fetching analysis data', error);
+          } finally {
+            this.isLoading = false;
           }
-
-          // 모달 창을 보여주는 로직
-          this.showModal = true;
-
-          this.isLoading = false;
-        },3000);
+        }, 1000); // 이곳에 지연 시간(밀리초)을 입력해야 합니다.
       } else {
         alert("3개의 가구를 선택해 주세요.");
       }
@@ -464,9 +492,6 @@ export default {
   width:110px;
   height:55px;
 }
-.font-analye{
-  font-weight: bolder;
-}
 
 .font-analye_1{
   font-weight: bolder;
@@ -474,32 +499,6 @@ export default {
   top:8px;
 }
 
-.modal-custom {
-  background: white;
-  border-radius: 8px;
-  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
-  overflow: hidden;
-}
-
-.modal-header {
-  background: #f9f9f9;
-  padding: 20px;
-  text-align: center;
-  border-bottom: 1px solid #eee;
-  width: 100%;
-}
-
-.modal-header h2 {
-  margin: 0;
-  font-family: 'MyCustomFont3', sans-serif;
-  color: #333;
-  font-weight: bolder;
-  font-size: 30px;
-}
-
-.modal-body {
-  padding: 20px;
-}
 
 .section h3 {
   font-family: 'MyCustomFont3', sans-serif;
@@ -512,17 +511,11 @@ export default {
   text-align: left;
 }
 
-.colors {
-  font-size: 40px;
-  display: flex;
-  text-align: left;
-}
 
 .modal-footer {
   text-align: center;
   padding: 20px;
   background: #f9f9f9;
-  border-top: 1px solid #eee;
 }
 
 .modal-footer button {
@@ -588,5 +581,34 @@ export default {
   height: 100%;
   border-radius: 18px;
   transition: width 0.3s ease;
+}
+.recommended-images img, .recommended-colors img {
+  width: 100px;
+  height: 100px;
+  margin: 5px;
+}
+.content-layout {
+  display: flex;
+  justify-content: space-between;
+}
+
+.text-section {
+  width: 50%;
+}
+
+.image-section {
+  width: 50%;
+}
+
+.recommended-image {
+  display: block; /* 이미지를 블록 요소로 만듭니다. */
+  max-width: 100%; /* 최대 너비를 100%로 설정하여 부모 요소를 꽉 채웁니다. */
+  height: auto; /* 이미지의 높이를 자동으로 설정하여 비율을 유지합니다. */
+}
+.recommended-color {
+  width: 50px;
+  height: 50px;
+  margin: 5px;
+  border: 1px solid #ddd;
 }
 </style>
