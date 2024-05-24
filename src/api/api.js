@@ -52,6 +52,7 @@ export const api = {
     updateUser(args, param) { // args와 param이 동시 존재하는 경우
         return service.put(args, param)
     },
+    /* 게시글 정보 수정 */
     editPost(args, params){
         return service.put(args, params)
     },
