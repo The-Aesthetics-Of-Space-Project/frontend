@@ -3,7 +3,7 @@
   <div class="interirorguideview">
     <div class="container">
       <div class="left-section">
-        <!-- <button @click='test'>test</button> -->
+        <button @click='test'>test</button>
         <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
           <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
         인테리어 이미지를</span>
@@ -45,10 +45,10 @@
           <div class="content-layout">
             <div class="text-section">
               <div class="home-style">
-                <h6 style="position: relative; left:-260px; top:5px; font-size: 16px; color:black; font-family: MyCustomFont3">AnalysisResult</h6>
+                <h6 style="position: relative; left:-188px; top:5px; font-size: 14px; color:black; font-family: MyCustomFont2">분석한 요청에 대한 회원님의 홈 스타일</h6>
               </div>
               <div class="analysis-result">
-               <strong style="font-size: 25px; color: black; position: relative; left:-202px; top:10px; text-align: left;">{{ analysisResult }}</strong>
+               <strong style="font-size: 25px; color: black; position: relative; left:-132px; top:10px; text-align: left;">{{ analysisResult }}</strong>
               </div>
               <div class="analysis-items" style="padding-top: 20px;">
                 <ul>
@@ -57,19 +57,19 @@
               </div>
               <div class="tips-section" style="border-top: 1px solid lightgrey; width: 91%; margin: auto; top:20px;">
                 <ul>
-                  <span style="font-size: 16px; position: relative; left:-290px; color:black; font-family: MyCustomFont3">Interior Tip</span>
+                  <span style="font-size: 14px; position: relative; left:-290px; color:black">인테리어 팁</span>
                   <li v-for="(tips, index) in tip" :key="index" style=" text-align:left; position:relative; list-style: none; left:-12px;">-&nbsp;{{ tips }}</li>
                 </ul>
               </div>
               <div class="color-section">
-                <h3  style="font-size: 16px; position: relative; left:-269px; top:20px; color:black; font-family: MyCustomFont3 ">Mood Color</h3>
+                <h3  style="font-size: 16px; position: relative; left:-269px; top:20px; color:black ">Mood Color</h3>
                 <div class="recommended-colors" style="text-align:left; position: relative;  top:20px; left:22px;">
                   <img v-for="(color, index) in color" :key="index" :src="color" alt="추천 색상 이미지" class="recommended-color">
                 </div>
               </div>
             </div>
             <div class="image-section">
-              <h3 style="font-size: 16px; font-family: MyCustomFont3">홈 스타일</h3>
+              <h3>홈 스타일</h3>
             <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
               <div class="carousel-inner">
                 <div v-for="(image, index) in interiorImages" :key="index" :class="['carousel-item', { 'active': index === 0 }]">
