@@ -60,7 +60,7 @@ export default {
       socket: null,
       stompClient: null,
       chatInput: '',
-      reciver : '',
+      reciver: '',
     }
   },
   mounted() {
@@ -88,7 +88,7 @@ export default {
 
       this.stompClient.connect({}, (frame) => {
         this.stompClient.subscribe(`/pub/${this.roomid}`, (message) => {
-          this.displayMessages(JSON.parse(message.body));
+          this.requestNewMessages();
         });
       });
       console.log(roomId);
@@ -118,7 +118,7 @@ export default {
             console.error('Error creating chat room:', error);
           });
 
-      axios.post(`http://jerry6475.iptime.org:20000/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
+      axios.get(`http://jerry6475.iptime.org:20000/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
         userId: this.userId,
         selectedUser: this.selectedUser,
       })
@@ -140,6 +140,7 @@ export default {
     displayMessages(messages) {
       const chatHistoryElement = document.querySelector('.chat-history');
 
+      chatHistoryElement.innerHTML = '';
       // Clear existing messages
       // Convert object to array if it's not already
       if (!Array.isArray(messages)) {
@@ -149,7 +150,7 @@ export default {
       messages.forEach(message => {
         const messageElement = document.createElement("div");
         messageElement.classList.add("message");
-
+        console.log(message)
         if (message.sender === this.userId) {
           messageElement.classList.add("my-message");
         } else {
@@ -166,9 +167,8 @@ export default {
         messageElement.appendChild(contentElement);
         chatHistoryElement.append(messageElement);
       });
-    }
-,
-    sendMessage(message,inputMessage) {
+    },
+    sendMessage() {
       console.log('sendMessage', this.inputMessage);
 
       if (this.stompClient && this.inputMessage) {
@@ -179,30 +179,31 @@ export default {
           roomid: this.roomid
         };
 
-        this.stompClient.send(`/app/${this.roomid}`,  JSON.stringify(messageObj),{});
+        this.stompClient.send(`/app/${this.roomid}`, JSON.stringify(messageObj), {});
+
+        // Clear the input field after sending the message
+        this.inputMessage = '';
+
+        // Request server for new messages after sending a message
+        this.requestNewMessages();
       }
+    },
+    requestNewMessages() {
+      axios.get(`http://jerry6475.iptime.org:20000/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
+        userId: this.userId,
+        selectedUser: this.selectedUser,
+      })
+          .then(res => {
+            console.log('Server response:', res.data);
+            this.displayMessages(res.data);
+          })
+          .catch(error => {
+            console.error('Server request failed:', error);
+          });
     }
-  },
-  name: 'ChatView'
+  }
 }
-
-document.addEventListener('DOMContentLoaded', function () {
-  document.getElementById('fullscreenButton').addEventListener('click', function () {
-    var chatView = document.querySelector('.custom-chat-view');
-    if (!document.fullscreenElement) {
-      if (chatView.requestFullscreen) {
-        chatView.requestFullscreen();
-      }
-    } else {
-      if (document.exitFullscreen) {
-        document.exitFullscreen();
-      }
-    }
-  });
-});
-
 </script>
-
 <style>
 /* 추가적인 스타일링이 필요한 경우 여기에 추가 */
 .custom-chat {
