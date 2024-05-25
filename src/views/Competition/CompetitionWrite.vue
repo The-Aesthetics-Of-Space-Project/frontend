@@ -1,77 +1,80 @@
 <template>
   <div id="competitionWrite">
-    <div class="com-container">
-      <div class="com-wrapper">
-        <div class="thumnail-img-container">
-          <div class="thumnail-img-wrapper">
-            <img class="upload-thumnail-img" id="imgView" :src="uploadImg">
-            <h6 class="image-size-explanation" v-if="!hasImg" style="position: relative; top: -53%; left: 55%;
+
+      <div class="com-container">
+        <div class="com-wrapper">
+          <div class="thumnail-img-container">
+            <div class="thumnail-img-wrapper">
+              <img class="upload-thumnail-img" id="imgView" :src="uploadImg">
+              <h6 class="image-size-explanation" v-if="!hasImg" style="position: relative; top: -53%; left: 55%;
             transform: translate(-50%,-50%); font-size: 14px; color: #333;">
-              *권장사이즈
-              <p>모바일 : 1920 x 1920, 최소 1400 x 1400 (1:1 비율)</p>
-              <p>PC : 1920 x 1080, 최소 1400 x 787 (16:9 비율)</p>
-            </h6>
-            <button @click="modalOpen" class="modal-open" v-if="!hasImg">커버 사진 추가하기</button>
+                *권장사이즈
+                <p>모바일 : 1920 x 1920, 최소 1400 x 1400 (1:1 비율)</p>
+                <p>PC : 1920 x 1080, 최소 1400 x 787 (16:9 비율)</p>
+              </h6>
+              <button @click="modalOpen" class="modal-open" v-if="!hasImg">커버 사진 추가하기</button>
 
+            </div>
           </div>
-        </div>
 
-        <!-- 글 제목 작성-->
-        <section class="comp-title">
-          <section class="mb-3">
-            <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해 주세요." maxlength="50" v-model="title" style="outline: none; box-shadow: none; border-top: white; border-left: white; border-right: white;">
-            <p>{{ title.length }}/50</p>
+          <!-- 글 제목 작성-->
+          <section class="comp-title">
+            <section class="mb-3">
+              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해 주세요." maxlength="50" v-model="title" style="outline: none; box-shadow: none; border-top: white; border-left: white; border-right: white;">
+              <p>{{ title.length }}/50</p>
+            </section>
           </section>
-        </section>
 
-        <!-- 글 내용 작성-->
-        <section class="com-content-container">
-          <section class="com-content-wrapper">
+          <!-- 글 내용 작성-->
+          <section class="com-content-container">
+            <section class="com-content-wrapper">
             <textarea type="text" class="com-content" oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'
-                      placeholder="내용을 입력해 주세요.(최대 500자)" maxlength="500" rows="30" cols="94" style="resize: none; box-shadow: none; max-height: 80%; border: 1px solid #8D8D8D; border-radius: 8px; outline-color: darkslategrey;"
+                      placeholder="내용을 입력해 주세요.(최대 500자)" maxlength="500" rows="30" cols="90" style="resize: none; box-shadow: none; max-height: 80%; border: 1px solid #8D8D8D; border-radius: 8px; outline-color: darkslategrey;"
                       v-model="contents"/>
-            <section class="max-length"> <p>{{ contents.length}}/500</p> </section>
+              <section class="max-length"> <p>{{ contents.length}}/500</p> </section>
 
+            </section>
           </section>
-        </section>
 
-        <!-- 제출하기 버튼 -->
-        <section class="submit-btn-wrapper">
-          <button type="submit" class="submit-btn" @click="submitArticle"> 제출하기 </button>
-        </section>
+          <!-- 제출하기 버튼 -->
+          <section class="submit-btn-wrapper">
+            <button type="submit" class="submit-btn" @click="submitArticle"> 제출하기 </button>
+          </section>
 
-      </div>
-    </div>
-
-    <div class="modal-wrap" v-show="modalCheck" @click="modalOpen">
-      <div class="modal-container" @click.stop="">
-        <div class="upload-img-wrapper">
-          <label class="upload-img-btn" style="position: relative; width: 150px;height: 50px; left: 0px;
-          border: 2px solid darkslategrey; border-radius: 10px; text-align: center; padding: 10px; cursor: pointer;">
-            <input type="file" @change="onImageChange" style="display:none;"/>
-            이미지 업로드
-          </label>
         </div>
-        <section class="modal-content">
-          <section class="modal-img-container" >
-            <img :src="imgUrl" v-if="imagePreview" alt="이미지 미리보기"/>
-          </section>
-        </section>
-
-        <section class="modal-btn" style="position: relative; width: 100%; top: 12px;">
-          <button @click="modalClose" class="close-btn" style="width: 80px; height: 50px; position: relative; border-radius: 10px;
-          background-color: white; color: black; border: 1px solid darkslategrey;"> 닫기 </button>
-          <button @click="modalOpen" class="open-btn" style="position: relative; width: 80px; height: 50px; border-radius: 10px;
-          background-color: darkslategrey; border: 1px solid darkslategrey; color: white;"> 확인 </button>
-        </section>
-
       </div>
-    </div>
+
+      <div class="modal-wrap" v-show="modalCheck" @click="modalOpen">
+        <div class="modal-container" @click.stop="">
+          <div class="upload-img-wrapper">
+            <label class="upload-img-btn" style="position: relative; width: 150px;height: 50px; left: 0px;
+          border: 2px solid darkslategrey; border-radius: 10px; text-align: center; padding: 10px; cursor: pointer;">
+              <input type="file" @change="onImageChange" style="display:none;"/>
+              이미지 업로드
+            </label>
+          </div>
+          <section class="modal-content">
+            <section class="modal-img-container" >
+              <img :src="imgUrl" v-if="imagePreview" alt="이미지 미리보기"/>
+            </section>
+          </section>
+
+          <section class="modal-btn" style="position: relative; width: 100%; top: 12px;">
+            <button @click="modalClose" class="close-btn" style="width: 80px; height: 50px; position: relative; border-radius: 10px;
+          background-color: white; color: black; border: 1px solid darkslategrey;"> 닫기 </button>
+            <button @click="modalOpen" class="open-btn" style="position: relative; width: 80px; height: 50px; border-radius: 10px;
+          background-color: darkslategrey; border: 1px solid darkslategrey; color: white;"> 확인 </button>
+          </section>
+
+        </div>
+      </div>
 
   </div>
 </template>
 
 <script>
+import Store from "@/store/index";
+import {api} from "@/api/api";
 export default {
   name: 'CompetitionWrite',
   data(){
@@ -82,7 +85,12 @@ export default {
       imgUrl: null,
       modalCheck: false,
       image: null,
+      userId: Store.state.userId,
+      nickname: Store.state.nickname,
+      baseUrl: 'http://jerry6475.iptime.org:20000'
     }
+  },
+  mounted(){
   },
   computed: {
     imagePreview() {
@@ -90,34 +98,63 @@ export default {
     },
     hasImg(){
       return !!this.uploadImg;
-    }
+    },
+
   },
   methods: {
-    modalOpen(){
+    /* 모달 창 */
+    modalOpen() {
       this.modalCheck = !this.modalCheck;
       this.uploadImg = this.imgUrl;
     },
-    modalClose() {
+    /* 모달 창 - 확인 버튼 */
+    modalOk(){
       this.modalCheck = !this.modalCheck;
     },
+    /* 모달 창 - 닫기 버튼 */
+    modalClose(){
+      this.modalCheck = !this.modalCheck;
+    },
+    // 이미지 미리보기
     onImageChange(event){
       const file = event.target.files[0];
-      if(!file){
+      if (!file) {
         return;
       }
       this.image = file; // 이미지 파일을 저장
-
-      const formData = new FormData(); // file전송시 FormData 형식으로 전송
-      formData.append('filelist', file);
 
       const reader = new FileReader();
       reader.onload = (e) => {
         this.imgUrl = e.target.result;
       };
       reader.readAsDataURL(file);
-
     },
+    /* 제출하기 */
     submitArticle(){
+
+      const formData = new FormData();
+      formData.append('contest', "제 1회 인테리어 공모전");
+      formData.append('title', this.title);
+      formData.append('contents', this.contents);
+      formData.append('nickname', this.nickname);
+      formData.append('thumbnail', this.image);
+
+      const args = '/api/contest/post';
+      const params = formData;
+
+      // axios를 사용하여 POST 요청 보내기
+      api.setUser(args, params)
+          .then(response => {
+            // 요청이 성공했을 때 처리할 코드
+            console.log('공모전에 참가되었습니다.', response);
+            alert('공모전에 참가되었습니다!');
+            this.$router.push('/competitionMain');
+          })
+          .catch(error => {
+            // 요청이 실패했을 때 처리할 코드
+            console.error('게시물 등록에 실패했습니다.', error);
+            // 실패 시 사용자에게 알림을 표시하거나 재시도 안내 등의 작업 수행
+          });
 
     }
   },
@@ -138,7 +175,7 @@ export default {
 
 <style>
 #competitionWrite{
-  font-family: Inter;
+  font-family: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -151,6 +188,7 @@ export default {
   position: relative;
   width: 100%;
   height: 100%;
+  top: 5em;
 }
 .com-wrapper{
   position: relative;
@@ -280,18 +318,18 @@ h6 p {
   position: relative;
   width: 55%;
   height: 50%;
-  left: 0.7%;
   margin: auto;
 }
 .com-content-wrapper{
   position: relative;
   width: 80%;
   height: 80%;
+  left: 0em;
 }
 .max-length p{
   position: relative;
   width: 7%;
-  left: 113%;
+  left: 48em;
   font-size: 15px;
   color: rgb(0,0,0,50%);
 }
