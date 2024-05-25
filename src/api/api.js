@@ -56,6 +56,10 @@ export const api = {
     editPost(args, params){
         return service.put(args, params)
     },
+    /* 게시글 정보 수정 */
+    editComment(args, params){
+        return service.put(args, params)
+    },
     /* 마이페이지 유저 정보 삭제(=탈퇴) */
     deleteUser(args){
         return service.delete(args)
@@ -64,9 +68,14 @@ export const api = {
     deleteFollow(args){
         return service.delete(args)
     },
+    /* 게시글 삭제 요청 */
     deletePost(args){
         return service.delete(args)
-    }
+    },
+    /* 댓글 삭제 요청 */
+    deleteComment(args){
+        return service.delete(args)
+    },
 }
 
 export const testApi = {

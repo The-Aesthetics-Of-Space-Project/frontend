@@ -1,4 +1,5 @@
 import axios, {CancelToken} from 'axios'
+import Store from "@/store/index";
 
 // 프로젝트 설정에 맞게, 기본적인 정보를 넣어주세요
 const service = axios.create({
@@ -15,6 +16,11 @@ service.interceptors.request.use(
             config.headers['Content-Type'] = 'multipart/form-data';
         }else {
             config.headers['Content-Type'] = 'application/json';
+        }
+
+        const userId = Store.state.userId;
+        if(userId){
+            config.headers['userId'] = userId;
         }
 
         // 취소 토큰 생성

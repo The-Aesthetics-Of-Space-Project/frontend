@@ -53,7 +53,7 @@
         <!-- 좋아요 버튼 -->
         <button type="button" class="heart-btn" @click="likeBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
         width: 45%; height: 65px; top: 90%; font-size: 14.5px;">
-          <img :src="liked ? HeartImg : EmptyHeartImg" width="30px" height="30px"/>
+          <img :src="posts.isLiked ? HeartImg : EmptyHeartImg" width="30px" height="30px"/>
           <br>
           {{ posts.likeCount }}
         </button>
@@ -61,7 +61,7 @@
         <!-- 스크랩 버튼 -->
         <button type="button" class="scrap-btn" @click="scrapBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
         width: 45%; height: 65px; right: 50%; top: 81%; background-color: white; font-size: 14.5px;">
-          <img :src="scraped ? ScrapImg : EmptyScrapImg" width="30px" height="30px"/>
+          <img :src="posts.isScraped ? ScrapImg : EmptyScrapImg" width="30px" height="30px"/>
           <br>
           {{ posts.scrapCount }}
         </button>
@@ -80,7 +80,8 @@
           <!-- 댓글 작성 컴포넌트 -->
           <comment-write @submit="handleCommentSubmit" />
         </div>
-        <CommentList :articleId="Number(getArticleId)" ref="commentList" @submit="replyComments"/>
+        <CommentList :articleId="Number(getArticleId)" ref="commentList"
+                     @submit="replyComments" @modified="modifiedComment" @deleted="deletedComment"/>
 
       </div>
 
@@ -103,7 +104,7 @@ export default {
   },
   data() {
     return {
-      liked: false,
+      liked: '',
       likedCtn: '',
       scraped: false,
       scrapedCtn: '',
@@ -134,6 +135,8 @@ export default {
         likeCount: '',
         scrapCount: '',
         profile: '',
+        isLiked: '',
+        //isScraped: ''
       },
       HeartImg: require('@/assets/generalboardpage_icon/heart.png'),
       EmptyHeartImg: require('@/assets/generalboardpage_icon/emptyheart.png'),
@@ -183,58 +186,58 @@ export default {
         const htmlContent = marked(this.posts.content);
 
         document.querySelector('#viewer').innerHTML = htmlContent;
+
+        console.log("좋아요 여부 데이터 ", this.posts.isLiked);
       })
     },
     loadComments() {
       // CommentList 컴포넌트의 메서드를 호출하여 댓글 로드
-      console.log("호출되나욤");
       this.$refs.commentList.loadComments(this.getArticleId);
     },
+    /* 좋아요 클릭/언클릭 */
     async likeBtn() {
-      if(this.liked){
+      if(this.posts.isLiked){
         // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
         const args = '/api/general/unlike';
-        const likeData = {
+        const unLikeData = {
           userId: this.users.userId,
           articleId: this.posts.articleId
         }
-        await api.unSetLike(args, likeData).then(res => {
-          console.log("좋아요 취소 성공!", res);
+        await api.unSetLike(args, unLikeData).then(res => {
           alert("좋아요를 취소했습니다!");
-          console.log("좋아요 취소 성공!", this.liked);
-          this.liked = !this.liked;
+          console.log("좋아요 취소 성공!", this.posts.liked);
+          this.posts.isLiked = !this.posts.isLiked;
         }).catch(error => {
           console.log("좋아요 취소 실패!", error);
         });
       } else{
         // 좋아요를 누르지 않은 상태에서 누름 => 좋아요 추가
         const args = '/api/general/like';
-        const unLikeData = {
+        const likeData = {
           userId: this.users.userId,
           articleId: this.posts.articleId
         }
-        await api.setLike(args, unLikeData).then(res => {
-          console.log("좋아요 성공!", res);
+        await api.setLike(args, likeData).then(res => {
           alert("좋아요를 눌렀습니다!");
-          this.liked = !this.liked;
+          this.posts.isLiked = !this.posts.isLiked;
         }).catch(error => {
           console.log("좋아요 실패!", error);
-          this.liked = !this.liked;
+          this.posts.isLiked = !this.posts.isLiked;
         })
       }
     },
+    /* 스크랩 클릭/언클릭 */
     async scrapBtn() {
-      if(this.scraped){
-        // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
+      if(this.posts.scraped){
+        // 이미 스크랩을 누른 상태에서 다시 눌렀을 때 => 스크랩 취소
         const args = '/api/general/unscrap';
         const scrapData = {
           userId: this.users.userId,
           articleId: this.posts.articleId
         }
         await api.unSetScrap(args, scrapData).then(res => {
-          console.log("스크랩 취소 성공!", res);
           alert("스크랩 취소했습니다!");
-          this.scraped = !this.scraped;
+          this.posts.scraped = !this.posts.scraped;
         }).catch(error => {
           console.log("스크랩 취소 실패!", error);
         });
@@ -245,12 +248,11 @@ export default {
           articleId: this.posts.articleId
         }
         await api.setScrap(args, unScrapData).then(res => {
-          console.log("스크랩 성공!", res);
           alert("스크랩을 눌렀습니다!");
-          this.scraped = !this.scraped;
+          this.posts.scraped = !this.posts.scraped;
         }).catch(error => {
           console.log("스크랩 실패!", error);
-          this.scraped = !this.scraped;
+          this.posts.scraped = !this.posts.scraped;
         })
       }
     },
@@ -274,18 +276,14 @@ export default {
         }
       });
     },
-    /* 댓글 작성 */
+    /* 원댓글 작성 */
     async handleCommentSubmit(commentData){
-        console.log("content 출력해줘: "+ commentData.content+"parentId: "+ commentData.parentId);
-
         const submitData = {
           content: commentData.content,
           parentId: commentData.parentId,
           articleId: this.getArticleId,
           nickname: this.users.nickname
         }
-        console.log("submitData 출력해줘: ", submitData);
-
         const params = submitData;
 
         const args = `/api/general/comment`;
@@ -296,8 +294,8 @@ export default {
           console.log("Comment등록의 err 출력: ", err);
         });
     },
+    /* 답글 달기 등록 */
     async replyComments(commentReplyData){
-      console.log("content 출력해줘: "+ commentReplyData.replyText+"parentId: "+ commentReplyData.parentId);
 
       const submitReplyData = {
         content: commentReplyData.replyText,
@@ -305,12 +303,37 @@ export default {
         articleId: this.getArticleId,
         nickname: this.users.nickname
       }
-      console.log("submitReplyData 출력해줘: ", submitReplyData);
-
       const params = submitReplyData;
 
       const args = `/api/general/comment`;
       await api.setComment(args, params).then(res=>{
+        this.comments=res.data;
+        this.loadComments(this.getArticleId);
+      }).catch(err=>{
+        console.log("Comment등록의 err 출력: ", err);
+      });
+    },
+    /* 댓글 수정 */
+    async modifiedComment(modifiedData){
+
+      const modifyData = {
+        content: modifiedData.replyText
+      }
+      const params = modifyData;
+
+      const args = `/api/general/comment/${modifiedData.commentId}`;
+      await api.editComment(args, params).then(res=>{
+        this.comments=res.data;
+        this.loadComments(this.getArticleId);
+      }).catch(err=>{
+        console.log("Comment등록의 err 출력: ", err);
+      });
+    },
+    async deletedComment(commentId){
+      console.log("commentId출력티비예: "+ commentId.commentId);
+
+      const args = `/api/general/comment/${commentId.commentId}`;
+      await api.deleteComment(args).then(res=>{
         this.comments=res.data;
         this.loadComments(this.getArticleId);
       }).catch(err=>{
@@ -426,9 +449,6 @@ export default {
   border: none;
   cursor: pointer;
   margin-left: 10px;
-}
-.comment-input button:hover {
-  background-color: darkorchid; /* 변경할 색상 지정 */
 }
 .heart-btn{
   position: relative;
