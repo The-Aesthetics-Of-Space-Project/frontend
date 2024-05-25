@@ -7,18 +7,20 @@ const service = axios.create({
 
 });
 
-
+// 요청 인터셉터 추가
 service.interceptors.request.use(
     (config) => {
         // 파일 데이터 여부를 검사
         if (config.data instanceof FormData) {
             config.headers['Content-Type'] = 'multipart/form-data';
-        } else {
+        }else {
             config.headers['Content-Type'] = 'application/json';
         }
 
+        // 취소 토큰 생성
         const source = CancelToken.source();
 
+        // 생성한 취소 토큰을 config.cancelToken에 설정
         config.cancelToken = source.token;
 
         return config;
@@ -30,12 +32,12 @@ service.interceptors.request.use(
     }
 )
 
+// 응답 인터셉터 추가
 service.interceptors.response.use(
     (response) => {
         if (response.status === 404) {
             console.log("404 페이지로 넘어가야 함!");
         }
-        console.log("res.data 값이다", response.data);
         return response;
     },
     async(error) =>{
@@ -43,6 +45,7 @@ service.interceptors.response.use(
             error.config.headers = {
                 'Content-Type': 'application/json',
             };
+            console.log("응답 인터셉터 오류", error);
 
             const response = await axios.request(error.config);
             return response;
@@ -53,7 +56,7 @@ service.interceptors.response.use(
 );
 const args="";
 const params="";
-const url="";
+
 // 조회
 service.get(args).then((res) => {
         console.log("응답 성공!_!", res.data);
@@ -91,14 +94,13 @@ export default {
     async get(args) {
         try {
             const res = await service.get(args)
-            console.log("service.js: res값 -> ", res)
+            console.log("service.js-get: res값 -> ", res)
             return res;
 
         } catch (e) {
             return console.log("error")
         }
     },
-
     async post(args, params) {
         try {
             const res = await service.post(args, params);
@@ -110,7 +112,7 @@ export default {
         }
     },
     // 수정
-    async put(options) {
+    async put(args, params) {
         try {
             const res = await service.put(args, params);
             console.log("service.js: res값 -> ", res);

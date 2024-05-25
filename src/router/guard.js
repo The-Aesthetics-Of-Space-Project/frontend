@@ -2,7 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import GeneralBoardWrite from "@/views/GeneralBoard/GeneralBoardWrite.vue";
 import LoginView from "@/views/LoginView.vue";
-import MyPageView from "@/views/MyPageView.vue";
+import MyPageView from "@/views/MyPage/MyPageView.vue";
 import MainView from "@/views/MainView.vue";
 import store from "@/store";
 

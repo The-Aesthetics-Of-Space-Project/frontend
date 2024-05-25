@@ -5,7 +5,6 @@
         <section class="list-profile-img-container">
           <img :src="follower.profile" style="width: 76px; height: 76px; border: 1px solid black; border-radius: 50%;" />
         </section>
-
         <section class="list-name-container">
           <section class="list-userId-container">
             {{ follower.userId }}
@@ -14,7 +13,6 @@
             {{ follower.nickname }}
           </section>
         </section>
-
         <section class="list-follower-delete-btn">
           <button class="follower-delete-btn" @click="deleteFollow(follower.userId)"> 삭제 </button>
         </section>
@@ -26,11 +24,19 @@
 
 <script>
 import {api} from "@/api/api";
+import Store from "@/store/index"
 export default {
   data() {
     return {
-      followers: [],
+      followers: [
+        {
+          userId: '',
+          nickname: '',
+          profile: ''
+        },
+      ],
       data: "null",
+      userId: Store.state.userId
     };
   },
   mounted() {
@@ -39,18 +45,21 @@ export default {
   methods: {
     /* 팔로워 목록 조회 */
     async getFollowers() {
-      await api.getFollow('/follow').then(res => {
+      const args = `/users/followers?userId=${this.userId}`;
+      await api.getFollow(args).then(res => {
         this.followers = res.data;
         console.log("res: ", res);
+        console.log("follower list: ", this.followers.userId);
       })
     },
     /* 팔로워 삭제 */
     async deleteFollow(userId) {
-      const args='/follow';
-      const params = userId;
-      await api.deleteFollow(args, params).then(res => {
+      const args=`/users/unfollower?userId=${this.userId}&follower=${userId}`;
+      await api.deleteFollow(args).then(res => {
         this.followers = this.followers.filter(follower => follower.userId !== userId);
         console.log("res: ", res);
+      }).catch(err=>{
+        console.log("err: ", err);
       })
     }
   }

@@ -1,12 +1,17 @@
 <template>
   <div id="generalboardpage">
     <div class="generalboardpage-container">
+      <!-- 글 삭제 및 수정 버튼 -->
+      <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 56em; top: 5em;">
+        <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="deletePost">삭제</button>
+        <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="editPost">수정</button>
+      </div>
       <div class="thumbnail-container" style="position: relative; width: 82%; height: 22em; margin: auto; top: 5em;">
         <section class="thumbnail-wrapper" style="position: relative; width: 65%; height: 90%; margin: auto; top: 1.2em; left: -0.5em;">
           <img :src="posts.thumbnail" style="width: 100%; height: 100%;">
         </section>
       </div>
-
+      <!-- 제목 출력 -->
     <div class="title">
       <div class="title-content" style="position: relative; width: 100%; margin: auto;
       top: 10px; font-size: 26px; font-weight: 540; text-align: left;">
@@ -19,44 +24,45 @@
       height: 50px; top: 2px;">
         <router-link to="/my-page">
         <section class="user_profiles">
-          <img :src="users.profile" alt="프로필 사진">
+          <img :src="posts.profile" alt="프로필 사진" style="height: 50px; width: 55px; border-radius: 50%;">
         </section>
         </router-link>
         <router-link to="/my-page" style="text-decoration: none; color: black;">
         <section class="user_name" style="font-weight: 540;">
-          {{ users.userId }}
+          {{ posts.nickname }}
         </section>
         </router-link>
       </section>
     </div>
-
+      <!-- 날짜 출력 -->
     <div class="date">
       <section class="date_container">
-        {{ posts.date }}
+        작성일 : {{ this.formDate }}
       </section>
     </div>
 
+      <!-- 내용 출력 -->
     <div class="general-content-container" style="position: relative; left: 1px; width: 80%; height: 100%; display: grid;
-    grid-template-columns: 6fr 1fr; grid-template-rows: 1fr; top: 5em; margin: auto;">
-      <section class="content-wrappers">
-        <section class="content">
-          <Viewer v-if="posts.content != null" :initialValue="content" ref="toastViewer"/>
-          <!--{{ post.content }}-->
-        </section>
-      </section>
+    grid-template-columns: 6fr 1fr; grid-template-rows: 1fr; top: 4em; margin: auto;">
+      <div class="content-wrappers">
+        <div id="viewer" class="content">
+        </div>
+      </div>
 
       <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 100%; right:17%; top: 19%; text-align: left;">
         <!-- 좋아요 버튼 -->
         <button type="button" class="heart-btn" @click="likeBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
         width: 45%; height: 65px; top: 90%; font-size: 14.5px;">
-          <img :src="liked ? HeartImg : EmptyHeartImg" width="25px" height="25px"/>
+          <img :src="liked ? HeartImg : EmptyHeartImg" width="30px" height="30px"/>
+          <br>
           {{ posts.likeCount }}
         </button>
 
         <!-- 스크랩 버튼 -->
         <button type="button" class="scrap-btn" @click="scrapBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
         width: 45%; height: 65px; right: 50%; top: 81%; background-color: white; font-size: 14.5px;">
-          <img :src="scraped ? ScrapImg : EmptyScrapImg" width="25px" height="25px"/>
+          <img :src="scraped ? ScrapImg : EmptyScrapImg" width="30px" height="30px"/>
+          <br>
           {{ posts.scrapCount }}
         </button>
 
@@ -71,15 +77,10 @@
       <!-- 댓글 작성 및 댓글 확인 폼 -->
       <div class="comment-container">
         <div class="comment-input">
-          <input type="text" v-model="newComment" placeholder="댓글을 입력하세요" class="comment-form">
-
-            <button type="button" class="btn btn-secondary rounded-circle" style="background-color: #80C85F" @click="submitComment">
-              <svg xmlns="http://www.w3.org/2000/svg" width="15" height="20" fill="#FFFFFF" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
-                <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"></path>
-              </svg>
-            </button>
-          <Comment v-for="comment in comments" :key="comment.id" :comment="comment" @reply="addReply"></Comment>
+          <!-- 댓글 작성 컴포넌트 -->
+          <comment-write @submit="handleCommentSubmit" />
         </div>
+        <CommentList :articleId="Number(getArticleId)" ref="commentList" @submit="replyComments"/>
 
       </div>
 
@@ -90,24 +91,39 @@
 <script>
 import {api} from "@/api/api";
 import Store from "@/store/index";
-import Comment from './Comment.vue';
+import CommentWrite from "@/views/GeneralBoard/Comment/CommentWrite.vue";
+import {marked} from 'marked';
+import CommentList from "@/views/GeneralBoard/Comment/CommentList.vue";
 
 export default {
   name: 'GeneralBoardPage',
   components:{
-    Comment
+    CommentWrite,
+    CommentList,
   },
   data() {
     return {
       liked: false,
+      likedCtn: '',
       scraped: false,
+      scrapedCtn: '',
       newComment: '',
-      comments: [],
+      // 댓글 불러옴
+      childComments: {
+        commentId: '',
+        content: '',
+        parentId: '',
+        date: '',
+        articleId: '',
+        nickname: ''
+      },
+      // 사용자 정보 store에서 가져옴
       users: {
         userId: Store.state.userId,
         nickname: Store.state.nickname,
         profile: Store.state.profile,
       },
+      // 게시글 정보 불러옴
       posts: {
         articleId: '',
         title: '',
@@ -117,39 +133,72 @@ export default {
         nickname: '',
         likeCount: '',
         scrapCount: '',
+        profile: '',
       },
       HeartImg: require('@/assets/generalboardpage_icon/heart.png'),
       EmptyHeartImg: require('@/assets/generalboardpage_icon/emptyheart.png'),
       EmptyScrapImg: require('@/assets/generalboardpage_icon/emptyScrap.png'),
       ScrapImg: require('@/assets/generalboardpage_icon/fillScrap.png'),
-      content: null,
       data: null,
+      getArticleId: '',       // 주소에서 articleId 뽑아냄
+      year: '',               // 년도 뽑아냄
+      month: '',              // 개월 뽑아냄
+      day: '',                // 일 뽑아냄
+      formDate: '',            // 작성일 날짜 year+month+day
     };
-  },
-  created() {
-    this.fetchComments();
   },
   computed:{
     isUserLogin(){
       return this.$store.getters.isLogin;
+    },
+    // 현재 사용자가 글 작성자인지 여부를 확인하는 계산된 속성
+    isAuthor() {
+      return this.posts.nickname === this.users.nickname;
     }
   },
   mounted(){
-   /* const args = '/api/general/post/{id}'
-    api.getPost(args).then(res =>{
-      this.posts=res.data;
-    })*/
+    const urlStr = window.location.href;
+    // 마지막 = 이후의 부분을 분리
+    const parts = urlStr.split('=');
+    this.getArticleId = parts.pop();
+
+    if (this.getArticleId) {
+      this.getArticle();
+      // CommentList 컴포넌트의 메서드를 호출하여 초기 데이터를 로드
+      this.loadComments();
+    } else {
+      console.error('articleId가 정의되지 않았습니다.');
+    }
   },
   methods: {
+    async getArticle(){
+      const args = `/api/general/post/${this.getArticleId}`;
+      await api.getPost(args).then(res =>{
+        this.posts=res.data;
+        const dateObject = new Date(this.posts.date);
+        this.year = dateObject.getFullYear();
+        this.month = dateObject.getMonth()+1;
+        this.day = dateObject.getDate();
+        this.formDate = `${this.year}-${this.month}-${this.day}`;
+        const htmlContent = marked(this.posts.content);
+
+        document.querySelector('#viewer').innerHTML = htmlContent;
+      })
+    },
+    loadComments() {
+      // CommentList 컴포넌트의 메서드를 호출하여 댓글 로드
+      console.log("호출되나욤");
+      this.$refs.commentList.loadComments(this.getArticleId);
+    },
     async likeBtn() {
       if(this.liked){
         // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
-        const args = 'api/general/unlike';
-        const formData = new FormData();
-        formData.append('userId', this.users.userId);
-        formData.append('articleId', this.posts.articleId);
-
-        await api.unSetLike(args, formData).then(res => {
+        const args = '/api/general/unlike';
+        const likeData = {
+          userId: this.users.userId,
+          articleId: this.posts.articleId
+        }
+        await api.unSetLike(args, likeData).then(res => {
           console.log("좋아요 취소 성공!", res);
           alert("좋아요를 취소했습니다!");
           console.log("좋아요 취소 성공!", this.liked);
@@ -159,12 +208,12 @@ export default {
         });
       } else{
         // 좋아요를 누르지 않은 상태에서 누름 => 좋아요 추가
-        const args = 'api/general/like';
-        const formData = new FormData();
-        formData.append('userId', this.users.userId);
-        formData.append('articleId', this.posts.articleId);
-
-        await api.setLike(args, formData).then(res => {
+        const args = '/api/general/like';
+        const unLikeData = {
+          userId: this.users.userId,
+          articleId: this.posts.articleId
+        }
+        await api.setLike(args, unLikeData).then(res => {
           console.log("좋아요 성공!", res);
           alert("좋아요를 눌렀습니다!");
           this.liked = !this.liked;
@@ -177,12 +226,12 @@ export default {
     async scrapBtn() {
       if(this.scraped){
         // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
-        const args = 'api/general/unscrap';
-        const formData = new FormData();
-        formData.append('userId', this.users.userId);
-        formData.append('articleId', this.posts.articleId);
-
-        await api.unSetScrap(args, formData).then(res => {
+        const args = '/api/general/unscrap';
+        const scrapData = {
+          userId: this.users.userId,
+          articleId: this.posts.articleId
+        }
+        await api.unSetScrap(args, scrapData).then(res => {
           console.log("스크랩 취소 성공!", res);
           alert("스크랩 취소했습니다!");
           this.scraped = !this.scraped;
@@ -190,12 +239,12 @@ export default {
           console.log("스크랩 취소 실패!", error);
         });
       }else{
-        const args = 'api/general/scrap';
-        const formData = new FormData();
-        formData.append('userId', this.users.userId);
-        formData.append('articleId', this.posts.articleId);
-
-        await api.setScrap(args, formData).then(res => {
+        const args = '/api/general/scrap';
+        const unScrapData = {
+          userId: this.users.userId,
+          articleId: this.posts.articleId
+        }
+        await api.setScrap(args, unScrapData).then(res => {
           console.log("스크랩 성공!", res);
           alert("스크랩을 눌렀습니다!");
           this.scraped = !this.scraped;
@@ -205,72 +254,68 @@ export default {
         })
       }
     },
-    setContent(content){
-      this.$refs.toastViewer.invoke('setMarkdown', content);
+    /* 게시글 삭제 */
+    deletePost(){
+      const args = `/api/general/post/${this.posts.articleId}`;
+       api.deletePost(args).then(res => {
+        console.log("글 삭제 성공!", res);
+        alert("글 삭제 성공했습니다!");
+         this.$router.push('/generalBoard');
+      }).catch(error => {
+        console.log("글 삭제 실패했습니다!", error);
+      });
     },
-    /* 댓글 등록하기 버튼 */
-    async submitComment() {
-      if (this.newComment.trim()) {
-        const newComment = {
-          content: this.newComment,
-          articleId: this.posts.articleId,
-          nickname: this.users.nickname,
-          parentId: null, // 댓글 등록 시 parentId는 null로 설정
-        };
-        try {
-          await api.setComment('/api/general/comment', newComment).then(res =>{
-            this.comments.push({
-              id: res.data.id, // 서버에서 생성된 ID
-              user: {
-                nickname: this.$store.state.nickname,
-                profileImage: this.$store.state.profile
-              },
-              content: this.newComment,
-              replies: []
-            });
-            this.newComment = '';
-          })
-        } catch (error) {
-          console.error('Error posting comment:', error);
+    /* 게시글 수정 */
+    editPost(){
+      this.$router.push({
+        path: "GeneralReWrite",
+        query: {
+          articleId: this.posts.articleId
         }
-      }
+      });
     },
-    async fetchComments() {
-      try {
-        const response = await api.get(`/api/general/comment/{id}`);
-        this.comments = response.data.map(comment => ({
-          ...comment,
-          replies: comment.replies || []
-        }));
-      } catch (error) {
-        console.error('Error fetching comments:', error);
-      }
+    /* 댓글 작성 */
+    async handleCommentSubmit(commentData){
+        console.log("content 출력해줘: "+ commentData.content+"parentId: "+ commentData.parentId);
+
+        const submitData = {
+          content: commentData.content,
+          parentId: commentData.parentId,
+          articleId: this.getArticleId,
+          nickname: this.users.nickname
+        }
+        console.log("submitData 출력해줘: ", submitData);
+
+        const params = submitData;
+
+        const args = `/api/general/comment`;
+        await api.setComment(args, params).then(res=>{
+          this.comments=res.data;
+          this.loadComments(this.getArticleId);
+        }).catch(err=>{
+          console.log("Comment등록의 err 출력: ", err);
+        });
     },
-    /* 새로운 대댓글을 특정 부모 댓글에 추가하는 역할 */
-    addReply({ reply, parentId }) {
-      const parentComment = this.findCommentById(this.comments, parentId);
-      if (parentComment) {
-        if (!parentComment.replies) {
-          parentComment.replies = [];
-        }
-        parentComment.replies.push(reply);
+    async replyComments(commentReplyData){
+      console.log("content 출력해줘: "+ commentReplyData.replyText+"parentId: "+ commentReplyData.parentId);
+
+      const submitReplyData = {
+        content: commentReplyData.replyText,
+        parentId: commentReplyData.parentId,
+        articleId: this.getArticleId,
+        nickname: this.users.nickname
       }
-    },
-    findCommentById(comments, id) {
-      for (const comment of comments) {
-        // 현재 댓글의 id가 찾고자 하는 id와 일치하면 반환
-        if (comment.id === id) {
-          return comment;
-        }
-        if (comment.replies && comment.replies.length) {
-          // 대댓글 트리에서 재귀적으로 찾기
-          const found = this.findCommentById(comment.replies, id);
-          if (found) {
-            return found;
-          }
-        }
-      }
-      return null;
+      console.log("submitReplyData 출력해줘: ", submitReplyData);
+
+      const params = submitReplyData;
+
+      const args = `/api/general/comment`;
+      await api.setComment(args, params).then(res=>{
+        this.comments=res.data;
+        this.loadComments(this.getArticleId);
+      }).catch(err=>{
+        console.log("Comment등록의 err 출력: ", err);
+      });
     }
   }
 };
@@ -294,12 +339,12 @@ export default {
 }
 .title {
   position: relative;
-  width:55%;
+  width:53%;
   height:50px;
   top: 7em;
-  border: 1.5px solid #8D8D8D;
-  border-radius: 5px;
-  margin-left: 22%;
+  border-bottom: 1px solid rgb(141,141,141,70%);
+  border-radius: 6px;
+  margin-left: 23%;
   font-size: 13px;
   font-weight: 500;
 }
@@ -316,7 +361,6 @@ export default {
   position: relative;
   width: 55px;
   height: 100%;
-  border: 1px solid #8D8D8D;
   border-radius: 50%;
   cursor: pointer;
 }
@@ -349,7 +393,7 @@ export default {
   width: 78%;
   margin: auto;
   height: 650px;
-  border: 1px solid rgb(141,141,141,50%);
+  border: 1px solid rgb(141,141,141,30%);
   border-radius: 15px;
   position: relative;
   top: 50px;
@@ -358,13 +402,16 @@ export default {
 }
 .comment-container {
   position: relative;
-  width: 54%;
+  width: 78%;
   height: auto;
-  top: 10em;
+  top: 9.2em;
   left: 23%;
 }
 .comment-input {
   display: flex;
+  position: relative;
+  width: 80%;
+  height: auto;
 }
 .comment-input input[type="text"] {
   flex: 1;
@@ -382,31 +429,6 @@ export default {
 }
 .comment-input button:hover {
   background-color: darkorchid; /* 변경할 색상 지정 */
-}
-.comment-confirm-container{
-  position: relative;
-  border: 1px solid rgb(141,141,141,70%);
-  border-radius: 6px;
-  width: 100%;
-  height: 300px;
-  top: 10px;
-}
-.comment-confirm-wrapper{
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr 6fr;
-  grid-template-rows: 1fr;
-  width: 100%;
-  height: 20%;
-}
-.user-comment-wrapper{
-  position: relative;
-  width: 100%;
-  height: 20%;
-  left: 10px;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: 1fr 2fr;
 }
 .heart-btn{
   position: relative;

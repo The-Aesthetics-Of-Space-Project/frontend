@@ -1,22 +1,22 @@
 <template>
   <div id="followingList">
     <div class="following-container">
-      <div class="following-wrapper" v-for="following in followers" :key="following.userId">
+      <div class="following-wrapper" v-for="followings in following" :key="followings.userId">
         <section class="list-profile-img-container">
-          <img :src="following.profile" style="width: 76px; height: 76px; border: 1px solid black; border-radius: 50%;" />
+          <img :src="followings.profile" v-if="profileImage" style="width: 76px; height: 76px; border: 1px solid black; border-radius: 50%;" />
         </section>
 
         <section class="list-name-container">
           <section class="list-userId-container">
-            {{ following.userId }}
+            {{ followings.userId }}
           </section>
           <section class="list-nickName-container">
-            {{ following.nickname }}
+            {{ followings.nickname }}
           </section>
         </section>
 
         <section class="list-follower-delete-btn">
-          <button class="follower-delete-btn" @click="deleteFollow(following.userId)">
+          <button class="follower-delete-btn" @click="deleteFollow(followings.userId)">
             팔로잉 </button>
         </section>
 
@@ -27,32 +27,44 @@
 
 <script>
 import {api} from "@/api/api";
+import Store from "@/store";
+import axios from "axios";
 export default {
   data() {
     return {
-      followers: [],
+      following: [
+        {
+          userId: '',
+          nickname: '',
+          profile: ''
+        },
+      ],
       data: "null",
+      userId: Store.state.userId,
+      profileImage: '',
+          //`http://119.198.33.129:8080/users/image?userId=user1@jzip.com`
     };
   },
   mounted() {
     this.getFollow();
+    this.fetchImg();
   },
   methods: {
     /* 팔로잉 목록 조회 */
     async getFollow() {
-      await api.getFollow('/follow').then(res => {
-        this.followers = res.data;
+      const args=`/users/followings?userId=${this.userId}`
+      await api.getFollow(args).then(res => {
+        this.following = res.data;
         console.log("res: ", res);
       })
     },
     /* 언팔로잉(=팔로잉 삭제) */
     async deleteFollow(userId) {
-      const args='/follow';
-      const params = userId;
-      await api.deleteFollow(args, params).then(res => {
+      const args=`/users/unfollowing?userId=${this.userId}&follow=${userId}`;
+      await api.deleteFollow(args).then(res => {
           // 3초 후에 팔로워가 목록에서 사라짐
           setTimeout(() => {
-            this.followers = this.followers.filter(follower => follower.userId !== userId);
+            this.following = this.following.filter(following => following.userId !== userId);
           }, 3000);
         console.log("res: ", res);
       })
