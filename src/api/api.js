@@ -23,7 +23,10 @@ export const api = {
     },
     deleteFollow(args, params){
         return service.delete(args, params)
-    }
+    },
+    getGeneralRanking(args) {
+        return service.get(args)
+    },
 }
 
 export const testApi = {
