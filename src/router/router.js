@@ -15,6 +15,7 @@ import IntroduceView from "@/views/IntroduceView.vue";
 import FollowerListView from "@/views/MyPage/FollowerListView.vue";
 import FollowingListView from "@/views/MyPage/FollowingListView.vue";
 import interiorGuideView from "@/views/InteriorGuideView.vue";
+import ObjectRecognitionView from "@/views/ObjectRecognitionView.vue";
 import ChatView from "@/views/ChatView.vue";
 
 Vue.use(VueRouter)
@@ -35,6 +36,7 @@ const routes = [
     { path: '/introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
     { path: '/follower', component: FollowerListView, meta: {hideHeader: false, hideFooter: false}},
     { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
+    { path: '/objectrecognition', component: ObjectRecognitionView, meta: {hideHeader: false, hideFooter: true }}
     { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }}
 ]
