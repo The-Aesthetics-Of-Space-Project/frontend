@@ -165,7 +165,7 @@ export default {
           href: (isUserLogin) => isUserLogin ? '/' : '/login'
         },
       ],
-      menuLinks: ['/', '#', '/Community', 'InteriorGuide', '/Introduce'],
+      menuLinks: ['/', '/objectrecognition', '/Community', 'InteriorGuide', '/Introduce'],
     };
   },
 }
