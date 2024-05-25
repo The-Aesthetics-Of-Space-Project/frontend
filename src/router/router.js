@@ -15,6 +15,7 @@ import IntroduceView from "@/views/IntroduceView.vue";
 import FollowerListView from "@/views/MyPage/FollowerListView.vue";
 import FollowingListView from "@/views/MyPage/FollowingListView.vue";
 import interiorGuideView from "@/views/InteriorGuideView.vue";
+import ChatView from "@/views/ChatView.vue";
 
 Vue.use(VueRouter)
 /*  경로 설정*/
@@ -29,11 +30,13 @@ const routes = [
     { path: '/', component: MainView},
     { path: '/guideandtips', component: GuideAndTips, meta: { hideHeader: false, hideFooter: true }},
     { path: '/generalBoard', component: GeneralBoard, meta: { hideHeader: false, hideFooter: false }},
-    { path: '/generalBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: false }},
+    { path: '/generalBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: true }},
     { path: '/generalBoardWrite', component: GeneralBoardWrite, meta: { hideHeader: false, hideFooter: true }},
     { path: '/introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
     { path: '/follower', component: FollowerListView, meta: {hideHeader: false, hideFooter: false}},
-    { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }}
+    { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
+    { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
+    { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }}
 ]
 
 const router = new VueRouter({
