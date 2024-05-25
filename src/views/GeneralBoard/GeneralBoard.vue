@@ -1,274 +1,163 @@
 <template>
   <div id="generalboard">
-    <div class="content-container">
-      <div class="content-wrapper">
-          <section class="box-content1">
+    <div class="content-wrapper">
+      <div class="grid-container">
+        <div class="box-content" v-for="post in posts" :key="post.id">
+          <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
+                <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
+                @click="goToPostDetails(post.articleId)">
+          </section>
+          <section class="content-title" @click="goToPostDetails(post.articleId)" >
+            <span style="cursor: pointer;">{{ post.title }}</span>
+          </section>
+          <section class="content-title-wrapper">
             <section class="heart-contents">
-              <button type="button" class="heart-button">
-                <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px" />
-              </button>
+              <img src="@/assets/mypage_icon/like.png" alt="Like Icon" width="35px" height="35px">
               <section class="count-number">
-                <a> 123 </a>
+                <span>{{ post.likeCount }}</span>
               </section>
-
             </section>
-            <section class="content-title-wrapper">
-              <section class="content-title">
-                <a> 게시물 제목 </a>
+            <section class="content-nickname">
+              <section class="user-profile">
+                <img :src="post.profile" alt="User Profile" class="profile-img">
               </section>
-              <section class="content-nickname content-title">
-                <a> 닉네임 </a>
-
-
-              </section>
-              <!--<button type="button" @click="onClick(getDataId)">axios Get</button>
-              <li v-for="(v, i) in data.data" :key="`data${i}`">
-                <p> id: {{ v.id }} </p>
-                <p> title: {{ v.title }}</p>
-              </li>
-              {{data}}-->
-
+              <span @click="goToUserDetails(user.userId)">{{ post.nickname }}</span>
             </section>
-
-
-
           </section>
-
-          <section class="box-content2 box-content1">
-            <section class="heart-contents2 heart-contents">
-              <button type="button" class="heart-button">
-                <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px"/>
-              </button>
-            </section>
-
-          </section>
-
-          <section class="box-content3 box-content1">
-            <section class="heart-contents">
-              <button type="button" class="heart-button">
-                <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px"/>
-              </button>
-            </section>
-
-          </section>
-
-
-
-        <section class="box-content4 box-content1">
-          <section class="heart-contents">
-            <button type="button" class="heart-button">
-              <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px"/>
-            </button>
-          </section>
-
-        </section>
-
-        <section class="box-content5 box-content1">
-          <section class="heart-contents2 heart-contents">
-            <button type="button" class="heart-button">
-              <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px"/>
-            </button>
-          </section>
-
-        </section>
-
-        <section class="box-content6 box-content1">
-          <section class="heart-contents">
-            <button type="button" class="heart-button">
-              <img :src="liked ? HeartImg : EmptyHeartImg" @click="toggleLike" width="25px" height="25px"/>
-            </button>
-          </section>
-
-        </section>
-
-
+        </div>
       </div>
-
     </div>
-
   </div>
 </template>
 
-
 <script>
-//import {api} from "@/api/api";
-import data from "bootstrap/js/src/dom/data";
-import axios from "axios";
+import { api } from "@/api/api";
+import router from "@/router/guard";
 
 export default {
-  name: 'HeartButton',
-  computed: {
-    data() {
-      return data
-    }
-  },
+  name: 'GeneralBoardPage',
   data() {
     return {
-      liked: false,
-      HeartImg: require('@/assets/heart.png'),
-      EmptyHeartImg: require('@/assets/emptyheart.png'),
-
-      // eslint-disable-next-line vue/no-dupe-keys
-      data: "null",
+      posts: {
+        articleId: '',
+        title: '',
+        thumbnail: '',
+        nickname: '',
+        likeCount: '',
+      },
+      liked: '',
+      heartImg: require('@/assets/mypage_icon/like.png'),
+      baseUrl: 'http://jerry6475.iptime.org:20000',
     };
   },
+  created() {
+    this.fetchPosts();
+  },
   methods: {
-    toggleLike() {
-      this.liked = !this.liked;
-      // 여기서 서버에 좋아요 상태 업데이트를 위한 API 호출을 할 수 있습니다.
-
+    async fetchPosts() {
+      try {
+        const res = await api.getPost('/api/general/posts');
+        this.posts = res.data;
+        this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
+        console.error('response posts:', res);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
     },
-    /*async init(){
-      await api.getUser().then(res => {
-        this.setUser(res)
-      })
-    },*/
-
-/*onClick(){
-  axios
-      .get('https://my-json-server.typicode.com/typicode/demo/posts', {})
-      .then((res)=> {
-        console.log(res);
-        this.data = res.data;
-        console.log("성공");
-      })
-      .catch((res) => {
-        console.log(res);
-      })
-
-}*/
-},
+    goToPostDetails(articleId) {
+      this.$router.push({
+        path: "GeneralBoardPage",
+        query: {articleId: articleId}
+      });
+    },
+    goToUserDetails(userId) {
+      // Add the logic to navigate to the user details page if needed
+      console.log(`Navigate to user details with ID: ${userId}`);
+    }
+  },
 };
-
-
 </script>
 
-
-<style scoped>
-html{
-  scroll-behavior: smooth;
-}
+<style>
 #generalboard{
-  font-family: Inter;
+  font-family: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   position: relative;
-  width: 100%;
-  height: 1080px;
+  width:100%;
+  height:1200px;
   margin: 0;
 }
-a{
-  font-family: Inter;
-  font-size: 17px;
-}
-.content-container{
-  position: absolute;
-  margin: 0.5% 5%;
-  width: 90%;
-  height: 250%;
-}
-.content-wrapper{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr);
-  position: relative;
-  grid-template-rows: 1fr;
-  grid-column-gap: 2px;
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
   align-items: center;
-  margin-left: 16.5%;
-  width: 65%;
-  height: 190px;
+  margin-top: 80px;
 }
-.box-content1{
-  position: relative;
-  border: 2px solid #d9d9d9;
-  border-radius: 15px;
-  height: 190px;
-  width: 310px;
-}
-.heart-contents{
-  display: grid;
-  grid-template-columns: repeat(2, 1fr);
-  grid-template-rows: 45px;
-  position: relative;
-  width: 29%;
-  height: 25%;
-  margin: 45% 68%;
-  align-items: center;
-}
-.heart-button{
-  position: relative;
-  margin-top: 9px;
-  width: 55px;
-  height: 42px;
-  border: none;
-  background: none;
-  cursor: pointer;
-  align-items: center;
-  align-content: center;
-}
-.count-number a{
-  position: relative;
-  align-items: center;
-  align-content: center;
-  width: 40px;
-  height: 20px;
-  font-style: normal;
-  font-weight: 400;
-  margin-right: 5px;
-}
-.content-title-wrapper{
-  position: relative;
-  display: grid;
-  grid-template-columns: 1fr;
-  grid-template-rows: repeat(2, 1fr);
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
   width: 100%;
-  height: 44%;
-  margin-top: -120px;
-  align-items: center;
-  gap: -1px;
+  max-width: 1200px;
 }
-.content-title{
-  font-weight: 550;
+.box-content {
+  flex: 1 1 calc(33.333% - 40px);
+  max-width: calc(33.333% - 40px);
+  border: 1px solid #ddd;
+  height: 430px;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
 }
-.content-nickname{
-  width: 100%;
+.thumbnail img {
+  width: 95%;
   height: 100%;
+  border-radius: 10px;
 }
-.box-content2{
-  margin-left: 7%;
+.heart-contents {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2px;
 }
-.box-content3{
-  margin-left: 14%;
+.count-number {
+  margin-left: 10px;
 }
-.box-content4{
-  margin-top: 40%;
+.content-title-wrapper {
+  margin-top: 10px;
 }
-.box-content5{
-  margin-top: 40%;
-  margin-left: 7%;
+.content-title {
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 14px;
 }
-.box-content6{
-  margin-top: 40%;
-  margin-left: 14%;
+.content-nickname {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
 }
-.box-content7{
-  margin-top: 75%;
-}
-.box-content8{
-  margin-top: 75%;
-  margin-left: 20%;
-}
-.box-content9{
-  margin-top: 75%;
-  margin-left: 40%;
-}
-.heart-content{
-  width: 14%;
-  height: 15%;
-  margin: 33% 78%;
+.user-profile img {
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  margin-right: 10px;
 }
 
+@media (max-width: 1024px) {
+  .box-content {
+    flex: 1 1 calc(50% - 40px);
+    max-width: calc(50% - 40px);
+  }
+}
 
-
+@media (max-width: 768px) {
+  .box-content {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
 </style>

@@ -47,19 +47,18 @@
     </div>
     <section class="board-title">
       <section class="mb-3">
-        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해 주세요." maxlength="50" v-model="article.title" style="outline: none; box-shadow: none; border-top: white; border-left: white; border-right: white;">
-        <p>{{ article.title.length }}/50</p>
+        <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해 주세요." maxlength="50" v-model="posts.title" style="outline: none; box-shadow: none; border-top: white; border-left: white; border-right: white;">
+        <p>{{ posts.title.length }}/50</p>
       </section>
     </section>
 
     <div id="editor" class="content-write">
-      <editor @submit="submitArticle"/>
+      <editor />
     </div>
 
     <section class="button">
-      <button type="button" class="btn btn-success" @click="postArticle">발행하기</button>
+      <button type="button" class="btn btn-success" @click="postArticle">수정 하기</button>
     </section>
-
   </div>
 </template>
 
@@ -71,19 +70,10 @@ import Store from "@/store/index";
 
 export default {
   name: 'GeneralBoardWrite',
-  components:{
-  },
   data() {
     return {
       baseUrl: 'http://jerry6475.iptime.org:20000',
       content: '',
-      // 내가 보낼 데이터
-      article:{
-        title: '',
-        thumbnail:'',
-        content: '',
-        nickname: Store.state.nickname
-      },
       users: {
         userId: Store.state.userId,
         nickname: Store.state.nickname,
@@ -115,12 +105,23 @@ export default {
       getArticleId: ''
     }
   },
+  async created() {
+    // 현재 페이지 URL에서 파라미터를 추출하여 URLSearchParams 객체 생성
+    const urlStr = window.location.href;
+    // 마지막 = 이후의 부분을 분리
+    const parts = urlStr.split('=');
+    this.getArticleId = parts.pop();
+
+    if (this.getArticleId) {
+      await this.loadArticleData();
+    }
+  },
   mounted(){
-      this.editor = new Editor({
+    this.editor = new Editor({
       el: document.querySelector('#editor'),
       height: '550px',
       initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-      initialValue: '# 오른쪽은 미리보기입니다!',  // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+      //initialValue: '# 오른쪽은 미리보기입니다!',  // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
       previewStyle: 'vertical',               // 마크다운 프리뷰 스타일 (tab || vertical)
       previewHighlight: false,
       extendedAutolinks: true,                // 자동링크
@@ -135,6 +136,68 @@ export default {
         // blob: 삽입하려는 이미지 정보를 가지고 있음
         // callback: 이미지 처리된 걸 가지고 처리된 이미지를 태그로 만들어서 toast editor에 넣어주는 역할
         addImageBlobHook: async (file, callback) => {
+          const formData = new FormData();
+          formData.append('file', file);
+
+          const args = '/api/general/post/image';
+          await api.setGeneralUser(args, formData)
+              .then(res => {
+                console.log("res 출력: ", res);
+                this.editorImgUrl = res.data;
+                const editorFullImgUrl = this.baseUrl + this.editorImgUrl;
+
+                callback(editorFullImgUrl, 'alt_img');
+              })
+              .catch(err => {
+                console.error("이미지 업로드 중 오류 발생:", err);
+              });
+        }
+      }
+    });
+  },
+  computed: {
+    imagePreview() {
+      return this.image ? URL.createObjectURL(this.image) : '';
+    },
+    hasImg(){
+      return !!this.uploadImg;
+    }
+  },
+  methods: {
+    async loadArticleData() {
+      if (this.getArticleId) {
+        const args = `/api/general/post/${this.getArticleId}`;
+        try {
+          const res = await api.getPost(args);
+          this.posts = res.data;
+          console.log("res 출력해라해라", res.data);
+          this.uploadImg = this.posts.thumbnail;
+          this.initializeEditor();
+        } catch (error) {
+          console.error('Error loading article:', error);
+        }
+      }
+    },
+    initializeEditor(){
+      this.editor = new Editor({
+        el: document.querySelector('#editor'),
+        height: '550px',
+        initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
+        //initialValue: '# 오른쪽은 미리보기입니다!',  // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+        previewStyle: 'vertical',               // 마크다운 프리뷰 스타일 (tab || vertical)
+        previewHighlight: false,
+        extendedAutolinks: true,                // 자동링크
+        toolbarItems: [
+          ['heading', 'bold', 'italic', 'strike'],
+          ['hr', 'quote'],
+          ['ul', 'ol', 'task', 'indent', 'outdent'],
+          ['image', 'link'],
+        ],
+        state: 'strong',
+        hooks: {
+          // blob: 삽입하려는 이미지 정보를 가지고 있음
+          // callback: 이미지 처리된 걸 가지고 처리된 이미지를 태그로 만들어서 toast editor에 넣어주는 역할
+          addImageBlobHook: async (file, callback) => {
             const formData = new FormData();
             formData.append('file', file);
 
@@ -150,38 +213,17 @@ export default {
                 .catch(err => {
                   console.error("이미지 업로드 중 오류 발생:", err);
                 });
+          }
         }
+      });
+      if(this.posts.content){
+        console.log("content 출력핼하해라해라", this.posts.content);
+        this.editor.setMarkdown(this.posts.content);
       }
-    });
-  },
-  async created() {
-    // 현재 페이지 URL에서 파라미터를 추출하여 URLSearchParams 객체 생성
-    const urlStr = window.location.href;
-    // 마지막 = 이후의 부분을 분리
-    const parts = urlStr.split('=');
-    this.getArticleId = parts.pop();
-
-    if (this.getArticleId) {
-      await this.loadArticleData(this.getArticleId);
-    }
-  },
-  computed: {
-    imagePreview() {
-      return this.image ? URL.createObjectURL(this.image) : '';
     },
-    hasImg(){
-      return !!this.uploadImg;
-    }
-  },
-  methods: {
-    async loadArticleData(getArticleId) {
-      const args = `/api/general/post/${getArticleId}`;
-      try {
-        const res = await api.getPost(args);
-        this.posts = res.data;
-      } catch (error) {
-        console.error('Error loading article:', error);
-      }
+    closeModal() {
+      this.showModal = false;
+      this.$router.push({ path: "GeneralBoardPage" }); // 홈으로 리다이렉트하거나 적절한 페이지로 이동
     },
     /* 모달 창 */
     modalOpen() {
@@ -196,11 +238,8 @@ export default {
       const formData = new FormData();
       formData.append('file', this.image);
 
-      console.log("r이미지 파일: ", this.image);
-
       /* 이미지 파일 전송 */
       api.setGeneralUser(args, formData).then(res => {
-        console.log("res 이미지 파일 전송 후: ", res);
         this.uploadImg = this.baseUrl+res.data;
         this.article.thumbnail = this.uploadImg;
       });
@@ -223,40 +262,30 @@ export default {
       };
       reader.readAsDataURL(file);
     },
-    submitArticle(data){
-      this.article.content = data;
-    },
     /* 발행하기 버튼 클릭 시 실행 */
     postArticle(){
-      this.article.content = this.editor.getMarkdown();
-
+      this.posts.content = this.editor.getMarkdown();
       const articleData = {
-        title: this.article.title,
-        thumbnail: this.article.thumbnail,
-        content: this.article.content,
-        nickname: this.article.nickname
+        title: this.posts.title,
+        thumbnail: this.posts.thumbnail,
+        content: this.posts.content,
+        nickname: this.posts.nickname
       }
 
-      console.log("articleData: ", articleData);
-
-      const args = '/api/general/post';
+      const args = `/api/general/post/${this.posts.articleId}`;
       const params = articleData;
 
-      // axios를 사용하여 POST 요청 보내기
-      api.setUser(args, params)
-          .then(response => {
-            // 요청이 성공했을 때 처리할 코드
-            console.log('게시물이 성공적으로 등록되었습니다.', response);
+      // 수정 요청 보내기
+      api.editPost(args, params)
+          .then(res => {
+            console.log('게시물이 성공적으로 수정되었습니다.', res);
             this.$router.push('/generalBoard');
           })
           .catch(error => {
-            // 요청이 실패했을 때 처리할 코드
-            console.error('게시물 등록에 실패했습니다.', error);
-            // 실패 시 사용자에게 알림을 표시하거나 재시도 안내 등의 작업 수행
+            console.error('게시물 수정에 실패했습니다.', error);
           });
     },
   },
-
   watch: {
     modalCheck: function () {
       const html = document.querySelector('.html-overflow');
@@ -267,7 +296,6 @@ export default {
       }
     },
   },
-
 };
 </script>
 
