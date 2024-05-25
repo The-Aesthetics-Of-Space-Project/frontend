@@ -9,7 +9,7 @@
     <div class="main-1container" style=" height: 700px; width: auto;">
       <div class="image-1container">
         <router-link to="/interiorguide">
-        <img src="@/assets/main_content_image_list/ckdwh.jpg" alt="인테리어 사진" width="280px">
+          <img src="@/assets/main_content_image_list/ckdwh.jpg" alt="인테리어 사진" width="280px">
         </router-link>
         <div class="title-a" style="font-family: MyCustomFont2; font-size: 20px;">인테리어 맞춤형 추천</div>
         <div class="description">나만의 공간을 창조하고 콘텐츠를 통해 나의 공간과 일상을 상상하도록 돕고, 더 나은 개선된 환경과 조화를 손쉽게 살펴볼 수 있습니다.</div>
@@ -17,15 +17,15 @@
 
       <div class="image-1container">
         <router-link :to="isUserLogin ? '/GeneralBoard':'/login'">
-        <img src="@/assets/main_content_image_list/main_contents.png" alt="유저들의 콘텐츠" width="290px">
-         </router-link>
+          <img src="@/assets/main_content_image_list/main_contents.png" alt="유저들의 콘텐츠" width="290px">
+        </router-link>
         <div class="title-a" style="font-family: MyCustomFont2; font-size: 20px;">영감 가득한 유저들의 콘텐츠</div>
         <div class="description">온라인 집들이부터 특별한 경험, 일상의 단면까지, 좋아하는 거로 삶을 채워나가는 유저들의 생생한 이야기들이 모여 다른 사람들의 영감이 됩니다.</div>
       </div>
 
       <div class="image-1container">
         <router-link to="/Community">
-        <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티">
+          <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티">
         </router-link>
         <div class="title-a" style="font-family: MyCustomFont2; font-size: 20px;">취향을 나누는 커뮤니티</div>
         <div class="description">다채로운 관심사를 가진 사람들이 모여 정보를 얻고, 서로 공감하면서 긍정적인 영향을 주고받는 커뮤니티 생태계를 만듭니다.</div>
@@ -109,19 +109,21 @@
     </div>
     <div class="Home-Styling-title">
       <h2  style="font-family: MyCustomFont2; position: relative; top:70px;">Home Styling</h2>
-
-    <div class="board-write-list">
-      <div class="card-view">
-        <div class="card-list">
-          <div class="card" v-for="(card, index) in card" :key="index">
-            <div class="card-body">
-              <h5 class="card-title">{{ card.title }}</h5>
+      <div class="board-write-list">
+        <div class="card-view">
+          <div class="card-list">
+            <div class="card" v-for="(card, index) in cardsa" :key="index" @input='cardlist'>
+              <div class="card-body">
+                <h5 class="card-title" >{{ card.title }}</h5>
+              </div>
+              <img src="@/assets/mypage_icon/like.png" height="25" width="25" style="position: relative; left:85%; top:10%;">
+              <span style="position: relative; left:45%; top:3.8%;">{{ card.likeCount }}</span>
+              <h5 class="card-title" style="position:relative; top:50px;">{{ card.nickname }}</h5>
             </div>
           </div>
         </div>
       </div>
     </div>
-  </div>
     <div class="footer-line">
     </div>
 
@@ -130,6 +132,7 @@
 </template>
 
 <script>
+import {api} from "@/api/api";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -140,10 +143,30 @@ export default {
       return this.$store.getters.isLogin;
     }
   },
+  mounted() {
+    this.cardlist();
+  },
+  methods:{
+    async cardlist() {
+      await api.getGeneralRanking('/api/general/posts/popular').then(res => {
+        this.cardsa = res.data.map(card => ({
+          ...card,
+        }));
+        console.log('데이타', res.data);
+      }).catch(error => {
+        if (error.response) {
+          console.log("error", error);
+        }
+      });
+    },
+  //  async updateLike(index) {
+   //   const card = this.cardsa[index];
+  },
   components: {
   },
   data() {
     return {
+      cardsa:'',
       cards: [
         {  text: '자연스러운 느낌을 주는 인테리어', imageSrc:require('@/assets/interiorguide_image_list/natural.png')},
         {  text: '현대적인 인테리어',imageSrc:require('@/assets/interiorguide_image_list/modern3.png')},
