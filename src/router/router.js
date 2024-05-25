@@ -17,7 +17,6 @@ import FollowingListView from "@/views/MyPage/FollowingListView.vue";
 import interiorGuideView from "@/views/InteriorGuideView.vue";
 import ScrapListView from "@/views/MyPage/ScrapListView.vue";
 import LikeListView from "@/views/MyPage/LikeListView.vue";
-import ObjectRecognitionView from "@/views/ObjectRecognitionView.vue";
 import ChatView from "@/views/ChatView.vue";
 import GeneralReWrite from "@/views/GeneralBoard/GeneralReWrite.vue";
 import ObjectRecognitionView from "@/views/ObjectRecognitionView.vue";
@@ -47,7 +46,6 @@ const routes = [
     { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/generalReWrite', component: GeneralReWrite, meta: {hideHeader: false, hideFooter: true }},
-    { path: '/objectrecognition', component: ObjectRecognitionView, meta: {hideHeader: false, hideFooter: true }}
 ]
 
 const router = new VueRouter({
