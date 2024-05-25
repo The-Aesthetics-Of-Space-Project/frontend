@@ -136,7 +136,7 @@ export default {
         scrapCount: '',
         profile: '',
         isLiked: '',
-        //isScraped: ''
+        isScraped: ''
       },
       HeartImg: require('@/assets/generalboardpage_icon/heart.png'),
       EmptyHeartImg: require('@/assets/generalboardpage_icon/emptyheart.png'),
@@ -207,6 +207,7 @@ export default {
           alert("좋아요를 취소했습니다!");
           console.log("좋아요 취소 성공!", this.posts.liked);
           this.posts.isLiked = !this.posts.isLiked;
+
         }).catch(error => {
           console.log("좋아요 취소 실패!", error);
         });
@@ -220,6 +221,7 @@ export default {
         await api.setLike(args, likeData).then(res => {
           alert("좋아요를 눌렀습니다!");
           this.posts.isLiked = !this.posts.isLiked;
+          this.getArticle();
         }).catch(error => {
           console.log("좋아요 실패!", error);
           this.posts.isLiked = !this.posts.isLiked;
@@ -237,7 +239,7 @@ export default {
         }
         await api.unSetScrap(args, scrapData).then(res => {
           alert("스크랩 취소했습니다!");
-          this.posts.scraped = !this.posts.scraped;
+          this.posts.isScraped = !this.posts.isScraped;
         }).catch(error => {
           console.log("스크랩 취소 실패!", error);
         });
@@ -249,10 +251,10 @@ export default {
         }
         await api.setScrap(args, unScrapData).then(res => {
           alert("스크랩을 눌렀습니다!");
-          this.posts.scraped = !this.posts.scraped;
+          this.posts.isScraped = !this.posts.isScraped;
         }).catch(error => {
           console.log("스크랩 실패!", error);
-          this.posts.scraped = !this.posts.scraped;
+          this.posts.isScraped = !this.posts.isScraped;
         })
       }
     },
