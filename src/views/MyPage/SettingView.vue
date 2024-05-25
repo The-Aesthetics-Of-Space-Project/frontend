@@ -252,7 +252,7 @@ export default {
   position: relative;
   width: 80%;
   height: 100%;
-  top: 35px;
+  top: 8em;
   margin: auto;
 }
 .header-container{

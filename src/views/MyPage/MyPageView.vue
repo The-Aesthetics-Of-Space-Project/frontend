@@ -1,6 +1,7 @@
 <template>
   <div id="my-page">
-    <div class="my-page-container" >
+    <div class="my-page-container">
+      <LikeListView @usersDetails="getOtherUser"> </LikeListView>
       <!-- 프로필/설정 (헤더) -->
       <section class="header-container-wrapper">
         <section class="container-header-wrapper-profile">
@@ -63,7 +64,7 @@
                   <!-- 스크랩 -->
                   <section class="scrap-content"><router-link to="/scrap"><a> 스크랩북 <br> {{this.users.scraps}}</a></router-link></section>
                   <!-- 좋아요 -->
-                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> {{this.users.liked}}</a></router-link></section>
+                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> {{this.users.likes}}</a></router-link></section>
                 </section>
               </section>
 
@@ -78,28 +79,33 @@
                 <section class="house-header">
                   <a> 집들이 </a>
                 </section>
-                <section class="house-content">
-                  <section class="user-posts-container" style="overflow-x: auto; white-space: nowrap;">
-                    <!-- 게시글 썸네일과 제목 -->
-                    <div v-for="post in posts" :key="post.id" class="post-thumbnail" style="display: inline-block; margin-right: 10px;">
-                      <img :src="post.thumbnail" alt="게시글 썸네일" class="thumbnail-image">
-                      <h3 class="post-title">{{ post.title }}</h3>
-                    </div>
+
+                <section class="house-content" style="position: relative; width: 60%; height: 280px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+                  <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
+                    <section class="user-posts-wrapper" v-for="post in posts" :key="post.id" style=" border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-top: 8px; flex: 0 0 auto; display: flex; flex-direction: column;">
+                      <!-- 게시글 썸네일과 제목 -->
+                      <div class="mypage-post-thumbnail" style="width: 300px; height: 220px; border: none;">
+                        <img :src="post.thumbnail" alt="게시글 썸네일" class="thumbnail-image" @click="goToPostDetails(post.articleId)" style="cursor: pointer; border-radius: 12.5%; width: 100%; height: 210px;">
+                      </div>
+                      <div class="post-title" @click="goToPostDetails(post.articleId)" style="cursor: pointer; margin-left: 10px; text-align: left; font-weight: 550;"> <a>{{ post.title }}</a></div>
+                    </section>
+                  </section>
                 </section>
-              </section>
 
               <!-- 공모전 -->
               <section class="competition-container">
                 <section class="competition-header house-header">
                   <a> 공모전 </a>
                 </section>
-                <section class="competition-content">
-                  <section class="user-posts-container" style="overflow-x: auto; white-space: nowrap;">
-                    <!-- 게시글 썸네일과 제목 -->
-                    <div v-for="post in posts" :key="post.id" class="post-thumbnail" style="display: inline-block; margin-right: 10px;">
-                      <img :src="post.thumbnail" alt="게시글 썸네일" class="thumbnail-image">
-                      <h3 class="post-title">{{ post.title }}</h3>
-                    </div>
+                <section class="competition-content" style="position: relative; width: 60%; height: 280px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+                  <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
+                    <section class="user-posts-contest-wrapper" v-for="post in posts" :key="post.id" style=" border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-top: 8px; flex: 0 0 auto; display: flex; flex-direction: column;">
+                      <!-- 게시글 썸네일과 제목 -->
+                      <div  class="post-thumbnail" style="width: 300px; height: 220px; border: none;">
+                        <img :src="post.thumbnail" alt="게시글 썸네일" class="thumbnail-image" style="border-radius: 12.5%; width: 100%; height: 210px;">
+                      </div>
+                      <div class="post-title" style="">{{ post.title }}</div>
+                    </section>
                   </section>
                 </section>
               </section>
@@ -120,18 +126,26 @@ import axios from "axios";
 
 export default {
   name: 'MyPageView',
+  props:{
+    // 본인이 아닌 다른 사람의 userId
+    getUserId: {
+      type: String,
+      required: true
+    }
+  },
   data(){
     return{
       input: '',
       result:'',
       data: null,
+      userId: Store.state.userId,
       users: {
-        userId: Store.state.userId,
+        userId: '',
         profile: '',
         nickname: '',
         follower: '',
         following: '',
-        liked: '',
+        likes: '',
         scraps: '',
       },
       posts: {
@@ -140,30 +154,53 @@ export default {
         thumbnail: '',
         nickname: '',
         likeCount: ''
-      },
+      }
     }
   },
   mounted(){
-    this.getUser();
-    this.getPost();
-    this.getFollow();
-    this.fetchImg();
+      if(this.userId){
+        this.getUser();
+        this.getPost();
+      }else{
+        this.getOtherUser();
+        this.getOtherPost();
+      }
   },
   methods:{
-    /* 유저 정보 조회 */
+    /* 본인일 때 유저 정보 조회 */
     async getUser(){
-      try {
-        const args = `/users/details?userId=${encodeURIComponent(this.users.userId)}`;
-        const res = await api.getUserInfo(args);
-        this.users = res.data;
-      } catch (error) {
-        console.error(error);
-      }
+        try {
+          const args = `/users/details?userId=${encodeURIComponent(this.userId)}`;
+          const res = await api.getUserInfo(args);
+          this.users = res.data;
+        } catch (error) {
+          console.error(error);
+        }
+    },
+    /* 본인 아닐때 목록 조회 */
+    async getOtherUser(getUserId){
+        try {
+          const args = `/users/details?userId=${encodeURIComponent(getUserId)}`;
+          const res = await api.getUserInfo(args);
+          this.users = res.data;
+        } catch (error) {
+          console.error(error);
+        }
     },
     /* 게시글 목록 조회 */
     async getPost(){
       try {
         const args = `/users/posts?userId=${encodeURIComponent(this.users.userId)}`;
+        const res = await api.getPost(args);
+        this.posts = res.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    /* 본인 아닐 때 게시글 목록 조회 */
+    async getOtherPost(getUserId){
+      try {
+        const args = `/users/posts?userId=${encodeURIComponent(getUserId)}`;
         const res = await api.getPost(args);
         this.posts = res.data;
       } catch (error) {
@@ -187,7 +224,7 @@ export default {
         alert("URL 복사에 실패했습니다.");
         console.error("Could not copy text: ", err);
       });
-    }
+    },
   }
 }
 </script>
@@ -207,7 +244,7 @@ export default {
 }
 .my-page-container{
   position: relative;
-  width: 100%;
+  width: 80%;
   height: 60%;
 }
 .header-container-wrapper{
@@ -215,10 +252,10 @@ export default {
   display: grid;
   grid-template-columns: repeat(2, 1fr);
   grid-template-rows: 1fr;
-  width: 15%;
-  height: 2%;
-  left: 44%;
-  top: -8em;
+  width: 20%;
+  height: 5%;
+  left: 40em;
+  top: -5em;
   font-size: 19px;
   gap: 4px;
 }
@@ -258,7 +295,7 @@ export default {
 .my-page-content-container{
   position: relative;
   margin: auto;
-  width: 100%;
+  width: 90%;
   height: 100%;
 }
 .my-page-content-wrapper{
@@ -266,18 +303,16 @@ export default {
   width: 80%;
   height: 100%;
   margin: auto;
-  display: grid;
-  grid-template-columns: 2fr 3fr;
-  grid-template-rows: 1fr;
+  display: flex;
 }
 .left-container{
   position: relative;
-  width: 66%;
+  width: 57%;
   height: 110%;
   margin: auto;
   border: 1px solid #CCC5C5;
   border-radius: 10px;
-  left: 3.5%;
+  left: 5em;
   top: -2em;
   align-items: center;
   align-content: center;
@@ -285,7 +320,7 @@ export default {
 .left-content{
   position: relative;
   margin: auto;
-  width: 100%;
+  width: 87%;
   height: 100%;
 }
 /* 공유버튼 */
@@ -441,7 +476,6 @@ export default {
   color: #787575;
   align-items: center;
 }
-
 /* 구분선 */
 .line-container{
   position: relative;
@@ -536,17 +570,17 @@ hr{
 .right-container{
   position: relative;
   top: -30px;
-  left: 80px;
-  width: 90%;
-  height: 100%;
+  width: 60%;
+  height: 90%;
 }
 .right-content{
   position: relative;
-  width: 100%;
-  height: 95%;
+  width: 90%;
+  height: 89%;
   display: grid;
   grid-template-columns: 1fr;
   grid-template-rows: repeat(2, 1fr);
+  left: 13em;
 }
 /* 집들이 헤더 */
 .house-header{
@@ -577,5 +611,4 @@ hr{
   border: 1px dashed #CCC5C5;
   border-radius: 10px;
 }
-
 </style>
