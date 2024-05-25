@@ -45,7 +45,7 @@
           <div class="content-layout">
             <div class="text-section">
               <div class="home-style">
-                <h6 style="position: relative; left:-188px; top:5px; font-size: 14px; color:black; font-family: MyCustomFont2">분석한 요청에 대한 회원님의 홈 스타일</h6>
+                <h6 style="position: relative; left:-282px; top:5px; font-size: 16px; color:black; font-family: MyCustomFont2">Analysis</h6>
               </div>
               <div class="analysis-result">
                <strong style="font-size: 25px; color: black; position: relative; left:-132px; top:10px; text-align: left;">{{ analysisResult }}</strong>
@@ -57,7 +57,7 @@
               </div>
               <div class="tips-section" style="border-top: 1px solid lightgrey; width: 91%; margin: auto; top:20px;">
                 <ul>
-                  <span style="font-size: 14px; position: relative; left:-290px; color:black">인테리어 팁</span>
+                  <span style="font-size: 16px; position: relative; left:-290px; color:black">Interior Tip</span>
                   <li v-for="(tips, index) in tip" :key="index" style=" text-align:left; position:relative; list-style: none; left:-12px;">-&nbsp;{{ tips }}</li>
                 </ul>
               </div>
