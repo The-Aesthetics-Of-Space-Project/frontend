@@ -285,7 +285,7 @@ export default {
       }
       return targetArray.includes(index);
     },
-    analyzeSelectedImages() {
+    async analyzeSelectedImages() {
       this.currentStep = 3;
       if (this.selectedImages.length === 3 && this.selectedImagesStep2.length === 3 && this.selectedImagesStep3.length === 3) {
         this.isLoading = true;
@@ -396,20 +396,21 @@ export default {
 
           const styleId = this.styleToId[recommendedStyle];
 
-          try {
-            const response = await axios.get(`http://jerry6475.iptime.org:20000/api/interior/style/${encodeURIComponent(styleId)}`);
-            this.analysisResult =response.data.style;
-            this.analysistext = response.data.about;
-            this.tip = response.data.tips;
-            this.color = response.data.color.map(colorPath => `http://jerry6475.iptime.org:20000${colorPath}`);
-            this.interiorImages = response.data.interiorImage.map(imagePath => `http://jerry6475.iptime.org:20000${imagePath}`);
-
-            this.showModal = true;
-          } catch (error) {
-            console.error('Error fetching analysis data', error);
-          } finally {
-            this.isLoading = false;
-          }
+          await api.AnalysisResult(`/api/interior/style/${encodeURIComponent(styleId)}`)
+              .then(response => {
+                this.analysisResult = response.data.style;
+                this.analysistext = response.data.about;
+                this.tip = response.data.tips;
+                this.color = response.data.color.map(colorPath => `http://jerry6475.iptime.org:20000${colorPath}`);
+                this.interiorImages = response.data.interiorImage.map(imagePath => `http://jerry6475.iptime.org:20000${imagePath}`);
+                this.showModal = true;
+              })
+              .catch(error => {
+                console.error('Error fetching analysis data', error);
+              })
+              .finally(() => {
+                this.isLoading = false;
+              });
         }, 1000); // 이곳에 지연 시간(밀리초)을 입력해야 합니다.
       } else {
         alert("3개의 가구를 선택해 주세요.");

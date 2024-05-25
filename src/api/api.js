@@ -24,6 +24,10 @@ export const api = {
     deleteFollow(args, params){
         return service.delete(args, params)
     }
+    ,
+    AnalysisResult(args){
+        return service.get(args)
+    }
 }
 
 export const testApi = {
