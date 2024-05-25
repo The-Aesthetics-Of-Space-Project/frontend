@@ -14,29 +14,25 @@
       <input type="hidden" id="hid-roomid">
       <!-- 채팅 뷰 페이지 -->
       <div class="custom-chat-view">
-        <span style="position: relative; left:-40%; top:30px;">{{ selectedUser }}</span>
 
         <!-- 채팅 상대 이름 표시 -->
         <div class="custom-chat-navbar">
-          <span class="custom-chat-partner-name"></span>
+          <span class="custom-chat-partner-name">{{selectedUser}}</span>
         </div>
         <div class="chat-history">
           <div class="message my-message">
-            <div class="message-content">
-              <p>Hello, this is my message!</p>
+            <div class="card" style="width: 360px; height: 350px; position: relative; left:-43%; top:150px;">
+              <dotlottie-player src="https://assets10.lottiefiles.com/packages/lf20_x62chJ.json" background="transparent" speed="0.8" style="width: 350px; height: 350px;" loop autoplay></dotlottie-player>
             </div>
           </div>
+          <span style="position: relative; top:190px; left:-5.2%; font-size: 18px;">메시지를 시작하려면 대화 상대를 선택하세요.</span>
           <div class="message other-message">
-            <div class="message-content">
-              <p>Hello, this is the other person's message!</p>
-            </div>
           </div>
         </div>
         <div class="custom-chat-input">
           <!-- 입력 필드와 전송 버튼 -->
-          <input type="text" id="chat-input" v-model="inputMessage" placeholder="send a message..." style="font-size: 15px;"
-                 @keyup.enter="sendMessage">
-          <button class="btn btn-outline-secondary" id="sendMessageButton" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
+          <input type="text" id="chat-input" v-model="inputMessage" placeholder="send a message..." v-if="selectedUser" style="font-size: 15px;" @keyup.enter="sendMessage">
+          <button class="btn btn-outline-secondary" id="sendMessageButton" v-if="selectedUser" :disabled="inputMessage.trim() === ''" @click="sendMessage">전송</button>
         </div>
       </div>
     </div>
@@ -47,6 +43,7 @@
 import axios from "axios";
 import SockJS from 'sockjs-client';
 import Stomp from 'webstomp-client'
+import {api} from "@/api/api";
 
 export default {
   data() {
@@ -93,8 +90,8 @@ export default {
       });
       console.log(roomId);
     },
-    partername() {
-      axios.get(`http://jerry6475.iptime.org:20000/chatroom/${encodeURIComponent(this.userId)}`)
+    async partername() {
+      await api.getChatUserId(`/chatroom/${encodeURIComponent(this.userId)}`)
           .then(res => {
             this.users = res.data.list;
             console.log(res.data);
@@ -103,11 +100,11 @@ export default {
             console.log("list-failed");
           });
     },
-    selectUser(user) {
+    async selectUser(user) {
 
       this.selectedUser = user;
       this.chatPartners = user;
-      axios.post(`http://jerry6475.iptime.org:20000/api/chat_room/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`)
+      await api.setChatPartnerId(`/api/chat_room/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`)
           .then(response => response.data)
           .then(newRoomId => {
             console.log('Updating roomId from', this.roomid, 'to', newRoomId);
@@ -118,7 +115,7 @@ export default {
             console.error('Error creating chat room:', error);
           });
 
-      axios.get(`http://jerry6475.iptime.org:20000/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
+      await api.getChatUserId(`/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
         userId: this.userId,
         selectedUser: this.selectedUser,
       })
@@ -188,8 +185,8 @@ export default {
         this.requestNewMessages();
       }
     },
-    requestNewMessages() {
-      axios.get(`http://jerry6475.iptime.org:20000/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
+    async requestNewMessages() {
+      await api.getChatUserId(`http://jerry6475.iptime.org:20000/api/chat_history/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`, {
         userId: this.userId,
         selectedUser: this.selectedUser,
       })
@@ -269,13 +266,14 @@ body, html {
   border-radius: 5px;
   margin-bottom: 5px;
   cursor: pointer;
-  background-color: #f0f0f0;
+  background-color: white;
   transition: background-color 0.2s;
   width: 270px;
 }
 
 .custom-chat-list li:hover {
-  background-color: #e0e0e0;
+  background-color: #f0f0f0;
+
 }
 
 .custom-chat-view {
@@ -338,18 +336,6 @@ body, html {
   border: none; /* 테두리 제거 */
 }
 
-.my-message .message-content::after {
-  content: "";
-  position: absolute;
-  top: 50%;
-  right: -10px; /* 오른쪽으로 조금 더 나가게 조정 */
-  border-width: 10px;
-  border-style: solid;
-  border-color: transparent transparent transparent #0dcaf0; /* 오른쪽 말풍선 꼬리 */
-  transform: translateY(-50%);
-  left:223px;
-}
-
 /* 상대방 메시지 스타일 */
 .other-message {
   display: flex;
@@ -360,16 +346,6 @@ body, html {
   background-color: #ffc107; /* 배경색 변경 */
   color: black; /* 글자색 변경 */
   border: none; /* 테두리 제거 */
-}
-
-.other-message .message-content::before {
-  content: "";
-  position: absolute;
-  top: 50%;
-  border-width: 10px;
-  border-style: solid;
-  border-color: transparent #ffc107 transparent transparent; /* 왼쪽 말풍선 꼬리 */
-  transform: translateY(-90%);
 }
 
 #sendMessageButton {
