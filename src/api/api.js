@@ -71,6 +71,10 @@ export const api = {
     /* 게시글 삭제 요청 */
     deletePost(args){
         return service.delete(args)
+    }
+    ,
+    AnalysisResult(args){
+        return service.get(args)
     },
     /* 댓글 삭제 요청 */
     deleteComment(args){

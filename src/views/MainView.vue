@@ -109,14 +109,16 @@
     </div>
     <div class="Home-Styling-title">
       <h2  style="font-family: MyCustomFont2; position: relative; top:70px;">Home Styling</h2>
-
       <div class="board-write-list">
         <div class="card-view">
           <div class="card-list">
-            <div class="card" v-for="(card, index) in card" :key="index">
+            <div class="card" v-for="(card, index) in cardsa" :key="index" @input='cardlist'>
               <div class="card-body">
-                <h5 class="card-title">{{ card.title }}</h5>
+                <h5 class="card-title" >{{ card.title }}</h5>
               </div>
+              <img src="@/assets/mypage_icon/like.png" height="25" width="25" style="position: relative; left:85%; top:10%;">
+              <span style="position: relative; left:45%; top:3.8%;">{{ card.likeCount }}</span>
+              <h5 class="card-title" style="position:relative; top:50px;">{{ card.nickname }}</h5>
             </div>
           </div>
         </div>
@@ -130,6 +132,7 @@
 </template>
 
 <script>
+import {api} from "@/api/api";
 
 export default {
   // eslint-disable-next-line vue/multi-word-component-names
@@ -140,10 +143,31 @@ export default {
       return this.$store.getters.isLogin;
     }
   },
+  mounted() {
+    this.cardlist();
+  },
+  methods:{
+    async cardlist() {
+      await api.getUser('/api/general/posts/popular').then(res => {
+        this.cardsa = res.data.map(card => ({
+          ...card,
+          likeCount: 1 // 좋아요 수 초기화
+        }));
+        console.log('데이타', res.data);
+      }).catch(error => {
+        if (error.response) {
+          console.log("error", error);
+        }
+      });
+    },
+  //  async updateLike(index) {
+   //   const card = this.cardsa[index];
+  },
   components: {
   },
   data() {
     return {
+      cardsa:'',
       cards: [
         {  text: '자연스러운 느낌을 주는 인테리어', imageSrc:require('@/assets/interiorguide_image_list/natural.png')},
         {  text: '현대적인 인테리어',imageSrc:require('@/assets/interiorguide_image_list/modern3.png')},
