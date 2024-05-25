@@ -64,7 +64,10 @@ export const api = {
     },
     setChatPartnerId(args, params){
         return service.post(args, params)
-    }
+    },
+    getGeneralRanking(args) {
+        return service.get(args)
+    },
 }
 
 export const testApi = {
