@@ -2,14 +2,20 @@ import axios, {CancelToken} from 'axios'
 
 // 프로젝트 설정에 맞게, 기본적인 정보를 넣어주세요
 const service = axios.create({
-    baseURL: 'http://localhost:3000', // API의 기본 URL 설정
+    baseURL: 'http://jerry6475.iptime.org:20000', // API의 기본 URL 설정 서버 주소: http://jerry6475.iptime.org:20000
     timeout: 10000, // 요청 타임아웃 설정 (밀리초)
 
 });
 
+
 service.interceptors.request.use(
     (config) => {
-        config.headers['Content-Type'] = 'application/json';
+        // 파일 데이터 여부를 검사
+        if (config.data instanceof FormData) {
+            config.headers['Content-Type'] = 'multipart/form-data';
+        } else {
+            config.headers['Content-Type'] = 'application/json';
+        }
 
         const source = CancelToken.source();
 
@@ -73,13 +79,14 @@ service.put(args, params).then((res) => {
     .catch((error) => {
         console.log("수정 에러입니다!!!",error);
     })
-service.post(url,args).then((res) => {
-    console.log("수정 성공!_!", res);
+service.post(args, params).then((res) => {
+    console.log("post: 응답 성공!_!", res);
     return res;
 })
     .catch((error) => {
-        console.log("수정 에러입니다!!!",error);
+        console.log("post: 전송 에러입니다!!!",error);
     })
+
 export default {
     async get(args) {
         try {
@@ -92,9 +99,9 @@ export default {
         }
     },
 
-    async post(url, args) {
+    async post(args, params) {
         try {
-            const res = await service.post(url, args);
+            const res = await service.post(args, params);
             console.log("service.js: post 요청 응답 -> ", res);
             return res;
         } catch (e) {

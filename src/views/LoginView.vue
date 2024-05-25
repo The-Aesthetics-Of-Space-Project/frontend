@@ -99,7 +99,9 @@ export default {
           password: this.password,
         };
 
-        await api.setUser('/users',userData).then(res => {
+        console.log('userData data: ', userData);
+
+        await api.setUser('/login', userData).then(res => {
           this.users = res.data;
               // 서버 응답 로그
               console.log('Response data', res.data);
@@ -107,6 +109,7 @@ export default {
               alert('로그인에 성공하였습니다.');
               // 세션 값 저장
               this.$store.commit('setUserId', res.data.userId);
+              this.$store.commit('setUserNickname', res.data.nickname);
               // 페이지 이동
               this.$router.push('/');
             })
@@ -120,6 +123,11 @@ export default {
     }
   }
 }
+
+
+
+
+
 </script>
 
 <style>

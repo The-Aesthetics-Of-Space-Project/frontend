@@ -35,7 +35,11 @@
         <br> <span style="position: relative; left:-190px;">영감을 주는 공간,</span>
         <br> <span style="position: relative; left:-145px;">함께 만드는 아름다움을</span> <br>
         <span style="position: relative; left:-180px;">선호하고 있습니다.</span>
-        <div style="width: 500px; height: 500px; background-color: white; border-radius: 13px; border: 1px solid white; position: relative; top:-250px;left:1100px; box-shadow: 100px 100px 100px rgba(0, 0, 0, 0.25);">
+        <div style="width: 300px; height: 300px; background-color: white; border-radius: 13px; border: 1px solid white; position: relative; top:-250px;left:65%; box-shadow: 100px 100px 100px rgba(0, 0, 0, 0.1);">
+          <div class="card" style="width: 320px; height: 310px;">
+            <dotlottie-player src="https://assets10.lottiefiles.com/packages/lf20_x62chJ.json" background="transparent" speed="0.8" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+
+          </div>
         </div>
       </div>
     </div>
@@ -213,7 +217,7 @@ export default {
 .third-container {
   background-color: #f4f7f8;
   width: 100%;
-  height: 800px;
+  height: 550px;
   position: relative;
   top: 150px;
 }
