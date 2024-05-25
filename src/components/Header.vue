@@ -150,7 +150,7 @@ export default {
           text: '공모전 게시판',
           imgSrc: require('../assets/header_write_icon_list/usedboard.png'),
           class: 'board-image',
-          href: (isUserLogin) => isUserLogin ? '/' : '/login'
+          href: (isUserLogin) => isUserLogin ? '/competitionMain' : '/login'
         },
         {
           text: '일반 게시판 글쓰기',
@@ -162,7 +162,7 @@ export default {
           text: '공모전 게시판 글쓰기',
           imgSrc: require('../assets/header_write_icon_list/usedboard_write.png'),
           class: 'write-image',
-          href: (isUserLogin) => isUserLogin ? '/' : '/login'
+          href: (isUserLogin) => isUserLogin ? '/competitionWrite' : '/login'
         },
       ],
       menuLinks: ['/', '/objectrecognition', '/Community', 'InteriorGuide', '/Introduce'],

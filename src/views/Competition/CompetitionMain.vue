@@ -1,142 +1,165 @@
 <template>
-<div id="competitionMain">
-  <!-- 배너 이미지 -->
-  <div class="banner-containers">
-    <section class="banner-wrappers">
-      <section class="banner-img-container">
-          <img src="../../assets/contest_img/InteriorContest.png" style="width: 70%; height: auto;"/>
-      </section>
-
-      <!-- 글 쓰러가기 버튼(화살표) -->
-      <section class="banner-arrow-container">
-        <router-link to="/comWrite">
-        <button type="button" class="banner-img-button">
-        <img src="../../assets/contest_img/BlackArrow.png" style="position: relative; width: 100%; height: 120px;"/>
-        </button>
-        </router-link>
-      </section>
-      <section class="context"> 디자인하러 가기 </section>
-    </section>
+  <div id="competitionMain">
+    <div class="content-wrapper">
+      <div class="grid-container">
+        <div class="box-content" v-for="post in posts" :key="post.id">
+          <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
+            <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
+                 @click="goToPostDetails(post.contestId)">
+          </section>
+          <section class="content-title" @click="goToPostDetails(post.contestId)" >
+            <span style="cursor: pointer;">{{ post.title }}</span>
+          </section>
+          <section class="content-title-wrapper">
+            <section class="heart-contents">
+              <img src="@/assets/mypage_icon/like.png" alt="Like Icon" width="35px" height="35px">
+              <section class="count-number">
+                <span>{{ post.likeCount }}</span>
+              </section>
+            </section>
+            <section class="content-nickname">
+              <section class="user-profile">
+                <img :src="post.profile" alt="User Profile" class="profile-img">
+              </section>
+              <span @click="goToUserDetails(post.nickname)">{{ post.nickname }}</span>
+            </section>
+          </section>
+        </div>
+      </div>
+    </div>
   </div>
-
-  <!-- 공유 버튼 -->
-  <div class="btn-container">
-    <section class="btn-wrapper">
-      <button type="button" class="copy-btn" @click="copyUrl">
-        <img src="../../assets/contest_img/shareIcon.png" style="position: relative; width: 85px; height: 75px; top: -3px; right: 7px;"/>
-      </button>
-    </section>
-  </div>
-
-</div>
 </template>
 
 <script>
+import { api } from "@/api/api";
+import router from "@/router/guard";
+
 export default {
-  name: 'competitionMain',
-  data(){
-    return{
-
-    }
-
+  name: 'GeneralBoardPage',
+  data() {
+    return {
+      posts: {
+        contestId: '',
+        contest: '',
+        title: '',
+        thumbnail: '',
+        nickname: '',
+        likeCount: '',
+        profile: ''
+      },
+      liked: '',
+      heartImg: require('@/assets/mypage_icon/like.png'),
+      baseUrl: 'http://jerry6475.iptime.org:20000',
+    };
+  },
+  created() {
+    this.fetchPosts();
   },
   methods: {
-    copyUrl(){
-      const pageUrl = window.location.href; // 현재 페이지의 URL
-      navigator.clipboard.writeText(pageUrl).then(() => {
-        alert("클립보드에 복사되었습니다.");
-      }).catch(err => {
-        alert("URL 복사에 실패했습니다. 브라우저가 클립보드 복사를 지원하지 않습니다.");
-        console.error("Could not copy text: ", err);
+    async fetchPosts() {
+      try {
+        const res = await api.getPost('/api/contest/posts');
+        this.posts = res.data;
+        this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
+        console.error('response posts:', res);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    },
+    goToPostDetails(contestId) {
+      this.$router.push({
+        path: "CompetitionPage",
+        query: {contestId: contestId}
       });
+    },
+    goToUserDetails(userId) {
+      // Add the logic to navigate to the user details page if needed
+      console.log(`Navigate to user details with ID: ${userId}`);
     }
-  }
-}
+  },
+};
 </script>
-
-
 
 <style>
 #competitionMain{
-  font-family: Inter;
+  font-family: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   position: relative;
-  width: 100%;
-  height: 1080px;
+  width:100%;
+  height:1200px;
   margin: 0;
 }
-.banner-containers{
-  position: relative;
-  width: 65%;
-  height: 70%;
-  top: 60px;
-  margin: auto;
-  box-shadow: none;
-}
-.banner-wrappers{
-  position: relative;
-  width: 100%;
-  height: 80%;
-  margin: auto;
-}
-.banner-img-container{
-  position: relative;
-  width: 80%;
-  height: 100%;
-  margin: auto;
-}
-.context{
-  position: relative;
-  width: 14%;
-  height: 30px;
-  top: 145px;
-  left: 60%;
-  color: rgb(0,0,0,70%);
-  font-size: 16px;
-  font-weight: 560;
-  boder: 1px solid #8D8D8D;
-}
-.banner-img-button{
-  position: relative;
-  top: 10px;
-  left: -30px;
-  width: 200px;
-  height: 110px;
-  border: none;
-  border-radius: 30px;
-}
-.banner-arrow-container{
-  position: relative;
-  top: 100px;
-  left: 210px;
-  width: 23%;
-  height: 15%;
-  margin: auto;
-}
-.btn-container{
-  position: relative;
-  width: 15%;
-  height: 10%;
-  left: 980px;
-  top: -690px;
+.content-wrapper {
+  display: flex;
+  flex-direction: column;
   align-items: center;
+  margin-top: 80px;
 }
-.btn-wrapper{
-  position: relative;
-  width: 90%;
-  height: 90%;
-  top: 10px;
+.grid-container {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 20px;
+  width: 100%;
+  max-width: 1200px;
 }
-.copy-btn{
-  position: relative;
-  width: 38%;
-  height: 76px;
-  margin: auto;
+.box-content {
+  flex: 1 1 calc(33.333% - 40px);
+  max-width: calc(33.333% - 40px);
+  border: 1px solid #ddd;
+  height: 430px;
+  border-radius: 10px;
+  padding: 10px;
+  text-align: center;
+  box-sizing: border-box;
+}
+.thumbnail img {
+  width: 95%;
+  height: 100%;
+  border-radius: 10px;
+}
+.heart-contents {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-top: -2px;
+}
+.count-number {
+  margin-left: 10px;
+}
+.content-title-wrapper {
+  margin-top: 10px;
+}
+.content-title {
+  font-size: 15px;
+  font-weight: bold;
+  margin-top: 14px;
+}
+.content-nickname {
+  display: flex;
+  align-items: center;
+  margin-top: 5px;
+}
+.user-profile img {
+  width: 30px;
+  height: 30px;
   border-radius: 50%;
-  border: none;
+  margin-right: 10px;
 }
 
+@media (max-width: 1024px) {
+  .box-content {
+    flex: 1 1 calc(50% - 40px);
+    max-width: calc(50% - 40px);
+  }
+}
 
+@media (max-width: 768px) {
+  .box-content {
+    flex: 1 1 100%;
+    max-width: 100%;
+  }
+}
 </style>
