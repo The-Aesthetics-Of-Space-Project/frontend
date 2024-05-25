@@ -9,7 +9,6 @@
         </div>
         <footer class="modal-footer">
           <slot name="footer">
-            <button class="btn btn-primary"@click="$emit('close')">Close</button>
           </slot>
         </footer>
       </div>
@@ -34,9 +33,9 @@
     background: rgba(0, 0, 0, 0.5);
   }
   .modal-window {
-    max-width: 800px; /* 모달 창의 최대 너비 설정 */
-    width: 90%; /* 모달 창의 너비 설정 */
-    max-height: 300px; /* 모달 창의 최대 높이 설정 */
+    max-width: 1400px;
+    width: 150%; /* 모달 창의 너비 설정 */
+    max-height: 1200px;
   }
   &-window {
     background: white;
