@@ -3,9 +3,9 @@
     <div class="objectrecognition-container">
       <div class="left-column">
         <span style="font-family: MyCustomFont2; font-size: 20px;">이미지 업로드</span>
-        <div style="font-size: 14px;">사진 업로드시, 취향에 맞는 스타일과 가구를 추천해드립니다.</div>
+        <div style="font-size: 14px; font-weight: bolder">사진 업로드시, 취향에 맞는 스타일과 가구를 추천해드립니다.</div>
         <div>
-          <form id="imageUploadForm" @submit.prevent="uploadImage" enctype="multipart/form-data">
+          <form id="imageUploadForm" @submit.prevent="uploadImage" enctype="multipart/form-data" style="font-weight: bolder">
             <input type="file" id="imageInput" name="file" accept="image/*" required @change="handleFileChange">
             <button id="image-upload-but" type="submit" @click='uploadImage'><img src="@/assets/image_upload.png" width="55px" height="55px"></button>
           </form>
@@ -16,8 +16,8 @@
         </div>
 
         <div id="imageUploadStatus">
-          <p v-if="uploadSuccess">이미지 업로드 성공!</p>
-          <p v-if="uploadError">이미지 업로드 실패: {{ uploadErrorMessage }}</p>
+          <p v-if="uploadSuccess">Success Image Upload</p>
+          <p v-if="uploadError">Failed Image Upload {{ uploadErrorMessage }}</p>
         </div>
       </div>
 
@@ -28,14 +28,14 @@
 
       <div class="right-column">
         <div v-if="uploadSuccess">
-          <div style="width: 100%; text-align: left; margin: auto;">
+          <div style="width: 100%; text-align: left; margin: auto; font-weight: bolder">
             <span style="font-size: 22px;position: relative; top:-90px; font-size: 17px; ">당신이&nbsp;관심 있어 하는 스타일은&nbsp;<span class="style-name">{{mood}}</span>&nbsp;이네요 !</span>
           </div>
-          <div style="width: 100%; text-align: left; margin: auto;">
+          <div style="width: 100%; text-align: left; margin: auto; font-weight: bolder">
             <span style="position: relative; top:-70px; font-size: 17px;">그 중 <span style="font-size: 25px; color: #4A90E2; font-weight: bolder;">{{most_detected}}</span>에&nbsp; 관심이 있으시군요!</span>
           </div>
           <div class="image-section" v-if="uploadedImages.length" style="position: relative; top:15px; width: 100%;">
-            <h3 style="position: relative; left:-35%; top:30px; font-size: 15px;">이러한 가구는 어떠신가요 ?</h3>
+            <h3 style="position: relative; left:-35%; top:35px; font-size: 15px;">이러한 가구는 어떠신가요 ?</h3>
             <div id="upload-success-list">
               <span class="image-list" v-for="(image, index) in uploadedImages" :key="index">
                 <img :src="image" class="rounded-image" alt="Uploaded Image" id="img-success" @click="redirectToUrl(index)">
@@ -124,7 +124,7 @@ export default {
 
 .objectrecognition-container {
   display: flex;
-  width:80%;
+  width:81%;
   background-color: white;
   box-shadow: 0 4px 8px rgba(50, 100, 100, 0.3); /* 그림자 추가 */
   border-radius: 16px; /* 테두리 둥글게 */
@@ -135,7 +135,7 @@ export default {
 .left-column {
   flex: 1;
   padding: 30px; /* 패딩 조정 */
-  width: 70%;
+  width: 60%;
   height: 600px;
   background-color: white;
   position: relative;
@@ -262,7 +262,7 @@ export default {
   border-radius: 50%; /* 이미지를 원형으로 만듭니다 */
   position: relative;
   top:50px;
-  left:25px;
+  left:5px;
 }
 #image-upload-but{
   background-color: white;
