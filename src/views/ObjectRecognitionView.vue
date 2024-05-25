@@ -3,7 +3,7 @@
     <div class="objectrecognition-container">
       <div class="left-column">
         <span style="font-family: MyCustomFont2; font-size: 20px;">이미지 업로드</span>
-        <div style="font-size: 14px;">사진 업로드시, 취향에 맞는 스타일을 분석해드립니다.</div>
+        <div style="font-size: 14px;">사진 업로드시, 취향에 맞는 스타일과 가구를 추천해드립니다.</div>
         <div>
           <form id="imageUploadForm" @submit.prevent="uploadImage" enctype="multipart/form-data">
             <input type="file" id="imageInput" name="file" accept="image/*" required @change="handleFileChange">
@@ -28,29 +28,26 @@
 
       <div class="right-column">
         <div v-if="uploadSuccess">
-          <span style="font-size: 22px;position: relative;left: -140px; top:-90px;">귀하의</span>
-          <br>
-        <span class="header-text">인테리어 스타일은</span>
-        <br>
-        <span class="style-name">{{mood}}</span>
-        <span class="confirmation-text">이네요 !</span>
-        </div>
-        <div class="image-section"  v-if="uploadedImages.length" style="position: relative; top:20px;">
-          <h3 style="position: relative; left:-210px; top:30px; font-size: 20px;">관련 스타일</h3>
-          <div  id="upload-success-list">
-            <!-- 여기에 class="image-list"를 추가합니다 -->
-            <span class="image-list" v-for="(image, index) in uploadedImages" :key="index">
-              <img :src="image" class="rounded-image" alt="Uploaded Image" id="img-success">
-            </span>
+          <div style="width: 100%; text-align: left; margin: auto;">
+            <span style="font-size: 22px;position: relative; top:-90px; font-size: 17px; ">당신이&nbsp;관심 있어 하는 스타일은&nbsp;<span class="style-name">{{mood}}</span>&nbsp;이네요 !</span>
+          </div>
+          <div style="width: 100%; text-align: left; margin: auto;">
+            <span style="position: relative; top:-70px; font-size: 17px;">그 중 <span style="font-size: 25px; color: #4A90E2; font-weight: bolder;">{{most_detected}}</span>에&nbsp; 관심이 있으시군요!</span>
+          </div>
+          <div class="image-section" v-if="uploadedImages.length" style="position: relative; top:15px; width: 100%;">
+            <h3 style="position: relative; left:-35%; top:30px; font-size: 15px;">이러한 가구는 어떠신가요 ?</h3>
+            <div id="upload-success-list">
+              <span class="image-list" v-for="(image, index) in uploadedImages" :key="index">
+                <img :src="image" class="rounded-image" alt="Uploaded Image" id="img-success" @click="redirectToUrl(index)">
+              </span>
+            </div>
           </div>
         </div>
-
-
       </div>
-
     </div>
   </div>
 </template>
+
 
 <script>
 import axios from "axios";
@@ -65,9 +62,11 @@ export default {
       uploadSuccess: false,
       uploadError: false,
       uploadErrorMessage: '',
-      uploadedImages: "", // 빈 배열로 초기화
-      isLoading: false, // 로딩 상태 추가
-      mood:'',
+      uploadedImages: [],
+      powerlink: [], // Store URLs here
+      isLoading: false,
+      mood: '',
+      most_detected: '',
     }
   },
   methods: {
@@ -76,27 +75,34 @@ export default {
       this.imagePreview = URL.createObjectURL(this.image);
     },
     uploadImage() {
-      this.isLoading = true; // 이미지 업로드 시작 시 로딩 상태
-      const formData = new FormData()
-      formData.append('file', this.image)
+      this.isLoading = true;
+      const formData = new FormData();
+      formData.append('file', this.image);
 
       axios.post('http://jerry6475.iptime.org:20000/detectedImage', formData)
           .then(res => {
-            console.log("res 이미지 파일 전송후 :", res)
+            console.log("res 이미지 파일 전송후 :", res);
             this.mood = res.data.max_mood;
-            this.uploadSuccess = true
-            this.uploadError = false
+            this.uploadSuccess = true;
+            this.uploadError = false;
+            this.most_detected = res.data.most_detected_object;
+            this.powerlink = res.data.urls; // Store the URLs
             this.uploadedImages = res.data.image.map(imagePath => `http://jerry6475.iptime.org:20000${imagePath}`);
-           // console.log("Uploaded Images:", this.uploadedImages); // 디버깅 로그 추가
-            this.isLoading = false; // 이미지 업로드 성공 시 로딩 상태를 false로 설정
+            this.isLoading = false;
           })
           .catch(error => {
-            console.error("이미지 업로드 실패:", error)
-            this.uploadSuccess = false
-            this.uploadError = true
-            this.uploadErrorMessage = error.message
-            this.isLoading = false; // 이미지 업로드 실패 시 로딩 상태를 false로 설정
-          })
+            console.error("이미지 업로드 실패:", error);
+            this.uploadSuccess = false;
+            this.uploadError = true;
+            this.uploadErrorMessage = error.message;
+            this.isLoading = false;
+          });
+    },
+    redirectToUrl(index) {
+      const url = this.powerlink[index];
+      if (url) {
+        window.open(url, '_blank');
+      }
     }
   }
 }
@@ -118,7 +124,7 @@ export default {
 
 .objectrecognition-container {
   display: flex;
-  width:75%;
+  width:80%;
   background-color: white;
   box-shadow: 0 4px 8px rgba(50, 100, 100, 0.3); /* 그림자 추가 */
   border-radius: 16px; /* 테두리 둥글게 */
@@ -161,19 +167,16 @@ export default {
   color: #333;
   text-align: center;
   position: relative;
-  left:-40px;
-  top:-70px;
+  top:-90px;
+
 }
 
 .style-name{
   position: relative;
-  top:-40px;
-  left:20px;
 }
- .confirmation-text{
-position: relative;
-  top:-40px;
-  left:30px;
+.confirmation-text{
+  position: relative;
+  top:-90px;
 }
 .header-text {
   font-size: 22px;
@@ -243,8 +246,8 @@ position: relative;
 }
 
 #img-success{
-  width: 130px;
-  height: 130px;
+  width: 148px;
+  height: 148px;
 }
 .image-list {
   display: flex; /* Flexbox를 사용하여 아이템들을 가로로 나열합니다 */
@@ -253,12 +256,13 @@ position: relative;
 }
 
 .rounded-image {
-  width: 130px; /* 이미지의 너비를 설정합니다 */
-  height: 130px; /* 이미지의 높이를 설정합니다 */
+  width: 148px; /* 이미지의 너비를 설정합니다 */
+  height: 148px; /* 이미지의 높이를 설정합니다 */
   object-fit: cover; /* 이미지 비율을 유지하면서 요소에 맞게 조정합니다 */
   border-radius: 50%; /* 이미지를 원형으로 만듭니다 */
   position: relative;
   top:50px;
+  left:25px;
 }
 #image-upload-but{
   background-color: white;
@@ -268,6 +272,10 @@ position: relative;
   width: 100%;
   display: flex;
   flex-wrap: wrap;
-  gap: 10px;
+  gap: 11px;
+}
+
+.image-list:hover{
+  cursor: pointer;
 }
 </style>
