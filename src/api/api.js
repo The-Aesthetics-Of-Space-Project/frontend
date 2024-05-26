@@ -9,6 +9,14 @@ export const api = {
     getUserInfo(args){
         return service.get(args)
     },
+    /* 마이페이지 유저 정보 조회 요청 */
+    getLikeList(args){
+        return service.get(args)
+    },
+    /* 마이페이지 유저 정보 조회 요청 */
+    getScrapList(args){
+        return service.get(args)
+    },
     /* 팔로워, 팔로잉 리스트 전체 조회 */
     getFollow(args) {
         return service.get(args)
@@ -71,14 +79,26 @@ export const api = {
     /* 게시글 삭제 요청 */
     deletePost(args){
         return service.delete(args)
-    }
-    ,
+    },
     AnalysisResult(args){
         return service.get(args)
     },
     /* 댓글 삭제 요청 */
     deleteComment(args){
         return service.delete(args)
+    },
+    /* 팔로워 삭제 */
+    deleteFollow(args, params){
+        return service.delete(args, params)
+    },
+    getChatUserId(args){
+        return service.get(args)
+    },
+    setChatPartnerId(args, params){
+        return service.post(args, params)
+    },
+    getGeneralRanking(args) {
+        return service.get(args)
     },
 }
 

@@ -52,7 +52,7 @@ export default {
     }
   },
 };
-</script>
+</script scoped>
 
 <style>
 #leave {

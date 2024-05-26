@@ -89,7 +89,7 @@
             v-if="reply.parentId === comment.commentId"
             class="reply-container" style="position: relative; height: 62%; width: 90%; left: 3em; top: 10px;"
         >
-          <div class="list-reply-comments-container" style="position: relative; width: 90%; display: grid;
+          <div class="list-reply-comments-container" style="position: relative; width: 85%; display: grid; left: 2em;
           border-bottom: 1px solid rgb(141,141,141,70%); border-radius: 1px; grid-template-columns: 0.8fr 3fr 1fr; grid-template-rows: 1fr; text-align: start;">
             <div class="list-reply-profile-container" style="margin-left: 10px; width: 65%;">
               <div class="list-reply-profile-wrapper">
@@ -116,12 +116,12 @@
 
               </div>
 
-            <div class="comment-reply-right-content" style="width: 90%; left: 1em; margin: auto; display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr 2fr; height: 90%;">
-              <section class="comment-reply-date-content" style="text-align: center">
+            <div class="comment-reply-right-content" style="width: 90%; left: 1.3em; margin: auto; display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr 2fr; height: 90%;">
+              <section class="comment-reply-date-content" style="text-align: center; margin-left: 1em;">
                 {{ reply.date }}
               </section>
               <!-- 댓글 작성자인 경우에만 수정 및 삭제 버튼 표시 -->
-              <section class="right-reply-comment-modi-dele-container" style="position: relative; width: 87%; display: grid; grid-template-columns: repeat(2, 0.5fr); grid-template-rows: 1fr; left: 0.5em;">
+              <section class="right-reply-comment-modi-dele-container" style="position: relative; width: 87%; display: grid; grid-template-columns: repeat(2, 0.5fr); grid-template-rows: 1fr; left: 1.2em;">
                 <section class="comment-modify-content" style="cursor:pointer;" @click="submitModifiedComment(reply.commentId)">수정</section>
                 <section class="comment-delete-content" style="cursor:pointer;"  @click="submitDeletedComment(reply.commentId)">삭제</section>
               </section>

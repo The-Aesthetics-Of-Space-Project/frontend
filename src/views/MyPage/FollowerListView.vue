@@ -66,7 +66,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #followerList{
   font-family: inherit;
   -webkit-font-smoothing: antialiased;

@@ -148,10 +148,9 @@ export default {
   },
   methods:{
     async cardlist() {
-      await api.getUser('/api/general/posts/popular').then(res => {
+      await api.getGeneralRanking('/api/general/posts/popular').then(res => {
         this.cardsa = res.data.map(card => ({
           ...card,
-          likeCount: 1 // 좋아요 수 초기화
         }));
         console.log('데이타', res.data);
       }).catch(error => {
