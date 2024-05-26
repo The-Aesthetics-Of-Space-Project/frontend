@@ -1,3 +1,4 @@
+
 <template>
   <div class="objectrecognition">
     <div class="objectrecognition-container">
@@ -108,7 +109,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .objectrecognition {
   display: flex;
   justify-content: center;

@@ -1,3 +1,4 @@
+
 <template>
   <div class="introduce">
     <div class="int-first-title">
@@ -89,31 +90,37 @@
 </template>
 
 <script>
+
 export default {
   data() {
     return {
       images: [
-        // 이미지 URL
-        require('@/assets/interiorguide_image_list/classic.jpg'),
-        require('@/assets/interiorguide_image_list/modern.png'),
-        require('@/assets/interiorguide_image_list/natural.png'),
-        require('@/assets/interiorguide_image_list/simple.png'),
-        require('@/assets/interiorguide_image_list/vintage.png'),
-        require('@/assets/interiorguide_image_list/classic2.jpg'),
-        require('@/assets/interiorguide_image_list/modern2.png'),
-        require('@/assets/interiorguide_image_list/natural2.png'),
-        require('@/assets/interiorguide_image_list/simpl2.png'),
-        require('@/assets/interiorguide_image_list/vintage2.png'),
-        require('@/assets/interiorguide_image_list/modern3.png'),
-        require('@/assets/interiorguide_image_list/natural3.png'),
-        require('@/assets/interiorguide_image_list/simple3.png'),
-        require('@/assets/interiorguide_image_list/vintage3.png'),
-        require('@/assets/interiorguide_image_list/modern4.png'),
-        require('@/assets/interiorguide_image_list/natural4.png'),
-        require('@/assets/interiorguide_image_list/classic.jpg'),
-        require('@/assets/interiorguide_image_list/modern.png'),
-        require('@/assets/interiorguide_image_list/natural.png'),
-        require('@/assets/interiorguide_image_list/modern4.png'),
+        { src: require('@/assets/interiorguide_image_list/lovely1.jpg')},
+        { src: require('@/assets/interiorguide_image_list/modern1.jpg')},
+        { src:require('@/assets/interiorguide_image_list/simple1.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro1.jpg')},
+        { src: require('@/assets/interiorguide_image_list/n1.webp')},
+        { src: require('@/assets/interiorguide_image_list/modern2.jpg')},
+        { src: require('@/assets/interiorguide_image_list/simple2.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro2.jpg')},
+        { src: require('@/assets/interiorguide_image_list/n2.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely3.jpg')},
+        { src: require('@/assets/interiorguide_image_list/modern3.jpg')},
+        { src: require('@/assets/interiorguide_image_list/simple3.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro3.jpg')},
+        { src:require('@/assets/interiorguide_image_list/n3.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/modern4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/simple4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/n4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/simple5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/modern5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/n5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely1.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely2.jpg')},
       ],
       currentIndex: 0,
     };
@@ -136,7 +143,7 @@ export default {
 </script>
 <style>
 .introduce {
-  height: 6100px;
+  height: 5400px;
   width: 100%;
   padding: 80px 0;
 }

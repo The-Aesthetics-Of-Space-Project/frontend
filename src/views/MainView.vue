@@ -159,8 +159,8 @@ export default {
         }
       });
     },
-  //  async updateLike(index) {
-   //   const card = this.cardsa[index];
+    //  async updateLike(index) {
+    //   const card = this.cardsa[index];
   },
   components: {
   },
@@ -168,10 +168,10 @@ export default {
     return {
       cardsa:'',
       cards: [
-        {  text: '자연스러운 느낌을 주는 인테리어', imageSrc:require('@/assets/interiorguide_image_list/natural.png')},
-        {  text: '현대적인 인테리어',imageSrc:require('@/assets/interiorguide_image_list/modern3.png')},
-        {  text: '미니멀하고 심플한 인테리어',imageSrc:require('@/assets/interiorguide_image_list/simple3.png') },
-        {  text: '빈티지&레트로 인테리어',imageSrc:require('@/assets/interiorguide_image_list/classic.jpg') },
+        {  text: '자연스러운 느낌을 주는 인테리어', imageSrc:require('@/assets/interiorguide_image_list/simple4.jpg')},
+        {  text: '현대적인 인테리어',imageSrc:require('@/assets/interiorguide_image_list/modern4.jpg')},
+        {  text: '미니멀하고 심플한 인테리어',imageSrc:require('@/assets/interiorguide_image_list/n2.jpg') },
+        {  text: '빈티지&레트로 인테리어',imageSrc:require('@/assets/interiorguide_image_list/retro1.jpg') },
       ],
       card: [
         { title: 'Best', imageUrl: '@/assets/best.png' },
@@ -201,7 +201,7 @@ export default {
 }
 </script>
 
-<style>
+<style >
 
 @font-face {
   font-family: 'SOGANGUNIVERSITYTTF';
@@ -324,8 +324,7 @@ div {
 
 
 .slide2-image{
-  background-repeat:
-      no-repeat;
+  background-repeat: no-repeat;
   height:500px;
   position: relative;
   left:290px;
