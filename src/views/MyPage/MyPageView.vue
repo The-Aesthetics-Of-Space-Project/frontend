@@ -32,7 +32,7 @@
               <section class="chat-container">
                 <section class="chat-wrapper">
                   <button class="chat-icon-btn"><router-link to="/chat"> <img src="../../assets/mypage_icon/chatIcon.png" style="position: relative; width: 42px; height: 41px; right: 5px;"></router-link></button>
-                  <section class="chat-message-content"><router-link to="/chat"> <a>채팅하기</a> </router-link></section>
+                  <section class="chat-message-content"><router-link :to="isUserLogin ?`/chatroom/${this.userId}` :'login'" @click="chatgoing"> <a>채팅하기</a> </router-link></section>
                 </section>
               </section>
               <!-- 팔로워/팔로잉 버튼 -->
@@ -140,6 +140,11 @@ import axios from "axios";
 
 export default {
   name: 'MyPageView',
+  computed:{
+    isUserLogin(){
+      return this.$store.getters.isLogin;
+    },
+  },
   props:{
     // 본인이 아닌 다른 사람의 getNickname
     getNickname: {
@@ -191,6 +196,20 @@ export default {
       }
   },
   methods:{
+    chatgoing() {
+      axios.get(`http://jerry6475.iptime.org:20000/chat/${encodeURIComponent(this.userId)}`)
+          .then(res => {
+            this.users = res.data;
+            console.log('Response data', res.data.userId);
+
+            // 여기서 라우터 이동
+            this.$router.push({path: `/chat/${this.userId}`});
+          })
+          .catch(error => {
+            // 통신할 때 401에러 처리
+            console.error('Error data', error);
+          });
+    },
     /* 본인일 때 유저 정보 조회 */
     async getUser(){
         try {

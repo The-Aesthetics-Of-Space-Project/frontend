@@ -148,7 +148,7 @@ export default {
           text: '공모전 게시판',
           imgSrc: require('../assets/header_write_icon_list/usedboard.png'),
           class: 'board-image',
-          href: (isUserLogin) => isUserLogin ? '/competitionMain' : '/login'
+          href: () => '/competitionMain'
         },
         {
           text: '일반 게시판 글쓰기',
