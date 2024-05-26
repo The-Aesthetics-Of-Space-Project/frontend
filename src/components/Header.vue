@@ -57,7 +57,7 @@
       </template>
       <!-- 로그인 전 -->
       <template v-else>
-        <div id="header-board-write" class="btn-group" style="position: relative; left:610px; top:-198px;">
+        <div id="header-board-write" class="btn-group" style="position: relative; left:610px; top:-182px;">
           <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             글쓰기
             <span class="visually-hidden">Toggle Dropdown</span>
@@ -71,8 +71,8 @@
             </li>
           </ul>
         </div>
-        <router-link to="/login" class="login-a" style="  font-family: MyCustomFont2;" >로그인</router-link>
-        <router-link to="/signup" class="signup-a"  style="font-family: MyCustomFont2;">회원가입</router-link>
+        <router-link to="/login" class="login-a" style="font-weight: bolder;">로그인</router-link>
+        <router-link to="/signup" class="signup-a" style="font-weight: bolder;">회원가입</router-link>
       </template>
 
 
@@ -315,7 +315,7 @@ div {
 .login-a {
   position: relative;
   left: 355px;
-  top: -195px;
+  top: -180px;
   text-decoration: none;
   color: black;
   font-size: 16px;
@@ -324,7 +324,7 @@ div {
 .signup-a {
   position: relative;
   left: 380px;
-  top: -195px;
+  top: -180px;
   text-decoration: none;
   color: black;
   font-size: 16px;

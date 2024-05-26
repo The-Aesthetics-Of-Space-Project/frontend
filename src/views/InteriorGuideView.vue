@@ -4,7 +4,7 @@
       <div class="left-section">
        <!-- <button @click='test'>test</button> -->
         <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
-          <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
+          <span  v-if="currentStep === 1" style="position: relative; left:-170px; color:darkgreen">
         인테리어 이미지를</span>
           <span  v-if="currentStep === 2" style="position: relative; left:-220px; color:darkgreen">
         컬러 색감을</span>
@@ -437,7 +437,7 @@ export default {
 .guide-textcontent{
   position: relative;
   top:200px;
-  left:-100px;
+  left:-118px;
 }
 .left-section {
   flex: 1;
@@ -491,17 +491,6 @@ export default {
   top:8px;
 }
 
-
-.section h3 {
-  font-family: 'MyCustomFont3', sans-serif;
-  color: #333;
-  text-align: left;
-}
-
-.section p, .section strong {
-  font-family: 'MyCustomFont3', sans-serif;
-  text-align: left;
-}
 
 
 .modal-footer {
