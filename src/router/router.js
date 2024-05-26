@@ -19,7 +19,7 @@ import ScrapListView from "@/views/MyPage/ScrapListView.vue";
 import LikeListView from "@/views/MyPage/LikeListView.vue";
 import ChatView from "@/views/ChatView.vue";
 import GeneralReWrite from "@/views/GeneralBoard/GeneralReWrite.vue";
-import ObjectRecognitionView from "@/views/ObjectRecognitionView.vue";
+import ObjectRecogView from "@/views/ObjectRecognition/ObjectRecogView.vue";
 
 Vue.use(VueRouter)
 /*  경로 설정*/
@@ -71,7 +71,7 @@ const routes = [
     { path: '/scrap', component: ScrapListView, meta: {hideHeader: false, hideFooter: false}},
     { path: '/like', component: LikeListView, meta: {hideHeader: false, hideFooter: false }},
     { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
-    { path: '/objectrecognition', component: ObjectRecognitionView, meta: {hideHeader: false, hideFooter: true }},
+    { path: '/objectrecognition', component: ObjectRecogView, meta: {hideHeader: false, hideFooter: true }},
     { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/generalReWrite', component: GeneralReWrite, meta: {hideHeader: false, hideFooter: true }},
