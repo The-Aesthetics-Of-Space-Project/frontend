@@ -170,6 +170,9 @@ export default {
       console.error('articleId가 정의되지 않았습니다.');
     }
   },
+  created(){
+    this.getArticleId = this.$route.params.articleId;
+  },
   methods: {
     myPage(nickname){
       this.$router.push({name: 'MyPageView', params: {nickname: nickname}});
