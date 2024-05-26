@@ -87,10 +87,6 @@ export const api = {
     deleteComment(args){
         return service.delete(args)
     },
-    /* 팔로워 삭제 */
-    deleteFollow(args, params){
-        return service.delete(args, params)
-    },
     getChatUserId(args){
         return service.get(args)
     },
