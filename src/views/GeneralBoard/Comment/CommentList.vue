@@ -1,98 +1,139 @@
 <template>
   <div id="commentList">
-    <div class="commentList-container" >
-      <div class="commentList-wrapper" v-for="comment in comments" :key="comment.commentId" v-if="comment.parentId===0">
+    <div class="commentList-container">
+      <div
+          class="commentList-wrapper"
+          v-for="comment in comments"
+          :key="comment.commentId"
+          v-if="comment.parentId === 0"
+      >
         <!-- 원댓글인 경우 -->
-          <div class="list-profile-container">
+        <div class="list-comments-container">
+
             <div class="list-profile-wrapper">
-              <img :src="comment.profile" style="width: 67px; height: 67px; border: 1px solid black; border-radius: 50%;">
+              <img
+                  :src="comment.profile"
+                  style="width: 53px; height: 53px; border-radius: 50%"
+              />
             </div>
             <div class="comment-list-content">
-              <div class="comment-nickname-content" style="font-size: 16px;"> {{ comment.nickname }} </div>
-              <div class="comments-content" > <section class="comments-content-wrapper"> {{ comment.content }}</section> </div>
-              <div class="reply-content" style="color: rgb(0,0,0,60%); font-size: 13px; cursor: pointer;" @click="toggleReplyForm(comment.commentId)"> 답글달기 </div>
-            </div>
-          </div>
-          <div class="comment-right-content">
-            <section class="comment-date-content" style="text-align: right">
-              {{ comment.date }}
-            </section>
-            <!-- 댓글 작성자인 경우에만 수정 및 삭제 버튼 표시 -->
-            <section class="right-comment-modi-dele-container" >
-              <section class="comment-modify-content" @click="submitModifiedComment">수정</section>
-              <section class="comment-delete-content" @click="submitDeletedComment">삭제</section>
-            </section>
-
-          </div>
-
-          <!-- 답글달기 창 -->
-          <div v-if="showReplyForm === comment.commentId">
-            <!-- 작성창 -->
-            <div ref="form">
-              <div class="reply-input" style="width: 150%; height: 70px;">
-                <input type="text" v-model="replyText" placeholder="답글을 입력하세요" class="reply-form" :disabled="false">
-                <button type="submit" class="btn btn-secondary rounded-circle" style="background-color: #80C85F" @click="writeReply(comment.commentId)">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="20" fill="#FFFFFF" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
-                    <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"></path>
-                  </svg>
-                </button>
+              <div class="comment-nickname-content" style="font-size: 16px; font-weight: 550;">
+                {{ comment.nickname }}
+              </div>
+              <div class="comments-content">
+                <section class="comments-content-wrapper">{{ comment.content }}</section>
+              </div>
+              <div
+                  class="reply-content"
+                  style="color: rgb(0, 0, 0, 60%); font-size: 13px; cursor: pointer; width: 60px;"
+                  @click="toggleReplyForm(comment.commentId)"
+              >
+                답글달기
               </div>
             </div>
+
+            <div class="comment-right-content">
+              <section class="comment-date-content" style="text-align: right">
+                {{ comment.date }}
+              </section>
+              <!-- 댓글 작성자인 경우에만 수정 및 삭제 버튼 표시 -->
+              <div v-if="isCurrentUserComment(comment.nickname)">
+                <section class="right-comment-modi-dele-container">
+                  <section class="comment-modify-content" style="cursor:pointer;" @click="submitModifiedComment(comment.commentId)">수정</section>
+                  <section class="comment-delete-content" style="cursor:pointer;" @click="submitDeletedComment(comment.commentId)">삭제</section>
+                </section>
+              </div>
+
+            </div>
+        </div>
+
+        <!-- 답글달기 창 -->
+        <div v-if="showReplyForm === comment.commentId" class="reply-input-container">
+          <!-- 작성창 -->
+          <div ref="form">
+            <div class="reply-input" style="width: 100%; height: 70px; left: 1em;">
+              <input
+                  type="text"
+                  v-model="replyText"
+                  placeholder="답글을 입력하세요"
+                  class="reply-form"
+                  :disabled="false"
+              />
+              <button
+                  type="submit"
+                  class="btn btn-secondary rounded-circle"
+                  style="background-color: #80C85F; position: relative; top: 12px; left: 1.8em; width: 50px; height: 45px;"
+                  @click="writeReply(comment.commentId)"
+              >
+                <svg
+                    xmlns="http://www.w3.org/2000/svg"
+                    width="15"
+                    height="20"
+                    fill="#FFFFFF"
+                    class="bi bi-arrow-up-circle"
+                    viewBox="0 0 16 16"
+                >
+                  <path
+                      d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"
+                  />
+                </svg>
+              </button>
+            </div>
           </div>
+        </div>
 
         <!-- 해당 댓글에 대한 답글 표시 -->
-        <div v-for="reply in comments" :key="reply.commentId" v-if="reply.parentId === reply.commentId">
-          <div class="list-profile-container">
-            <div class="list-profile-wrapper">
-              <img src="@/assets/generalboardpage_icon/curvedArrowIcon.png" width="50px" height="50px">
-              <img :src="reply.profile" style="width: 67px; height: 67px; border: 1px solid black; border-radius: 50%;">
-            </div>
-            <div class="comment-list-content">
-              <div class="comment-nickname-content" style="font-size: 16px;"> {{ reply.nickname }} </div>
-              <div class="comments-content" > <section class="comments-content-wrapper"> {{ reply.content }}</section> </div>
-              <div class="reply-content" style="color: rgb(0,0,0,60%); font-size: 13px; cursor: pointer;" @click="toggleReplyForm(reply.commentId)"> 답글달기 </div>
-            </div>
-          </div>
-          <div class="comment-right-content">
-            <section class="comment-date-content" style="text-align: right">
-              {{ reply.date }}
-            </section>
-            <!-- 댓글 작성자인 경우에만 수정 및 삭제 버튼 표시 -->
-            <section class="right-comment-modi-dele-container" >
-              <section class="comment-modify-content" @click="submitModifiedComment">수정</section>
-              <section class="comment-delete-content" @click="submitDeletedComment">삭제</section>
-            </section>
-
-          </div>
-
-          <!-- 답글달기 창 -->
-          <div v-if="showReplyForm === reply.commentId">
-            <!-- 작성창 -->
-            <div ref="form">
-              <div class="reply-input" style="width: 150%; height: 70px;">
-                <input type="text" v-model="replyToText" placeholder="답글을 입력하세요" class="reply-form" :disabled="false">
-                <button type="submit" class="btn btn-secondary rounded-circle" style="background-color: #80C85F" @click="writeToReply(reply.commentId)">
-                  <svg xmlns="http://www.w3.org/2000/svg" width="15" height="20" fill="#FFFFFF" class="bi bi-arrow-up-circle" viewBox="0 0 16 16">
-                    <path d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8m15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0m-7.5 3.5a.5.5 0 0 1-1 0V5.707L5.354 7.854a.5.5 0 1 1-.708-.708l3-3a.5.5 0 0 1 .708 0l3 3a.5.5 0 0 1-.708.708L8.5 5.707z"></path>
-                  </svg>
-                </button>
+        <div
+            v-for="reply in comments"
+            :key="reply.commentId"
+            v-if="reply.parentId === comment.commentId"
+            class="reply-container" style="position: relative; height: 62%; width: 90%; left: 3em; top: 10px;"
+        >
+          <div class="list-reply-comments-container" style="position: relative; width: 85%; display: grid; left: 2em;
+          border-bottom: 1px solid rgb(141,141,141,70%); border-radius: 1px; grid-template-columns: 0.8fr 3fr 1fr; grid-template-rows: 1fr; text-align: start;">
+            <div class="list-reply-profile-container" style="margin-left: 10px; width: 65%;">
+              <div class="list-reply-profile-wrapper">
+                <img
+                    src="@/assets/generalboardpage_icon/curvedArrowIcon.png"
+                    width="30px"
+                    height="30px"
+                    style="position: absolute; left: -35px; top: 15px;"
+                />
+                <img
+                    :src="reply.profile"
+                    style="position: relative; width: 50px; height: 50px; border-radius: 50%; top: 10px;"
+                />
               </div>
             </div>
+              <div class="comment-reply-list-content" style="position: relative; width: 100%; height: 95%; margin: auto; display: grid;
+              grid-template-columns: 1fr; grid-template-rows: 1fr 2fr; top: 5px; left: -5px;">
+                <div class="comment-reply-nickname-content" style="font-weight: 550; font-size: 15px;">
+                  {{ reply.nickname }}
+                </div>
+                <div class="comments-reply-content">
+                  <section class="comments-reply-content-wrapper">{{ reply.content }}</section>
+                </div>
+
+              </div>
+
+            <div class="comment-reply-right-content" style="width: 90%; left: 1.3em; margin: auto; display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr 2fr; height: 90%;">
+              <section class="comment-reply-date-content" style="text-align: center; margin-left: 1em;">
+                {{ reply.date }}
+              </section>
+              <!-- 댓글 작성자인 경우에만 수정 및 삭제 버튼 표시 -->
+              <section class="right-reply-comment-modi-dele-container" style="position: relative; width: 87%; display: grid; grid-template-columns: repeat(2, 0.5fr); grid-template-rows: 1fr; left: 1.2em;">
+                <section class="comment-modify-content" style="cursor:pointer;" @click="submitModifiedComment(reply.commentId)">수정</section>
+                <section class="comment-delete-content" style="cursor:pointer;"  @click="submitDeletedComment(reply.commentId)">삭제</section>
+              </section>
+            </div>
+
           </div>
 
         </div>
-
-
+        <!-- 해당 댓글에 대한 답글 표시 끝 -->
       </div>
-
-
-
-
-
     </div>
-
   </div>
-
 </template>
 
 <script>
@@ -127,7 +168,8 @@ export default {
       day: '',                // 일 뽑아냄
       content: '',
       replyText: '',
-      replyToText: ''
+      replyToText: '',
+      replyForm: false,
     }
   },
   mounted() {
@@ -152,39 +194,34 @@ export default {
     toggleReplyForm(commentId){
       this.showReplyForm= this.showReplyForm === commentId ? null: commentId;
       // 다른 댓글의 답글 작성 창은 닫힘
-      //this.replyText = ""; // 답글 작성 양식을 초기화
+      this.replyText = ""; // 답글 작성 양식을 초기화
+    },
+    isCurrentUserComment(nickname){
+      if(this.nickname === nickname){
+          return true;
+      } else{
+        return false;
+      }
     },
     writeReply(commentId){
+
       const parentId = commentId;
       if(this.nickname){
         const replyText  = this.replyText;
-        console.log("replyText 출력해주라아알ㅇ", replyText);
         this.$emit("submit", { replyText, parentId });
+        this.showReplyForm = null;
       }
     },
-    writeToReply(commentId){
-      const parentId = commentId;
-
+    submitModifiedComment(commentId){
       if(this.nickname){
-        const { replyToText } = this;
-        this.$emit("submit", { replyToText, parentId });
+        const replyText  = this.replyText;
+        this.$emit("modified", { replyText, commentId });
       }
     },
-     /*loadDetailsComments(){
-      console.log("출력티비::: ", this.comments);
-
-      const args = `/api/general/comment/list/${this.comments.commentId}`;
-      console.log("CommentDetails commentId 출력: ", this.comments.commentId);
-      console.log("CommentDetailsComments 메소드의 args 출력: ", args);
-      api.getComment(args).then(res=>{
-        this.comments=res.data;
-      }).catch(err=>{
-        console.log("CommentList의 err 출력: ", err);
-      });
-    },*/
-    submitModifiedComment(){
-    },
-    submitDeletedComment(){
+    submitDeletedComment(commentId){
+      if(this.nickname){
+        this.$emit("deleted", { commentId });
+      }
     }
 
   }
@@ -212,21 +249,22 @@ export default {
   width: 100%;
   height: 45%;
   border-radius: 6px;
-  display: grid;
-  grid-template-columns: 2fr 1fr;
-  grid-template-rows: 1fr;
+  align-items: center;
 }
-.list-profile-container{
+.list-comments-container{
   position: relative;
+  left: 1.2em;
   width: 85%;
   display: grid;
-  grid-template-columns: 1fr 3fr;
+  border-bottom: 1px solid rgb(141,141,141,70%);
+  border-radius: 1px;
+  grid-template-columns: 0.8fr 3fr 1fr;
   grid-template-rows: 1fr;
   text-align: start;
 }
 .list-profile-wrapper{
   position: relative;
-  width: 90%;
+  width: 55%;
   margin: auto;
 }
 .comment-list-content{
@@ -235,7 +273,7 @@ export default {
   width: 100%;
   height: 78%;
   grid-template-columns: 2fr;
-  grid-template-rows: 1fr 2fr 1fr;
+  grid-template-rows: 0.7fr 2fr 1fr;
   margin: auto;
   align-content: center;
   align-items: center;
@@ -251,24 +289,26 @@ export default {
   top: 5px;
   margin: auto;
   display: grid;
+  right: 1em;
   grid-template-columns: 1fr;
   grid-template-rows: 1fr 2fr;
 }
 .right-comment-modi-dele-container{
   position: relative;
-  width: 54%;
+  width: 70%;
   display: grid;
   grid-template-columns: repeat(2, 0.5fr);
   grid-template-rows: 1fr;
-  left: 8em;
+  left: 3.5em;
+  top: 2em;
 }
 .comment-modify-content{
   color: rgb(0,0,0,70%);
   font-size: 15px;
+  left: 5em;
   align-content: end;
-  margin-left: 15px;
   width: 75%;
-  text-align: right
+  text-align: right;
 }
 .comment-delete-content{
   color: rgb(0,0,0,70%);
@@ -282,7 +322,8 @@ export default {
   width: 70%;
   flex: 1;
   height: 50px;
-  left: 15px;
+  left: 2.2em;
+  top: 12px;
   border: 1px solid rgb(141,141,141,70%);
   border-radius: 6px;
   padding: 10px;
@@ -299,8 +340,13 @@ export default {
 }
 .list-reply-profile-container{
   position: relative;
-  width: 69%;
+  width: 90%;
   height: auto;
-  border: 1px solid rgb(141,141,141,70%);
+}
+.list-reply-profile-wrapper{
+  position: relative;
+  width: 70%;
+  height: auto;
+  margin: auto;
 }
 </style>

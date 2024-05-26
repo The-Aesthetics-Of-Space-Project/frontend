@@ -30,10 +30,9 @@
         </div>
 
         <section class="modal-content">
-          <section class="modal-img-container" >
+          <section class="modal-img-container">
             <img :src="imgUrl" v-if="imagePreview" alt="이미지 미리보기"/>
           </section>
-
         </section>
 
         <section class="modal-btn" style="position: relative; width: 100%; top: 12px;">
@@ -56,8 +55,8 @@
       <editor @submit="submitArticle"/>
     </div>
 
-    <section class="button">
-      <button type="button" class="btn btn-success" @click="postArticle">발행하기</button>
+    <section class="button-submit" style="position: relative; width: 75%; height: 82px; left: 67%; transform: translateX(-50%); top: 7.2em;">
+      <button type="button" class="btn-postArticle" style="position: relative; border-radius: 8px; border: none; color: ghostwhite; font-size: 16px; font-weight: 550; background-color: rgb(4,57,39,80%); width: 9%; height: 45%;" @click="postArticle">발행하기</button>
     </section>
 
   </div>
@@ -380,18 +379,6 @@ html::-webkit-scrollbar {
 }
 .image-size-explanation p {
   margin-bottom: 5px;
-}
-.button {
-  position: relative;
-  width: 80%;
-  left: 70%;
-  transform: translateX(-50%);
-  top: 7.5em;
-}
-.button button {
-  position: relative;
-  width: 5%;
-  height: 10%;
 }
 .button button:first-child {
   position: relative;
