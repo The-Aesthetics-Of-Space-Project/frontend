@@ -52,7 +52,7 @@
     </section>
 
     <div id="editor" class="content-write">
-      <editor @submit="submitArticle"/>
+      <editor v-model="editorContent" @submit="submitArticle"/>
     </div>
 
     <section class="button-submit" style="position: relative; width: 75%; height: 82px; left: 67%; transform: translateX(-50%); top: 7.2em;">
@@ -227,6 +227,14 @@ export default {
     },
     /* 발행하기 버튼 클릭 시 실행 */
     postArticle(){
+      if(!this.article.title){
+        alert('제목을 입력해 주세요.');
+        return;
+      }
+      if(!this.editorContent){
+        alert('내용을 입력해 주세요.');
+        return;
+      }
       this.article.content = this.editor.getMarkdown();
 
       const articleData = {

@@ -94,7 +94,7 @@
                   <a> 집들이 </a>
                 </section>
 
-                <section class="house-content" style="position: relative; width: 42%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+                <section class="house-content" style="position: relative; width: 100%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
                     <section class="user-posts-wrapper" v-for="post in posts" :key="post.id" style=" border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-top: 8px; flex: 0 0 auto; display: flex; flex-direction: column;">
                       <!-- 게시글 썸네일과 제목 -->
@@ -111,7 +111,7 @@
                 <section class="competition-header house-header">
                   <a> 공모전 </a>
                 </section>
-                <section class="competition-content" style="position: relative; width: 42%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+                <section class="competition-content" style="position: relative; width: 100%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
                     <section class="user-posts-contest-wrapper" v-for="contest in contests" :key="contest.id" style=" border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-top: 8px; flex: 0 0 auto; display: flex; flex-direction: column;">
                       <!-- 게시글 썸네일과 제목 -->
@@ -159,6 +159,7 @@ export default {
       data: null,
       nickname: Store.state.nickname,
       userId: Store.state.userId,
+      baseUrl: 'http://119.198.33.129:8080',
       users: {
         userId: '',
         profile: '',
@@ -185,6 +186,7 @@ export default {
     }
   },
   mounted(){
+    this.getUser();
       if(this.nickname){
         this.getUser();
         this.getPost();
@@ -196,8 +198,8 @@ export default {
       }
   },
   methods:{
-    chatgoing() {
-      axios.get(`http://jerry6475.iptime.org:20000/chat/${encodeURIComponent(this.userId)}`)
+    async chatgoing() {
+      await api.getChatUserId(`/chat/${encodeURIComponent(this.userId)}`)
           .then(res => {
             this.users = res.data;
             console.log('Response data', res.data.userId);
@@ -216,6 +218,8 @@ export default {
           const args = `/users/details?userId=${encodeURIComponent(this.userId)}`;
           const res = await api.getUserInfo(args);
           this.users = res.data;
+          this.users.profile = this.baseUrl+res.data.profile;
+          console.log("데이터는 여기",res.data);
         } catch (error) {
           console.error(error);
         }
