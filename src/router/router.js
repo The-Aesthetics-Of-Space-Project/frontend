@@ -27,7 +27,11 @@ const routes = [
     { path: '/login', component: LoginView, meta: { hideHeader: true,hideFooter: true } },
     { path: '/signup', component: SignUpView, meta: { hideFooter: true,hideHeader: true} },
     { path: '/my-page', component: MyPageView },
-    { path: '/my-page/:userId', component: MyPageView },
+    {
+        path: '/my-page/:nickname',
+        name: 'MyPageView',
+        component: MyPageView
+    },
     { path: '/setting', component: SettingView },
     { path: '/leave', component: LeaveMembership },
     { path: '/community', component: Community,meta: {hideFooter: true, hideHeader: true }},
