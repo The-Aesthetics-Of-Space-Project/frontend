@@ -136,7 +136,7 @@ export default {
   data() {
     return {
       userId: this.$store.state.userId,
-      menus: ['zip', '가구 인식', '커뮤니티', '인테리어 가이드', '소개'],
+      menus: ['zip', '이미지 분석', '모두의 광장', '스타일 추천', '소개'],
       menuItems: [
         {
           text: '일반 게시판',
@@ -218,7 +218,6 @@ div {
   border-radius: 11px;
   border-color: black;
   font-size: 13px;
-  font-family: MyCustomFont2;
 }
 
 #header-board-write img {
@@ -234,14 +233,7 @@ div {
   color: #333;
   font-weight: bolder;
   padding: 9px;
-  font-family: MyCustomFont2;
-}
-
-@font-face {
-  font-family: 'MyCustomFont3';
-  src: url('../fonts/kcc/KCC-Hanbit.ttf') format('woff');
-  font-weight: normal;
-  font-style: normal;
+  text-align: left;
 }
 
 

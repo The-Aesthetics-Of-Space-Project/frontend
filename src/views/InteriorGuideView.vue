@@ -44,8 +44,9 @@
           <div class="content-layout">
             <div class="text-section">
               <div class="home-style">
-                <h6 style="position: relative; left:-175px; top:40px; font-size: 27px; font-weight: bolder; color:black; ">나의 인테리어 취향은</h6>
-                <img  src="@/assets/interiorguide_image_list/light.png" width="80" height="40" style="position: relative; top:-5px; left:-25px;">
+                <h6 style="position: relative; left:-195px; top:40px; font-size: 27px; font-weight: bolder; color:black; ">나의 인테리어 취향은</h6>
+                <span style="font-size: 23px; color: #333333; font-weight: bolder; position: relative; top:50px; left:-150px;">{{analysisResult}}</span>
+                <img  src="@/assets/objectrecognition_image_list/ic_light.png" width="40" height="40" style="position: relative; top:-5px; left:-60px; background-color:#FAFAFA ">
               </div>
               <div class="analysis-result">
               </div>
@@ -57,7 +58,7 @@
               <div style="width: 90%; border-top: 1px solid lightgrey; position: relative; top:75px; margin: auto;"></div>
               <div class="tips-section" style=" width: 91%; margin: auto; top:80px;">
                 <ul>
-                  <span style="font-size: 22px; position: relative; left:-200px; top:125px; font-weight: bolder; color:black">인테리어 팁을 드릴게요 !</span>
+                  <span style="font-size: 22px; position: relative; left:-220px; top:125px; font-weight: bolder; color:black">인테리어 팁을 드릴게요 !</span>
                   <li v-for="(tips, index) in tip" :key="index" style=" text-align:left; position:relative; list-style: none; top: 140px; font-size: 14px; left:-12px;">&nbsp;{{ tips }}</li>
                 </ul>
               </div>
