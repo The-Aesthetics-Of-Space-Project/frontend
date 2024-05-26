@@ -33,7 +33,7 @@
     </div>
     <div class="guide-content">
       <div class="guide-text">
-        <h2 ref="mainText">초보자를 위한 가이드</h2>
+        <h2 ref="mainText" style="  font-size: 27px;">맞춤형 인테리어 추천</h2>
       </div>
 
       <div class="card-view">
@@ -46,10 +46,8 @@
             <div class="card-body">
               <!--<h5 class="card-title">{{ card.title }}</h5>-->
               <!-- <p class="card-text">{{ card.text }}</p>-->
-              <router-link to="InteriorGuide" style="text-decoration: none; color: #333333; font-weight: bolder">
-                <img :src="card.imageSrc" alt="Card Image" width="112%" height="117%" style="position: relative; left:-6%; top:-16px;">
-                <span class="card-guide-content" id="router-link-custom"> {{card.text}}</span>
-              </router-link>
+                <img :src="card.imageSrc" alt="Card Image" width="112%"height="117%" style="position: relative; left:-6%; top:-16px;">
+                <span class="card-guide-content" id="router-link-custom" style="color: #333333; font-weight: bolder; "> {{card.text}}</span>
             </div>
           </div>
         </div>
@@ -108,7 +106,7 @@
       </button>
     </div>
     <div class="Home-Styling-title">
-      <h2  style=" color: #333333; position: relative; top:70px;">Home Styling</h2>
+      <h2  style=" color: #333333; position: relative; top:70px; font-size: 26px;">주목받는 게시물</h2>
       <div class="board-write-list">
         <div class="card-view">
           <div class="card-list">
@@ -496,25 +494,26 @@ div {
 
 .main-1container {
   display: flex; /* Flexbox를 사용하여 자식 요소들을 가로로 나열 */
-  justify-content: space-around; /* 자식 요소들 사이에 공간을 균등하게 배분 */
+  justify-content: center;
   align-items: center; /* 자식 요소들을 세로 중앙에 위치 */
   flex-wrap: wrap; /* 내용이 넘치면 다음 줄로 자동 이동 */
-  gap: 20px; /* 자식 요소들 사이의 간격 */
   width: 100%;
   background-color: #f4f7f8;
   position: relative;
   top:130px;
+  gap:30px;
 
 }
 
 .image-1container {
-  flex-basis: 30%; /* flex 항목의 기본 크기 설정 */
+  flex-basis: 29%; /* flex 항목의 기본 크기 설정 */
   text-align: center; /* 텍스트 중앙 정렬 */
   background-color: #f8f8f8; /* 배경색 */
-  padding: 20px; /* 내부 여백 */
+  padding: 10px; /* 내부 여백 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
   border-radius: 10px; /* 모서리 둥글게 */
   transition: transform 0.3s ease-in-out; /* 변형 애니메이션 */
+
 }
 
 .image-1container:hover {
