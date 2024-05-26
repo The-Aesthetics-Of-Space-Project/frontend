@@ -154,14 +154,12 @@ export default {
   border-radius: 50%;
   margin-right: 10px;
 }
-
 @media (max-width: 1024px) {
   .box-content {
     flex: 1 1 calc(50% - 40px);
     max-width: calc(50% - 40px);
   }
 }
-
 @media (max-width: 768px) {
   .box-content {
     flex: 1 1 100%;

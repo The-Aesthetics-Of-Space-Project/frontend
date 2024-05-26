@@ -78,7 +78,7 @@
                   <!-- 스크랩 -->
                   <section class="scrap-content"><router-link to="/scrap"><a> 스크랩북 <br> {{users.scraps}}</a></router-link></section>
                   <!-- 좋아요 -->
-                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> {{users.liked}}</a></router-link></section>
+                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> {{users.likes}}</a></router-link></section>
                 </section>
               </section>
 
@@ -160,7 +160,7 @@ export default {
         nickname: '',
         follower: '',
         following: '',
-        liked: '',
+        likes: '',
         scraps: '',
         followed: ''
       },

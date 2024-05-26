@@ -1,7 +1,7 @@
 <template>
   <div id="scrapList">
     <div class="content-wrapper">
-      <div class="grid-container">
+      <div class="grid-container article-grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
             <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
@@ -85,13 +85,13 @@ export default {
   text-align: center;
   position: relative;
   width:100%;
-  height:1200px;
   margin: 0;
 }
 .content-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 170px;
 }
 .grid-container {
   display: flex;
@@ -100,11 +100,17 @@ export default {
   gap: 20px;
   width: 100%;
   max-width: 1200px;
-  margin-top: 80px;
+}
+.article-grid-container {
+  /*
+   * grid-contianer css가 전역적으로 적용되고 있어서 게시판 grid-container를 추가
+   * (기존 grid-container의 속성을 무시하기 위해 important 설정)
+   */
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
 }
 .box-content {
   flex: 1 1 calc(33.333% - 40px);
-  max-width: calc(33.333% - 40px);
   border: 1px solid #ddd;
   height: 430px;
   border-radius: 10px;
@@ -145,14 +151,12 @@ export default {
   border-radius: 50%;
   margin-right: 10px;
 }
-
 @media (max-width: 1024px) {
   .box-content {
     flex: 1 1 calc(50% - 40px);
     max-width: calc(50% - 40px);
   }
 }
-
 @media (max-width: 768px) {
   .box-content {
     flex: 1 1 100%;
