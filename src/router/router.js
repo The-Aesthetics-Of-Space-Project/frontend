@@ -19,7 +19,6 @@ import ScrapListView from "@/views/MyPage/ScrapListView.vue";
 import LikeListView from "@/views/MyPage/LikeListView.vue";
 import ChatView from "@/views/ChatView.vue";
 import GeneralReWrite from "@/views/GeneralBoard/GeneralReWrite.vue";
-import ObjectRecognitionView from "@/views/ObjectRecognitionView.vue";
 import CompetitionMain from "@/views/Competition/CompetitionMain.vue";
 import CompetitionWrite from "@/views/Competition/CompetitionWrite.vue";
 import CompetitionPoster from "@/views/Competition/CompetitionPoster.vue";
@@ -106,7 +105,6 @@ const routes = [
     { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/generalReWrite', component: GeneralReWrite, meta: {hideHeader: false, hideFooter: true }},
-    { path: '/objectrecognition', component: ObjectRecognitionView, meta: {hideHeader: false, hideFooter: true }},
     { path: '/competitionPoster', component: CompetitionPoster, meta: {hideHeader: false, hideFooter: false}},
     { path: '/competitionWrite', component: CompetitionWrite, meta: {hideHeader: false, hideFooter: false}},
     { path: '/competitionMain', component: CompetitionMain, meta: {hideHeader: false, hideFooter: false}},

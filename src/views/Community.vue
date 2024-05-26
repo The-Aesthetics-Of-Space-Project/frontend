@@ -8,7 +8,7 @@
       </div>
       <div class="grid-container">
         <div class="image-sc-container">
-          <router-link to="/interiorguide">
+          <router-link to="/GeneralBoard">
             <img src="@/assets/community_image_list/ckdwha.png" alt="인테리어 사진" class="image-sc">
           </router-link>
           <div class="title-sc" style="position: relative; left:-41%; ">게시판</div>
@@ -17,7 +17,7 @@
         </div>
 
         <div class="image-sc-container">
-          <router-link :to="isUserLogin ? '/GeneralBoard':'/login'">
+          <router-link :to="isUserLogin ? '/GeneralBoardWrite':'/login'">
             <img src="@/assets/community_image_list/board_write.png" alt="유저들의 콘텐츠" class="image-sc">
           </router-link>
           <div class="title-sc" style="position: relative; left:-33%;">게시판 글쓰기</div>
@@ -26,7 +26,7 @@
         </div>
 
         <div class="image-sc-container">
-          <router-link to="/Community">
+          <router-link to="/competitionMain">
             <img src="@/assets/community_image_list/competition.png" alt="커뮤니티" class="image-sc">
           </router-link>
           <div class="title-sc" style="position: relative; left:-41%;">공모전</div>
@@ -35,7 +35,7 @@
         </div>
 
         <div class="image-sc-container">
-          <router-link to="/Community">
+          <router-link :to="isUserLogin ? '/competitionWrite':'/login'">
             <img src="@/assets/community_image_list/competition_write.png" alt="커뮤니티" class="image-sc">
           </router-link>
           <div class="title-sc" style="position: relative; left:-33%;">공모전 글쓰기</div>
