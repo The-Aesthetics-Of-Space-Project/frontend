@@ -6,10 +6,9 @@
       <section class="banner-img-container">
           <img src="../../assets/contest_img/InteriorContest.png" style="width: 70%; height: auto;"/>
       </section>
-
       <!-- 글 쓰러가기 버튼(화살표) -->
       <section class="banner-arrow-container">
-        <router-link :to="isUserLogin ? '/competitionWrite':'login'">
+        <router-link :to="isUserLogin ? '/competitionWrite':'/login'">
         <button type="button" class="banner-img-button">
         <img src="../../assets/contest_img/BlackArrow.png" style="position: relative; width: 100%; height: 120px;"/>
         </button>
@@ -18,7 +17,6 @@
       <section class="context"> 디자인하러 가기 </section>
     </section>
   </div>
-
   <!-- 공유 버튼 -->
   <div class="btn-container">
     <section class="btn-wrapper">
@@ -27,19 +25,12 @@
       </button>
     </section>
   </div>
-
 </div>
 </template>
 
 <script>
 export default {
-  name: 'competitionPoster',
-  data(){
-    return{
-
-    }
-
-  },
+  name: 'CompetitionPoster',
   computed: {
     // 로그인 유무 확인
     isUserLogin() {
@@ -53,14 +44,11 @@ export default {
         alert("클립보드에 복사되었습니다.");
       }).catch(err => {
         alert("URL 복사에 실패했습니다. 브라우저가 클립보드 복사를 지원하지 않습니다.");
-        console.error("Could not copy text: ", err);
       });
     }
   }
 }
 </script>
-
-
 
 <style>
 #competitionPoster{
@@ -144,6 +132,4 @@ export default {
   border-radius: 50%;
   border: none;
 }
-
-
 </style>

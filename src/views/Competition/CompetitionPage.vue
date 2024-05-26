@@ -1,6 +1,6 @@
 <template>
-  <div id="generalboardpage">
-    <div class="generalboardpage-container">
+  <div id="competitionPage">
+    <div class="competitionPage-container">
       <!-- 글 삭제 및 수정 버튼 -->
       <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 56em; top: 5em;">
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="deletePost">삭제</button>
@@ -19,16 +19,16 @@
         </div>
       </div>
 
-      <div class="user_info" style="position: relative;  width: 55%; height: 57px; margin: auto; top: 6.2em;" ><!--v-for="user in users"-->
+      <div class="user_info" style="position: relative;  width: 55%; height: 57px; margin: auto; top: 6.2em;" >
         <section class="user_info_wrapper" style="position: relative; display: grid; grid-template-columns: 1fr 2fr; grid-template-rows: 1fr; width: 35%;
       height: 50px; top: 2px;">
-          <router-link to="/my-page">
             <section class="user_profiles">
+              <router-link :to="{ name: 'MyPageView', query: {nickname: posts.nickname} }">
               <img :src="posts.profile" alt="프로필 사진" style="height: 50px; width: 55px; border-radius: 50%;">
+              </router-link>
             </section>
-          </router-link>
-          <router-link to="/my-page" style="text-decoration: none; color: black;">
-            <section class="user_name" style="font-weight: 540;">
+          <router-link :to="{ name: 'MyPageView', query: {nickname: posts.nickname} }" style="font-weight: 550; cursor: pointer; text-decoration: none; color: rgb(0,0,0,80%);">
+            <section class="user_name" >
               {{ posts.nickname }}
             </section>
           </router-link>
@@ -40,7 +40,6 @@
           작성일 : {{ this.formDate }}
         </section>
       </div>
-
       <!-- 내용 출력 -->
       <div class="general-content-container" style="position: relative; left: 1px; width: 80%; height: 100%; display: grid;
     grid-template-columns: 6fr 1fr; grid-template-rows: 1fr; top: 4em; margin: auto;">
@@ -48,12 +47,11 @@
           <div id="viewer" class="content">
           </div>
         </div>
-
         <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 100%; right:17%; top: 19%; text-align: left;">
           <!-- 좋아요 버튼 -->
           <button type="button" class="heart-btn" @click="likeBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
-        width: 45%; height: 65px; top: 90%; font-size: 14.5px;">
-            <img :src="posts.isLiked ? HeartImg : EmptyHeartImg" width="30px" height="30px"/>
+        width: 45%; height: 65px; top: 81%; font-size: 14.5px;">
+            <img :src="posts.like ? HeartImg : EmptyHeartImg" width="30px" height="30px"/>
             <br>
             {{ posts.likeCount }}
           </button>
@@ -70,13 +68,12 @@
       <div class="comment-container">
         <div class="comment-input">
           <!-- 댓글 작성 컴포넌트 -->
-          <comment-write @submit="handleCommentSubmit" />
+          <ContestCommentWrite @submit="handleCommentSubmit" />
         </div>
-        <CommentList :articleId="Number(getArticleId)" ref="commentList"
+        <ContestCommentList :articleId="Number(getArticleId)" ref="commentList"
                      @submit="replyComments" @modified="modifiedComment" @deleted="deletedComment"/>
 
       </div>
-
     </div>
   </div>
 </template>
@@ -84,15 +81,14 @@
 <script>
 import {api} from "@/api/api";
 import Store from "@/store/index";
-import CommentWrite from "@/views/GeneralBoard/Comment/CommentWrite.vue";
-import {marked} from 'marked';
-import CommentList from "@/views/GeneralBoard/Comment/CommentList.vue";
+import ContestCommentWrite from "@/views/Competition/ContestComment/ContestCommentWrite.vue";
+import ContestCommentList from "@/views/Competition/ContestComment/ContestCommentList.vue";
 
 export default {
-  name: 'GeneralBoardPage',
+  name: 'CompetitionPage',
   components:{
-    CommentWrite,
-    CommentList,
+    ContestCommentWrite,
+    ContestCommentList,
   },
   data() {
     return {
@@ -127,8 +123,7 @@ export default {
         likeCount: '',
         scrapCount: '',
         profile: '',
-        isLiked: '',
-        isScraped: ''
+        like: '',
       },
       HeartImg: require('@/assets/generalboardpage_icon/heart.png'),
       EmptyHeartImg: require('@/assets/generalboardpage_icon/emptyheart.png'),
@@ -140,43 +135,41 @@ export default {
       month: '',              // 개월 뽑아냄
       day: '',                // 일 뽑아냄
       formDate: '',            // 작성일 날짜 year+month+day
+      baseURL: 'http://jerry6475.iptime.org:20000'
     };
   },
   computed:{
     // 현재 사용자가 글 작성자인지 여부를 확인하는 계산된 속성
     isAuthor() {
       return this.posts.nickname === this.users.nickname;
+    },
+    articlesId(){
+      return this.$route.query.articleId;
     }
   },
+  created(){
+  },
   mounted(){
-    const urlStr = window.location.href;
-    // 마지막 = 이후의 부분을 분리
-    const parts = urlStr.split('=');
-    this.getArticleId = parts.pop();
-
-    if (this.getArticleId) {
       this.getArticle();
       // CommentList 컴포넌트의 메서드를 호출하여 초기 데이터를 로드
       this.loadComments();
-    } else {
       console.error('articleId가 정의되지 않았습니다.');
-    }
   },
   methods: {
     async getArticle(){
-      const args = `/api/general/post/${this.getArticleId}`;
+     this.getArticleId = this.articlesId;
+
+      const args = `/api/contest/post/${this.getArticleId}`;
+
       await api.getPost(args).then(res =>{
         this.posts=res.data;
+        this.posts.thumbnail = this.baseURL + this.posts.thumbnail;
         const dateObject = new Date(this.posts.date);
         this.year = dateObject.getFullYear();
         this.month = dateObject.getMonth()+1;
         this.day = dateObject.getDate();
         this.formDate = `${this.year}-${this.month}-${this.day}`;
-        const htmlContent = marked(this.posts.content);
-
-        document.querySelector('#viewer').innerHTML = htmlContent;
-
-        console.log("좋아요 여부 데이터 ", this.posts.isLiked);
+        console.log("isLike 출력해줘ㅓ", this.posts.like);
       })
     },
     loadComments() {
@@ -185,75 +178,46 @@ export default {
     },
     /* 좋아요 클릭/언클릭 */
     async likeBtn() {
-      if(this.posts.isLiked){
+      if(this.posts.like){
         // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
-        const args = '/api/general/unlike';
+        const args = '/api/contest/unlike';
+        console.log("args 출력해줘ㅓ", args);
         const unLikeData = {
           userId: this.users.userId,
           articleId: this.posts.articleId
         }
         await api.unSetLike(args, unLikeData).then(res => {
           alert("좋아요를 취소했습니다!");
-          console.log("좋아요 취소 성공!", this.posts.liked);
-          this.posts.isLiked = !this.posts.isLiked;
+          this.posts.like = !this.posts.like;
+          this.getArticle();
 
         }).catch(error => {
           console.log("좋아요 취소 실패!", error);
         });
       } else{
         // 좋아요를 누르지 않은 상태에서 누름 => 좋아요 추가
-        const args = '/api/general/like';
+        const args = '/api/contest/like';
         const likeData = {
           userId: this.users.userId,
           articleId: this.posts.articleId
         }
         await api.setLike(args, likeData).then(res => {
           alert("좋아요를 눌렀습니다!");
-          this.posts.isLiked = !this.posts.isLiked;
+          this.posts.like = !this.posts.like;
           this.getArticle();
         }).catch(error => {
           console.log("좋아요 실패!", error);
-          this.posts.isLiked = !this.posts.isLiked;
-        })
-      }
-    },
-    /* 스크랩 클릭/언클릭 */
-    async scrapBtn() {
-      if(this.posts.scraped){
-        // 이미 스크랩을 누른 상태에서 다시 눌렀을 때 => 스크랩 취소
-        const args = '/api/general/unscrap';
-        const scrapData = {
-          userId: this.users.userId,
-          articleId: this.posts.articleId
-        }
-        await api.unSetScrap(args, scrapData).then(res => {
-          alert("스크랩 취소했습니다!");
-          this.posts.isScraped = !this.posts.isScraped;
-        }).catch(error => {
-          console.log("스크랩 취소 실패!", error);
-        });
-      }else{
-        const args = '/api/general/scrap';
-        const unScrapData = {
-          userId: this.users.userId,
-          articleId: this.posts.articleId
-        }
-        await api.setScrap(args, unScrapData).then(res => {
-          alert("스크랩을 눌렀습니다!");
-          this.posts.isScraped = !this.posts.isScraped;
-        }).catch(error => {
-          console.log("스크랩 실패!", error);
-          this.posts.isScraped = !this.posts.isScraped;
+          this.posts.like = !this.posts.like;
         })
       }
     },
     /* 게시글 삭제 */
     deletePost(){
-      const args = `/api/general/post/${this.posts.articleId}`;
+      const args = `/api/contest/post/${this.posts.articleId}`;
       api.deletePost(args).then(res => {
         console.log("글 삭제 성공!", res);
         alert("글 삭제 성공했습니다!");
-        this.$router.push('/generalBoard');
+        this.$router.push('/competitionMain');
       }).catch(error => {
         console.log("글 삭제 실패했습니다!", error);
       });
@@ -261,7 +225,7 @@ export default {
     /* 게시글 수정 */
     editPost(){
       this.$router.push({
-        path: "GeneralReWrite",
+        path: "CompetitionReWrite",
         query: {
           articleId: this.posts.articleId
         }
@@ -277,7 +241,7 @@ export default {
       }
       const params = submitData;
 
-      const args = `/api/general/comment`;
+      const args = `/api/contest/comment`;
       await api.setComment(args, params).then(res=>{
         this.comments=res.data;
         this.loadComments(this.getArticleId);
@@ -296,7 +260,7 @@ export default {
       }
       const params = submitReplyData;
 
-      const args = `/api/general/comment`;
+      const args = `/api/contest/comment`;
       await api.setComment(args, params).then(res=>{
         this.comments=res.data;
         this.loadComments(this.getArticleId);
@@ -312,7 +276,7 @@ export default {
       }
       const params = modifyData;
 
-      const args = `/api/general/comment/${modifiedData.commentId}`;
+      const args = `/api/contest/comment/${modifiedData.commentId}`;
       await api.editComment(args, params).then(res=>{
         this.comments=res.data;
         this.loadComments(this.getArticleId);
@@ -321,9 +285,7 @@ export default {
       });
     },
     async deletedComment(commentId){
-      console.log("commentId출력티비예: "+ commentId.commentId);
-
-      const args = `/api/general/comment/${commentId.commentId}`;
+      const args = `/api/contest/comment/${commentId.commentId}`;
       await api.deleteComment(args).then(res=>{
         this.comments=res.data;
         this.loadComments(this.getArticleId);
@@ -335,18 +297,18 @@ export default {
 };
 </script>
 
-<style>
-#generalboardpage{
+<style scoped>
+#competitionPage{
   font-family: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   position: relative;
   width:100%;
-  height:1200px;
+  height:1500px;
   margin: 0;
 }
-.generalboardpage-container{
+.competitionPage-container{
   position: relative;
   margin: auto;
   width: 80%;
@@ -385,23 +347,24 @@ export default {
   font-size: 20px;
   align-content: center;
   text-align: left;
-  cursor: pointer;
+  left: -0.5em;
 }
 .date_container{
   position: relative;
   width: 100%;
   height: 100%;
   left: -10px;
-  font-size: 18px;
+  font-size: 15px;
   text-align: left;
   align-content: center;
+  color: rgb(0,0,0,60%);
 }
 .date{
   position: relative;
   width: 20%;
   left: 23.5%;
   height:35px;
-  top: 6em;
+  top: 6.5em;
 }
 .content-wrappers{
   width: 78%;
