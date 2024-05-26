@@ -2,7 +2,7 @@
   <div class="interirorguideview">
     <div class="container">
       <div class="left-section">
-        <!-- <button @click='test'>test</button> -->
+       <!-- <button @click='test'>test</button> -->
         <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
           <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
         인테리어 이미지를</span>
@@ -57,13 +57,13 @@
               <div style="width: 90%; border-top: 1px solid lightgrey; position: relative; top:75px; margin: auto;"></div>
               <div class="tips-section" style=" width: 91%; margin: auto; top:80px;">
                 <ul>
-                  <span style="font-size: 22px; position: relative; left:-200px; top:100px; font-weight: bolder; color:black">인테리어 팁을 드릴게요 !</span>
-                  <li v-for="(tips, index) in tip" :key="index" style=" text-align:left; position:relative; list-style: none; top: 115px; font-size: 14px; left:-12px;">&nbsp;{{ tips }}</li>
+                  <span style="font-size: 22px; position: relative; left:-200px; top:125px; font-weight: bolder; color:black">인테리어 팁을 드릴게요 !</span>
+                  <li v-for="(tips, index) in tip" :key="index" style=" text-align:left; position:relative; list-style: none; top: 140px; font-size: 14px; left:-12px;">&nbsp;{{ tips }}</li>
                 </ul>
               </div>
               <div class="color-section" style="position: relative; top:60px;">
-                <h3  style="font-size: 22px; position: relative; left:-240px; top:65px; color:black;  font-weight: bolder;">Mood Color</h3>
-                <div class="recommended-colors" style="text-align:left; position: relative;  top:70px; left:55px;">
+                <h3  style="font-size: 22px; position: relative; left:-240px; top:85px; color:black;  font-weight: bolder;">Mood Color</h3>
+                <div class="recommended-colors" style="text-align:left; position: relative;  top:90px; left:55px;">
                   <img v-for="(color, index) in color" :key="index" :src="color" alt="추천 색상 이미지" class="recommended-color">
                 </div>
               </div>
@@ -110,7 +110,6 @@ export default {
       isLoading: false,
       textContent: "원하는 인테리어 스타일 3가지를 선택하면 취향에 맞게 결과를 분석해드립니다.",
       firstStepImages: [
-        { src: require('@/assets/interiorguide_image_list/lovely1.jpg')},
         { src: require('@/assets/interiorguide_image_list/modern1.jpg')},
         { src:require('@/assets/interiorguide_image_list/simple1.jpg')},
         { src: require('@/assets/interiorguide_image_list/retro1.jpg')},
@@ -313,8 +312,8 @@ export default {
           // 스타일 별로 점수를 계산
           // 각 이미지에 대한 스타일 태그
           const imageStyles = {
-            '0': ['simple'], '1': ['vintage'], '2': ['natural'],
-            '3': ['lovely'], '4': ['modern'], '5': ['simple'], '6': ['vintage'], '7': ['natural'],
+            '0': ['modern'], '1': ['simple'], '2': ['vintage'],
+            '3': ['natural'], '4': ['modern'], '5': ['simple'], '6': ['vintage'], '7': ['natural'],
             '8': ['lovely'], '9': ['modern'], '10': ['simple'], '11': ['vintage'], '12': ['natural'],
             '13': ['lovely'], '14': ['modern'], '15': ['simple'], '16': ['vintage'], '17': ['natural'],
             '18': ['lovely'], '19': ['modern'], '20': ['simple'], '21': ['vintage'], '22': ['natural'],   '23': ['lovely'],'24': ['lovely'],
