@@ -73,7 +73,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #followingList{
   font-family: inherit;
   -webkit-font-smoothing: antialiased;
