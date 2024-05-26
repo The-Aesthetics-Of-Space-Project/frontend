@@ -33,7 +33,7 @@
     </div>
     <div class="guide-content">
       <div class="guide-text">
-        <h2 ref="mainText" style="font-family : MyCustomFont2;">초보자를 위한 가이드</h2>
+        <h2 ref="mainText">초보자를 위한 가이드</h2>
       </div>
 
       <div class="card-view">
@@ -108,7 +108,7 @@
       </button>
     </div>
     <div class="Home-Styling-title">
-      <h2  style="font-family: MyCustomFont2; position: relative; top:70px;">Home Styling</h2>
+      <h2  style=" color: #333333; position: relative; top:70px;">Home Styling</h2>
       <div class="board-write-list">
         <div class="card-view">
           <div class="card-list">
@@ -213,20 +213,6 @@ body {
   margin :0;
 }
 
-.router-link-custom{
-  text-decoration: none;
-  color:white;
-  font-size: 18px;
-  font-weight: bolder;
-}
-.item_grid{
-  display: grid;
-  grid-template-columns: repeat(3, 1fr); /* 3열로 나눔 */
-  gap: 20px; /* 항목들 사이의 간격 */
-  position: relative;
-  bottom:30px;
-}
-
 .title-home h1{
   position: relative;
   bottom:240px;
@@ -280,8 +266,7 @@ div {
   height:50px;
   animation: slide 7s;
   left:35%;
-  font-family: MyCustomFont5;
-  color: black;
+  color: #333333;
   top:20px;
 }
 
@@ -292,12 +277,6 @@ div {
   height:600px;
 }
 
-.guide-text h2:hover
-{
-  color:black;
-  font-weight: bolder;
-  font-size: 30px;
-}
 
 @keyframes slide
 {
@@ -466,7 +445,6 @@ div {
   background-size: cover;
 }
 .main-banner-content p{
-  font-family: MyCustomFont2;
   font-weight: normal;
 }
 .main-banner-title{
@@ -474,7 +452,6 @@ div {
   top:300px;
   color: white;
   font-size: 40px;
-  font-family: 'SOGANGUNIVERSITYTTF';
   animation: slides 5s ease-out;
 }
 .main-banner-content p
