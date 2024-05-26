@@ -2,7 +2,7 @@
   <div id="generalboardpage">
     <div class="generalboardpage-container">
       <!-- 글 삭제 및 수정 버튼 -->
-      <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 56em; top: 5em;">
+      <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 58em; top: 5em;">
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="deletePost">삭제</button>
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="editPost">수정</button>
       </div>
@@ -20,18 +20,16 @@
     </div>
 
     <div class="user_info" style="position: relative;  width: 55%; height: 57px; margin: auto; top: 6.2em;" ><!--v-for="user in users"-->
-      <section class="user_info_wrapper" style="position: relative; display: grid; grid-template-columns: 1fr 2fr; grid-template-rows: 1fr; width: 35%;
+      <section class="user_info_wrapper" style="position: relative; display: grid; grid-template-columns: 1fr 2fr; grid-template-rows: 1fr; width: 32%;
       height: 50px; top: 2px;">
-        <router-link to="/my-page">
-        <section class="user_profiles">
-          <img :src="posts.profile" alt="프로필 사진" style="height: 50px; width: 55px; border-radius: 50%;">
+        <section class="user_profiles" @click="myPage(posts.nickname)">
+          <img :src="posts.profile" alt="프로필 사진" style="height: 50px; width: 55px; border-radius: 50%; cursor: pointer;">
         </section>
-        </router-link>
-        <router-link to="/my-page" style="text-decoration: none; color: black;">
-        <section class="user_name" style="font-weight: 540;">
+
+        <section class="user_name" @click="myPage(posts.nickname)" style="font-weight: 550; font-size: 18px; left: -6px;">
           {{ posts.nickname }}
         </section>
-        </router-link>
+
       </section>
     </div>
       <!-- 날짜 출력 -->
@@ -49,7 +47,7 @@
         </div>
       </div>
 
-      <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 100%; right:17%; top: 19%; text-align: left;">
+      <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 80%; right:17%; top: 19%; text-align: left;">
         <!-- 좋아요 버튼 -->
         <button type="button" class="heart-btn" @click="likeBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
         width: 45%; height: 65px; top: 90%; font-size: 14.5px;">
@@ -106,7 +104,6 @@ export default {
     return {
       liked: '',
       likedCtn: '',
-      scraped: false,
       scrapedCtn: '',
       newComment: '',
       // 댓글 불러옴
@@ -174,6 +171,9 @@ export default {
     }
   },
   methods: {
+    myPage(nickname){
+      this.$router.push({name: 'MyPageView', params: {nickname: nickname}});
+    },
     async getArticle(){
       const args = `/api/general/post/${this.getArticleId}`;
       await api.getPost(args).then(res =>{
@@ -186,8 +186,6 @@ export default {
         const htmlContent = marked(this.posts.content);
 
         document.querySelector('#viewer').innerHTML = htmlContent;
-
-        console.log("좋아요 여부 데이터 ", this.posts.isLiked);
       })
     },
     loadComments() {
@@ -205,9 +203,8 @@ export default {
         }
         await api.unSetLike(args, unLikeData).then(res => {
           alert("좋아요를 취소했습니다!");
-          console.log("좋아요 취소 성공!", this.posts.liked);
           this.posts.isLiked = !this.posts.isLiked;
-
+          this.getArticle();
         }).catch(error => {
           console.log("좋아요 취소 실패!", error);
         });
@@ -230,7 +227,7 @@ export default {
     },
     /* 스크랩 클릭/언클릭 */
     async scrapBtn() {
-      if(this.posts.scraped){
+      if(this.posts.isScraped){
         // 이미 스크랩을 누른 상태에서 다시 눌렀을 때 => 스크랩 취소
         const args = '/api/general/unscrap';
         const scrapData = {
@@ -240,6 +237,7 @@ export default {
         await api.unSetScrap(args, scrapData).then(res => {
           alert("스크랩 취소했습니다!");
           this.posts.isScraped = !this.posts.isScraped;
+          this.getArticle();
         }).catch(error => {
           console.log("스크랩 취소 실패!", error);
         });
@@ -252,6 +250,7 @@ export default {
         await api.setScrap(args, unScrapData).then(res => {
           alert("스크랩을 눌렀습니다!");
           this.posts.isScraped = !this.posts.isScraped;
+          this.getArticle();
         }).catch(error => {
           console.log("스크랩 실패!", error);
           this.posts.isScraped = !this.posts.isScraped;
@@ -317,7 +316,6 @@ export default {
     },
     /* 댓글 수정 */
     async modifiedComment(modifiedData){
-
       const modifyData = {
         content: modifiedData.replyText
       }
@@ -368,7 +366,7 @@ export default {
   height:50px;
   top: 7em;
   border-bottom: 1px solid rgb(141,141,141,70%);
-  border-radius: 6px;
+  border-radius: 2px;
   margin-left: 23%;
   font-size: 13px;
   font-weight: 500;
@@ -403,16 +401,17 @@ export default {
   width: 100%;
   height: 100%;
   left: -10px;
-  font-size: 18px;
+  font-size: 15px;
   text-align: left;
   align-content: center;
+  color: rgb(0,0,0,60%);
 }
 .date{
   position: relative;
   width: 20%;
   left: 23.5%;
   height:35px;
-  top: 6em;
+  top: 6.5em;
 }
 .content-wrappers{
   width: 78%;

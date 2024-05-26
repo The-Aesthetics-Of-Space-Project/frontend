@@ -1,7 +1,39 @@
 <template>
   <div id="generalboard">
     <div class="content-wrapper">
-      <div class="grid-container">
+      <!-- 상위 3개의 게시물 섹션 -->
+      <div class="text-header" style="position: relative; width: 6%; font-weight: 550; font-size:26px; right: 21.1em; top:-5px;">베스트 3</div>
+      <div class="grid-container article-grid-container">
+        <div class="box-content" v-for="(popularPost, index) in popularPosts" :key="popularPost.id">
+          <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
+            <div class="rank-badge" style="position: absolute; text-align: center; font-weight: 550; font-size: 15px; width: 8%;  height: 10%; top: -2px; left: -2px; border-radius: 50%; background-color: rgba(22, 74, 33,60%);">
+              <a style="position: relative; top: 4px; color: rgb(255,255,255,100%); z-index: 1;">{{ index + 1 }}</a> </div>
+            <img :src="popularPost.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
+                 @click="goToPostDetails(popularPost.articleId)">
+          </section>
+          <section class="content-title" @click="goToPostDetails(popularPost.articleId)" >
+            <span style="cursor: pointer;">{{ popularPost.title }}</span>
+          </section>
+          <section class="content-title-wrapper">
+            <section class="heart-contents">
+              <img src="@/assets/mypage_icon/like.png" alt="Like Icon" width="35px" height="35px">
+              <section class="count-number">
+                <span>{{ popularPost.likeCount }}</span>
+              </section>
+            </section>
+            <section class="content-nickname">
+              <section class="user-profile" @click="goToUserDetails(popularPost.nickname)" style="cursor:pointer;">
+                <img :src="popularPost.profile" alt="User Profile" class="profile-img">
+              </section>
+              <span @click="goToUserDetails(popularPost.nickname)" style="cursor:pointer; font-weight: 550; font-size:15px;">{{ popularPost.nickname }}</span>
+            </section>
+          </section>
+        </div>
+      </div>
+      <br><br><br><br><br><br><br>
+      <section class="generalBoard-line-container"><hr/></section>
+      <!-- 일반 게시물 섹션 -->
+      <div class="grid-container article-grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
                 <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
@@ -18,10 +50,10 @@
               </section>
             </section>
             <section class="content-nickname">
-              <section class="user-profile">
+              <section class="user-profile" @click="goToUserDetails(post.nickname)">
                 <img :src="post.profile" alt="User Profile" class="profile-img">
               </section>
-              <span @click="goToUserDetails(user.userId)">{{ post.nickname }}</span>
+              <span @click="goToUserDetails(post.nickname)">{{ post.nickname }}</span>
             </section>
           </section>
         </div>
@@ -48,10 +80,19 @@ export default {
       liked: '',
       heartImg: require('@/assets/mypage_icon/like.png'),
       baseUrl: 'http://jerry6475.iptime.org:20000',
+      popularPosts:{
+        articleId: '',
+        title: '',
+        thumbnail: '',
+        nickname: '',
+        likeCount: '',
+        profile: ''
+      }
     };
   },
   created() {
     this.fetchPosts();
+    this.fetchPopularPosts();
   },
   methods: {
     async fetchPosts() {
@@ -64,21 +105,32 @@ export default {
         console.error('Error fetching posts:', error);
       }
     },
+    /* 좋아요 많은 상위 3개 게시글 */
+    async fetchPopularPosts() {
+      try {
+        const res = await api.getPost('/api/general/posts/popular');
+        this.popularPosts = res.data;
+          this.popularPosts.thumbnail= this.baseUrl + this.popularPosts.thumbnail;
+        console.log('response popular posts:', res);
+      } catch (error) {
+        console.error('Error fetching popular posts:', error);
+      }
+    },
     goToPostDetails(articleId) {
       this.$router.push({
         path: "GeneralBoardPage",
         query: {articleId: articleId}
       });
     },
-    goToUserDetails(userId) {
-      // Add the logic to navigate to the user details page if needed
-      console.log(`Navigate to user details with ID: ${userId}`);
+    goToUserDetails(nickname) {
+      console.log("nickname OUTPUT!!!: ", nickname);
+      this.$router.push({name: 'MyPageView', params: {nickname: nickname}});
     }
   },
 };
 </script>
 
-<style>
+<style scoped>
 #generalboard{
   font-family: inherit;
   -webkit-font-smoothing: antialiased;
@@ -86,14 +138,14 @@ export default {
   text-align: center;
   position: relative;
   width:100%;
-  height:1200px;
+  padding-bottom: 10rem;
   margin: 0;
 }
 .content-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 80px;
+  margin-top: 170px;
 }
 .grid-container {
   display: flex;
@@ -103,11 +155,18 @@ export default {
   width: 100%;
   max-width: 1200px;
 }
+.article-grid-container {
+  /*
+   * grid-contianer css가 전역적으로 적용되고 있어서 게시판 grid-container를 추가
+   * (기존 grid-container의 속성을 무시하기 위해 important 설정)
+   */
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
+}
 .box-content {
   flex: 1 1 calc(33.333% - 40px);
-  max-width: calc(33.333% - 40px);
   border: 1px solid #ddd;
-  height: 430px;
+  height: 440px;
   border-radius: 10px;
   padding: 10px;
   text-align: center;
@@ -153,11 +212,25 @@ export default {
     max-width: calc(50% - 40px);
   }
 }
-
 @media (max-width: 768px) {
   .box-content {
     flex: 1 1 100%;
     max-width: 100%;
   }
+}
+.generalBoard-line-container{
+  position: relative;
+  width: 80%;
+  height: 5%;
+  top: -5em;
+  left: 22em;
+  align-items: center;
+  align-content: center;
+}
+hr{
+  position: relative;
+  width: 50%;
+  height: 1.3px;
+  background-color: #757575;
 }
 </style>
