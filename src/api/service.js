@@ -3,7 +3,7 @@ import Store from "@/store/index";
 
 // 프로젝트 설정에 맞게, 기본적인 정보를 넣어주세요
 const service = axios.create({
-    baseURL: 'http://jerry6475.iptime.org:20000', // API의 기본 URL 설정 서버 주소: http://119.198.33.129:8080
+    baseURL: 'http://jerry6475.iptime.org:20000', // API의 기본 URL 설정 서버 주소: http://jerry6475.iptime.org:20000
     timeout: 10000, // 요청 타임아웃 설정 (밀리초)
 
 });

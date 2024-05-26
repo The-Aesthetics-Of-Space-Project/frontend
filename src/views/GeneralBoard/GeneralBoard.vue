@@ -53,7 +53,7 @@
               <section class="user-profile" @click="goToUserDetails(post.nickname)">
                 <img :src="post.profile" alt="User Profile" class="profile-img">
               </section>
-              <span @click="goToUserDetails(post.nickname)">{{ post.nickname }}</span>
+              <span @click="goToUserDetails(post.nickname)" style="cursor:pointer; font-weight: 550; font-size:15px;">{{ post.nickname }}</span>
             </section>
           </section>
         </div>

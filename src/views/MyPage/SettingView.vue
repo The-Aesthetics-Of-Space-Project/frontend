@@ -14,7 +14,7 @@
         <!-- 내용 -->
         <div class="setting-content-wrapper">
           <!-- 비밀번호 헤더 -->
-          <section class="setting-password-wrapper">
+          <div class="setting-password-wrapper" style="position: relative; top:-60px;">
             <section class="setting-password-content">
               <a> 비밀번호 </a>
               <section class="setting-form-text-pass setting-form-text-nickname"
@@ -30,11 +30,11 @@
                 <div><span id="checkpassword" style="width: 100px; font-size: 13px; top:-10px;" @input="setCheckPassword"></span></div>
               </div>
             </section>
-          </section>
+          </div>
           <!-- 닉네임 헤더 -->
-          <section class="setting-nickname-wrapper">
-            <section class="setting-password-content">
-              <a> 닉네임 </a>
+          <div class="setting-nickname-wrapper" style="position:relative; text-align: left; top:-60px;">
+            <section class="setting-password-content" style="position: relative; left:-19px;">
+              <a style="position: relative; left:11.3%;"> 닉네임 </a>
             </section>
             <section class="setting-form-text-nickname">
               <a> 다른 유저와 겹치지 않도록 입력해주세요. (2~15자) </a>
@@ -43,13 +43,13 @@
             <section class="form-group-nickname-wrapper">
               <div class="input-group" style="top: 10px; left: 35px; position: relative; width: 89%; margin-bottom: 10px;">
                 <input type="nickname" v-model="user.nickname" class="form-control invalid" placeholder="닉네임" aria-label="Nickname"
-                       id="nicknameInput" @input="checkNickname" minlength="2" maxlength="15" style="border-radius: 6px; height: 40px; font-size: 14px;">
-                <div><span id="checkNickname" style="width: 100px; font-size: 13px;" @input="checkNickname"></span></div>
+                       id="nicknameInput" @input="checkNickname" minlength="2" maxlength="15" style="border-radius: 6px; height: 42px; font-size: 14px; position: relative; left:-1.5%;">
+                <div><span id="checkNickname" style="width: 100px; font-size: 13px; position: relative; left:-4px; top:-4px;" @input="checkNickname"></span></div>
               </div>
             </section>
-          </section>
+          </div>
           <!-- 프로필 -->
-          <section class="profile-content-wrapper">
+          <section class="profile-content-wrapper" style="position: relative; top:-60px; left:-10px;">
             <section class="profile-header-wrapper setting-password-content">
               <section class="profile-header-content">
                 <a> 프로필 </a>
@@ -61,14 +61,14 @@
               </section>
             </section>
             <section class="profile-submit-btn" style="position: relative; width: 56%; height: 19%; display: grid; grid-template-columns: 1fr 3fr; grid-template-rows: 1fr;
-                                                          top: 1.5em; left: 2.5em;" >
+                                                          top: 1.5em; left: 3.9em;" >
               <label style="position: relative;width: 73%; height: 84%; margin: auto; cursor: pointer;">
                 <img src="../../assets/mypage_icon/plusimage.png" class="upload-btn-img"  style="position: relative;
-               border-radius: 50%; width: 100%; height: 100%;">
+               border-radius: 50%; width: 100%; height: 100%; left:60px; top:-3px">
                 <input type="file" class="btn-img-button" style="position: relative; border: 1px solid chocolate; margin: auto;
-                background-color: white; border-radius: 50%; width: 100%; height: 100%; display: none;" @change="handleFileUpload">
+                background-color: white; border-radius: 50%; width: 100%; height: 100%;  display: none;" @change="handleFileUpload">
               </label>
-              <section style="position: relative; margin: auto; height: 50%; left: -2.4em; top: 3px; font-size: 14px; font-weight: bold; color:rgb(0,0,0,60%);">
+              <section style="position: relative; margin: auto; height: 50%; left: 2em; top: 3px; font-size: 14px; font-weight: bold; color:rgb(0,0,0,60%);">
                 <p> 플러스 버튼을 눌러보세요! </p>
               </section>
             </section>
@@ -100,6 +100,7 @@ export default {
         password: ''
       },
       isNicknameChecked : false,
+      isValid: false,
     }
   },
   computed:{
@@ -133,11 +134,13 @@ export default {
           passMessage.style.color = '#2fb380';
           document.getElementById("passwordInput").classList.remove("is-invalid");
           document.getElementById("passwordInput").classList.add("is-valid");
+          this.isValid = true;
         } else {
           passMessage.textContent = '올바른 비밀번호 형식이 아닙니다.';
           passMessage.style.color = '#dc3545';
           document.getElementById("passwordInput").classList.remove("is-valid");
           document.getElementById("passwordInput").classList.add("is-invalid");
+          this.isValid = false;
         }
       };
       // 입력란에 keyup 이벤트 핸들러 추가
@@ -151,7 +154,7 @@ export default {
       if (nickname.length > 2 || nickname.length < 15) {
         const NicknameCheck = () => {
           const nicknameValue = nicknameInput.value;
-          const args = `/checknickname/${nicknameValue}`;
+          const args = `/checknickname/${encodeURIComponent(nicknameValue)}`; // encodeURIComponent 추가 ( 입력 필드에서 공백란 입력하고 입력 필드 벗어날시 인코딩이 안됨)
           this.isNicknameChecked=true;
           api.getUser(args).then(res => {
                 const result = res.data;
@@ -171,13 +174,7 @@ export default {
                 }
               }
           ).catch(error => {
-            if (error.response) {
-              alert("서버 오류가 발생했습니다. 나중에 다시 시도해주세요.");
-            } else if (error.request) {
-              alert("서버 응답이 없습니다. 네트워크 연결을 확인해주세요.");
-            } else {
-              alert("요청을 처리하는 중 오류가 발생했습니다.");
-            }
+            console.log("error",error);
           });
         }
         const handleKeyup = () => {
@@ -206,6 +203,20 @@ export default {
 
     },
     async userInfoModify(){
+      if (!this.user.password || !this.user.nickname) {
+        alert("빈칸을 입력해주세요.");
+        return;
+      }
+      if(!this.user.password){
+        alert("비밀번호를 입력해주세요.");
+      }
+      if(!this.user.nickname){
+        alert("닉네임을 입력해주세요.");
+      }
+      if (!this.isValid) {
+        alert('비밀번호 양식이 일치하지 않습니다.');
+        return;
+      }
       const formData = new FormData();
       const presentUserId = this.userId;
 
@@ -221,6 +232,7 @@ export default {
       const params = formData;
       await api.updateUser(args, params).then(res => {
         console.log("수정 성공: ", res);
+        alert('수정하였습니다.');
         for (let key of formData.keys()) {
           console.log(key, ":", formData.get(key));
         }
@@ -291,7 +303,7 @@ export default {
   position: relative;
   width: 50%;
   height: 17%;
-  margin: auto;
+  left:25%;
 }
 .setting-password-content{
   position: relative;
@@ -334,6 +346,7 @@ export default {
   top: 22px;
   margin: auto;
   font-size: 13px;
+  left:9.2%;
 }
 .setting-form-text-nickname a{
   position: relative;
@@ -373,6 +386,8 @@ export default {
   height: 65%;
   border: 1px solid #D9D9D9;
   border-radius: 7px;
+  margin: auto;
+  left:-5px;
 }
 .profile-img-wrapper{
   position: relative;
@@ -396,11 +411,39 @@ export default {
 .btn-modify{
   width: 40%;
   height: 62%;
-  font-weight: 550;
   border: none;
   border-radius: 12px;
   background-color: #80C85F;
   font-size: 17px;
   color: floralwhite;
+  position: relative;
+  top:-75px;
+  left:-16px;
+}
+
+.setting-container {
+  max-width: 1800px;
+  margin: 0 auto;
+  padding: 2rem;
+  position: relative;
+}
+
+/* 헤더 스타일 */
+.header-container {
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 2rem;
+}
+
+.leave-membership-wrapper,
+.header-wrapper {
+  font-size: 1.2rem;
+  font-weight: bold;
+}
+
+/* 내용 섹션 스타일 */
+.setting-content-wrapper {
+  padding: 2rem;
+  border-radius: 8px;
 }
 </style>
