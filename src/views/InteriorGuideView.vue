@@ -1,9 +1,8 @@
-<!-- InteriorGuide.vue -->
 <template>
   <div class="interirorguideview">
     <div class="container">
       <div class="left-section">
-        <!--<button @click='test'>test</button> -->
+       <!-- <button @click='test'>test</button> -->
         <h1  class="font-h1"><span style="position: relative; left:-220px;">마음에 드는</span><br>
           <span  v-if="currentStep === 1" style="position: relative; left:-165px; color:darkgreen">
         인테리어 이미지를</span>
@@ -45,46 +44,46 @@
           <div class="content-layout">
             <div class="text-section">
               <div class="home-style">
-                <h6 style="position: relative; left:-282px; top:5px; font-size: 16px; color:black; font-family: MyCustomFont2">Analysis</h6>
+                <h6 style="position: relative; left:-175px; top:40px; font-size: 27px; font-weight: bolder; color:black; ">나의 인테리어 취향은</h6>
+                <img  src="@/assets/interiorguide_image_list/light.png" width="80" height="40" style="position: relative; top:-5px; left:-25px;">
               </div>
               <div class="analysis-result">
-               <strong style="font-size: 25px; color: black; position: relative; left:-132px; top:10px; text-align: left;">{{ analysisResult }}</strong>
               </div>
-              <div class="analysis-items" style="padding-top: 20px;">
+              <div class="analysis-items" style="padding-top: 20px; position:relative; top:50px; left : -20px">
                 <ul>
-                  <li v-for="(item, index) in analysistext" :key="index" style="text-align:left; position:relative; list-style: none; left:19px;">-&nbsp;{{ item }}</li>
+                  <li v-for="(item, index) in analysistext" :key="index" style="text-align:left; position:relative; list-style: none;  font-size:14px; left:39px;">&nbsp;{{ item }}</li>
                 </ul>
               </div>
-              <div class="tips-section" style="border-top: 1px solid lightgrey; width: 91%; margin: auto; top:20px;">
+              <div style="width: 90%; border-top: 1px solid lightgrey; position: relative; top:75px; margin: auto;"></div>
+              <div class="tips-section" style=" width: 91%; margin: auto; top:80px;">
                 <ul>
-                  <span style="font-size: 16px; position: relative; left:-290px; color:black">Interior Tip</span>
-                  <li v-for="(tips, index) in tip" :key="index" style=" text-align:left; position:relative; list-style: none; left:-12px;">-&nbsp;{{ tips }}</li>
+                  <span style="font-size: 22px; position: relative; left:-200px; top:125px; font-weight: bolder; color:black">인테리어 팁을 드릴게요 !</span>
+                  <li v-for="(tips, index) in tip" :key="index" style=" text-align:left; position:relative; list-style: none; top: 140px; font-size: 14px; left:-12px;">&nbsp;{{ tips }}</li>
                 </ul>
               </div>
-              <div class="color-section">
-                <h3  style="font-size: 16px; position: relative; left:-269px; top:20px; color:black ">Mood Color</h3>
-                <div class="recommended-colors" style="text-align:left; position: relative;  top:20px; left:22px;">
+              <div class="color-section" style="position: relative; top:60px;">
+                <h3  style="font-size: 22px; position: relative; left:-240px; top:85px; color:black;  font-weight: bolder;">Mood Color</h3>
+                <div class="recommended-colors" style="text-align:left; position: relative;  top:90px; left:55px;">
                   <img v-for="(color, index) in color" :key="index" :src="color" alt="추천 색상 이미지" class="recommended-color">
                 </div>
               </div>
             </div>
             <div class="image-section">
-              <h3>홈 스타일</h3>
-            <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
-              <div class="carousel-inner">
-                <div v-for="(image, index) in interiorImages" :key="index" :class="['carousel-item', { 'active': index === 0 }]">
-                  <img :src="image" class="d-block w-100" alt="Interior Image" width="300px;" height="400px;">
+              <div id="carouselExampleFade" class="carousel slide carousel-fade" data-bs-ride="carousel">
+                <div class="carousel-inner">
+                  <div v-for="(image, index) in interiorImages" :key="index" :class="['carousel-item', { 'active': index === 0 }]">
+                    <img :src="image" class="d-block w-100" alt="Interior Image" width="800px;" height="630px;" style="border-radius: 10px;">
+                  </div>
                 </div>
+                <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
+                  <span class="carousel-control-prev-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Previous</span>
+                </button>
+                <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
+                  <span class="carousel-control-next-icon" aria-hidden="true"></span>
+                  <span class="visually-hidden">Next</span>
+                </button>
               </div>
-              <button class="carousel-control-prev" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="prev">
-                <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Previous</span>
-              </button>
-              <button class="carousel-control-next" type="button" data-bs-target="#carouselExampleFade" data-bs-slide="next">
-                <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                <span class="visually-hidden">Next</span>
-              </button>
-            </div>
             </div>
           </div>
         </div>
@@ -111,55 +110,72 @@ export default {
       isLoading: false,
       textContent: "원하는 인테리어 스타일 3가지를 선택하면 취향에 맞게 결과를 분석해드립니다.",
       firstStepImages: [
-        { src: require('@/assets/interiorguide_image_list/natural.png')},
-        { src: require('@/assets/interiorguide_image_list/natural2.png')},
-        { src:require('@/assets/interiorguide_image_list/modern.png')},
-        { src: require('@/assets/interiorguide_image_list/natural3.png')},
-        { src: require('@/assets/interiorguide_image_list/simple.png')},
-        { src: require('@/assets/interiorguide_image_list/modern2.png')},
-        { src: require('@/assets/interiorguide_image_list/classic.jpg')},
-        { src: require('@/assets/interiorguide_image_list/simpl2.png')},
-        { src: require('@/assets/interiorguide_image_list/vintage2.png')},
-        { src: require('@/assets/interiorguide_image_list/classic2.jpg')},
-        { src: require('@/assets/interiorguide_image_list/modern3.png')},
-        { src: require('@/assets/interiorguide_image_list/vintage.png')},
-        { src: require('@/assets/interiorguide_image_list/natural.png')},
-        { src: require('@/assets/interiorguide_image_list/natural2.png')},
-        { src:require('@/assets/interiorguide_image_list/modern4.png')},
-        { src: require('@/assets/interiorguide_image_list/natural4.png')},
-        { src: require('@/assets/interiorguide_image_list/simple3.png')},
-        { src: require('@/assets/interiorguide_image_list/vintage3.png')}
+        { src: require('@/assets/interiorguide_image_list/modern1.jpg')},
+        { src:require('@/assets/interiorguide_image_list/simple1.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro1.jpg')},
+        { src: require('@/assets/interiorguide_image_list/n1.webp')},
+        { src: require('@/assets/interiorguide_image_list/modern2.jpg')},
+        { src: require('@/assets/interiorguide_image_list/simple2.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro2.jpg')},
+        { src: require('@/assets/interiorguide_image_list/n2.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely3.jpg')},
+        { src: require('@/assets/interiorguide_image_list/modern3.jpg')},
+        { src: require('@/assets/interiorguide_image_list/simple3.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro3.jpg')},
+        { src:require('@/assets/interiorguide_image_list/n3.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/modern4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/simple4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/n4.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/simple5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/modern5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/retro5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/n5.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely1.jpg')},
+        { src: require('@/assets/interiorguide_image_list/lovely2.jpg')},
         // Add more images here
       ],  secondStepImages: [
         // 새로운 17개 이미지 배열을 여기에 추가하세요.
         { src: require('@/assets/interiorguide_image_list/color/Teal.png')},
-        { src: require('@/assets/interiorguide_image_list/color/Brown.png')},
+        { src: require('@/assets/interiorguide_image_list/color/lovely.png')},
         { src: require('@/assets/interiorguide_image_list/color/Green.png')},
-        { src: require('@/assets/interiorguide_image_list/color/Lavender blue.png')},
-        { src: require('@/assets/interiorguide_image_list/color/Navy.png')},
+        { src: require('@/assets/interiorguide_image_list/color/Blue.png')},
+        { src: require('@/assets/interiorguide_image_list/color/white.png')},
         { src: require('@/assets/interiorguide_image_list/color/Netural.png')},
-        { src: require('@/assets/interiorguide_image_list/color/Orange.png')},
+        { src: require('@/assets/interiorguide_image_list/color/black.png')},
         { src: require('@/assets/interiorguide_image_list/color/PurPle.png')},
         { src: require('@/assets/interiorguide_image_list/color/Red.png')},
         { src: require('@/assets/interiorguide_image_list/color/Blue.png')},
         { src: require('@/assets/interiorguide_image_list/color/Yellow.png')},
       ], thirdStepImages: [
         // 새로운 17개 이미지 배열을 여기에 추가하세요.
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-natural.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-vintage4.png')},
-        { src:require('@/assets/interiorguide_image_list/furniture/furniture-vintage3.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-natural2.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-vintage2.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-natural3.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-vintage.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-natural4.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-simple3.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-modern.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-simple2.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-modern2.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-simple.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-modern3.png')},
-        { src: require('@/assets/interiorguide_image_list/furniture/furniture-vintage5.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/l1l1l.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/m1m1.png')},
+        { src:require('@/assets/interiorguide_image_list/furniture/n1n1.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/s1s1.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/v1v1.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/l2l2.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/m2m2.png')},
+        { src:require('@/assets/interiorguide_image_list/furniture/n2n2.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/s2s2.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/v2v2.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/l3l3.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/m3m3.png')},
+        { src:require('@/assets/interiorguide_image_list/furniture/n3n3.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/s3s3.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/v3v3.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/l4l4.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/m4m4.png')},
+        { src:require('@/assets/interiorguide_image_list/furniture/n4n4.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/s4s4.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/v4v4.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/l5ll5.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/m5m5.png')},
+        { src:require('@/assets/interiorguide_image_list/furniture/n5n5.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/s5s5.png')},
+        { src: require('@/assets/interiorguide_image_list/furniture/v5v5.png')},
       ],
       selectedImages: [],
       showAnalysis: false,
@@ -183,7 +199,7 @@ export default {
         'modern': '1',
         'natural': '2',
         'vintage': '3',
-        'classic': '4',
+        'lovely': '4',
         'simple': '5'
       },
 
@@ -202,7 +218,7 @@ export default {
         return this.thirdStepImages; // 세 번째 단계 이미지를 반환하도록 추가
       }
     }
-    },
+  },
   methods: {
     async test() {
       // 여러 ID를 배열로 관리
@@ -296,51 +312,25 @@ export default {
           // 스타일 별로 점수를 계산
           // 각 이미지에 대한 스타일 태그
           const imageStyles = {
-            '2': ['modern'],
-            '5': ['modern', 'classic'],
-            '10': ['modern', 'natural'],
-            '4': ['simple'],
-            '7': ['simple', 'classic'],
-            '16': ['simple'],
-            '0': ['natural'],
-            '1': ['natural'],
-            '3': ['natural'],
-            '15': ['natural'],
-            '8': ['vintage'],
-            '11': ['vintage'],
-            '17': ['vintage'],
+            '0': ['modern'], '1': ['simple'], '2': ['vintage'],
+            '3': ['natural'], '4': ['modern'], '5': ['simple'], '6': ['vintage'], '7': ['natural'],
+            '8': ['lovely'], '9': ['modern'], '10': ['simple'], '11': ['vintage'], '12': ['natural'],
+            '13': ['lovely'], '14': ['modern'], '15': ['simple'], '16': ['vintage'], '17': ['natural'],
+            '18': ['lovely'], '19': ['modern'], '20': ['simple'], '21': ['vintage'], '22': ['natural'],   '23': ['lovely'],'24': ['lovely'],
           };
 
           const imageStyles2 = {
-            '0': ['modern', 'simple', 'natural', 'classic'],
-            '1': ['modern', 'natural', 'vintage'],
-            '2': ['natural'],
-            '3': ['natural'],
-            '4': ['natural'],
-            '5': ['natural'],
-            '6': ['vintage'],
-            '7': ['simple'],
-            '8': ['vintage'],
-            '9': ['simple'],
-            '10': ['vintage'],
+            '0': ['modern', 'simple', 'natural', 'classic'], '1': ['modern', 'natural', 'vintage'], '2': ['natural'],
+            '3': ['natural'], '4': ['natural'], '5': ['natural'], '6': ['vintage'], '7': ['simple'], '8': ['vintage'],
+            '9': ['simple'], '10': ['vintage'],
           };
 
           const imageStyles3 = {
-            '0': ['natural'],
-            '1': ['vintage', 'classic'],
-            '2': ['vintage'],
-            '3': ['natural'],
-            '4': ['vintage', 'classic'],
-            '5': ['natural'],
-            '6': ['vintage'],
-            '7': ['natural'],
-            '8': ['simple'],
-            '9': ['modern'],
-            '10': ['simple'],
-            '11': ['modern'],
-            '12': ['simple'],
-            '13': ['modern'],
-            '14': ['vintage'],
+            '0': ['lovely'], '1': ['modern'], '2': ['natural'], '3': ['simple'], '4': ['vintage'],
+            '5': ['lovely'], '6': ['modern'], '7': ['natural'], '8': ['simple'], '9': ['vintage'],
+            '10': ['lovely'], '11': ['modern'], '12': ['natural'], '13': ['simple'], '14': ['vintage'],
+            '15': ['lovely'], '16': ['modern'], '17': ['natural'], '18': ['simple'], '19': ['vintage'],
+            '20': ['lovely'], '21': ['modern'], '22': ['natural'], '23': ['simple'], '24': ['vintage'],
           };
 
           let styleScores = {
@@ -402,7 +392,9 @@ export default {
                 this.analysistext = response.data.about;
                 this.tip = response.data.tips;
                 this.color = response.data.color.map(colorPath => `http://jerry6475.iptime.org:20000${colorPath}`);
+                console.log('dd',this.color);
                 this.interiorImages = response.data.interiorImage.map(imagePath => `http://jerry6475.iptime.org:20000${imagePath}`);
+                console.log('aa',this.interiorImages);
                 this.showModal = true;
               })
               .catch(error => {
@@ -450,14 +442,13 @@ export default {
 .left-section {
   flex: 1;
   padding: 20px;
-  position: sticky;
+  position: fixed;
   height:70vh;
   top:170px;
 }
 
 
 .right-section {
-  flex: 1;
   padding: 20px;
   display: flex;
   flex-direction: column;
@@ -585,7 +576,7 @@ export default {
 }
 .recommended-images img, .recommended-colors img {
   width: 100px;
-  height: 100px;
+  height: 85px;
   margin: 5px;
 }
 .content-layout {
@@ -594,11 +585,13 @@ export default {
 }
 
 .text-section {
-  width: 50%;
+  width: 53%;
+  background-color: #FAFAFA;
+  border-radius: 10px;
 }
 
 .image-section {
-  width: 50%;
+  width: 47%;
 }
 
 .recommended-image {
