@@ -1,4 +1,3 @@
-
 <template>
   <div class="introduce">
     <div class="int-first-title">
@@ -36,9 +35,11 @@
         <br> <span style="position: relative; left:-190px;">영감을 주는 공간,</span>
         <br> <span style="position: relative; left:-145px;">함께 만드는 아름다움을</span> <br>
         <span style="position: relative; left:-180px;">선호하고 있습니다.</span>
-        <div style="width: 300px; height: 300px; background-color: white; border-radius: 13px; border: 1px solid white; position: relative; top:-250px;left:65%; box-shadow: 100px 100px 100px rgba(0, 0, 0, 0.1);">
+        <div
+            style="width: 300px; height: 300px; background-color: white; border-radius: 13px; border: 1px solid white; position: relative; top:-250px;left:65%; box-shadow: 100px 100px 100px rgba(0, 0, 0, 0.1);">
           <div class="card" style="width: 320px; height: 310px;">
-            <dotlottie-player src="https://assets10.lottiefiles.com/packages/lf20_x62chJ.json" background="transparent" speed="0.8" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
+            <dotlottie-player src="https://assets10.lottiefiles.com/packages/lf20_x62chJ.json" background="transparent"
+                              speed="0.8" style="width: 300px; height: 300px;" loop autoplay></dotlottie-player>
 
           </div>
         </div>
@@ -47,7 +48,8 @@
 
     <div class="int-main-content" style="font-family: MyCustomFont5; font-size: 20px;">
 <span style="position: relative; left:10px;" class="main-content-style">
-      <span style="position: relative; left:-170px;"><span style=" transform: skewX(1deg); font-style: italic; font-size: 40px;">ZIP</span>&nbsp;은 콘텐츠, 커뮤니티, 커머스를 연결한 독창적 서비스로<br></span>
+      <span style="position: relative; left:-170px;"><span
+          style=" transform: skewX(1deg); font-style: italic; font-size: 40px;">ZIP</span>&nbsp;은 콘텐츠, 커뮤니티, 커머스를 연결한 독창적 서비스로<br></span>
         <span style="position: relative; left:87px;">전 국민 사람들의 라이프스타일에 영감을 주고,</span>
         <span style="position: relative; left:-568px; top:50px;">꿈꾸던 삶을 현실로 만드는 도전을 하고 있습니다.</span>
         </span>
@@ -63,7 +65,8 @@
         <div>
           <img src="@/assets/intreoduce_image_list/intro-board.png" width="950px">
           <span>
-      <span style="font-family: MyCustomFont5; font-size: 25px;  font-weight: bolder; color: black">영감 가득한 유저들의 콘텐츠</span>
+      <span
+          style="font-family: MyCustomFont5; font-size: 25px;  font-weight: bolder; color: black">영감 가득한 유저들의 콘텐츠</span>
     <span>온라인 집들이부터 특별한 경험, 일상의 단면까지,좋아하는 거로 삶을  </span>
      <span>채워나가는 유저들의 생생한 이야기들이 모여 다른 사람들의 영감이 됩니다.</span>
     </span>
@@ -71,13 +74,14 @@
         <div>
           <img src="@/assets/intreoduce_image_list/intro-community.png" width="650px">
           <span>
-      <span style="font-family: MyCustomFont5; font-size: 25px;  font-weight: bolder; color: black">유저들이 취향을 나누는 커뮤니티</span>
+      <span
+          style="font-family: MyCustomFont5; font-size: 25px;  font-weight: bolder; color: black">유저들이 취향을 나누는 커뮤니티</span>
     <span>다채로운 관심사를 가진 사람들이 모여 정보를 얻고,</span>
       <span>서로 공감하면서 긍정적인 영향을 주고받는 커뮤니티 생태계를 만듭니다.</span>
     </span>
         </div>
         <div>
-          <img src="@/assets/intreoduce_image_list/intro-competition.png" >
+          <img src="@/assets/intreoduce_image_list/intro-competition.png">
           <span>
       <span style="font-family: MyCustomFont5; font-size: 25px;  font-weight: bolder; color: black">다양한 연령층들이 참가할 수 있는 공모전 대회</span>
     <span>다채로운 관심사를 가진 사람들이 모여 대회를 참가할 수 있고,</span>
@@ -95,32 +99,32 @@ export default {
   data() {
     return {
       images: [
-        { src: require('@/assets/interiorguide_image_list/lovely1.jpg')},
-        { src: require('@/assets/interiorguide_image_list/modern1.jpg')},
-        { src:require('@/assets/interiorguide_image_list/simple1.jpg')},
-        { src: require('@/assets/interiorguide_image_list/retro1.jpg')},
-        { src: require('@/assets/interiorguide_image_list/n1.webp')},
-        { src: require('@/assets/interiorguide_image_list/modern2.jpg')},
-        { src: require('@/assets/interiorguide_image_list/simple2.jpg')},
-        { src: require('@/assets/interiorguide_image_list/retro2.jpg')},
-        { src: require('@/assets/interiorguide_image_list/n2.jpg')},
-        { src: require('@/assets/interiorguide_image_list/lovely3.jpg')},
-        { src: require('@/assets/interiorguide_image_list/modern3.jpg')},
-        { src: require('@/assets/interiorguide_image_list/simple3.jpg')},
-        { src: require('@/assets/interiorguide_image_list/retro3.jpg')},
-        { src:require('@/assets/interiorguide_image_list/n3.jpg')},
-        { src: require('@/assets/interiorguide_image_list/lovely4.jpg')},
-        { src: require('@/assets/interiorguide_image_list/modern4.jpg')},
-        { src: require('@/assets/interiorguide_image_list/simple4.jpg')},
-        { src: require('@/assets/interiorguide_image_list/retro4.jpg')},
-        { src: require('@/assets/interiorguide_image_list/n4.jpg')},
-        { src: require('@/assets/interiorguide_image_list/lovely5.jpg')},
-        { src: require('@/assets/interiorguide_image_list/simple5.jpg')},
-        { src: require('@/assets/interiorguide_image_list/modern5.jpg')},
-        { src: require('@/assets/interiorguide_image_list/retro5.jpg')},
-        { src: require('@/assets/interiorguide_image_list/n5.jpg')},
-        { src: require('@/assets/interiorguide_image_list/lovely1.jpg')},
-        { src: require('@/assets/interiorguide_image_list/lovely2.jpg')},
+        require('@/assets/interiorguide_image_list/lovely1.jpg'),
+        require('@/assets/interiorguide_image_list/modern1.jpg'),
+        require('@/assets/interiorguide_image_list/simple1.jpg'),
+        require('@/assets/interiorguide_image_list/retro1.jpg'),
+        require('@/assets/interiorguide_image_list/n1.webp'),
+        require('@/assets/interiorguide_image_list/modern2.jpg'),
+        require('@/assets/interiorguide_image_list/simple2.jpg'),
+        require('@/assets/interiorguide_image_list/retro2.jpg'),
+        require('@/assets/interiorguide_image_list/n2.jpg'),
+        require('@/assets/interiorguide_image_list/lovely3.jpg'),
+        require('@/assets/interiorguide_image_list/modern3.jpg'),
+        require('@/assets/interiorguide_image_list/simple3.jpg'),
+        require('@/assets/interiorguide_image_list/retro3.jpg'),
+        require('@/assets/interiorguide_image_list/n3.jpg'),
+        require('@/assets/interiorguide_image_list/lovely4.jpg'),
+        require('@/assets/interiorguide_image_list/modern4.jpg'),
+        require('@/assets/interiorguide_image_list/simple4.jpg'),
+        require('@/assets/interiorguide_image_list/retro4.jpg'),
+        require('@/assets/interiorguide_image_list/n4.jpg'),
+        require('@/assets/interiorguide_image_list/lovely5.jpg'),
+        require('@/assets/interiorguide_image_list/simple5.jpg'),
+        require('@/assets/interiorguide_image_list/modern5.jpg'),
+        require('@/assets/interiorguide_image_list/retro5.jpg'),
+        require('@/assets/interiorguide_image_list/n5.jpg'),
+        require('@/assets/interiorguide_image_list/lovely1.jpg'),
+        require('@/assets/interiorguide_image_list/lovely2.jpg'),
       ],
       currentIndex: 0,
     };
@@ -161,7 +165,6 @@ export default {
   font-weight: normal;
   font-style: normal;
 }
-
 
 
 .int-first-title {
@@ -264,12 +267,12 @@ body {
   align-items: center;
   justify-content: center;
   position: relative;
-  top:100px;
+  top: 100px;
 }
 
 .image-int div {
   margin: 20px 0;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
   border-radius: 8px;
   overflow: hidden;
   background-color: #ffffff;

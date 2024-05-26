@@ -1,6 +1,6 @@
 <template>
   <div class="header">
-      <button @click="chatgoing"><router-link :to="isUserLogin ?`/chat/${this.userId}` :'login'">채팅 하기</router-link></button>
+      <!-- <button @click="chatgoing"><router-link :to="isUserLogin ?`/chat/${this.userId}` :'login'">채팅 하기</router-link></button> -->
     <div class="menu">
       <h4>
         <router-link
@@ -11,7 +11,7 @@
           {{ menu }}
         </router-link>
       </h4>
-      <img src="../assets/ziplogo.png" style="position: relative; left:-650px; top:-95px;  width: 120px; /* 로고 이미지 크기 조정 */">
+      <img src="../assets/ziplogo.png" style="position: relative; left:-640px; top:-85px;  width: 100px; /* 로고 이미지 크기 조정 */">
     </div>
     <div class="navigations">
 
@@ -32,7 +32,7 @@
         </div>
 
 
-          <button @click="chatseesion"><router-link :to="isUserLogin ?`/chatroom/${this.userId}` :'login'"> <img class="chat-image" src="@/assets/chat.png" alt="채팅"
+          <button style="background-color: white; border: white; position: relative;" @click="chatseesion"><router-link :to="isUserLogin ?`/chatroom/${this.userId}` :'login'"> <img class="chat-image" src="@/assets/chat.png" alt="채팅"
           ></router-link></button>
 
 
@@ -176,8 +176,8 @@ export default {
 }
 
 .header {
-  padding: 5px;
-  height: 110px;
+  padding: 10px;
+  height: 120px;
 }
 
 @font-face {
@@ -214,7 +214,7 @@ div {
 #header-board-write {
   position: relative;
   left: 470px;
-  top: -205px;
+  top: -190px;
   border-radius: 11px;
   border-color: black;
   font-size: 13px;
@@ -271,7 +271,7 @@ div {
   width: 47px;
   height: 47px;
   position: relative;
-  top: -205px;
+  top: -190px;
   left: 420px;
   padding: 10px;
 }
@@ -280,7 +280,7 @@ div {
   width: 59px;
   height: 59px;
   position: relative;
-  top: -208px;
+  top: -193px;
   left: 365px;
   padding: 10px;
 }
@@ -289,8 +289,8 @@ div {
   width: 56px;
   height: 56px;
   position: relative;
-  top: -157px;
-  left: 490px;
+  top: -142px;
+  left: 483px;
   padding: 8px;
 }
 
