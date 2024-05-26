@@ -31,6 +31,30 @@ const routes = [
         path: '/my-page/:nickname',
         name: 'MyPageView',
         component: MyPageView
+    },{
+        path: '/my-page/:articleId',
+        name: 'GeneralBoardPage',
+        component: GeneralBoardPage
+    },
+    {
+        path: '/scrap/:nickname',
+        name: 'MyPageView',
+        component: MyPageView
+    },
+    {
+        path: '/scrap/:articleId',
+        name: 'GeneralBoardPage',
+        component: GeneralBoardPage
+    },
+    {
+        path: '/like/:nickname',
+        name: 'MyPageView',
+        component: MyPageView
+    },
+    {
+        path: '/like/:articleId',
+        name: 'GeneralBoardPage',
+        component: GeneralBoardPage
     },
     { path: '/setting', component: SettingView },
     { path: '/leave', component: LeaveMembership },

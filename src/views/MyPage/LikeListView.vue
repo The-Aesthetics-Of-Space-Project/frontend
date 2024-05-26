@@ -1,7 +1,7 @@
 <template>
   <div id="likeList">
     <div class="content-wrapper">
-      <div class="grid-container">
+      <div class="grid-container article-grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
             <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
@@ -11,11 +11,17 @@
             <span style="cursor: pointer;">{{ post.title }}</span>
           </section>
           <section class="content-title-wrapper">
+            <section class="heart-contents">
+              <img src="@/assets/mypage_icon/like.png" alt="Like Icon" width="35px" height="35px">
+              <section class="count-number">
+                <span>{{ post.likeCount }}</span>
+              </section>
+            </section>
             <section class="content-nickname">
               <section class="user-profile">
                 <img :src="post.profile" alt="User Profile" class="profile-img">
               </section>
-              <span @click="goToUserDetails(post.userId)">{{ post.userId }}</span>
+              <span style="font-size: 15px; font-weight:550; cursor: pointer;" @click="goToUserDetails(post.nickname)">{{ post.nickname }}</span>
             </section>
           </section>
         </div>
@@ -33,13 +39,12 @@ export default {
   data() {
     return {
       posts: {
-        title: '',
-        nickname: '',
-        thumbnail: '',
-        profile: '',
-        likeCount: '',
         articleId: '',
-        userId: ''
+        title: '',
+        thumbnail: '',
+        nickname: '',
+        likeCount: '',
+        profile: '',
       },
       liked: '',
       heartImg: require('@/assets/mypage_icon/like.png'),
@@ -54,7 +59,7 @@ export default {
   methods: {
     async fetchPosts() {
       try {
-        const res = await api.getPost(`/users/scraps?userId=${encodeURIComponent(this.userId)}`);
+        const res = await api.getPost(`/users/likes?userId=${encodeURIComponent(this.userId)}`);
         this.posts = res.data;
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
         console.error('response posts:', res);
@@ -64,22 +69,18 @@ export default {
     },
     /* 해당 게시글로 이동 */
     goToPostDetails(articleId) {
-      this.$router.push({
-        path: "GeneralBoardPage",
-        query: {articleId: articleId}
-      });
+      console.log("찍어봐요 articleId",articleId);
+      this.$router.push({path: "GeneralBoardPage", params: {articleId: articleId}});
     },
     /* 해당 유저 페이지로 이동 */
-    goToUserDetails(userId){
-      // 게시글로부터 얻은 userId
-      console.log("내가 클릭한 userId 알려줘: ",userId);
-      this.$router.push({name: 'MyPageView', params: {userId: userId}});
+    goToUserDetails(nickname){
+      this.$router.push({path: "MyPageView", params: {nickname: nickname}});
     }
   },
 };
 </script>
 
-<style>
+<style scoped>
 #likeList{
   font-family: inherit;
   -webkit-font-smoothing: antialiased;
@@ -87,13 +88,13 @@ export default {
   text-align: center;
   position: relative;
   width:100%;
-  height:1200px;
   margin: 0;
 }
 .content-wrapper {
   display: flex;
   flex-direction: column;
   align-items: center;
+  margin-top: 170px;
 }
 .grid-container {
   display: flex;
@@ -102,11 +103,17 @@ export default {
   gap: 20px;
   width: 100%;
   max-width: 1200px;
-  margin-top: 80px;
+}
+.article-grid-container {
+  /*
+   * grid-contianer css가 전역적으로 적용되고 있어서 게시판 grid-container를 추가
+   * (기존 grid-container의 속성을 무시하기 위해 important 설정)
+   */
+  display: grid !important;
+  grid-template-columns: 1fr 1fr 1fr !important;
 }
 .box-content {
   flex: 1 1 calc(33.333% - 40px);
-  max-width: calc(33.333% - 40px);
   border: 1px solid #ddd;
   height: 430px;
   border-radius: 10px;

@@ -21,7 +21,7 @@
               <section class="user-profile">
                 <img :src="post.profile" alt="User Profile" class="profile-img">
               </section>
-              <span @click="goToUserDetails(user.userId)">{{ post.nickname }}</span>
+              <span style="font-size: 15px; font-weight:550; cursor: pointer;" @click="goToUserDetails(post.nickname)">{{ post.nickname }}</span>
             </section>
           </section>
         </div>
@@ -45,6 +45,7 @@ export default {
         thumbnail: '',
         nickname: '',
         likeCount: '',
+        profile: '',
       },
       liked: '',
       heartImg: require('@/assets/mypage_icon/like.png'),
@@ -67,16 +68,16 @@ export default {
       }
     },
     goToPostDetails(articleId) {
-      this.$router.push({
-        path: "GeneralBoardPage",
-        query: {articleId: articleId}
-      });
+      this.$router.push({path: "GeneralBoardPage", params: {articleId: articleId}});
     },
+    goToUserDetails(nickname){
+      this.$router.push({path: "MyPageView", params: {nickname: nickname}});
+    }
   },
 };
 </script>
 
-<style>
+<style scoped>
 #scrapList{
   font-family: inherit;
   -webkit-font-smoothing: antialiased;

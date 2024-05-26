@@ -231,7 +231,7 @@ export default {
 };
 </script>
 
-<style>
+<style scoped>
 #setting {
   font-family: inherit;
   -webkit-font-smoothing: antialiased;
@@ -239,7 +239,7 @@ export default {
   text-align: center;
   position: relative;
   width: 100%;
-  height: 800px;
+  height: 1000px;
   margin: 0;
   align-content: center;
 }
@@ -252,7 +252,7 @@ export default {
   position: relative;
   width: 80%;
   height: 100%;
-  top: 8em;
+  top: 5em;
   margin: auto;
 }
 .header-container{
