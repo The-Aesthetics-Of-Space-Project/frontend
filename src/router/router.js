@@ -25,6 +25,7 @@ import CompetitionWrite from "@/views/Competition/CompetitionWrite.vue";
 import CompetitionPoster from "@/views/Competition/CompetitionPoster.vue";
 import CompetitionPage from "@/views/Competition/CompetitionPage.vue";
 import CompetitionReWrite from "@/views/Competition/CompetitionReWrite.vue";
+import ObjectRecogView from "@/views/ObjectRecognition/ObjectRecogView.vue";
 
 Vue.use(VueRouter)
 /*  경로 설정*/
@@ -101,7 +102,7 @@ const routes = [
     { path: '/scrap', component: ScrapListView, meta: {hideHeader: false, hideFooter: false}},
     { path: '/like', component: LikeListView, meta: {hideHeader: false, hideFooter: false }},
     { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
-    { path: '/objectrecognition', component: ObjectRecognitionView, meta: {hideHeader: false, hideFooter: true }},
+    { path: '/objectrecognition', component: ObjectRecogView, meta: {hideHeader: false, hideFooter: true }},
     { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/generalReWrite', component: GeneralReWrite, meta: {hideHeader: false, hideFooter: true }},
