@@ -148,7 +148,7 @@ export default {
         { src: require('@/assets/interiorguide_image_list/color/black.png')},
         { src: require('@/assets/interiorguide_image_list/color/PurPle.png')},
         { src: require('@/assets/interiorguide_image_list/color/Red.png')},
-        { src: require('@/assets/interiorguide_image_list/color/Blue.png')},
+        {src: require('@/assets/interiorguide_image_list/color/brown.png')},
         { src: require('@/assets/interiorguide_image_list/color/Yellow.png')},
       ], thirdStepImages: [
         // 새로운 17개 이미지 배열을 여기에 추가하세요.
