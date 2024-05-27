@@ -34,7 +34,7 @@
   }
   .modal-window {
     max-width: 1400px;
-    width: 150%; /* 모달 창의 너비 설정 */
+    width: auto; /* 모달 창의 너비 설정 */
     max-height: 1200px;
   }
   &-window {
