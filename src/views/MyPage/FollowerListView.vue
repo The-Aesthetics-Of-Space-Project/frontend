@@ -3,20 +3,25 @@
     <div class="follower-container">
       <div class="follower-wrapper" v-for="follower in followers" :key="follower.userId">
         <section class="list-profile-img-container">
+          <router-link :to="{ name: 'MyPageView', query: {nickname: follower.nickname} }">
           <img :src="follower.profile" style="width: 76px; height: 76px; border: 1px solid black; border-radius: 50%;" />
+          </router-link>
         </section>
         <section class="list-name-container">
+          <router-link :to="{ name: 'MyPageView', query: {nickname: follower.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
           <section class="list-userId-container">
             {{ follower.userId }}
           </section>
-            <section class="list-nickName-container">
+          </router-link>
+          <router-link :to="{ name: 'MyPageView', query: {nickname: follower.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
+          <section class="list-nickName-container">
             {{ follower.nickname }}
           </section>
+          </router-link>
         </section>
         <section class="list-follower-delete-btn">
           <button class="follower-delete-btn" @click="deleteFollow(follower.userId)"> 삭제 </button>
         </section>
-
       </div>
     </div>
   </div>

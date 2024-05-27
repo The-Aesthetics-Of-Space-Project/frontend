@@ -78,7 +78,7 @@
                   <!-- 스크랩 -->
                   <section class="scrap-content"><router-link to="/scrap"><a> 스크랩북 <br> {{users.scraps}}</a></router-link></section>
                   <!-- 좋아요 -->
-                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> {{users.liked}}</a></router-link></section>
+                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> {{users.likes}}</a></router-link></section>
                 </section>
               </section>
 
@@ -90,40 +90,49 @@
             <section class="right-content">
               <!-- 집들이 -->
               <section class="house-container">
-                <section class="house-header">
+                <section class="house-header" style="font-weight: 750; font-size: 19px;">
                   <a> 집들이 </a>
                 </section>
 
-                <section class="house-content" style="position: relative; width: 100%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+
+                <section class="house-content" style="position: relative; width: 95%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
-                    <section class="user-posts-wrapper" v-for="post in posts" :key="post.id" style=" border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-top: 8px; flex: 0 0 auto; display: flex; flex-direction: column;">
+                    <section class="user-posts-wrapper" v-for="post in posts" :key="post.id" style="height: 270px; border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-left: 15px; margin-top: 13px; flex: 0 0 auto; display: flex; flex-direction: column;">
                       <!-- 게시글 썸네일과 제목 -->
                       <div class="mypage-post-thumbnail" style="width: 300px; height: 220px; border: none;">
-                        <img :src="post.thumbnail" alt="게시글 썸네일" class="thumbnail-image" @click="goToPostDetails(post.articleId)" style="cursor: pointer; border-radius: 12.5%; width: 100%; height: 210px;">
+                        <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer;">
+                        <img :src="post.thumbnail" alt="게시글 썸네일" class="thumbnail-image" style="cursor: pointer; border-radius: 12.5%; width: 100%; height: 210px; top: 15px;">
+                        </router-link>
                       </div>
-                      <div class="post-title" @click="goToPostDetails(post.articleId)" style="cursor: pointer; margin-left: 10px; text-align: left; font-weight: 550;"> <a>{{ post.title }}</a></div>
+                      <router-link :to="{ name: 'post', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size:16px; text-decoration: none; color: rgb(0,0,0,80%);">
+                      <div class="post-title" style="cursor: pointer; margin-left: 10px; text-align: left;"> <a>{{ post.title }}</a></div>
+                      </router-link>
                     </section>
                   </section>
                 </section>
               </section>
               <!-- 공모전 -->
               <section class="competition-container">
-                <section class="competition-header house-header">
+                <section class="competition-header house-header" style="font-weight: 750; font-size: 19px;">
                   <a> 공모전 </a>
                 </section>
-                <section class="competition-content" style="position: relative; width: 100%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+
+                <section class="competition-content" style="position: relative; width: 95%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
-                    <section class="user-posts-contest-wrapper" v-for="contest in contests" :key="contest.id" style=" border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-top: 8px; flex: 0 0 auto; display: flex; flex-direction: column;">
+                    <section class="user-posts-contest-wrapper" v-for="contest in contests" :key="contest.id" style="height: 270px; border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-left: 15px; margin-top: 13px; flex: 0 0 auto; display: flex; flex-direction: column;">
                       <!-- 게시글 썸네일과 제목 -->
                       <div  class="post-thumbnail" style="width: 300px; height: 220px; border: none;">
+                        <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer;">
                         <img :src="contest.thumbnail" alt="게시글 썸네일" class="thumbnail-image" @click="goToPostContest(contest.articleId)" style="border-radius: 12.5%; width: 100%; height: 210px;">
+                        </router-link>
                       </div>
-                      <div class="post-title" @click="goToPostContest(contest.articleId)" style="cursor: pointer; margin-left: 10px; text-align: left; font-weight: 550;">{{ contest.title }}</div>
+                      <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
+                      <div class="post-title" style="cursor: pointer; margin-left: 10px; text-align: left;">{{ contest.title }}</div>
+                      </router-link>
                     </section>
                   </section>
                 </section>
               </section>
-
           </section>
         </section>
       </section>
@@ -157,16 +166,17 @@ export default {
       input: '',
       result:'',
       data: null,
-      nickname: Store.state.nickname,
+      sessionNickname: Store.state.nickname,
+      nickname: '',
       userId: Store.state.userId,
-      baseUrl: 'http://119.198.33.129:8080',
+      getNicknames: '',
       users: {
         userId: '',
         profile: '',
         nickname: '',
         follower: '',
         following: '',
-        liked: '',
+        likes: '',
         scraps: '',
         followed: ''
       },
@@ -185,16 +195,24 @@ export default {
       },
     }
   },
+  computed:{
+    getNickname(){
+      return this.$route.query.nickname;
+    }
+  },
+  created(){
+  },
   mounted(){
-    this.getUser();
-      if(this.nickname){
-        this.getUser();
-        this.getPost();
-        this.getPostContest();
-      }else{
+      this.getNicknames = this.getNickname;
+
+      if(this.getNicknames){
         this.getOtherUser();
         this.getOtherPost();
         this.getOtherPostContest();
+      }else if(!this.getNicknames){
+        this.getUser();
+        this.getPost();
+        this.getPostContest();
       }
   },
   methods:{
@@ -225,9 +243,10 @@ export default {
         }
     },
     /* 본인 아닐때 목록 조회 */
-    async getOtherUser(getNickname){
+    async getOtherUser(){
         try {
-          const args = `/users/details?userId=${getNickname})`;
+          const args = `/users/details?userId=${this.getNicknames}`;
+          console.log("args; ", args);
           const res = await api.getUserInfo(args);
           this.users = res.data;
         } catch (error) {
@@ -245,9 +264,9 @@ export default {
       }
     },
     /* 본인 아닐 때 게시글 목록 조회 */
-    async getOtherPost(getNickname){
+    async getOtherPost(){
       try {
-        const args = `/users/posts?userId=${getNickname}`;
+        const args = `/users/posts?userId=${this.getNicknames}`;
         const res = await api.getPost(args);
         this.posts = res.data;
       } catch (error) {
@@ -265,9 +284,9 @@ export default {
       }
     },
     /* 본인 아닐 때 공모전 목록 조회 */
-    async getOtherPostContest(getNickname){
+    async getOtherPostContest(){
       try {
-        const args = `/users/posts?userId=${getNickname}`;
+        const args = `/users/posts?userId=${this.getNicknames}`;
         const res = await api.getPost(args);
         this.contests = res.data;
       } catch (error) {
@@ -275,13 +294,24 @@ export default {
       }
     },
     async fetchImg(){
-      try {
-        const args = `/users/image?userId=${this.nickname}`;
-        const res = await axios.get(args);
-        this.users.profile = res.data; // API 응답 데이터를 posts에 저장
-      } catch (error) {
-        console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
+      if(!this.getNicknames){
+        try {
+          const args = `/users/image?userId=${encodeURIComponent(this.userId)}`;
+          const res = await api.getUserInfo(args);
+          this.users.profile = res.data; // API 응답 데이터를 posts에 저장
+        } catch (error) {
+          console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
+        }
+      }else{
+        try {
+          const args = `/users/image?userId=${this.getNicknames}`;
+          const res = await api.get(args);
+          this.users.profile = res.data; // API 응답 데이터를 posts에 저장
+        } catch (error) {
+          console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
+        }
       }
+
     },
     copyUrl(){
       const pageUrl = window.location.href; // 현재 페이지의 URL
@@ -327,7 +357,6 @@ export default {
 
 <style scoped>
 #my-page{
-  font-family: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
@@ -350,9 +379,10 @@ export default {
   grid-template-rows: 1fr;
   width: 17%;
   height: 8%;
-  left: 33em;
-  font-size: 19px;
+  left: 34em;
+  font-size: 20px;
   gap: 4px;
+  top: -1.5em;
 }
 .container-header-wrapper-profile{
   position: relative;
@@ -400,11 +430,11 @@ export default {
 }
 .left-container{
   position: relative;
-  width: 26%;
+  width: 25%;
   height: 790px;
   border: 1px solid #CCC5C5;
   border-radius: 10px;
-  left: 13em;
+  left: 11em;
 }
 .left-content{
   position: relative;
@@ -448,7 +478,7 @@ export default {
   position: relative;
   width: 100%;
   height: 5%;
-  top: 5px;
+  top: 15px;
   margin: auto;
 }
 .nickname-content{
@@ -462,7 +492,7 @@ export default {
 /* 채팅 */
 .chat-container{
   position: relative;
-  top: 11px;
+  top: 25px;
   width: 80%;
   height: 6%;
   margin: auto;
@@ -505,7 +535,7 @@ export default {
   position: relative;
   width: 80%;
   left: 2em;
-  top: 1.5em;
+  top: 2em;
   margin: auto;
 }
 .follower-following-wrapper{
@@ -550,7 +580,7 @@ export default {
 .follow-list-container{
   position: relative;
   width: 100%;
-  top: 2.5em;
+  top: 3.8em;
   margin: auto;
 }
 .follow-list-wrapper{
@@ -609,13 +639,12 @@ export default {
   color: #787575;
   align-items: center;
 }
-
 /* 구분선 */
 .line-container{
   position: relative;
   width: 80%;
   height: 5%;
-  top: 3.2em;
+  top: 4.6em;
   margin: auto;
   align-items: center;
   align-content: center;
@@ -630,7 +659,7 @@ hr{
   position: relative;
   width: 100%;
   height: 20%;
-  top: 3.2em;
+  top: 4.7em;
   margin: auto;
 }
 .content-under-wrapper{
@@ -704,7 +733,7 @@ hr{
 .right-container{
   position: relative;
   top: 10px;
-  left: 17em;
+  left: 20em;
   width: 50%;
 }
 .right-content{
