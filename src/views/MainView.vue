@@ -113,12 +113,12 @@
           <div class="card-list">
             <div class="card" v-for="(card, index) in cardsa" :key="index">
               <div class="card-body">
-                <h5 class="card-title">{{ card.title }}</h5>
+                <h5 class="card-title" style="font-size: 16px; color: #333333; font-weight: bolder;">{{ card.title }}</h5>
                 <img :src="card.thumbnail" alt=" " height="310" width="310">
               </div>
               <img src="@/assets/mypage_icon/like.png" height="25" width="25" style="position: relative; left:85%; top:10%;">
               <span style="position: relative; left:45%; top:3.8%;">{{ card.likeCount }}</span>
-              <h5 class="card-title" style="position:relative; top:50px;">{{ card.nickname }}</h5>
+              <h5 class="card-title" style="position:relative; top:50px; font-size: 16px;">{{ card.nickname }}의 게시물</h5>
             </div>
 
           </div>

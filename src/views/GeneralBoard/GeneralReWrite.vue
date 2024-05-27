@@ -264,6 +264,10 @@ export default {
     },
     /* 발행하기 버튼 클릭 시 실행 */
     postArticle(){
+      if(!this.posts.title){
+      alert('제목을 입력하세요.');
+      return;
+    }
       this.posts.content = this.editor.getMarkdown();
       const articleData = {
         title: this.posts.title,
@@ -278,6 +282,7 @@ export default {
       // 수정 요청 보내기
       api.editPost(args, params)
           .then(res => {
+            alert('게시물이 성공적으로 수정되었습니다');
             console.log('게시물이 성공적으로 수정되었습니다.', res);
             this.$router.push('/generalBoard');
           })
