@@ -232,6 +232,7 @@ export default {
       const params = formData;
       await api.updateUser(args, params).then(res => {
         console.log("수정 성공: ", res);
+        this.$router.push('my-page');
         alert('수정하였습니다.');
         for (let key of formData.keys()) {
           console.log(key, ":", formData.get(key));

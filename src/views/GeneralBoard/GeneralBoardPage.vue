@@ -176,8 +176,8 @@ export default {
     this.getArticleId = this.$route.params.articleId;
   },
   methods: {
-    chatgoing() {
-      axios.get(`http://jerry6475.iptime.org:20000/chat/${encodeURIComponent(this.userId)}`)
+    async chatgoing() {
+      await api.getChatUserId(`/chat/${encodeURIComponent(this.userId)}`)
           .then(res => {
             this.users = res.data;
             console.log('Response data', res.data.userId);
