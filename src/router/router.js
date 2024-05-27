@@ -24,6 +24,7 @@ import CompetitionWrite from "@/views/Competition/CompetitionWrite.vue";
 import CompetitionPoster from "@/views/Competition/CompetitionPoster.vue";
 import CompetitionPage from "@/views/Competition/CompetitionPage.vue";
 import CompetitionReWrite from "@/views/Competition/CompetitionReWrite.vue";
+import ObjectRecogView from "@/views/ObjectRecognition/ObjectRecogView.vue";
 
 Vue.use(VueRouter)
 /*  경로 설정*/
@@ -77,7 +78,8 @@ const routes = [
     {
         path: '/competitionMain/:articleId',
         name: 'CompetitionPage',
-        component: CompetitionPage
+        component: CompetitionPage,
+        meta: {hideHeader: false, hideFooter: true}
     },
     /* 글 재작성 페이지로 */
     {
@@ -97,13 +99,13 @@ const routes = [
         name: 'MyPageView',
         component: MyPageView
     },
-    /* 일반 게시판 -> 팔로워 목록 -> 상대 마이페이지로 */
+    /* 마이페이지 -> 팔로워 목록 -> 상대 마이페이지로 */
     {
         path: '/follower/:nickname',
         name: 'MyPageView',
         component: MyPageView
     },
-    /* 일반 게시판 -> 팔로잉 목록 -> 상대 마이페이지로 */
+    /* 마이페이지 -> 팔로잉 목록 -> 상대 마이페이지로 */
     {
         path: '/following/:nickname',
         name: 'MyPageView',
@@ -131,7 +133,8 @@ const routes = [
     { path: '/competitionWrite', component: CompetitionWrite, meta: {hideHeader: false, hideFooter: false}},
     { path: '/competitionMain', component: CompetitionMain, meta: {hideHeader: false, hideFooter: false}},
     { path: '/competitionPage', component: CompetitionPage, meta: {hideHeader: false, hideFooter: true}},
-    { path: '/competitionReWrite', component: CompetitionReWrite, meta: {hideHeader: false, hideFooter: true}}
+    { path: '/competitionReWrite', component: CompetitionReWrite, meta: {hideHeader: false, hideFooter: true}},
+    { path: '/objectrecognition', component: ObjectRecogView, meta: {hideHeader: false, hideFooter: true }},
 ]
 
 const router = new VueRouter({
