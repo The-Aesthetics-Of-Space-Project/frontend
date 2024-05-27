@@ -4,11 +4,12 @@
       <div class="grid-container article-grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
-            <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
-                 @click="goToPostDetails(post.articleId)">
+            <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail">
           </section>
-          <section class="content-title" @click="goToPostDetails(post.articleId)" >
+          <section class="content-title">
+            <router-link :to="{ name: 'GeneralBoardPage', query: {nickname: post.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
             <span style="cursor: pointer;">{{ post.title }}</span>
+            </router-link>
           </section>
           <section class="content-title-wrapper">
             <section class="heart-contents">
@@ -19,9 +20,13 @@
             </section>
             <section class="content-nickname">
               <section class="user-profile">
+                <router-link :to="{ name: 'MyPageView', query: {nickname: post.nickname} }" style="cursor:pointer;">
                 <img :src="post.profile" alt="User Profile" class="profile-img">
+                </router-link>
               </section>
-              <span style="font-size: 15px; font-weight:550; cursor: pointer;" @click="goToUserDetails(post.nickname)">{{ post.nickname }}</span>
+              <router-link :to="{ name: 'MyPageView', query: {nickname: post.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
+              <span style="cursor: pointer;" >{{ post.nickname }}</span>
+              </router-link>
             </section>
           </section>
         </div>
@@ -91,7 +96,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 170px;
+  margin-top: 120px;
+  margin-bottom: 60px;
 }
 .grid-container {
   display: flex;

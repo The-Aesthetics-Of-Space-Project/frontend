@@ -19,13 +19,11 @@ import ScrapListView from "@/views/MyPage/ScrapListView.vue";
 import LikeListView from "@/views/MyPage/LikeListView.vue";
 import ChatView from "@/views/ChatView.vue";
 import GeneralReWrite from "@/views/GeneralBoard/GeneralReWrite.vue";
-import ObjectRecognitionView from "@/views/ObjectRecognitionView.vue";
 import CompetitionMain from "@/views/Competition/CompetitionMain.vue";
 import CompetitionWrite from "@/views/Competition/CompetitionWrite.vue";
 import CompetitionPoster from "@/views/Competition/CompetitionPoster.vue";
 import CompetitionPage from "@/views/Competition/CompetitionPage.vue";
 import CompetitionReWrite from "@/views/Competition/CompetitionReWrite.vue";
-import ObjectRecogView from "@/views/ObjectRecognition/ObjectRecogView.vue";
 
 Vue.use(VueRouter)
 /*  경로 설정*/
@@ -33,11 +31,17 @@ const routes = [
     { path: '/login', component: LoginView, meta: { hideHeader: true,hideFooter: true } },
     { path: '/signup', component: SignUpView, meta: { hideFooter: true,hideHeader: true} },
     { path: '/my-page', component: MyPageView },
-    /* 마이페이지 게시글 목록의 게시글 클릭 -> 해당 페이지  */
+    /* 마이페이지 일반 게시글 목록의 게시글 클릭 -> 해당 페이지  */
     {
         path: '/my-page/:articleId',
         name: 'GeneralBoardPage',
         component: GeneralBoardPage
+    },
+    /* 마이페이지 공모전 게시글 목록의 게시글 클릭 -> 해당 페이지  */
+    {
+        path: '/my-page/:articleId',
+        name: 'CompetitionPage',
+        component: CompetitionPage
     },
     /* 마이페이지 스크랩 목록의 닉네임 클릭 -> 마이페이지  */
     {
@@ -87,6 +91,24 @@ const routes = [
         name: 'MyPageView',
         component: MyPageView
     },
+    /* 일반 게시판 -> 상대 마이페이지로 */
+    {
+        path: '/generalBoard/:nickname',
+        name: 'MyPageView',
+        component: MyPageView
+    },
+    /* 일반 게시판 -> 팔로워 목록 -> 상대 마이페이지로 */
+    {
+        path: '/follower/:nickname',
+        name: 'MyPageView',
+        component: MyPageView
+    },
+    /* 일반 게시판 -> 팔로잉 목록 -> 상대 마이페이지로 */
+    {
+        path: '/following/:nickname',
+        name: 'MyPageView',
+        component: MyPageView
+    },
     { path: '/setting', component: SettingView },
     { path: '/leave', component: LeaveMembership },
     { path: '/community', component: Community,meta: {hideFooter: true, hideHeader: true }},
@@ -102,11 +124,9 @@ const routes = [
     { path: '/scrap', component: ScrapListView, meta: {hideHeader: false, hideFooter: false}},
     { path: '/like', component: LikeListView, meta: {hideHeader: false, hideFooter: false }},
     { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
-    { path: '/objectrecognition', component: ObjectRecogView, meta: {hideHeader: false, hideFooter: true }},
     { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/generalReWrite', component: GeneralReWrite, meta: {hideHeader: false, hideFooter: true }},
-    { path: '/objectrecognition', component: ObjectRecognitionView, meta: {hideHeader: false, hideFooter: true }},
     { path: '/competitionPoster', component: CompetitionPoster, meta: {hideHeader: false, hideFooter: false}},
     { path: '/competitionWrite', component: CompetitionWrite, meta: {hideHeader: false, hideFooter: false}},
     { path: '/competitionMain', component: CompetitionMain, meta: {hideHeader: false, hideFooter: false}},

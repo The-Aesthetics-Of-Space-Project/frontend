@@ -1,14 +1,18 @@
 <template>
   <div id="likeList">
     <div class="content-wrapper">
+      <div class="text-header" style="position: relative; width: 10%; font-weight: 550; font-size:26px; right: 20.5em; top:-5px;">일반 게시판</div>
       <div class="grid-container article-grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
-            <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail"
-                 @click="goToPostDetails(post.articleId)">
+            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer;">
+            <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail">
+            </router-link>
           </section>
-          <section class="content-title" @click="goToPostDetails(post.articleId)" >
+          <section class="content-title" >
+            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
             <span style="cursor: pointer;">{{ post.title }}</span>
+            </router-link>
           </section>
           <section class="content-title-wrapper">
             <section class="heart-contents">
@@ -19,9 +23,48 @@
             </section>
             <section class="content-nickname">
               <section class="user-profile">
+                <router-link :to="{ name: 'MyPageView', query: {nickname: post.nickname} }" style="cursor:pointer;">
                 <img :src="post.profile" alt="User Profile" class="profile-img">
+                </router-link>
               </section>
-              <span style="font-size: 15px; font-weight:550; cursor: pointer;" @click="goToUserDetails(post.nickname)">{{ post.nickname }}</span>
+              <router-link :to="{ name: 'MyPageView', query: {nickname: post.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
+              <span style="font-size: 15px;">{{ post.nickname }}</span>
+              </router-link>
+            </section>
+          </section>
+        </div>
+      </div>
+      <br><br><br><br><br>
+      <div class="text-header" style="position: relative; width: 10%; font-weight: 550; font-size:26px; right: 21.5em; top:-5px;">공모전</div>
+      <!-- 공모전 섹션 -->
+      <div class="grid-container article-grid-container">
+        <div class="box-content" v-for="contest in contests" :key="contest.id">
+          <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;">
+            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer;">
+              <img :src="contest.thumbnail" alt="Post Thumbnail" class="post-thumbnail">
+            </router-link>
+          </section>
+          <section class="content-title">
+            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer; font-weight: 550; font-size:15px; text-decoration: none; color: rgb(0,0,0,80%);">
+              <span style="cursor: pointer;">{{ contest.title }}</span>
+            </router-link>
+          </section>
+          <section class="content-title-wrapper">
+            <section class="heart-contents">
+              <img src="@/assets/mypage_icon/like.png" alt="Like Icon" width="35px" height="35px">
+              <section class="count-number">
+                <span>{{ contest.likeCount }}</span>
+              </section>
+            </section>
+            <section class="content-nickname">
+              <section class="user-profile">
+                <router-link :to="{ name: 'MyPageView', query: {nickname: contest.nickname} }" style="cursor:pointer;">
+                <img :src="contest.profile" alt="User Profile" class="profile-img">
+                </router-link>
+              </section>
+              <router-link :to="{ name: 'MyPageView', query: {nickname: contest.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
+              <span style="cursor:pointer;">{{ contest.nickname }}</span>
+              </router-link>
             </section>
           </section>
         </div>
@@ -45,12 +88,37 @@ export default {
         nickname: '',
         likeCount: '',
         profile: '',
+        postType: ''
+      },
+      contests:{
+        articleId: '',
+        title: '',
+        thumbnail: '',
+        nickname: '',
+        likeCount: '',
+        profile: '',
       },
       liked: '',
       heartImg: require('@/assets/mypage_icon/like.png'),
       baseUrl: 'http://jerry6475.iptime.org:20000',
       userId: Store.state.userId,
-      getUserId: ''
+      getUserId: '',
+      postTypeGeneral: {
+        articleId: '',
+        title: '',
+        thumbnail: '',
+        nickname: '',
+        likeCount: '',
+        profile: '',
+      },
+      postTypeContest: {
+        articleId: '',
+        title: '',
+        thumbnail: '',
+        nickname: '',
+        likeCount: '',
+        profile: '',
+      },
     };
   },
   created() {
@@ -61,6 +129,12 @@ export default {
       try {
         const res = await api.getPost(`/users/likes?userId=${encodeURIComponent(this.userId)}`);
         this.posts = res.data;
+        if(this.posts.postType === 'general'){
+          this.postTypeGeneral = this.posts;
+        }
+        else if(this.posts.postType === 'contest'){
+          this.postTypeContest = this.posts;
+        }
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
         console.error('response posts:', res);
       } catch (error) {
@@ -94,7 +168,8 @@ export default {
   display: flex;
   flex-direction: column;
   align-items: center;
-  margin-top: 170px;
+  margin-top: 110px;
+  margin-bottom: 60px;
 }
 .grid-container {
   display: flex;
