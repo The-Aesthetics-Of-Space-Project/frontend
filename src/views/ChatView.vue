@@ -21,11 +21,11 @@
         </div>
         <div class="chat-history">
           <div class="message my-message">
-            <div class="card" style="width: 400px; height: 370px; position: relative; left:-42%; top:150px;">
+            <div class="card" style="width: 400px; height: 370px; position: relative; left:-42%; top:150px; border-radius: 25px;">
               <dotlottie-player src="https://lottie.host/493aaf35-73e8-4e69-a2a4-b0d1875e082e/QX6Hs3wmqf.json" class="card-img-top" background="transparent" speed="1" style="width: 340px; height: 340px;" loop autoplay></dotlottie-player>
               </div>
           </div>
-          <span style="position: relative; top:190px; left:-5.2%; font-size: 18px;">메시지를 시작하려면 대화 상대를 선택하세요.</span>
+          <span style="position: relative; top:190px; left:-5.2%; font-size: 16.5px;">메시지를 시작하려면 대화 상대를 선택하세요.</span>
           <div class="message other-message">
           </div>
         </div>
