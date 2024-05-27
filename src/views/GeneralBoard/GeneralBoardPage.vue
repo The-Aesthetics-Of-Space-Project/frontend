@@ -224,67 +224,78 @@ export default {
     },
     /* 좋아요 클릭/언클릭 */
     async likeBtn() {
-      if(this.posts.isLiked){
-        // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
-        const args = '/api/general/unlike';
-        const unLikeData = {
-          userId: this.users.userId,
-          articleId: this.posts.articleId
+      if(this.isUserLogin) {
+        if (this.posts.isLiked) {
+          // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
+          const args = '/api/general/unlike';
+          const unLikeData = {
+            userId: this.users.userId,
+            articleId: this.posts.articleId
+          }
+          await api.unSetLike(args, unLikeData).then(res => {
+            alert("좋아요를 취소했습니다!");
+            this.posts.isLiked = !this.posts.isLiked;
+            this.getArticle();
+          }).catch(error => {
+            console.log("좋아요 취소 실패!", error);
+          });
+        } else {
+          // 좋아요를 누르지 않은 상태에서 누름 => 좋아요 추가
+          const args = '/api/general/like';
+          const likeData = {
+            userId: this.users.userId,
+            articleId: this.posts.articleId
+          }
+          await api.setLike(args, likeData).then(res => {
+            alert("좋아요를 눌렀습니다!");
+            this.posts.isLiked = !this.posts.isLiked;
+            this.getArticle();
+          }).catch(error => {
+            console.log("좋아요 실패!", error);
+            this.posts.isLiked = !this.posts.isLiked;
+          })
         }
-        await api.unSetLike(args, unLikeData).then(res => {
-          alert("좋아요를 취소했습니다!");
-          this.posts.isLiked = !this.posts.isLiked;
-          this.getArticle();
-        }).catch(error => {
-          console.log("좋아요 취소 실패!", error);
-        });
-      } else{
-        // 좋아요를 누르지 않은 상태에서 누름 => 좋아요 추가
-        const args = '/api/general/like';
-        const likeData = {
-          userId: this.users.userId,
-          articleId: this.posts.articleId
-        }
-        await api.setLike(args, likeData).then(res => {
-          alert("좋아요를 눌렀습니다!");
-          this.posts.isLiked = !this.posts.isLiked;
-          this.getArticle();
-        }).catch(error => {
-          console.log("좋아요 실패!", error);
-          this.posts.isLiked = !this.posts.isLiked;
-        })
+      }
+      else {
+        this.$router.push('/login');
       }
     },
     /* 스크랩 클릭/언클릭 */
     async scrapBtn() {
-      if(this.posts.isScraped){
-        // 이미 스크랩을 누른 상태에서 다시 눌렀을 때 => 스크랩 취소
-        const args = '/api/general/unscrap';
-        const scrapData = {
-          userId: this.users.userId,
-          articleId: this.posts.articleId
+      if(this.isUserLogin) {
+        if (this.posts.isScraped) {
+          // 이미 스크랩을 누른 상태에서 다시 눌렀을 때 => 스크랩 취소
+          const args = '/api/general/unscrap';
+          const scrapData = {
+            userId: this.users.userId,
+            articleId: this.posts.articleId
+          }
+          await api.unSetScrap(args, scrapData).then(res => {
+            alert("스크랩 취소했습니다!");
+            this.posts.isScraped = !this.posts.isScraped;
+            this.getArticle();
+          }).catch(error => {
+            console.log("스크랩 취소 실패!", error);
+          });
+        } else {
+          const args = '/api/general/scrap';
+          const unScrapData = {
+            userId: this.users.userId,
+            articleId: this.posts.articleId
+          }
+          await api.setScrap(args, unScrapData).then(res => {
+            alert("스크랩을 눌렀습니다!");
+            this.posts.isScraped = !this.posts.isScraped;
+            this.getArticle();
+          }).catch(error => {
+            console.log("스크랩 실패!", error);
+            this.posts.isScraped = !this.posts.isScraped;
+          })
         }
-        await api.unSetScrap(args, scrapData).then(res => {
-          alert("스크랩 취소했습니다!");
-          this.posts.isScraped = !this.posts.isScraped;
-          this.getArticle();
-        }).catch(error => {
-          console.log("스크랩 취소 실패!", error);
-        });
-      }else{
-        const args = '/api/general/scrap';
-        const unScrapData = {
-          userId: this.users.userId,
-          articleId: this.posts.articleId
-        }
-        await api.setScrap(args, unScrapData).then(res => {
-          alert("스크랩을 눌렀습니다!");
-          this.posts.isScraped = !this.posts.isScraped;
-          this.getArticle();
-        }).catch(error => {
-          console.log("스크랩 실패!", error);
-          this.posts.isScraped = !this.posts.isScraped;
-        })
+      }
+      else
+      {
+        this.$router.push('/login');
       }
     },
     /* 게시글 삭제 */
