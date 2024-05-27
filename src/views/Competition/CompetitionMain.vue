@@ -9,8 +9,8 @@
             </router-link>
           </section>
           <section class="content-title" >
-            <router-link :to="{ name: 'CompetitionPage', query: {articleId: post.articleId} }" style="text-decoration: none; color: rgb(0,0,0,80%);">
-            <span style="cursor: pointer;">{{ post.title }}</span>
+            <router-link :to="{ name: 'CompetitionPage', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
+              <span style="cursor: pointer;">{{ post.title }}</span>
             </router-link>
           </section>
           <section class="content-title-wrapper">
@@ -68,6 +68,8 @@ export default {
     async fetchPosts() {
       try {
         const res = await api.getPost('/api/contest/posts');
+        this.posts=res.data;
+        console.log("콘솔로그: ", this.posts.thumbnail);
         this.posts = res.data.map(post => ({
           ...post,
           thumbnail: this.baseUrl + post.thumbnail
