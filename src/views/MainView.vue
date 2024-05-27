@@ -33,7 +33,7 @@
     </div>
     <div class="guide-content">
       <div class="guide-text">
-        <h2 ref="mainText" style="  font-size: 27px;">맞춤형 인테리어 추천</h2>
+        <h2 ref="mainText" style="font-size: 24px; font-weight: bolder;">맞춤형 인테리어 추천</h2>
       </div>
 
       <div class="card-view">
@@ -106,7 +106,7 @@
       </button>
     </div>
     <div class="Home-Styling-title">
-      <h2  style=" color: #333333; position: relative; top:70px; font-size: 26px;">주목받는 게시물</h2>
+      <h2  style=" color: #333333; position: relative; top:80px; font-size: 24px; font-weight: bolder;">주목받는 게시물</h2>
       <div class="board-write-list">
         <div class="card-view">
           <div class="card-list">
@@ -214,7 +214,7 @@ body {
 .title-home h1{
   position: relative;
   bottom:240px;
-  font-size: 70px;
+  font-size: 60px;
 }
 .title-home h3{
   position: relative;

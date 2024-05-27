@@ -58,6 +58,10 @@ export default {
 </script>
 
 <style scoped>
+.community{
+  position: relative;
+  top:50px;
+}
 .main-sc-container {
   width: 47%;
   margin: auto;

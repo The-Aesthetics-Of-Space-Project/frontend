@@ -176,8 +176,8 @@ export default {
 }
 
 .header {
-  padding: 10px;
-  height: 120px;
+  padding: 25px;
+  height: 150px;
 }
 
 @font-face {
