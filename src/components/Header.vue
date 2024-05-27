@@ -45,7 +45,7 @@
           </button>
           <ul class="dropdown-menu" id="dropdown" >
             <li v-for="(item, index) in menuItems" :key="item.text" >
-              <router-link :to="item.href(isUserLogin)" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: center;">
+              <router-link :to="item.href(isUserLogin)" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: left;">
                 <img :class="item.class" :src="item.imgSrc">{{ item.text }}
               </router-link>
               <hr class="dropdown-divider" v-if="index < menuItems.length - 1">
@@ -136,7 +136,7 @@ export default {
   data() {
     return {
       userId: this.$store.state.userId,
-      menus: ['zip', '가구 인식', '커뮤니티', '인테리어 가이드', '소개'],
+      menus: ['zip', '이미지 분석', '모두의 광장', '스타일 추천', '소개'],
       menuItems: [
         {
           text: '일반 게시판',
@@ -148,7 +148,7 @@ export default {
           text: '공모전 게시판',
           imgSrc: require('../assets/header_write_icon_list/usedboard.png'),
           class: 'board-image',
-          href: (isUserLogin) => isUserLogin ? '/competitionMain' : '/login'
+          href: () => '/competitionMain'
         },
         {
           text: '일반 게시판 글쓰기',
@@ -176,8 +176,8 @@ export default {
 }
 
 .header {
-  padding: 10px;
-  height: 120px;
+  padding: 25px;
+  height: 150px;
 }
 
 @font-face {
@@ -218,7 +218,6 @@ div {
   border-radius: 11px;
   border-color: black;
   font-size: 13px;
-  font-family: MyCustomFont2;
 }
 
 #header-board-write img {
@@ -234,14 +233,7 @@ div {
   color: #333;
   font-weight: bolder;
   padding: 9px;
-  font-family: MyCustomFont2;
-}
-
-@font-face {
-  font-family: 'MyCustomFont3';
-  src: url('../fonts/kcc/KCC-Hanbit.ttf') format('woff');
-  font-weight: normal;
-  font-style: normal;
+  text-align: left;
 }
 
 

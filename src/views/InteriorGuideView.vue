@@ -44,8 +44,9 @@
           <div class="content-layout">
             <div class="text-section">
               <div class="home-style">
-                <h6 style="position: relative; left:-175px; top:40px; font-size: 27px; font-weight: bolder; color:black; ">나의 인테리어 취향은</h6>
-                <img  src="@/assets/interiorguide_image_list/light.png" width="80" height="40" style="position: relative; top:-5px; left:-25px;">
+                <h6 style="position: relative; left:-195px; top:40px; font-size: 27px; font-weight: bolder; color:black; ">나의 인테리어 취향은</h6>
+                <div style="font-size: 23px; color: #333333; font-weight: bolder; position: relative; top:50px; left:-150px;">{{analysisResult}}</div>
+                <img  src="@/assets/objectrecognition_image_list/ic_light.png" width="40" height="40" style="position: relative; top:-41px; left:-60px; background-color:#FAFAFA ">
               </div>
               <div class="analysis-result">
               </div>
@@ -57,13 +58,13 @@
               <div style="width: 90%; border-top: 1px solid lightgrey; position: relative; top:75px; margin: auto;"></div>
               <div class="tips-section" style=" width: 91%; margin: auto; top:80px;">
                 <ul>
-                  <span style="font-size: 22px; position: relative; left:-200px; top:125px; font-weight: bolder; color:black">인테리어 팁을 드릴게요 !</span>
+                  <span style="font-size: 22px; position: relative; left:-220px; top:125px; font-weight: bolder; color:black">인테리어 팁을 드릴게요 !</span>
                   <li v-for="(tips, index) in tip" :key="index" style=" text-align:left; position:relative; list-style: none; top: 140px; font-size: 14px; left:-12px;">&nbsp;{{ tips }}</li>
                 </ul>
               </div>
               <div class="color-section" style="position: relative; top:60px;">
-                <h3  style="font-size: 22px; position: relative; left:-240px; top:85px; color:black;  font-weight: bolder;">Mood Color</h3>
-                <div class="recommended-colors" style="text-align:left; position: relative;  top:90px; left:55px;">
+                <h3  style="font-size: 22px; position: relative; left:-248px; top:85px; color:black;  font-weight: bolder;">Mood Color</h3>
+                <div class="recommended-colors" style="text-align:left; position: relative;  top:90px; left:50px;">
                   <img v-for="(color, index) in color" :key="index" :src="color" alt="추천 색상 이미지" class="recommended-color">
                 </div>
               </div>
@@ -259,17 +260,15 @@ export default {
     },
     goToStep3() {
       this.currentStep = 2;
-      // 이전에 selectedImagesStep3를 초기화하는 코드를 삭제하거나 주석 처리합니다.
-      // this.selectedImagesStep3 = [];
+      // 이전에 selectedImagesStep3를 초기화하는 코드를 삭제
       this.selectedImagesStep3 = [];
-      if (this.selectedImages.length === 3) {
+      // 기존에 조건문에서 selectedImages에 대해 조건을 걸고 있었어서 예외처리가 안되었었음. selectedImagesStep2로 변경
+      if (this.selectedImagesStep2.length === 3) {
         // 선택된 이미지가 3개일 경우, 다음 단계로 넘어감
         this.currentStep = 3;
-        // 여기에 누락된 로직을 추가합니다: 두 번째 단계에서 선택된 이미지를 세 번째 단계의 선택 목록에 추가
         this.selectedImagesStep3 = [];
       } else {
-        // 선택된 이미지가 3개가 아닐 경우, 사용자에게 경고 창 표시
-        alert("3개의 인테리어 이미지를 선택해 주세요.");
+        alert("3개의 색깔을  선택해 주세요.");
       }
     },
     selectImage(index) {
@@ -341,7 +340,7 @@ export default {
             'simple': 0,
           };
 
-          // 선택된 이미지들에 대해 스타일 점수 계산
+          //첫 번째 단계 이미지 스타일 스타일 점수 계산
           this.selectedImages.forEach(imageId => {
             const styles = imageStyles[imageId];
             if (styles) {
@@ -351,7 +350,7 @@ export default {
               });
             }
           });
-
+          // 두 번째 단계 이미지 스타일 점수 합산
           this.selectedImagesStep2.forEach(imageId => {
             const styles = imageStyles3[imageId];
             if (styles) {
@@ -362,7 +361,7 @@ export default {
             }
           });
 
-          // 두 번째 단계 이미지 스타일 점수 합산
+          // 세 번째 단계 이미지 스타일 점수 합산
           this.selectedImagesStep3.forEach(imageId => {
             const styles = imageStyles2[imageId];
             if (styles) {

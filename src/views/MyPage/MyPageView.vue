@@ -32,7 +32,7 @@
               <section class="chat-container">
                 <section class="chat-wrapper">
                   <button class="chat-icon-btn"><router-link to="/chat"> <img src="../../assets/mypage_icon/chatIcon.png" style="position: relative; width: 42px; height: 41px; right: 5px;"></router-link></button>
-                  <section class="chat-message-content"><router-link to="/chat"> <a>채팅하기</a> </router-link></section>
+                  <section class="chat-message-content"><router-link :to="isUserLogin ?`/chatroom/${this.userId}` :'login'" @click="chatgoing"> <a>채팅하기</a> </router-link></section>
                 </section>
               </section>
               <!-- 팔로워/팔로잉 버튼 -->
@@ -94,6 +94,7 @@
                   <a> 집들이 </a>
                 </section>
 
+
                 <section class="house-content" style="position: relative; width: 95%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
                     <section class="user-posts-wrapper" v-for="post in posts" :key="post.id" style="height: 270px; border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-left: 15px; margin-top: 13px; flex: 0 0 auto; display: flex; flex-direction: column;">
@@ -115,6 +116,7 @@
                 <section class="competition-header house-header" style="font-weight: 750; font-size: 19px;">
                   <a> 공모전 </a>
                 </section>
+
                 <section class="competition-content" style="position: relative; width: 95%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
                     <section class="user-posts-contest-wrapper" v-for="contest in contests" :key="contest.id" style="height: 270px; border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-left: 15px; margin-top: 13px; flex: 0 0 auto; display: flex; flex-direction: column;">
@@ -147,6 +149,11 @@ import axios from "axios";
 
 export default {
   name: 'MyPageView',
+  computed:{
+    isUserLogin(){
+      return this.$store.getters.isLogin;
+    },
+  },
   props:{
     // 본인이 아닌 다른 사람의 getNickname
     getNickname: {
@@ -203,19 +210,34 @@ export default {
         this.getOtherPost();
         this.getOtherPostContest();
       }else if(!this.getNicknames){
-        console.log("this.getNicknames 출력 렛츠고: ", this.getNickname);
         this.getUser();
         this.getPost();
         this.getPostContest();
       }
   },
   methods:{
+    async chatgoing() {
+      await api.getChatUserId(`/chat/${encodeURIComponent(this.userId)}`)
+          .then(res => {
+            this.users = res.data;
+            console.log('Response data', res.data.userId);
+
+            // 여기서 라우터 이동
+            this.$router.push({path: `/chat/${this.userId}`});
+          })
+          .catch(error => {
+            // 통신할 때 401에러 처리
+            console.error('Error data', error);
+          });
+    },
     /* 본인일 때 유저 정보 조회 */
     async getUser(){
         try {
           const args = `/users/details?userId=${encodeURIComponent(this.userId)}`;
           const res = await api.getUserInfo(args);
           this.users = res.data;
+          this.users.profile = this.baseUrl+res.data.profile;
+          console.log("데이터는 여기",res.data);
         } catch (error) {
           console.error(error);
         }

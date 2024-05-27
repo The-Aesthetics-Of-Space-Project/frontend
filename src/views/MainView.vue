@@ -33,7 +33,7 @@
     </div>
     <div class="guide-content">
       <div class="guide-text">
-        <h2 ref="mainText">초보자를 위한 가이드</h2>
+        <h2 ref="mainText" style="font-size: 24px; font-weight: bolder;">맞춤형 인테리어 추천</h2>
       </div>
 
       <div class="card-view">
@@ -44,12 +44,11 @@
         <div class="card-list">
           <div class="card" v-for="(card, index) in cards" :key="index">
             <div class="card-body">
+              <h5 class="card-title">{{ card.title }}</h5>
               <!--<h5 class="card-title">{{ card.title }}</h5>-->
               <!-- <p class="card-text">{{ card.text }}</p>-->
-              <router-link to="InteriorGuide" style="text-decoration: none; color: #333333; font-weight: bolder">
-                <img :src="card.imageSrc" alt="Card Image" width="112%" height="117%" style="position: relative; left:-6%; top:-16px;">
-                <span class="card-guide-content" id="router-link-custom"> {{card.text}}</span>
-              </router-link>
+                <img :src="card.imageSrc" alt="Card Image" width="112%"height="117%" style="position: relative; left:-6%; top:-24px;">
+                <span class="card-guide-content" id="router-link-custom" style="color: #333333; font-weight: bolder; "> {{card.text}}</span>
             </div>
           </div>
         </div>
@@ -57,7 +56,7 @@
 
     </div>
 
-    <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel" style="position: relative; top:100px;">
+    <div id="carouselExampleDark" class="carousel slide" data-bs-ride="carousel" style="position: relative; top:100px; ">
       <div class="carousel-indicators">
         <button type="button" data-bs-target="#carouselExampleDark" v-for="(slide, index) in slides"
                 :data-bs-slide-to="index" :class="{ 'active': index === 0 }" :aria-current="index === 0"
@@ -67,7 +66,7 @@
         <div v-for="(slide, index) in slides" :class="{ 'carousel-item': true, 'active': index === 0 }"
              :data-bs-interval="slide.interval" :key="'slide-' + index">
           <img :src="slide.image" class="d-block w-100" width="80%" height="820vh"
-               :style="{ 'background-color': slide.backgroundColor}">
+               :style="{ 'background-color': slide.backgroundColor}" >
           <div class="image-overlay" style="position: absolute; top: 0; left: 0; width: 100%; height: 100%; background-color: rgba(0,0,0,0.4);"></div>
           <div class="carousel-caption d-none d-md-block">
             <div class="animated-title" v-if="index === 0">
@@ -82,10 +81,8 @@
               <H1>Experience Interior <br> Design</H1>
 
             </div>
-            <div v-if="index === 1">
-              <a id="btn-btn-success" class="btn btn-dark" href="#" role="button">바로가기</a>
-            </div>
-            <div v-if="index === 1" class="slide2-image"> <!--style="background-image: url('/image/공모전.png');-->
+            <div v-if="index === 1" style="background-color: white; width: 150%; height: 150%; position: relative; left:-28%; top:58px;">
+              <router-link to="/competitionMain"><img src="@/assets/main_content_image_list/second_banner.png" style="width: 63%; height: 63%; position: relative; top:-50px;"></router-link>
             </div>
 
 
@@ -108,18 +105,20 @@
       </button>
     </div>
     <div class="Home-Styling-title">
-      <h2  style=" color: #333333; position: relative; top:70px;">Home Styling</h2>
+      <h2  style=" color: #333333; position: relative; top:80px; font-size: 24px; font-weight: bolder;">주목받는 게시물</h2>
       <div class="board-write-list">
         <div class="card-view">
           <div class="card-list">
-            <div class="card" v-for="(card, index) in cardsa" :key="index" @input='cardlist'>
+            <div class="card" v-for="(card, index) in cardsa" :key="index">
               <div class="card-body">
-                <h5 class="card-title" >{{ card.title }}</h5>
+                <h5 class="card-title" style="font-size: 16px; color: #333333; font-weight: bolder;">{{ card.title }}</h5>
+                <img :src="card.thumbnail" alt=" " height="310" width="310">
               </div>
               <img src="@/assets/mypage_icon/like.png" height="25" width="25" style="position: relative; left:85%; top:10%;">
               <span style="position: relative; left:45%; top:3.8%;">{{ card.likeCount }}</span>
-              <h5 class="card-title" style="position:relative; top:50px;">{{ card.nickname }}</h5>
+              <h5 class="card-title" style="position:relative; top:50px; font-size: 16px;">{{ card.nickname }}의 게시물</h5>
             </div>
+
           </div>
         </div>
       </div>
@@ -148,9 +147,11 @@ export default {
   },
   methods:{
     async cardlist() {
+      const baseUrl = 'http://jerry6475.iptime.org:20000';
       await api.getGeneralRanking('/api/general/posts/popular').then(res => {
         this.cardsa = res.data.map(card => ({
           ...card,
+          profile: baseUrl + card.profile
         }));
         console.log('데이타', res.data);
       }).catch(error => {
@@ -186,7 +187,6 @@ export default {
           interval: 4000,
         },
         {
-          backgroundColor: 'lightgray',
           interval: 4000,
           //    title:
           titleTop: '-130px',
@@ -216,7 +216,7 @@ body {
 .title-home h1{
   position: relative;
   bottom:240px;
-  font-size: 70px;
+  font-size: 60px;
 }
 .title-home h3{
   position: relative;
@@ -496,25 +496,26 @@ div {
 
 .main-1container {
   display: flex; /* Flexbox를 사용하여 자식 요소들을 가로로 나열 */
-  justify-content: space-around; /* 자식 요소들 사이에 공간을 균등하게 배분 */
+  justify-content: center;
   align-items: center; /* 자식 요소들을 세로 중앙에 위치 */
   flex-wrap: wrap; /* 내용이 넘치면 다음 줄로 자동 이동 */
-  gap: 20px; /* 자식 요소들 사이의 간격 */
   width: 100%;
   background-color: #f4f7f8;
   position: relative;
   top:130px;
+  gap:30px;
 
 }
 
 .image-1container {
-  flex-basis: 30%; /* flex 항목의 기본 크기 설정 */
+  flex-basis: 29%; /* flex 항목의 기본 크기 설정 */
   text-align: center; /* 텍스트 중앙 정렬 */
   background-color: #f8f8f8; /* 배경색 */
-  padding: 20px; /* 내부 여백 */
+  padding: 10px; /* 내부 여백 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
   border-radius: 10px; /* 모서리 둥글게 */
   transition: transform 0.3s ease-in-out; /* 변형 애니메이션 */
+
 }
 
 .image-1container:hover {

@@ -20,7 +20,7 @@
           <!-- 글 제목 작성-->
           <section class="comp-title">
             <section class="mb-3">
-              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해 주세요." maxlength="50" v-model="article.title" style="outline: none; box-shadow: none; border-top: white; border-left: white; border-right: white;">
+              <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해 주세요." maxlength="50" v-model="article.title" style="outline: none; box-shadow: none; border-top: white; border-left: white; border-right: white; font-size: 20px;">
               <p>{{ article.title.length }}/50</p>
             </section>
           </section>
@@ -28,7 +28,8 @@
           <section class="com-content-container">
             <section class="com-content-wrapper">
             <textarea type="text" class="com-content" oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'
-                      placeholder="내용을 입력해 주세요.(최대 500자)" maxlength="500" rows="30" cols="90" style="resize: none; box-shadow: none; max-height: 80%; border: 1px solid #8D8D8D; border-radius: 8px; outline-color: darkslategrey;"
+                      placeholder="내용을 입력해 주세요.(최대 500자)" maxlength="500" rows="30" cols="90" style="resize: none; box-shadow: none; max-height: 80%; position: relative;
+                       left: 14px;border: 1px solid #8D8D8D; border-radius: 8px; outline-color: darkslategrey;"
                       v-model="article.contents"/>
               <section class="max-length"> <p>{{ contents.length}}/500</p> </section>
             </section>
@@ -134,6 +135,14 @@ export default {
     },
     /* 제출하기 */
     submitArticle(){
+      if(!this.article.title){
+        alert('제목을 입력하세요.');
+        return;
+      }
+      if(!this.article.contents){
+        alert('내용을 입력하세요.');
+        return;
+      }
       const formData = new FormData();
 
       formData.append('contestId', 1);

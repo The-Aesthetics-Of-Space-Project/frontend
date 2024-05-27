@@ -8,44 +8,41 @@
       </div>
       <div class="grid-container">
         <div class="image-sc-container">
-          <router-link to="/interiorguide">
+          <router-link to="/GeneralBoard">
             <img src="@/assets/community_image_list/ckdwha.png" alt="인테리어 사진" class="image-sc">
           </router-link>
           <div class="title-sc" style="position: relative; left:-41%; ">게시판</div>
-          <div class="title-sc" style="font-size: 17px; position: relative; left:-17%;  color: #aaaaaa; font-weight: bolder;">다양한 주제의 소통 공간입니다.</div>
+          <div class="title-sc" style="font-size: 17px; position: relative; left:-17%;  color: gray; font-weight: normal ">다양한 주제의 소통 공간입니다.</div>
 
         </div>
 
         <div class="image-sc-container">
-          <router-link :to="isUserLogin ? '/GeneralBoard':'/login'">
-            <img src="@/assets/community_image_list/board_write.png" alt="유저들의 콘텐츠" class="image-sc">
+          <router-link :to="isUserLogin ? '/GeneralBoardWrite':'/login'">
+            <img src="@/assets/community_image_list/board_write.png" alt="유저들의 콘텐츠" class="image-sc" style="width: 190px; height: 190px; position: relative; top:90px;">
           </router-link>
-          <div class="title-sc" style="position: relative; left:-33%;">게시판 글쓰기</div>
-          <div class="title-sc" style="font-size: 17px; position: relative; left:-18%;  color: #aaaaaa; font-weight: bolder; "> 생각과 경험을 나누는 창입니다.</div>
+          <div class="title-sc" style="position: relative; left:-33%; top:-206px;">게시판 글쓰기</div>
+          <div class="title-sc" style="font-size: 17px; position: relative; left:-18%;  color: gray; top:-206px; font-weight: normal "> 생각과 경험을 나누는 창입니다.</div>
 
         </div>
 
         <div class="image-sc-container">
-          <router-link to="/Community">
+          <router-link to="/competitionMain">
             <img src="@/assets/community_image_list/competition.png" alt="커뮤니티" class="image-sc">
           </router-link>
           <div class="title-sc" style="position: relative; left:-41%;">공모전</div>
-          <div class="title-sc" style="font-size: 17px; position: relative; left:-9.5%;  color: #aaaaaa; font-weight: bolder;">창의력에 대한 도전을 펼칠 수 있습니다.</div>
+          <div class="title-sc" style="font-size: 17px; position: relative; left:-9.5%;  color:gray; font-weight: normal">창의력에 대한 도전을 펼칠 수 있습니다.</div>
 
         </div>
 
         <div class="image-sc-container">
-          <router-link to="/Community">
+          <router-link :to="isUserLogin ? '/competitionWrite':'/login'">
             <img src="@/assets/community_image_list/competition_write.png" alt="커뮤니티" class="image-sc">
           </router-link>
           <div class="title-sc" style="position: relative; left:-33%;">공모전 글쓰기</div>
-          <div class="title-sc" style="font-size: 17px; position: relative; left:-13.5%; color: #aaaaaa; font-weight: bolder; ">아이디어를 경쟁의 무대에 올립니다.</div>
+          <div class="title-sc" style="font-size: 17px; position: relative; left:-13.5%; color: gray; font-weight: normal">아이디어를 경쟁의 무대에 올립니다.</div>
         </div>
       </div>
     </div>
-    <router-link to="/">
-      <img src="@/assets/community_image_list/back.png" width="50px" style="opacity: 0.7">
-    </router-link>
   </div>
 </template>
 
@@ -61,6 +58,10 @@ export default {
 </script>
 
 <style scoped>
+.community{
+  position: relative;
+  top:50px;
+}
 .main-sc-container {
   width: 47%;
   margin: auto;

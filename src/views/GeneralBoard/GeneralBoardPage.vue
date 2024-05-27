@@ -65,8 +65,9 @@
         </button>
 
         <section class="board-chat-wrapper" style="position: sticky; top: 40.3em;">
-          <button class="board-chat-icon-btn" style="position: sticky; border-radius: 60%; border: none;
-        width: 45%; height: 65px; right: 50%; top: 30em; background-color: white; font-size: 14.5px;"><router-link to="/chat"> <img src="../../assets/mypage_icon/chatIcon.png" width="52px" height="52px"></router-link></button>
+          <button class="board-chat-icon-btn" @click="chatgoing" style="position: sticky; border-radius: 60%; border: none;
+        width: 45%; height: 65px; right: 50%; top: 30em; background-color: white; font-size: 14.5px;"><router-link :to="isUserLogin ?`/chat/${this.users.userId}` :'login'">
+            <img src="../../assets/mypage_icon/chatIcon.png" width="52px" height="52px"></router-link></button>
         </section>
 
       </section>
@@ -93,6 +94,7 @@ import Store from "@/store/index";
 import CommentWrite from "@/views/GeneralBoard/Comment/CommentWrite.vue";
 import {marked} from 'marked';
 import CommentList from "@/views/GeneralBoard/Comment/CommentList.vue";
+import axios from "axios";
 
 export default {
   name: 'GeneralBoardPage',
@@ -174,6 +176,20 @@ export default {
     this.getArticleId = this.$route.params.articleId;
   },
   methods: {
+    async chatgoing() {
+      await api.getChatUserId(`/chat/${encodeURIComponent(this.userId)}`)
+          .then(res => {
+            this.users = res.data;
+            console.log('Response data', res.data.userId);
+
+            // 여기서 라우터 이동
+            this.$router.push({path: `/chat/${this.userId}`});
+          })
+          .catch(error => {
+            // 통신할 때 401에러 처리
+            console.error('Error data', error);
+          });
+    },
     myPage(nickname){
       this.$router.push({name: 'MyPageView', params: {nickname: nickname}});
     },
@@ -264,9 +280,11 @@ export default {
     deletePost(){
       const args = `/api/general/post/${this.posts.articleId}`;
        api.deletePost(args).then(res => {
-        console.log("글 삭제 성공!", res);
-        alert("글 삭제 성공했습니다!");
-         this.$router.push('/generalBoard');
+         if (window.confirm('삭제하시겠습니까?')) {
+           alert('글 삭제에 성공하였습니다.');
+           this.$router.push('/generalBoard');
+           console.log("글 삭제 성공!", res);
+         }
       }).catch(error => {
         console.log("글 삭제 실패했습니다!", error);
       });
