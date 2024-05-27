@@ -251,7 +251,8 @@ export default {
       api.setUser(args, params)
           .then(response => {
             // 요청이 성공했을 때 처리할 코드
-            console.log('게시물이 성공적으로 등록되었습니다.', response);
+            alert('게시물이 등록되었습니다 !');
+            console.log('게시물이 등록되었습니다.', response);
             this.$router.push('/generalBoard');
           })
           .catch(error => {
