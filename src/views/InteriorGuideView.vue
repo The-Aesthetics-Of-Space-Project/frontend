@@ -509,7 +509,7 @@ export default {
 }
 
 .selected {
-  outline: 2px solid blue; /* 선택된 이미지를 파란색 테두리로 강조 */
+  outline: 3px solid limegreen; /* 선택된 이미지를 파란색 테두리로 강조 */
   box-sizing: border-box; /* 테두리를 내부 크기에 포함 */
 }
 
@@ -520,7 +520,7 @@ export default {
 }
 
 .image-container .selected {
-  border: 2px solid blue;
+  border: 3px solid limegreen;
 }
 
 #anlay-btn {
