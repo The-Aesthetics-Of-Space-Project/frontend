@@ -319,9 +319,17 @@ export default {
           };
 
           const imageStyles2 = {
-            '0': ['modern', 'simple', 'natural', 'classic'], '1': ['modern', 'natural', 'vintage'], '2': ['natural'],
-            '3': ['natural'], '4': ['natural'], '5': ['natural'], '6': ['vintage'], '7': ['simple'], '8': ['vintage'],
-            '9': ['simple'], '10': ['vintage'],
+            '0': ['modern', 'simple'],
+            '1': ['lovely', 'vintage'],
+            '2': ['natural', 'vintage'],
+            '3': ['modern'],
+            '4': ['modern', 'simple'],
+            '5': ['natural', 'lovely'],
+            '6': ['modern', 'simple'],
+            '7': ['lovely'],
+            '8': ['vintage'],
+            '9': ['natural', 'vintage'],
+            '10': ['natural', 'simple'],
           };
 
           const imageStyles3 = {
@@ -336,13 +344,14 @@ export default {
             'modern': 0,
             'natural': 0,
             'vintage': 0,
-            'classic': 0,
+            'lovely': 0,
             'simple': 0,
           };
 
           //첫 번째 단계 이미지 스타일 스타일 점수 계산
           this.selectedImages.forEach(imageId => {
             const styles = imageStyles[imageId];
+            console.log('1단계 ' + imageId + ' = ' + styles);
             if (styles) {
               styles.forEach(style => {
                 if (!styleScores[style]) styleScores[style] = 0; // 이 줄은 사실상 필요 없으나, 다른 스타일이 추가될 경우를 대비해 둡니다.
@@ -352,7 +361,8 @@ export default {
           });
           // 두 번째 단계 이미지 스타일 점수 합산
           this.selectedImagesStep2.forEach(imageId => {
-            const styles = imageStyles3[imageId];
+            const styles = imageStyles2[imageId];
+            console.log('2단계 ' + imageId + ' = ' + styles);
             if (styles) {
               styles.forEach(style => {
                 if (!styleScores[style]) styleScores[style] = 0; // 이 줄은 사실상 필요 없으나, 다른 스타일이 추가될 경우를 대비해 둡니다.
@@ -363,7 +373,8 @@ export default {
 
           // 세 번째 단계 이미지 스타일 점수 합산
           this.selectedImagesStep3.forEach(imageId => {
-            const styles = imageStyles2[imageId];
+            const styles = imageStyles3[imageId];
+            console.log('1단계 ' + imageId + ' = ' + styles);
             if (styles) {
               styles.forEach(style => {
                 if (!styleScores[style]) styleScores[style] = 0; // 마찬가지로 필요 없지만, 확장성을 고려
