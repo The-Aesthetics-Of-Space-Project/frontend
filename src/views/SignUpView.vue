@@ -94,7 +94,7 @@
         </section>
 
         <section class="nickname-wrapper email-wrapper" style="position: relative; top:30px;">
-          <button  style="position: absolute; top:15px; left:95px;  border-radius: 8px; font-weight:bolder;padding:4px; font-size: 13px; width: 60px"
+          <button  style="position: absolute; top:11px; left:93px;  border-radius: 8px; font-weight:bolder;padding:4px; font-size: 13px; width: 60px"
                    class="btn btn-outline-success" @click="checknicknamebut">Check</button>
           <section class="nickname-content email-content">
             <a class="nickname-title"

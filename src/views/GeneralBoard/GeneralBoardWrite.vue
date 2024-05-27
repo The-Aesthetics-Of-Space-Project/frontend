@@ -202,6 +202,7 @@ export default {
         console.log("res 이미지 파일 전송 후: ", res);
         this.uploadImg = this.baseUrl+res.data;
         this.article.thumbnail = this.uploadImg;
+        alert("사진을 등록하였습니다.");
       });
     },
     /* 모달 창 - 닫기 버튼 */
@@ -231,10 +232,7 @@ export default {
         alert('제목을 입력해 주세요.');
         return;
       }
-      if(!this.editorContent){
-        alert('내용을 입력해 주세요.');
-        return;
-      }
+
       this.article.content = this.editor.getMarkdown();
 
       const articleData = {

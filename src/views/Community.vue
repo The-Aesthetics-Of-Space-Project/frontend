@@ -18,10 +18,10 @@
 
         <div class="image-sc-container">
           <router-link :to="isUserLogin ? '/GeneralBoardWrite':'/login'">
-            <img src="@/assets/community_image_list/board_write.png" alt="유저들의 콘텐츠" class="image-sc">
+            <img src="@/assets/community_image_list/board_write.png" alt="유저들의 콘텐츠" class="image-sc" style="width: 190px; height: 190px; position: relative; top:90px;">
           </router-link>
-          <div class="title-sc" style="position: relative; left:-33%;">게시판 글쓰기</div>
-          <div class="title-sc" style="font-size: 17px; position: relative; left:-18%;  color: gray;  font-weight: normal "> 생각과 경험을 나누는 창입니다.</div>
+          <div class="title-sc" style="position: relative; left:-33%; top:-206px;">게시판 글쓰기</div>
+          <div class="title-sc" style="font-size: 17px; position: relative; left:-18%;  color: gray; top:-206px; font-weight: normal "> 생각과 경험을 나누는 창입니다.</div>
 
         </div>
 
