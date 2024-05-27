@@ -11,7 +11,6 @@
         <a href=""><i class="fa-brands fa-youtube"></i><img src="../assets/footer_icon/youtube_icon.png" height="40" width="40"></a>
       </div>
       <p>Home &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;이용약관&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;소개</p>
-      <p>문의 : 010 - xxxx - xxxx</p>
       <div class="footer-sub-contnet">
         <p>Copy right @2024; Designed by Aesthetics Of Space</p>
       </div>

@@ -51,7 +51,7 @@
       </section>
     </section>
 
-    <div id="editor" class="content-write">
+    <div id="editor" class="content-write" style="position: relative; left:26%;">
       <editor v-model="editorContent" @submit="submitArticle"/>
     </div>
 
@@ -394,10 +394,10 @@ html::-webkit-scrollbar {
 }
 .content-write{
   position: relative;
-  width: 45%;
+  width: 50%;
   height: 50%;
   top: 4.5em;
-  left: 27.5em;
+  left: 27em;
 }
 .mb-3 input {
   height: 50px;
