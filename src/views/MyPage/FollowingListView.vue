@@ -3,23 +3,26 @@
     <div class="following-container">
       <div class="following-wrapper" v-for="followings in following" :key="followings.userId">
         <section class="list-profile-img-container">
+          <router-link :to="{ name: 'MyPageView', query: {nickname: followings.nickname} }">
           <img :src="followings.profile" v-if="profileImage" style="width: 76px; height: 76px; border: 1px solid black; border-radius: 50%;" />
+          </router-link>
         </section>
-
         <section class="list-name-container">
+          <router-link :to="{ name: 'MyPageView', query: {nickname: followings.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
           <section class="list-userId-container">
             {{ followings.userId }}
           </section>
+          </router-link>
+          <router-link :to="{ name: 'MyPageView', query: {nickname: followings.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
           <section class="list-nickName-container">
             {{ followings.nickname }}
           </section>
+          </router-link>
         </section>
-
         <section class="list-follower-delete-btn">
           <button class="follower-delete-btn" @click="deleteFollow(followings.userId)">
             팔로잉 </button>
         </section>
-
       </div>
     </div>
   </div>
@@ -42,7 +45,6 @@ export default {
       data: "null",
       userId: Store.state.userId,
       profileImage: '',
-          //`http://119.198.33.129:8080/users/image?userId=user1@jzip.com`
     };
   },
   mounted() {
