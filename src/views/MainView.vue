@@ -105,6 +105,9 @@
       </button>
     </div>
     <div class="Home-Styling-title">
+      <router-link to="/GeneralBoard" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
+        <span style="float:right; position: relative; left:-110px; top:150px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
+      </router-link>
       <h2  style=" color: #333333; position: relative; top:80px; font-size: 24px; font-weight: bolder;">주목받는 게시물</h2>
       <div class="board-write-list">
         <div class="card-view">
@@ -112,7 +115,7 @@
             <div class="card" v-for="(card, index) in cardsa" :key="index">
               <div class="card-body">
                 <h5 class="card-title" style="font-size: 16px; color: #333333; font-weight: bolder;">{{ card.title }}</h5>
-                <img :src="card.thumbnail" alt=" " height="310" width="310">
+                <img :src="card.thumbnail" alt=" " height="310" width="310" style="border-radius: 15px; position: relative; top:-6px;">
               </div>
               <img src="@/assets/mypage_icon/like.png" height="25" width="25" style="position: relative; left:85%; top:10%;">
               <span style="position: relative; left:45%; top:3.8%;">{{ card.likeCount }}</span>

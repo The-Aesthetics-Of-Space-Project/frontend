@@ -58,7 +58,7 @@
 
           <section class="board-chat-wrapper" style="position: sticky; top: 40.3em;">
             <button class="board-chat-icon-btn" style="position: sticky; border-radius: 60%; border: none;
-        width: 45%; height: 65px; right: 50%; top: 30em; background-color: white; font-size: 14.5px;"><router-link to="/chat"> <img src="../../assets/mypage_icon/chatIcon.png" width="52px" height="52px"></router-link></button>
+        width: 45%; height: 65px; right: 50%; top: 30em; background-color: white; font-size: 14.5px;" @click="chatgoing"><img src="../../assets/mypage_icon/chatIcon.png" width="52px" height="52px"></router-link></button>
           </section>
 
         </section>
@@ -139,6 +139,9 @@ export default {
     };
   },
   computed:{
+    isUserLogin(){
+      return this.$store.getters.isLogin;
+    },
     // 현재 사용자가 글 작성자인지 여부를 확인하는 계산된 속성
     isAuthor() {
       return this.posts.nickname === this.users.nickname;
@@ -178,37 +181,43 @@ export default {
     },
     /* 좋아요 클릭/언클릭 */
     async likeBtn() {
-      if(this.posts.like){
-        // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
-        const args = '/api/contest/unlike';
-        console.log("args 출력해줘ㅓ", args);
-        const unLikeData = {
-          userId: this.users.userId,
-          articleId: this.posts.articleId
-        }
-        await api.unSetLike(args, unLikeData).then(res => {
-          alert("좋아요를 취소했습니다!");
-          this.posts.like = !this.posts.like;
-          this.getArticle();
+      if(this.isUserLogin) {
+        if (this.posts.like) {
+          // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
+          const args = '/api/contest/unlike';
+          console.log("args 출력해줘ㅓ", args);
+          const unLikeData = {
+            userId: this.users.userId,
+            articleId: this.posts.articleId
+          }
+          await api.unSetLike(args, unLikeData).then(res => {
+            alert("좋아요를 취소했습니다!");
+            this.posts.like = !this.posts.like;
+            this.getArticle();
 
-        }).catch(error => {
-          console.log("좋아요 취소 실패!", error);
-        });
-      } else{
-        // 좋아요를 누르지 않은 상태에서 누름 => 좋아요 추가
-        const args = '/api/contest/like';
-        const likeData = {
-          userId: this.users.userId,
-          articleId: this.posts.articleId
+          }).catch(error => {
+            console.log("좋아요 취소 실패!", error);
+          });
+        } else {
+          // 좋아요를 누르지 않은 상태에서 누름 => 좋아요 추가
+          const args = '/api/contest/like';
+          const likeData = {
+            userId: this.users.userId,
+            articleId: this.posts.articleId
+          }
+          await api.setLike(args, likeData).then(res => {
+            alert("좋아요를 눌렀습니다!");
+            this.posts.like = !this.posts.like;
+            this.getArticle();
+          }).catch(error => {
+            console.log("좋아요 실패!", error);
+            this.posts.like = !this.posts.like;
+          })
         }
-        await api.setLike(args, likeData).then(res => {
-          alert("좋아요를 눌렀습니다!");
-          this.posts.like = !this.posts.like;
-          this.getArticle();
-        }).catch(error => {
-          console.log("좋아요 실패!", error);
-          this.posts.like = !this.posts.like;
-        })
+      }
+      else
+      {
+        this.$router.push('login');
       }
     },
     /* 게시글 삭제 */
@@ -292,7 +301,28 @@ export default {
       }).catch(err=>{
         console.log("Comment등록의 err 출력: ", err);
       });
-    }
+    },
+    async chatgoing() {
+      const userData = {
+        nickname : this.posts.nickname,
+        id : this.users.userId,
+      }
+      // console.log("nicknamea",this.posts.nickname);
+      // console.log("아이디",this.users.userId);
+      await api.setChatPartnerId(`/api/chat_room/${encodeURIComponent(this.posts.nickname)}/${encodeURIComponent(this.users.userId)}`,userData)
+          .then(res => {
+            this.users = res.data;
+            console.log('Response data',res);
+            // 여기서 라우터 이동
+            this.$router.push({path: `/api/chat_room/${this.posts.nickname}/${this.userId}`});
+          })
+          .catch(error => {
+            // 통신할 때 401에러 처리
+            console.error('Error data', error);
+            console.log(this.posts.nickname);
+            console.log(this.posts.userId);
+          });
+    },
   }
 };
 </script>
