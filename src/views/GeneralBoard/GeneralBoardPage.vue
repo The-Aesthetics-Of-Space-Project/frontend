@@ -1,6 +1,7 @@
 <template>
   <div id="generalboardpage">
     <div class="generalboardpage-container">
+
       <!-- 글 삭제 및 수정 버튼 -->
       <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 58em; top: 5em;">
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="deletePost">삭제</button>
@@ -66,8 +67,8 @@
 
         <section class="board-chat-wrapper" style="position: sticky; top: 40.3em;">
           <button class="board-chat-icon-btn" @click="chatgoing" style="position: sticky; border-radius: 60%; border: none;
-        width: 45%; height: 65px; right: 50%; top: 30em; background-color: white; font-size: 14.5px;"><router-link :to="isUserLogin ?`/chat/${this.users.userId}` :'login'">
-            <img src="../../assets/mypage_icon/chatIcon.png" width="52px" height="52px"></router-link></button>
+        width: 45%; height: 65px; right: 50%; top: 30em; background-color: white; font-size: 14.5px;">
+            <img src="../../assets/mypage_icon/chatIcon.png" width="52px" height="52px">이동</button>
         </section>
 
       </section>
@@ -108,6 +109,7 @@ export default {
       likedCtn: '',
       scrapedCtn: '',
       newComment: '',
+      chatPartners: '',
       // 댓글 불러옴
       childComments: {
         commentId: '',
@@ -171,23 +173,32 @@ export default {
     } else {
       console.error('articleId가 정의되지 않았습니다.');
     }
+    this.chatgoing()
   },
   created(){
     this.getArticleId = this.$route.params.articleId;
   },
   methods: {
+
     async chatgoing() {
-      await api.getChatUserId(`/chat/${encodeURIComponent(this.userId)}`)
+      const userData = {
+        nickname : this.posts.nickname,
+        id : this.users.userId,
+      }
+     // console.log("nicknamea",this.posts.nickname);
+     // console.log("아이디",this.users.userId);
+      await api.setChatPartnerId(`/api/chat_room/${encodeURIComponent(this.posts.nickname)}/${encodeURIComponent(this.users.userId)}`,userData)
           .then(res => {
             this.users = res.data;
-            console.log('Response data', res.data.userId);
-
+            console.log('Response data',res);
             // 여기서 라우터 이동
-            this.$router.push({path: `/chat/${this.userId}`});
+            this.$router.push({path: `/api/chat_room/${this.posts.nickname}/${this.userId}`});
           })
           .catch(error => {
             // 통신할 때 401에러 처리
             console.error('Error data', error);
+            console.log(this.posts.nickname);
+            console.log(this.posts.userId);
           });
     },
     myPage(nickname){
@@ -203,7 +214,7 @@ export default {
         this.day = dateObject.getDate();
         this.formDate = `${this.year}-${this.month}-${this.day}`;
         const htmlContent = marked(this.posts.content);
-
+        console.log("데이터들",res);
         document.querySelector('#viewer').innerHTML = htmlContent;
       })
     },
