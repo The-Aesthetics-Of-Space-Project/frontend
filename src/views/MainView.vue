@@ -44,6 +44,7 @@
         <div class="card-list">
           <div class="card" v-for="(card, index) in cards" :key="index">
             <div class="card-body">
+              <h5 class="card-title">{{ card.title }}</h5>
               <!--<h5 class="card-title">{{ card.title }}</h5>-->
               <!-- <p class="card-text">{{ card.text }}</p>-->
                 <img :src="card.imageSrc" alt="Card Image" width="112%"height="117%" style="position: relative; left:-6%; top:-16px;">
@@ -110,14 +111,16 @@
       <div class="board-write-list">
         <div class="card-view">
           <div class="card-list">
-            <div class="card" v-for="(card, index) in cardsa" :key="index" @input='cardlist'>
+            <div class="card" v-for="(card, index) in cardsa" :key="index">
               <div class="card-body">
-                <h5 class="card-title" >{{ card.title }}</h5>
+                <h5 class="card-title">{{ card.title }}</h5>
+                <img :src="card.thumbnail" alt=" " height="310" width="310">
               </div>
               <img src="@/assets/mypage_icon/like.png" height="25" width="25" style="position: relative; left:85%; top:10%;">
               <span style="position: relative; left:45%; top:3.8%;">{{ card.likeCount }}</span>
               <h5 class="card-title" style="position:relative; top:50px;">{{ card.nickname }}</h5>
             </div>
+
           </div>
         </div>
       </div>
@@ -146,9 +149,11 @@ export default {
   },
   methods:{
     async cardlist() {
+      const baseUrl = 'http://jerry6475.iptime.org:20000';
       await api.getGeneralRanking('/api/general/posts/popular').then(res => {
         this.cardsa = res.data.map(card => ({
           ...card,
+          profile: baseUrl + card.profile
         }));
         console.log('데이타', res.data);
       }).catch(error => {
