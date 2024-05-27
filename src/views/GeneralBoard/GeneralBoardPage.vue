@@ -18,18 +18,19 @@
         {{ posts.title }}
       </div>
     </div>
-
     <div class="user_info" style="position: relative;  width: 55%; height: 57px; margin: auto; top: 6.2em;" ><!--v-for="user in users"-->
       <section class="user_info_wrapper" style="position: relative; display: grid; grid-template-columns: 1fr 2fr; grid-template-rows: 1fr; width: 32%;
       height: 50px; top: 2px;">
-        <section class="user_profiles" @click="myPage(posts.nickname)">
+        <section class="user_profiles">
+          <router-link :to="{ name: 'MyPageView', query: {nickname: posts.nickname} }" style="cursor:pointer;">
           <img :src="posts.profile" alt="프로필 사진" style="height: 50px; width: 55px; border-radius: 50%; cursor: pointer;">
+          </router-link>
         </section>
-
-        <section class="user_name" @click="myPage(posts.nickname)" style="font-weight: 550; font-size: 18px; left: -6px;">
+        <router-link :to="{ name: 'MyPageView', query: {nickname: posts.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
+        <section class="user_name" style="font-weight: 550; font-size: 18px; left: -6px;">
           {{ posts.nickname }}
         </section>
-
+        </router-link>
       </section>
     </div>
       <!-- 날짜 출력 -->
@@ -38,7 +39,6 @@
         작성일 : {{ this.formDate }}
       </section>
     </div>
-
       <!-- 내용 출력 -->
     <div class="general-content-container" style="position: relative; left: 1px; width: 80%; height: 100%; display: grid;
     grid-template-columns: 6fr 1fr; grid-template-rows: 1fr; top: 4em; margin: auto;">
@@ -46,7 +46,6 @@
         <div id="viewer" class="content">
         </div>
       </div>
-
       <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 80%; right:17%; top: 19%; text-align: left;">
         <!-- 좋아요 버튼 -->
         <button type="button" class="heart-btn" @click="likeBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
@@ -55,7 +54,6 @@
           <br>
           {{ posts.likeCount }}
         </button>
-
         <!-- 스크랩 버튼 -->
         <button type="button" class="scrap-btn" @click="scrapBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
         width: 45%; height: 65px; right: 50%; top: 81%; background-color: white; font-size: 14.5px;">
@@ -63,7 +61,6 @@
           <br>
           {{ posts.scrapCount }}
         </button>
-
         <section class="board-chat-wrapper" style="position: sticky; top: 40.3em;">
           <button class="board-chat-icon-btn" @click="chatgoing" style="position: sticky; border-radius: 60%; border: none;
         width: 45%; height: 65px; right: 50%; top: 30em; background-color: white; font-size: 14.5px;"><router-link :to="isUserLogin ?`/chat/${this.users.userId}` :'login'">
@@ -72,7 +69,6 @@
 
       </section>
     </div>
-
       <!-- 댓글 작성 및 댓글 확인 폼 -->
       <div class="comment-container">
         <div class="comment-input">
@@ -81,9 +77,7 @@
         </div>
         <CommentList :articleId="Number(getArticleId)" ref="commentList"
                      @submit="replyComments" @modified="modifiedComment" @deleted="deletedComment"/>
-
       </div>
-
     </div>
   </div>
 </template>
@@ -159,11 +153,6 @@ export default {
     }
   },
   mounted(){
-    const urlStr = window.location.href;
-    // 마지막 = 이후의 부분을 분리
-    const parts = urlStr.split('=');
-    this.getArticleId = parts.pop();
-
     if (this.getArticleId) {
       this.getArticle();
       // CommentList 컴포넌트의 메서드를 호출하여 초기 데이터를 로드
@@ -173,7 +162,7 @@ export default {
     }
   },
   created(){
-    this.getArticleId = this.$route.params.articleId;
+    this.getArticleId = this.$route.query.articleId;
   },
   methods: {
     async chatgoing() {
@@ -189,9 +178,6 @@ export default {
             // 통신할 때 401에러 처리
             console.error('Error data', error);
           });
-    },
-    myPage(nickname){
-      this.$router.push({name: 'MyPageView', params: {nickname: nickname}});
     },
     async getArticle(){
       const args = `/api/general/post/${this.getArticleId}`;

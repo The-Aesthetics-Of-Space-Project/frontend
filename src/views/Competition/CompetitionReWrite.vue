@@ -28,14 +28,14 @@
         <section class="com-content-container">
           <section class="com-content-wrapper">
             <textarea type="text" class="com-content" oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'
-                      placeholder="내용을 입력해 주세요.(최대 500자)" maxlength="500" rows="30" cols="90" style="resize: none; box-shadow: none; max-height: 80%; border: 1px solid #8D8D8D; border-radius: 8px; outline-color: darkslategrey;"
+                      placeholder="내용을 입력해 주세요.(최대 500자)" maxlength="500" rows="30" cols="85" style="margin-left: 12px; resize: none; box-shadow: none; max-height: 80%; border: 1px solid #8D8D8D; border-radius: 8px; outline-color: darkslategrey;"
                       v-model="article.contents"/>
-            <section class="max-length"> <p>{{ article.contents.length}}/500</p> </section>
+            <section class="max-length"> <p style="left: 46em;">{{ article.contents.length}}/500</p> </section>
           </section>
         </section>
         <!-- 제출하기 버튼 -->
         <section class="submit-btn-wrapper">
-          <button type="submit" class="submit-btn" @click="modifyArticle"> 수정하기 </button>
+          <button type="submit" class="submit-btn" @click="modifyArticle" style="width: 110px; position: relative; border-radius: 8px; border: none; color: ghostwhite; font-size: 16px; font-weight: 550; background-color: rgb(4,57,39,80%); height: 45%;"> 수정하기 </button>
         </section>
       </div>
     </div>
@@ -355,7 +355,7 @@ h6 p {
 }
 .submit-btn-wrapper{
   position: relative;
-  width: 10%;
+  width: 50%;
   height: 8%;
   top: -13%;
   left: 22%;

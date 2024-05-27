@@ -38,6 +38,30 @@ const routes = [
         name: 'GeneralBoardPage',
         component: GeneralBoardPage
     },
+    /* 마이페이지 팔로워 클릭 -> 해당 페이지  */
+    {
+        path: '/my-page/:userId',
+        name: 'FollowerListView',
+        component: FollowerListView
+    },
+    /* 마이페이지 팔로잉 클릭 -> 해당 페이지  */
+    {
+        path: '/my-page/:userId',
+        name: 'FollowingListView',
+        component: FollowingListView
+    },
+    /* 마이페이지 스크랩 목록 클릭 -> 해당 페이지  */
+    {
+        path: '/my-page/:userId',
+        name: 'ScrapListView',
+        component: ScrapListView
+    },
+    /* 마이페이지 좋아요 클릭 -> 해당 페이지  */
+    {
+        path: '/my-page/:userId',
+        name: 'LikeListView',
+        component: LikeListView
+    },
     /* 마이페이지 공모전 게시글 목록의 게시글 클릭 -> 해당 페이지  */
     {
         path: '/my-page/:articleId',

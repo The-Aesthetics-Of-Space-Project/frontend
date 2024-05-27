@@ -240,7 +240,6 @@ export default {
       })
     }
   }
-
 };
 </script>
 

@@ -103,17 +103,21 @@
                     height="30px"
                     style="position: absolute; left: -35px; top: 15px;"
                 />
+                <router-link :to="{ name: 'MyPageView', query: {nickname: comment.nickname}}">
                 <img
                     :src="reply.profile"
                     style="position: relative; width: 50px; height: 50px; border-radius: 50%; top: 10px;"
                 />
+                </router-link>
               </div>
             </div>
             <div class="comment-reply-list-content" style="position: relative; width: 100%; height: 95%; margin: auto; display: grid;
               grid-template-columns: 1fr; grid-template-rows: 1fr 2fr; top: 5px; left: -5px;">
+              <router-link :to="{ name: 'MyPageView', query: {nickname: comment.nickname}}" style="cursor:pointer; font-weight: 550; font-size:15px; text-decoration: none; color: rgb(0,0,0,80%);">
               <div class="comment-reply-nickname-content" style="font-weight: 550; font-size: 15px;">
                 {{ reply.nickname }}
               </div>
+              </router-link>
               <div class="comments-reply-content">
                 <section class="comments-reply-content-wrapper">{{ reply.content }}</section>
               </div>
