@@ -45,7 +45,7 @@
           </button>
           <ul class="dropdown-menu" id="dropdown" >
             <li v-for="(item, index) in menuItems" :key="item.text" >
-              <router-link :to="item.href(isUserLogin)" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: center;">
+              <router-link :to="item.href(isUserLogin)" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: left;">
                 <img :class="item.class" :src="item.imgSrc">{{ item.text }}
               </router-link>
               <hr class="dropdown-divider" v-if="index < menuItems.length - 1">

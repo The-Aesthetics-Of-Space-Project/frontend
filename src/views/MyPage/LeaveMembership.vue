@@ -17,7 +17,7 @@
         </div>
       </section>
       <section class="agree-btn-wrapper d-flex align-items-center justify-content-center">
-        <button type="button" class="btn-agree btn btn-success font-weight-bold"  @click="deleteUsers()" style="height: 50px;   background-color: #80C85F; border-color: #80C85F; position: relative; left:-20px;">
+        <button type="button" class="btn-agree btn btn-success font-weight-bold"  :disabled="!isAgreed"  @click="deleteUsers()" style="height: 50px;   background-color: #80C85F; border-color: #80C85F; position: relative; left:-20px;">
           확인
         </button>
       </section>
