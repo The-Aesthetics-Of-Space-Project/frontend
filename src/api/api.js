@@ -80,7 +80,7 @@ export const api = {
     deletePost(args){
         return service.delete(args)
     },
-    AnalysisResult(args){
+    analysisResult(args){
         return service.get(args)
     },
     /* 댓글 삭제 요청 */
