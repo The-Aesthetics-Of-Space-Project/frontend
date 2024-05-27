@@ -127,7 +127,7 @@ const routes = [
     { path: '/like', component: LikeListView, meta: {hideHeader: false, hideFooter: false }},
     { path: '/following', component: FollowingListView, meta: {hideHeader: false, hideFooter: false }},
     { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
-    { path: '/chat/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
+    { path: '/api/chat_room/:nickname/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/generalReWrite', component: GeneralReWrite, meta: {hideHeader: false, hideFooter: true }},
     { path: '/competitionPoster', component: CompetitionPoster, meta: {hideHeader: false, hideFooter: false}},
     { path: '/competitionWrite', component: CompetitionWrite, meta: {hideHeader: false, hideFooter: false}},

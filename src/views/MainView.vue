@@ -105,6 +105,9 @@
       </button>
     </div>
     <div class="Home-Styling-title">
+      <router-link to="/GeneralBoard" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
+        <span style="float:right; position: relative; left:-110px; top:150px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
+      </router-link>
       <h2  style=" color: #333333; position: relative; top:80px; font-size: 24px; font-weight: bolder;">주목받는 게시물</h2>
       <div class="board-write-list">
         <div class="card-view">
