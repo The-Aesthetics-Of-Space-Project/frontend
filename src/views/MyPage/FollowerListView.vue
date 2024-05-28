@@ -83,9 +83,9 @@ export default {
       const args=`/users/unfollower?userId=${this.followers.userId}&follower=${clickUserId}`;
       await api.deleteFollow(args).then(res => {
         this.followers = this.followers.filter(follower => follower.userId !== clickUserId);
-        console.log("삭제 성공: ", res);
+        console.log("res: ", res);
       }).catch(err=>{
-        console.log("삭제 실패: ", err);
+        console.log("err: ", err);
       })
     }
   }

@@ -191,20 +191,32 @@ export default {
             console.log(this.posts.userId);
           });
     },
-    async getArticle(){
-      const args = `/api/general/post/${this.getArticleId}`;
-      await api.getPost(args).then(res =>{
-        this.posts=res.data;
+    async getArticle() {
+      try {
+        const args = `/api/general/post/${this.getArticleId}`;
+        const res = await api.getPost(args);
+        this.posts = res.data;
+
         const dateObject = new Date(this.posts.date);
         this.year = dateObject.getFullYear();
-        this.month = dateObject.getMonth()+1;
+        this.month = dateObject.getMonth() + 1;
         this.day = dateObject.getDate();
         this.formDate = `${this.year}-${this.month}-${this.day}`;
         this.content = this.posts.content;
+
         const htmlContent = marked(this.posts.content);
-        console.log("데이터들",res);
+        console.log("데이터들", res);
         document.querySelector('#viewer').innerHTML = htmlContent;
-      })
+      } catch (error) {
+        console.error("게시글 불러오기 실패", error);
+        if (error.response && error.response.status === 401) {
+          console.log("로그인 ㄱㄱ.");
+        } else if (error.response && error.response.status === 400) {
+          console.log("잘못된 요청");
+        } else {
+          console.log("알 수 없는 오류");
+        }
+      }
     },
     loadComments() {
       // CommentList 컴포넌트의 메서드를 호출하여 댓글 로드

@@ -65,55 +65,55 @@ const params="";
 
 // 조회
 service.get(args).then((res) => {
-        console.log("응답 성공!_!", res.data);
+    //    console.log("응답 성공!_!", res.data);
         return res.data;
     })
     .catch((error) => {
-        console.log("에러입니다!!!",error);
+     //   console.log("에러입니다!!!",error);
     })
 
 // 삭제
 service.delete(args).then((res) => {
-    console.log("삭제 성공!_!", res);
+   // console.log("삭제 성공!_!", res);
     return res;
 })
     .catch((error) => {
-        console.log("삭제 에러입니다!!!",error);
+      //  console.log("삭제 에러입니다!!!",error);
     })
 
 service.put(args, params).then((res) => {
-    console.log("수정 성공!_!", res);
+   // console.log("수정 성공!_!", res);
     return res;
 })
     .catch((error) => {
-        console.log("수정 에러입니다!!!",error);
+     //   console.log("수정 에러입니다!!!",error);
     })
 service.post(args, params).then((res) => {
-    console.log("post: 응답 성공!_!", res);
+//    console.log("post: 응답 성공!_!", res);
     return res;
 })
     .catch((error) => {
-        console.log("post: 전송 에러입니다!!!",error);
+   //     console.log("post: 전송 에러입니다!!!",error);
     })
 
 export default {
     async get(args) {
         try {
             const res = await service.get(args)
-            console.log("service.js-get: res값 -> ", res)
+        //    console.log("service.js-get: res값 -> ", res)
             return res;
 
         } catch (e) {
-            return console.log("error")
+        //    return console.log("error")
         }
     },
     async post(args, params) {
         try {
             const res = await service.post(args, params);
-            console.log("service.js: post 요청 응답 -> ", res);
+         //   console.log("service.js: post 요청 응답 -> ", res);
             return res;
         } catch (e) {
-            console.error("post 요청 중 에러 발생: ", e);
+          //  console.error("post 요청 중 에러 발생: ", e);
             return null;
         }
     },
@@ -121,10 +121,10 @@ export default {
     async put(args, params) {
         try {
             const res = await service.put(args, params);
-            console.log("service.js: res값 -> ", res);
+         //   console.log("service.js: res값 -> ", res);
             return res;
         } catch (e) {
-            console.log("error");
+         //   console.log("error");
             return null;
         }
     },
@@ -132,10 +132,10 @@ export default {
     async delete(args) {
         try {
             const res = await service.delete(args);
-            console.log("service.js: res값 -> ", res);
+       //     console.log("service.js: res값 -> ", res);
             return res;
         } catch (e) {
-            console.log("error");
+        //    console.log("error");
             return null;
         }
     },

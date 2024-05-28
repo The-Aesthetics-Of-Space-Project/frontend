@@ -256,6 +256,7 @@ export default {
         const args = `/users/posts?userId=${encodeURIComponent(this.sessionUserId)}`;
         const res = await api.getPost(args);
         this.posts = res.data;
+        console.log(res.data);
       } catch (error) {
         console.error(error);
       }
