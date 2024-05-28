@@ -25,7 +25,7 @@
 
       <div class="image-1container">
         <router-link to="/Community">
-          <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티" >
+          <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티" width="282px;">
         </router-link>
         <div class="title-a" style=" font-size: 20px;">취향을 나누는 커뮤니티</div>
         <div class="description">다채로운 관심사를 가진 사람들이 모여 정보를 얻고, 서로 공감하면서 긍정적인 영향을 주고받는 커뮤니티 생태계를 만듭니다.</div>
@@ -119,7 +119,7 @@
               </div>
               <img src="@/assets/mypage_icon/like.png" height="25" width="25" style="position: relative; left:85%; top:10%;">
               <span style="position: relative; left:45%; top:3.8%;">{{ card.likeCount }}</span>
-              <h5 class="card-title" style="position:relative; top:50px; font-size: 16px;">{{ card.nickname }}의 게시물</h5>
+              <h5 class="card-title" style="position:relative; top:50px; font-size: 16px;"><span style="font-size: 17.5px;">{{ card.nickname }}</span>&nbsp;의 게시물</h5>
             </div>
 
           </div>
@@ -514,7 +514,7 @@ div {
   flex-basis: 29%; /* flex 항목의 기본 크기 설정 */
   text-align: center; /* 텍스트 중앙 정렬 */
   background-color: #f8f8f8; /* 배경색 */
-  padding: 10px; /* 내부 여백 */
+  padding: 15px; /* 내부 여백 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
   border-radius: 10px; /* 모서리 둥글게 */
   transition: transform 0.3s ease-in-out; /* 변형 애니메이션 */

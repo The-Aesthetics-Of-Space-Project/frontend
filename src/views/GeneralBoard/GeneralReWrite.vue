@@ -52,12 +52,12 @@
       </section>
     </section>
 
-    <div id="editor" class="content-write">
+    <div id="editor" class="content-write" style="margin: auto; width: 45%; left:-1.5%;">
       <editor />
     </div>
 
     <section class="button">
-      <button type="button" class="btn btn-success" @click="postArticle">수정 하기</button>
+      <button type="button" class="btn btn-success" @click="postArticle" style="width: 100px; height: 45px; top:-15px; left:-1.5%;">수정 하기</button>
     </section>
   </div>
 </template>
@@ -233,16 +233,21 @@ export default {
     /* 모달 창 - 확인 버튼 */
     modalOk(){
       this.modalCheck = !this.modalCheck;
+      if(!this.imgUrl){
+        alert('사진을 등록해 주세요.');
+      }
+      else //else 조건으로 요청코드 GO
+      {
+        const args = '/api/general/post/image';
+        const formData = new FormData();
+        formData.append('file', this.image);
 
-      const args='/api/general/post/image';
-      const formData = new FormData();
-      formData.append('file', this.image);
-
-      /* 이미지 파일 전송 */
-      api.setGeneralUser(args, formData).then(res => {
-        this.uploadImg = this.baseUrl+res.data;
-        this.article.thumbnail = this.uploadImg;
-      });
+        /* 이미지 파일 전송 */
+        api.setGeneralUser(args, formData).then(res => {
+          this.uploadImg = this.baseUrl + res.data;
+          this.article.thumbnail = this.uploadImg;
+        });
+      }
     },
     /* 모달 창 - 닫기 버튼 */
     modalClose(){

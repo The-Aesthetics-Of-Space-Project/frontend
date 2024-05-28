@@ -191,8 +191,8 @@ export default {
     modalOk(){
       this.modalCheck = !this.modalCheck;
       // this.uploadImg대신 this.imgUrl로 체크.
-      // 왜냐하면 210번째 줄에서 this.uploadImg가 이미지가 실제로 서버에 업로드되었을 때의 URL을 저장하는 용도라면,
-      // 사용자가 이미지를 선택하고 업로드 버튼을 누른 후 서버로부터 응답을 받아 이 변수를 업데이트하는 로직이 필요하다고 하네용
+      // 왜냐하면 this.uploadImg가 이미지가 실제로 서버에 업로드되었을 때의 URL을 저장하는 용도라면,
+      // 사용자가 이미지를 선택하고 업로드 버튼을 누른 후 서버로부터 응답을 받아 이 변수를 업데이트하는 로직이 필요
       if(!this.imgUrl){
         alert('사진을 등록해 주세요.');
       }

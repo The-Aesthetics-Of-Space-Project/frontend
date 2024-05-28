@@ -1,7 +1,6 @@
 <template>
   <div id="generalboardpage">
     <div class="generalboardpage-container">
-
       <!-- 글 삭제 및 수정 버튼 -->
       <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 58em; top: 5em;">
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="deletePost">삭제</button>
@@ -41,8 +40,7 @@
       </section>
     </div>
       <!-- 내용 출력 -->
-    <div class="general-content-container" style="position: relative; left: 1px; width: 80%; height: 100%; display: grid;
-    grid-template-columns: 6fr 1fr; grid-template-rows: 1fr; top: 4em; margin: auto;">
+    <div class="general-content-container" style="position: relative; left: -5%; width: 80%; height: 80%; display: grid; top: 4em; margin: auto; ">
       <div class="content-wrappers">
         <div id="viewer" class="content">
         </div>
@@ -80,6 +78,10 @@
                      @submit="replyComments" @modified="modifiedComment" @deleted="deletedComment"/>
       </div>
     </div>
+    <div style="display: none;">
+      <footer style="display: none;"><!-- footer 내용 -->
+      </footer>
+    </div>
   </div>
 </template>
 
@@ -90,10 +92,12 @@ import CommentWrite from "@/views/GeneralBoard/Comment/CommentWrite.vue";
 import {marked} from 'marked';
 import CommentList from "@/views/GeneralBoard/Comment/CommentList.vue";
 import axios from "axios";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: 'GeneralBoardPage',
   components:{
+    Footer,
     CommentWrite,
     CommentList,
   },
@@ -199,6 +203,7 @@ export default {
         this.month = dateObject.getMonth()+1;
         this.day = dateObject.getDate();
         this.formDate = `${this.year}-${this.month}-${this.day}`;
+        this.content = this.posts.content;
         const htmlContent = marked(this.posts.content);
         console.log("데이터들",res);
         document.querySelector('#viewer').innerHTML = htmlContent;
@@ -377,6 +382,7 @@ export default {
     }
   }
 };
+
 </script>
 
 <style>
@@ -452,19 +458,19 @@ export default {
   width: 78%;
   margin: auto;
   height: 650px;
-  border: 1px solid rgb(141,141,141,30%);
-  border-radius: 15px;
   position: relative;
   top: 50px;
-  left: 70px;
+  left: 280px;
   overflow: visible; /* 내용이 길어져도 모두 표시되도록 설정 */
 }
+
 .comment-container {
   position: relative;
   width: 78%;
   height: auto;
   top: 9.2em;
-  left: 23%;
+  left: 25%;
+  margin-top: calc(30% + 4em); /* 게시글 내용의 80% + 4em의 여백 */
 }
 .comment-input {
   display: flex;
@@ -497,8 +503,22 @@ export default {
   align-items: center;
   align-content: center;
 }
-svg.bi-arrow-up-circle{
-  width: 25px;
-  height: 25px;
+.general-content-container .content-wrappers .content img {
+  max-width: 400px;
+  max-height: 400px;
 }
+.general-content-container .content-wrappers h1{
+  font-size: 15px;
+}
+
+.content-wrappers img {
+  max-width: 400px;
+  max-height: 400px;
+  margin-right: 2rem;
+}
+
+.content-wrappers .content {
+  max-width: 350px;
+}
+
 </style>
