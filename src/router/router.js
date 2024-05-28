@@ -154,7 +154,7 @@ const routes = [
     { path: '/api/chat_room/:nickname/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/generalReWrite', component: GeneralReWrite, meta: {hideHeader: false, hideFooter: true }},
     { path: '/competitionPoster', component: CompetitionPoster, meta: {hideHeader: false, hideFooter: false}},
-    { path: '/competitionWrite', component: CompetitionWrite, meta: {hideHeader: false, hideFooter: false}},
+    { path: '/competitionWrite', component: CompetitionWrite, meta: {hideHeader: false, hideFooter: true}},
     { path: '/competitionMain', component: CompetitionMain, meta: {hideHeader: false, hideFooter: true}},
     { path: '/competitionPage', component: CompetitionPage, meta: {hideHeader: false, hideFooter: true}},
     { path: '/competitionReWrite', component: CompetitionReWrite, meta: {hideHeader: false, hideFooter: true}},
