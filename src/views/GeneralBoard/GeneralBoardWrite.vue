@@ -251,23 +251,27 @@ export default {
       }
 
       console.log("articleData: ", articleData);
+      if(!this.imgUrl){
+        alert('사진을 등록해 주세요.');
+      }
+      else {
+        const args = '/api/general/post';
+        const params = articleData;
 
-      const args = '/api/general/post';
-      const params = articleData;
-
-      // axios를 사용하여 POST 요청 보내기
-      api.setUser(args, params)
-          .then(response => {
-            // 요청이 성공했을 때 처리할 코드
-            alert('게시물이 등록되었습니다 !');
-            console.log('게시물이 등록되었습니다.', response);
-            this.$router.push('/generalBoard');
-          })
-          .catch(error => {
-            // 요청이 실패했을 때 처리할 코드
-            console.error('게시물 등록에 실패했습니다.', error);
-            // 실패 시 사용자에게 알림을 표시하거나 재시도 안내 등의 작업 수행
-          });
+        // axios를 사용하여 POST 요청 보내기
+        api.setUser(args, params)
+            .then(response => {
+              // 요청이 성공했을 때 처리할 코드
+              alert('게시물이 등록되었습니다 !');
+              console.log('게시물이 등록되었습니다.', response);
+              this.$router.push('/generalBoard');
+            })
+            .catch(error => {
+              // 요청이 실패했을 때 처리할 코드
+              console.error('게시물 등록에 실패했습니다.', error);
+              // 실패 시 사용자에게 알림을 표시하거나 재시도 안내 등의 작업 수행
+            });
+      }
     },
   },
 

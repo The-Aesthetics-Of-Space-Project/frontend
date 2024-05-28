@@ -151,20 +151,25 @@ export default {
       formData.append('contents', this.article.contents);
       formData.append('nickname', this.article.nickname);
 
-      const args = '/api/contest/post';
-      const params = formData;
+      if(!this.imgUrl){
+        alert('사진을 등록해 주세요.');
+      }
+      else {
+        const args = '/api/contest/post';
+        const params = formData;
 
-      // POST 요청 보내기
-      api.setUser(args, params)
-          .then(response => {
-            // 요청이 성공했을 때 처리할 코드
-            alert('공모전에 참가되었습니다!');
-            this.$router.push('/competitionMain');
-          })
-          .catch(error => {
-            // 요청이 실패했을 때 처리할 코드
-            console.error('게시물 등록에 실패했습니다.', error);
-          });
+        // POST 요청 보내기
+        api.setUser(args, params)
+            .then(response => {
+              // 요청이 성공했을 때 처리할 코드
+              alert('공모전에 참가되었습니다!');
+              this.$router.push('/competitionMain');
+            })
+            .catch(error => {
+              // 요청이 실패했을 때 처리할 코드
+              console.error('게시물 등록에 실패했습니다.', error);
+            });
+      }
     }
   },
   watch: {

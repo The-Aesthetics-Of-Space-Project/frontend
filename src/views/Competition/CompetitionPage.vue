@@ -224,9 +224,11 @@ export default {
     deletePost(){
       const args = `/api/contest/post/${this.posts.articleId}`;
       api.deletePost(args).then(res => {
-        console.log("글 삭제 성공!", res);
-        alert("글 삭제 성공했습니다!");
-        this.$router.push('/competitionMain');
+        if (window.confirm('삭제하시겠습니까?')) {
+          alert('글 삭제에 성공하였습니다.');
+          this.$router.push('/competitionMain');
+          console.log("글 삭제 성공!", res);
+        }
       }).catch(error => {
         console.log("글 삭제 실패했습니다!", error);
       });
