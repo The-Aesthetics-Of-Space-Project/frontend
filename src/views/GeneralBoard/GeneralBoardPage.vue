@@ -43,6 +43,7 @@
     <div class="general-content-container" style="position: relative; left: -5%; width: 80%; height: 80%; display: grid; top: 4em; margin: auto; ">
       <div class="content-wrappers">
         <div id="viewer" class="content">
+
         </div>
       </div>
       <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 80%; right:17%; top: 19%; text-align: left;">
@@ -77,10 +78,6 @@
         <CommentList :articleId="Number(getArticleId)" ref="commentList"
                      @submit="replyComments" @modified="modifiedComment" @deleted="deletedComment"/>
       </div>
-    </div>
-    <div style="display: none;">
-      <footer style="display: none;"><!-- footer 내용 -->
-      </footer>
     </div>
   </div>
 </template>
