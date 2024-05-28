@@ -231,9 +231,12 @@ export default {
       const args=`/users/update?userId=${encodeURIComponent(presentUserId)}`;
       const params = formData;
       await api.updateUser(args, params).then(res => {
-        console.log("수정 성공: ", res);
+        console.log("비번: ", this.user.password);
+        console.log("닉넴: ", this.user.nickname);
+        console.log("이미지: ", this.image);
         this.$router.push('my-page');
         alert('수정하였습니다.');
+        this.$store.commit('setUserNickname', this.user.nickname);
         for (let key of formData.keys()) {
           console.log(key, ":", formData.get(key));
         }

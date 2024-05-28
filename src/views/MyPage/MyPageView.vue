@@ -197,12 +197,12 @@ export default {
   },
   mounted(){
       this.getNicknames = this.getNickname;
-
       if(this.getNicknames){
         this.getOtherUser();
       }else if(!this.getNicknames){
         this.getUser();             // 유저 정보
       }
+    this.getPostContest()
   },
   methods:{
     async chatgoing() {
@@ -276,6 +276,7 @@ export default {
         const args = `/users/contests?userId=${encodeURIComponent(this.sessionUserId)}`;
         const res = await api.getPost(args);
         this.contests = res.data;
+        console.log("공모전ㄷㅇㅌ",res.data);
       } catch (error) {
         console.error(error);
       }
