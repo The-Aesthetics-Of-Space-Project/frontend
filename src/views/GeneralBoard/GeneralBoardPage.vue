@@ -308,6 +308,7 @@ export default {
     },
     /* 원댓글 작성 */
     async handleCommentSubmit(commentData){
+
         const submitData = {
           content: commentData.content,
           parentId: commentData.parentId,
@@ -316,13 +317,18 @@ export default {
         }
         const params = submitData;
 
-        const args = `/api/general/comment`;
-        await api.setComment(args, params).then(res=>{
-          this.comments=res.data;
-          this.loadComments(this.getArticleId);
-        }).catch(err=>{
-          console.log("Comment등록의 err 출력: ", err);
-        });
+        if(!commentData.content){
+          alert('댓글을 입력하세요.')
+        }
+        else {
+          const args = `/api/general/comment`;
+          await api.setComment(args, params).then(res => {
+            this.comments = res.data;
+            this.loadComments(this.getArticleId);
+          }).catch(err => {
+            console.log("Comment등록의 err 출력: ", err);
+          });
+        }
     },
     /* 답글 달기 등록 */
     async replyComments(commentReplyData){
@@ -381,7 +387,7 @@ export default {
   text-align: center;
   position: relative;
   width:100%;
-  height:1200px;
+  height:2000px;
   margin: 0;
 }
 .generalboardpage-container{

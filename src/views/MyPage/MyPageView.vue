@@ -225,7 +225,7 @@ export default {
           const args = `/users/details?nick=${this.sessionNickname}`;
           const res = await api.getUserInfo(args);
           this.users = res.data;
-          this.users.profile = this.baseUrl+res.data.profile;
+          //this.users.profile = res.data.profile;
 
           await this.getPost();             // 일반 게시판 게시글 조회
           await this.getPostContest();      // 공모전 게시글 조회

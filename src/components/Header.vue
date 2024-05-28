@@ -38,7 +38,7 @@
 
 
         <span class="username"></span>
-        <div id="header-board-write" class="btn-group">
+        <div id="header-board-write" class="btn-group" style="text-align: left;">
           <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             글쓰기
             <span class="visually-hidden">Toggle Dropdown</span>
@@ -57,14 +57,14 @@
       </template>
       <!-- 로그인 전 -->
       <template v-else>
-        <div id="header-board-write" class="btn-group" style="position: relative; left:610px; top:-182px;">
+        <div id="header-board-write" class="btn-group" style="position: relative; left:610px; top:-182px;text-align: left;">
           <button type="button" class="btn btn-secondary dropdown-toggle" data-bs-toggle="dropdown" aria-expanded="false">
             글쓰기
             <span class="visually-hidden">Toggle Dropdown</span>
           </button>
           <ul class="dropdown-menu" id="dropdown" >
             <li v-for="(item, index) in menuItems" :key="item.text" >
-              <router-link :to="item.href(isUserLogin)" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: center;">
+              <router-link :to="item.href(isUserLogin)" class="dropdown-item" id="menu-font" style="font-weight:bolder;text-align: left;">
                 <img :class="item.class" :src="item.imgSrc">{{ item.text }}
               </router-link>
               <hr class="dropdown-divider" v-if="index < menuItems.length - 1">
@@ -176,8 +176,8 @@ export default {
 }
 
 .header {
-  padding: 25px;
-  height: 150px;
+  padding: 40px;
+  height: 180px;
 }
 
 @font-face {

@@ -154,6 +154,14 @@
       },
       /* 수정하기 */
       modifyArticle(){
+        if(!this.article.title){
+          alert('제목을 입력하세요.');
+          return;
+        }
+        if(!this.article.contents){
+          alert('내용을 입력하세요.');
+          return;
+        }
         const formData = new FormData();
 
         formData.append('title', this.article.title);
@@ -170,6 +178,7 @@
         // POST 요청 보내기
         api.editPost(args, params)
             .then(res => {
+              console.log("res",res);
               // 요청이 성공했을 때 처리할 코드
               alert('글이 수정되었습니다!');
               this.$router.push('/competitionMain');

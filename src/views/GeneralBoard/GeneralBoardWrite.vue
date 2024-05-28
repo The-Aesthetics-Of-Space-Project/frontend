@@ -190,7 +190,14 @@ export default {
     /* 모달 창 - 확인 버튼 */
     modalOk(){
       this.modalCheck = !this.modalCheck;
-
+      // this.uploadImg대신 this.imgUrl로 체크.
+      // 왜냐하면 210번째 줄에서 this.uploadImg가 이미지가 실제로 서버에 업로드되었을 때의 URL을 저장하는 용도라면,
+      // 사용자가 이미지를 선택하고 업로드 버튼을 누른 후 서버로부터 응답을 받아 이 변수를 업데이트하는 로직이 필요하다고 하네용
+      if(!this.imgUrl){
+        alert('사진을 등록해 주세요.');
+      }
+      else //else 조건으로 요청코드 GO
+      {
       const args='/api/general/post/image';
       const formData = new FormData();
       formData.append('file', this.image);
@@ -204,6 +211,7 @@ export default {
         this.article.thumbnail = this.uploadImg;
         alert("사진을 등록하였습니다.");
       });
+      }
     },
     /* 모달 창 - 닫기 버튼 */
     modalClose(){
