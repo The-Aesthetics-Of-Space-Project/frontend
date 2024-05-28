@@ -20,7 +20,7 @@
           </router-link>
         </section>
         <section class="list-follower-delete-btn">
-          <button class="follower-delete-btn" @click="deleteFollow(follower.userId)"> 삭제 </button>
+          <button class="follower-delete-btn" @click="deleteFollow(clickUserId)"> 삭제 </button>
         </section>
       </div>
     </div>
@@ -41,11 +41,25 @@ export default {
         },
       ],
       data: "null",
-      userId: Store.state.userId
-    };
+      userId: Store.state.userId,
+      getUsersId: '',
+      clickUserId: ''
+    }
+  },
+  props:{
+    // 본인이 아닌 다른 사람의 getUserId
+    getUserId: {
+      type: String,
+      required: true
+    }
   },
   mounted() {
-    this.getFollowers();
+    this.getUsersId = this.getUserId;
+    if(this.getUsersId){
+      this.getOtherFollowers();
+    }else{
+      this.getFollowers();
+    }
   },
   methods: {
     /* 팔로워 목록 조회 */
@@ -54,17 +68,24 @@ export default {
       await api.getFollow(args).then(res => {
         this.followers = res.data;
         console.log("res: ", res);
-        console.log("follower list: ", this.followers.userId);
+      })
+    },
+    /* 남이 보는 팔로워 목록 조회 */
+    async getOtherFollowers() {
+      const args = `/users/followers?userId=${this.getUsersId}`;
+      await api.getFollow(args).then(res => {
+        this.followers = res.data;
+        console.log("res: ", res);
       })
     },
     /* 팔로워 삭제 */
-    async deleteFollow(userId) {
-      const args=`/users/unfollower?userId=${this.userId}&follower=${userId}`;
+    async deleteFollow(clickUserId) {
+      const args=`/users/unfollower?userId=${this.followers.userId}&follower=${clickUserId}`;
       await api.deleteFollow(args).then(res => {
-        this.followers = this.followers.filter(follower => follower.userId !== userId);
-        console.log("res: ", res);
+        this.followers = this.followers.filter(follower => follower.userId !== clickUserId);
+        console.log("삭제 성공: ", res);
       }).catch(err=>{
-        console.log("err: ", err);
+        console.log("삭제 실패: ", err);
       })
     }
   }

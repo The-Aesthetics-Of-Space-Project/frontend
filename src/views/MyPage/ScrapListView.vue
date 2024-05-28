@@ -4,10 +4,12 @@
       <div class="grid-container article-grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
+            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
             <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail">
+            </router-link>
           </section>
           <section class="content-title">
-            <router-link :to="{ name: 'GeneralBoardPage', query: {nickname: post.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
+            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
             <span style="cursor: pointer;">{{ post.title }}</span>
             </router-link>
           </section>
@@ -55,16 +57,29 @@ export default {
       liked: '',
       heartImg: require('@/assets/mypage_icon/like.png'),
       baseUrl: 'http://jerry6475.iptime.org:20000',
-      userId: Store.state.userId
+      userId: Store.state.userId,
+      getUserId: ''
     };
   },
+  props:{
+    // 본인이 아닌 다른 사람의 getUserId
+    getUserId: {
+      type: String,
+      required: true
+    }
+  },
   created() {
-    this.fetchPosts();
+    this.getUsersId = this.getUserId;
+    if(this.getUsersId){
+      this.fetchOtherPosts();
+    }else{
+      this.fetchPosts();
+    }
   },
   methods: {
     async fetchPosts() {
       try {
-        const res = await api.getPost(`/users/scraps?userId=${encodeURIComponent(this.userId)}`);
+        const res = await api.getScrapList(`/users/scraps?userId=${encodeURIComponent(this.userId)}`);
         this.posts = res.data;
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
         console.error('response posts:', res);
@@ -72,11 +87,15 @@ export default {
         console.error('Error fetching posts:', error);
       }
     },
-    goToPostDetails(articleId) {
-      this.$router.push({path: "GeneralBoardPage", params: {articleId: articleId}});
-    },
-    goToUserDetails(nickname){
-      this.$router.push({path: "MyPageView", params: {nickname: nickname}});
+    async fetchOtherPosts() {
+      try {
+        const res = await api.getScrapList(`/users/scraps?userId=${encodeURIComponent(this.getUsersId)}`);
+        this.posts = res.data;
+        this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
+        console.error('response posts:', res);
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
     }
   },
 };

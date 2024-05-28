@@ -38,6 +38,30 @@ const routes = [
         name: 'GeneralBoardPage',
         component: GeneralBoardPage
     },
+    /* 마이페이지 팔로워 클릭 -> 해당 페이지  */
+    {
+        path: '/my-page/:userId',
+        name: 'FollowerListView',
+        component: FollowerListView
+    },
+    /* 마이페이지 팔로잉 클릭 -> 해당 페이지  */
+    {
+        path: '/my-page/:userId',
+        name: 'FollowingListView',
+        component: FollowingListView
+    },
+    /* 마이페이지 스크랩 목록 클릭 -> 해당 페이지  */
+    {
+        path: '/my-page/:userId',
+        name: 'ScrapListView',
+        component: ScrapListView
+    },
+    /* 마이페이지 좋아요 클릭 -> 해당 페이지  */
+    {
+        path: '/my-page/:userId',
+        name: 'LikeListView',
+        component: LikeListView
+    },
     /* 마이페이지 공모전 게시글 목록의 게시글 클릭 -> 해당 페이지  */
     {
         path: '/my-page/:articleId',
@@ -118,7 +142,7 @@ const routes = [
     { path: '/', component: MainView},
     { path: '/guideandtips', component: GuideAndTips, meta: { hideHeader: false, hideFooter: true }},
     { path: '/generalBoard', component: GeneralBoard, meta: { hideHeader: false, hideFooter: false }},
-    { path: '/generalBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: true }},
+    { path: '/generalBoardPage', component: GeneralBoardPage, meta: { hideHeader: false, hideFooter: true,  meta: { requiresAuth: false } }},
     { path: '/generalBoardWrite', component: GeneralBoardWrite, meta: { hideHeader: false, hideFooter: true }},
     { path: '/introduce', component: IntroduceView, meta: { hideHeader: false, hideFooter: false }},
     { path: '/follower', component: FollowerListView, meta: {hideHeader: false, hideFooter: false}},
@@ -129,7 +153,7 @@ const routes = [
     { path: '/chatroom/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/api/chat_room/:nickname/:userId', component: ChatView, meta: {hideHeader: true, hideFooter: true }},
     { path: '/generalReWrite', component: GeneralReWrite, meta: {hideHeader: false, hideFooter: true }},
-    { path: '/competitionPoster', component: CompetitionPoster, meta: {hideHeader: false, hideFooter: false}},
+    { path: '/competitionPoster', component: CompetitionPoster, meta: {hideHeader: false, hideFooter: true}},
     { path: '/competitionWrite', component: CompetitionWrite, meta: {hideHeader: false, hideFooter: false}},
     { path: '/competitionMain', component: CompetitionMain, meta: {hideHeader: false, hideFooter: false}},
     { path: '/competitionPage', component: CompetitionPage, meta: {hideHeader: false, hideFooter: true}},

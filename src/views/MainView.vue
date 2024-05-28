@@ -25,9 +25,9 @@
 
       <div class="image-1container">
         <router-link to="/Community">
-          <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티">
+          <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티" >
         </router-link>
-        <div class="title-a" style="font-family: MyCustomFont2; font-size: 20px;">취향을 나누는 커뮤니티</div>
+        <div class="title-a" style=" font-size: 20px;">취향을 나누는 커뮤니티</div>
         <div class="description">다채로운 관심사를 가진 사람들이 모여 정보를 얻고, 서로 공감하면서 긍정적인 영향을 주고받는 커뮤니티 생태계를 만듭니다.</div>
       </div>
     </div>
@@ -38,7 +38,7 @@
 
       <div class="card-view">
         <router-link to="/InteriorGuide" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
-          <span style="float:right; position: relative; left:50px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
+          <span style="float:right; position: relative; left:37px; top:15px; font-weight: 650">더 보기</span>
         </router-link>
 
         <div class="card-list">
@@ -82,7 +82,7 @@
 
             </div>
             <div v-if="index === 1" style="background-color: white; width: 150%; height: 150%; position: relative; left:-28%; top:58px;">
-              <router-link to="/competitionMain"><img src="@/assets/main_content_image_list/second_banner.png" style="width: 63%; height: 63%; position: relative; top:-50px;"></router-link>
+              <router-link to="/competitionPoster"><img src="@/assets/main_content_image_list/second_banner.png" style="width: 63%; height: 63%; position: relative; top:-50px;"></router-link>
             </div>
 
 
@@ -106,7 +106,7 @@
     </div>
     <div class="Home-Styling-title">
       <router-link to="/GeneralBoard" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
-        <span style="float:right; position: relative; left:-110px; top:150px;"><img src="@/assets/초보자 가이드 더보기.png" width="30" height="30"></span>
+        <span style="float:right; position: relative; left:-117px; top:165px;">더 보기</span>
       </router-link>
       <h2  style=" color: #333333; position: relative; top:80px; font-size: 24px; font-weight: bolder;">주목받는 게시물</h2>
       <div class="board-write-list">

@@ -32,34 +32,32 @@
               <section class="chat-container">
                 <section class="chat-wrapper">
                   <button class="chat-icon-btn"><router-link to="/chat"> <img src="../../assets/mypage_icon/chatIcon.png" style="position: relative; width: 42px; height: 41px; right: 5px;"></router-link></button>
-                  <section class="chat-message-content"><router-link :to="isUserLogin ?`/chatroom/${this.userId}` :'login'" @click="chatgoing"> <a>채팅하기</a> </router-link></section>
+                  <section class="chat-message-content"><router-link :to="isUserLogin ?`/chatroom/${this.sessionUserId}` :'login'" @click="chatgoing"> <a>채팅하기</a> </router-link></section>
                 </section>
               </section>
               <!-- 팔로워/팔로잉 버튼 -->
-              <div v-if="users.userId === this.userId">
+              <div v-if="this.getNicknames">
                 <section class="follower-following-container">
                   <section class="follower-following-wrapper">
-                    <div v-if="users.followed">
+                    <div v-if="this.followed">
                       <button class="follower-following-btn" @click="toggleFollowing"> 팔로잉  </button>
                     </div>
                     <div v-else>
                       <button class="follower-followed-btn" @click="toggleFollow"> 팔로우  </button>
                     </div>
-
                   </section>
                 </section>
               </div>
-
               <!-- 팔로워 -->
               <section class="follow-list-container">
                 <section class="follow-list-wrapper">
                   <section class="follow-list-wrapper-follower">
-                    <router-link to="/follower"> <a>팔로워</a><br> <a>{{users.follower}}</a></router-link>
+                    <router-link :to="{ name: 'FollowerListView', query: {userId: users.userId} }" style="text-decoration: none;" > <a>팔로워</a><br> <a>{{users.follower}}</a></router-link>
                   </section>
                   <section class="line"> | </section>
                   <!-- 팔로잉 -->
                   <section class="follow-list-wrapper-following">
-                    <router-link to="/following"> <a>팔로잉</a>
+                    <router-link :to="{ name: 'FollowingListView', query: {userId: users.userId} }" style="text-decoration: none;"> <a>팔로잉</a>
                       <br><a>{{users.following}}</a></router-link>
                   </section>
 
@@ -76,9 +74,9 @@
                   <!-- 좋아요 이미지 -->
                   <section class="img-wrapper-like"><img src="../../assets/mypage_icon/like.png"></section>
                   <!-- 스크랩 -->
-                  <section class="scrap-content"><router-link to="/scrap"><a> 스크랩북 <br> {{users.scraps}}</a></router-link></section>
+                  <section class="scrap-content"><router-link :to="{ name: 'ScrapListView', query: {userId: users.userId} }" style="text-decoration: none;" ><a> 스크랩북 <br> {{users.scraps}}</a></router-link></section>
                   <!-- 좋아요 -->
-                  <section class="like-content"><router-link to="/like"><a> 좋아요 <br> {{users.likes}}</a></router-link></section>
+                  <section class="like-content"><router-link :to="{ name: 'LikeListView', query: {userId: users.userId} }" style="text-decoration: none;" ><a> 좋아요 <br> {{users.likes}}</a></router-link></section>
                 </section>
               </section>
 
@@ -93,9 +91,7 @@
                 <section class="house-header" style="font-weight: 750; font-size: 19px;">
                   <a> 집들이 </a>
                 </section>
-
-
-                <section class="house-content" style="position: relative; width: 95%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+                <section class="house-content" style="position: relative; width: 40%; height: 310px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
                     <section class="user-posts-wrapper" v-for="post in posts" :key="post.id" style="height: 270px; border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-left: 15px; margin-top: 13px; flex: 0 0 auto; display: flex; flex-direction: column;">
                       <!-- 게시글 썸네일과 제목 -->
@@ -104,7 +100,7 @@
                         <img :src="post.thumbnail" alt="게시글 썸네일" class="thumbnail-image" style="cursor: pointer; border-radius: 12.5%; width: 100%; height: 210px; top: 15px;">
                         </router-link>
                       </div>
-                      <router-link :to="{ name: 'post', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size:16px; text-decoration: none; color: rgb(0,0,0,80%);">
+                      <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size:16px; text-decoration: none; color: rgb(0,0,0,80%);">
                       <div class="post-title" style="cursor: pointer; margin-left: 10px; text-align: left;"> <a>{{ post.title }}</a></div>
                       </router-link>
                     </section>
@@ -117,13 +113,13 @@
                   <a> 공모전 </a>
                 </section>
 
-                <section class="competition-content" style="position: relative; width: 95%; height: 300px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+                <section class="competition-content" style="position: relative; width: 40%; height: 310px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
                     <section class="user-posts-contest-wrapper" v-for="contest in contests" :key="contest.id" style="height: 270px; border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-left: 15px; margin-top: 13px; flex: 0 0 auto; display: flex; flex-direction: column;">
                       <!-- 게시글 썸네일과 제목 -->
                       <div  class="post-thumbnail" style="width: 300px; height: 220px; border: none;">
                         <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer;">
-                        <img :src="contest.thumbnail" alt="게시글 썸네일" class="thumbnail-image" @click="goToPostContest(contest.articleId)" style="border-radius: 12.5%; width: 100%; height: 210px;">
+                        <img :src="contest.thumbnail" alt="게시글 썸네일" class="thumbnail-image" style="border-radius: 12.5%; width: 100%; height: 210px;">
                         </router-link>
                       </div>
                       <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
@@ -153,6 +149,9 @@ export default {
     isUserLogin(){
       return this.$store.getters.isLogin;
     },
+    getNickname(){
+      return this.$route.query.nickname;
+    }
   },
   props:{
     // 본인이 아닌 다른 사람의 getNickname
@@ -161,14 +160,14 @@ export default {
       required: true
     }
   },
-  data(){
-    return{
+  data() {
+    return {
       input: '',
-      result:'',
+      result: '',
       data: null,
       sessionNickname: Store.state.nickname,
       nickname: '',
-      userId: Store.state.userId,
+      sessionUserId: Store.state.userId,
       getNicknames: '',
       users: {
         userId: '',
@@ -178,7 +177,6 @@ export default {
         following: '',
         likes: '',
         scraps: '',
-        followed: ''
       },
       posts: {
         articleId: '',
@@ -193,37 +191,28 @@ export default {
         title: '',
         thumbnail: ''
       },
+      getOtherId: '',
+      followed: ''
     }
-  },
-  computed:{
-    getNickname(){
-      return this.$route.query.nickname;
-    }
-  },
-  created(){
   },
   mounted(){
       this.getNicknames = this.getNickname;
 
       if(this.getNicknames){
         this.getOtherUser();
-        this.getOtherPost();
-        this.getOtherPostContest();
       }else if(!this.getNicknames){
-        this.getUser();
-        this.getPost();
-        this.getPostContest();
+        this.getUser();             // 유저 정보
       }
   },
   methods:{
     async chatgoing() {
-      await api.getChatUserId(`/chat/${encodeURIComponent(this.userId)}`)
+      await api.getChatUserId(`/chat/${encodeURIComponent(this.sessionUserId)}`)
           .then(res => {
             this.users = res.data;
             console.log('Response data', res.data.userId);
 
             // 여기서 라우터 이동
-            this.$router.push({path: `/chat/${this.userId}`});
+            this.$router.push({path: `/chat/${this.sessionUserId}`});
           })
           .catch(error => {
             // 통신할 때 401에러 처리
@@ -233,11 +222,14 @@ export default {
     /* 본인일 때 유저 정보 조회 */
     async getUser(){
         try {
-          const args = `/users/details?userId=${encodeURIComponent(this.userId)}`;
+          const args = `/users/details?nick=${this.sessionNickname}`;
           const res = await api.getUserInfo(args);
           this.users = res.data;
-          this.users.profile = this.baseUrl+res.data.profile;
-          console.log("데이터는 여기",res.data);
+          //this.users.profile = res.data.profile;
+
+          await this.getPost();             // 일반 게시판 게시글 조회
+          await this.getPostContest();      // 공모전 게시글 조회
+
         } catch (error) {
           console.error(error);
         }
@@ -245,10 +237,15 @@ export default {
     /* 본인 아닐때 목록 조회 */
     async getOtherUser(){
         try {
-          const args = `/users/details?userId=${this.getNicknames}`;
+          const args = `/users/details?nick=${this.getNicknames}`;
           console.log("args; ", args);
           const res = await api.getUserInfo(args);
           this.users = res.data;
+          console.log("본인 아닐때 목록 조회 this.users: ", this.users);
+          this.getOtherId=this.users.userId;
+          await this.getOtherPost();
+          await this.getOtherPostContest();
+          await this.fetchFollow(this.getOtherId);
         } catch (error) {
           console.error(error);
         }
@@ -256,7 +253,7 @@ export default {
     /* 게시글 목록 조회 */
     async getPost(){
       try {
-        const args = `/users/posts?userId=${encodeURIComponent(this.userId)}`;
+        const args = `/users/posts?userId=${encodeURIComponent(this.sessionUserId)}`;
         const res = await api.getPost(args);
         this.posts = res.data;
       } catch (error) {
@@ -266,7 +263,7 @@ export default {
     /* 본인 아닐 때 게시글 목록 조회 */
     async getOtherPost(){
       try {
-        const args = `/users/posts?userId=${this.getNicknames}`;
+        const args = `/users/posts?userId=${encodeURIComponent(this.getOtherId)}`;
         const res = await api.getPost(args);
         this.posts = res.data;
       } catch (error) {
@@ -276,7 +273,7 @@ export default {
     /* 공모전 게시글 목록 조회 */
     async getPostContest(){
       try {
-        const args = `/users/posts?userId=${encodeURIComponent(this.userId)}`;
+        const args = `/users/contests?userId=${encodeURIComponent(this.sessionUserId)}`;
         const res = await api.getPost(args);
         this.contests = res.data;
       } catch (error) {
@@ -286,7 +283,7 @@ export default {
     /* 본인 아닐 때 공모전 목록 조회 */
     async getOtherPostContest(){
       try {
-        const args = `/users/posts?userId=${this.getNicknames}`;
+        const args = `/users/contests?userId=${encodeURIComponent(this.getOtherId)}`;
         const res = await api.getPost(args);
         this.contests = res.data;
       } catch (error) {
@@ -296,7 +293,7 @@ export default {
     async fetchImg(){
       if(!this.getNicknames){
         try {
-          const args = `/users/image?userId=${encodeURIComponent(this.userId)}`;
+          const args = `/users/image?userId=${encodeURIComponent(this.sessionUserId)}`;
           const res = await api.getUserInfo(args);
           this.users.profile = res.data; // API 응답 데이터를 posts에 저장
         } catch (error) {
@@ -304,14 +301,13 @@ export default {
         }
       }else{
         try {
-          const args = `/users/image?userId=${this.getNicknames}`;
-          const res = await api.get(args);
+          const args = `/users/image?userId=${encodeURIComponent(this.getOtherId)}`;
+          const res = await api.getUserInfo(args);
           this.users.profile = res.data; // API 응답 데이터를 posts에 저장
         } catch (error) {
           console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
         }
       }
-
     },
     copyUrl(){
       const pageUrl = window.location.href; // 현재 페이지의 URL
@@ -322,33 +318,41 @@ export default {
         console.error("Could not copy text: ", err);
       });
     },
-    async toggleFollowing(getNickname){
+    /* 팔로잉 여부 확인 */
+    async fetchFollow(otherId){
+      console.log("팔로잉 여부 확인 otherId: ", otherId);
       try {
-        const args = `/users/image?userId=${getNickname}`;
-        const res = await axios.get(args);
-        this.users.profile = res.data; // API 응답 데이터를 posts에 저장
+        const args = `/users/isfollow?other=${encodeURIComponent(otherId)}&user=${encodeURIComponent(this.sessionUserId)}`;
+        console.log("팔로잉 여부 확인 args: ", args);
+        const res = await api.getPost(args);
+        console.log("결과 출력: ", res);
+        this.followed = res.data;
+      } catch (error) {
+        console.error(error);
+      }
+    },
+    /* 팔로잉 클릭 시 -> 언팔됨 */
+    async toggleFollowing(){
+      try {
+        const args = `/users/follow?userId=${encodeURIComponent(this.sessionUserId)}&followId=${encodeURIComponent(this.getOtherId)}`;
+        const res = await api.clickFollow(args);
+        this.followed = !this.followed;
+        this.getOtherUser();
       } catch (error) {
         console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
       }
     },
-    async toggleFollow(getNickname){
+    /* 팔로우 클릭 시 -> 팔로잉 됨*/
+    async toggleFollow(){
       try {
-        const args = `/users/image?userId=${getNickname}`;
-        const res = await axios.get(args);
-        this.users.profile = res.data; // API 응답 데이터를 posts에 저장
+        const args = `/users/follow?userId=${encodeURIComponent(this.sessionUserId)}&followId=${encodeURIComponent(this.getOtherId)}`;
+        const res = await api.clickFollow(args);
+        console.log("결과 출력: ", res);
+        this.followed = !this.followed;
+        this.getOtherUser();
       } catch (error) {
         console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
       }
-    },
-    /* 게시글 상세 페이지로 이동 */
-    goToPostDetails(articleId){
-      console.log("articleId OUTPUT!!!: ", articleId);
-      this.$router.push({name: 'GeneralBoardPage', params: {articleId: articleId}});
-    },
-    /* 공모전 게시글 상세 페이지로 이동 */
-    goToPostContest(articleId){
-      console.log("articleId OUTPUT!!!: ", articleId);
-      this.$router.push({name: 'CompetitionPage', params: {articleId: articleId}});
     },
   }
 }
@@ -535,7 +539,7 @@ export default {
   position: relative;
   width: 80%;
   left: 2em;
-  top: 2em;
+  top: 2.2em;
   margin: auto;
 }
 .follower-following-wrapper{
@@ -580,7 +584,7 @@ export default {
 .follow-list-container{
   position: relative;
   width: 100%;
-  top: 3.8em;
+  top: 3em;
   margin: auto;
 }
 .follow-list-wrapper{
@@ -643,8 +647,8 @@ export default {
 .line-container{
   position: relative;
   width: 80%;
-  height: 5%;
-  top: 4.6em;
+  height: 4%;
+  top: 3.5em;
   margin: auto;
   align-items: center;
   align-content: center;
@@ -659,7 +663,6 @@ hr{
   position: relative;
   width: 100%;
   height: 20%;
-  top: 4.7em;
   margin: auto;
 }
 .content-under-wrapper{
@@ -674,6 +677,7 @@ hr{
   align-items: center;
   align-content: center;
   margin: auto;
+  top: 4.2em;
 }
 .img-wrapper-like{
   position: relative;

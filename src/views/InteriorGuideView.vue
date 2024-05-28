@@ -208,10 +208,10 @@ export default {
       fiveid: '5',
       styleToId: {
         'modern': '1',
-        'natural': '2',
-        'vintage': '3',
+        'simple': '2',
+        'natural': '3',
         'lovely': '4',
-        'simple': '5'
+        'vintage': '5'
       },
 
     }

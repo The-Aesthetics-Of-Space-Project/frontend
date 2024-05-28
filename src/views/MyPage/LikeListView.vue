@@ -5,12 +5,12 @@
       <div class="grid-container article-grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
-            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer;">
+            <router-link :to="{name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer;">
             <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail">
             </router-link>
           </section>
           <section class="content-title" >
-            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
+            <router-link :to="{name: 'GeneralBoardPage', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
             <span style="cursor: pointer;">{{ post.title }}</span>
             </router-link>
           </section>
@@ -40,12 +40,12 @@
       <div class="grid-container article-grid-container">
         <div class="box-content" v-for="contest in contests" :key="contest.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;">
-            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer;">
+            <router-link :to="{ name: 'CompetitionPage', query: {articleId: contest.articleId} }" style="cursor:pointer;">
               <img :src="contest.thumbnail" alt="Post Thumbnail" class="post-thumbnail">
             </router-link>
           </section>
           <section class="content-title">
-            <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer; font-weight: 550; font-size:15px; text-decoration: none; color: rgb(0,0,0,80%);">
+            <router-link :to="{ name: 'CompetitionPage', query: {articleId: contest.articleId} }" style="cursor: pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
               <span style="cursor: pointer;">{{ contest.title }}</span>
             </router-link>
           </section>
@@ -71,7 +71,6 @@
       </div>
     </div>
   </div>
-
 </template>
 
 <script>
@@ -88,7 +87,6 @@ export default {
         nickname: '',
         likeCount: '',
         profile: '',
-        postType: ''
       },
       contests:{
         articleId: '',
@@ -102,54 +100,64 @@ export default {
       heartImg: require('@/assets/mypage_icon/like.png'),
       baseUrl: 'http://jerry6475.iptime.org:20000',
       userId: Store.state.userId,
-      getUserId: '',
-      postTypeGeneral: {
-        articleId: '',
-        title: '',
-        thumbnail: '',
-        nickname: '',
-        likeCount: '',
-        profile: '',
-      },
-      postTypeContest: {
-        articleId: '',
-        title: '',
-        thumbnail: '',
-        nickname: '',
-        likeCount: '',
-        profile: '',
-      },
+      getUserId: ''
     };
   },
+  props:{
+    // 본인이 아닌 다른 사람의 getUserId
+    getUserId: {
+      type: String,
+      required: true
+    }
+  },
   created() {
-    this.fetchPosts();
+    this.getUsersId = this.getUserId;
+    if(this.getUsersId){
+      this.fetchOtherPosts();
+      this.fetchOtherContest();
+    }else{
+      this.fetchPosts();
+      this.fetchContest();
+    }
+
   },
   methods: {
     async fetchPosts() {
       try {
-        const res = await api.getPost(`/users/likes?userId=${encodeURIComponent(this.userId)}`);
+        const res = await api.getPost(`/users/likes/general?userId=${encodeURIComponent(this.userId)}`);
         this.posts = res.data;
-        if(this.posts.postType === 'general'){
-          this.postTypeGeneral = this.posts;
-        }
-        else if(this.posts.postType === 'contest'){
-          this.postTypeContest = this.posts;
-        }
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
-        console.error('response posts:', res);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
     },
-    /* 해당 게시글로 이동 */
-    goToPostDetails(articleId) {
-      console.log("찍어봐요 articleId",articleId);
-      this.$router.push({path: "GeneralBoardPage", params: {articleId: articleId}});
+    async fetchContest() {
+      try {
+        const res = await api.getPost(`/users/likes/contest?userId=${encodeURIComponent(this.userId)}`);
+        this.contests = res.data;
+        this.contests.thumbnail=this.baseUrl+this.contests.thumbnail;
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
     },
-    /* 해당 유저 페이지로 이동 */
-    goToUserDetails(nickname){
-      this.$router.push({path: "MyPageView", params: {nickname: nickname}});
-    }
+    async fetchOtherPosts() {
+      try {
+        const res = await api.getPost(`/users/likes/general?userId=${encodeURIComponent(this.getUsersId)}`);
+        this.posts = res.data;
+        this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    },
+    async fetchOtherContest() {
+      try {
+        const res = await api.getPost(`/users/likes/contest?userId=${encodeURIComponent(this.getUsersId)}`);
+        this.contests = res.data;
+        this.contests.thumbnail=this.baseUrl+this.contests.thumbnail;
+      } catch (error) {
+        console.error('Error fetching posts:', error);
+      }
+    },
   },
 };
 </script>

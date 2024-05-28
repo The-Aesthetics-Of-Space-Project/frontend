@@ -45,11 +45,24 @@ export default {
       data: "null",
       userId: Store.state.userId,
       profileImage: '',
-    };
+      getUsersId: '',
+      clickUserId: ''
+    }
+  },
+  props:{
+    // 본인이 아닌 다른 사람의 getUserId
+    getUserId: {
+      type: String,
+      required: true
+    }
   },
   mounted() {
-    this.getFollow();
-    this.fetchImg();
+    this.getUsersId = this.getUserId;
+    if(this.getUsersId){
+      this.getOtherFollow();
+    }else{
+      this.getFollow();
+    }
   },
   methods: {
     /* 팔로잉 목록 조회 */
@@ -60,13 +73,21 @@ export default {
         console.log("res: ", res);
       })
     },
+    /* 남이 보는 팔로워 목록 조회 */
+    async getOtherFollow() {
+      const args=`/users/followings?userId=${this.getUsersId}`
+      await api.getFollow(args).then(res => {
+        this.following = res.data;
+        console.log("res: ", res);
+      })
+    },
     /* 언팔로잉(=팔로잉 삭제) */
-    async deleteFollow(userId) {
-      const args=`/users/unfollowing?userId=${this.userId}&follow=${userId}`;
+    async deleteFollow(clickUserId) {
+      const args=`/users/unfollowing?userId=${this.userId}&follow=${clickUserId}`;
       await api.deleteFollow(args).then(res => {
           // 3초 후에 팔로워가 목록에서 사라짐
           setTimeout(() => {
-            this.following = this.following.filter(following => following.userId !== userId);
+            this.following = this.following.filter(following => following.userId !== clickUserId);
           }, 3000);
         console.log("res: ", res);
       })

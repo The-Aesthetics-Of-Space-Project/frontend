@@ -9,16 +9,16 @@ export const api = {
     getUserInfo(args){
         return service.get(args)
     },
-    /* 마이페이지 유저 정보 조회 요청 */
-    getLikeList(args){
-        return service.get(args)
-    },
-    /* 마이페이지 유저 정보 조회 요청 */
+    /* 마이페이지 스크랩 리스트 정보 조회 요청 */
     getScrapList(args){
         return service.get(args)
     },
     /* 팔로워, 팔로잉 리스트 전체 조회 */
     getFollow(args) {
+        return service.get(args)
+    },
+    /* 팔로워, 팔로잉 리스트 전체 조회 */
+    clickFollow(args) {
         return service.get(args)
     },
     /* 댓글 목록 조회 */

@@ -11,15 +11,19 @@
         <div class="list-comments-container">
 
             <div class="list-profile-wrapper">
+              <router-link :to="{ name: 'MyPageView', query: {nickname: comment.nickname}}">
               <img
                   :src="comment.profile"
                   style="width: 53px; height: 53px; border-radius: 50%"
               />
+              </router-link>
             </div>
             <div class="comment-list-content">
+              <router-link :to="{ name: 'MyPageView', query: {nickname: comment.nickname}}" style="cursor:pointer; font-weight: 550; font-size:15px; text-decoration: none; color: rgb(0,0,0,80%);">
               <div class="comment-nickname-content" style="font-size: 16px; font-weight: 550;">
                 {{ comment.nickname }}
               </div>
+              </router-link>
               <div class="comments-content">
                 <section class="comments-content-wrapper">{{ comment.content }}</section>
               </div>
@@ -99,16 +103,20 @@
                     height="30px"
                     style="position: absolute; left: -35px; top: 15px;"
                 />
+                <router-link :to="{ name: 'MyPageView', query: {nickname: comment.nickname}}" style="cursor:pointer;">
                 <img
                     :src="reply.profile"
                     style="position: relative; width: 50px; height: 50px; border-radius: 50%; top: 10px;"
                 />
+                </router-link>
               </div>
             </div>
               <div class="comment-reply-list-content" style="position: relative; width: 100%; height: 95%; margin: auto; display: grid;
               grid-template-columns: 1fr; grid-template-rows: 1fr 2fr; top: 5px; left: -5px;">
-                <div class="comment-reply-nickname-content" style="font-weight: 550; font-size: 15px;">
+                <div class="comment-reply-nickname-content">
+                  <router-link :to="{ name: 'MyPageView', query: {nickname: comment.nickname}}" style="cursor:pointer; font-weight: 550; font-size:15px; text-decoration: none; color: rgb(0,0,0,80%);">
                   {{ reply.nickname }}
+                  </router-link>
                 </div>
                 <div class="comments-reply-content">
                   <section class="comments-reply-content-wrapper">{{ reply.content }}</section>
