@@ -226,11 +226,23 @@ export default {
         this.$emit("modified", { replyText, commentId });
       }
     },
-    submitDeletedComment(commentId){
-      if(this.nickname){
-        this.$emit("deleted", { commentId });
-      }
+    async submitDeletedComment(commentId) {
+        // 사용자의 선택을 확인
+        if (window.confirm('댓글을 삭제하시겠습니까?')) {
+          if(this.nickname){
+            this.$emit("deleted", { commentId });
+          }
+          // 댓글 삭제 함수 실행
+          await this.deleteComment(commentId);
+
+          // 삭제 성공 시 메시지 출력 및 이벤트 emit
+          alert('댓글이 삭제되었습니다');
+          this.$emit("deleted", { commentId });
+          this.$router.push('/generalBoard');
+          console.log("댓글 삭제 성공");
+        }
     }
+
 
   }
 }
