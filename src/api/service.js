@@ -66,20 +66,29 @@ const params="";
 // 조회
 service.get(args).then((res) => {
         return res.data;
-});
-
+})
+    .catch((error) => {
+        console.log("에러입니다!!!",error);
+    })
 // 삭제
 service.delete(args).then((res) => {
-    return res;
-});
-
+    return res.data;
+})
+    .catch((error) => {
+        console.log("에러입니다!!!",error);
+    })
 service.put(args, params).then((res) => {
-    return res;
-});
+    return res.data;
+})
+    .catch((error) => {
+        console.log("에러입니다!!!",error);
+    })
 service.post(args, params).then((res) => {
-    return res;
-});
-
+    return res.data;
+})
+    .catch((error) => {
+        console.log("post: 전송 에러입니다!!!",error);
+    })
 export default {
     async get(args) {
         try {
