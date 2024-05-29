@@ -26,7 +26,10 @@ export const api = {
       return service.get(args)
     },
     /* 게시글 전체 목록 조회*/
-    getPost(args){
+    getPost(args,params){
+        return service.post(args,params)
+    },
+    getPosts(args){
         return service.get(args)
     },
     setUser(args, params) { // url 매개변수를 첫 번째 인자로 추가
@@ -95,16 +98,5 @@ export const api = {
     },
     getGeneralRanking(args) {
         return service.get(args)
-    },
-}
-
-export const testApi = {
-    getTests() {
-        return service.get(`${API_URL}${API.tests}`)
-    },
-
-    setTest(args) {
-        // URL과 함께 args를 바디로 전달
-        return service.post(`${API_URL}${API.test}`, args);
     },
 }

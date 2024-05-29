@@ -53,11 +53,11 @@
         <span style="position: relative; left:87px;">전 국민 사람들의 라이프스타일에 영감을 주고,</span>
         <span style="position: relative; left:-520px; top:50px;">꿈꾸던 삶을 현실로 만드는 도전을 하고 있습니다.</span>
         </span>
-      <div class="image-int" style="width: 100%;">
+      <div class="image-int" style="width: 100%; font-size: 18px;">
         <div>
           <img src="@/assets/intreoduce_image_list/intro-image.png" width="950px">
           <span>
-      <span style=" font-size: 25px;  font-weight: bolder; color: #333333;">인테리어 맞춤형 추천</span>
+      <span style=" font-size: 24px;  font-weight: bolder; color: #333333;">인테리어 맞춤형 추천</span>
     <span>나만의 공간을 창조하고 콘텐츠를 통해 나의 공간과 일상을 상상하도록 돕고,  </span>
      <span>더 나은 개선된 환경과 조화를 손쉽게 살펴볼 수 있습니다.</span>
     </span>
@@ -66,16 +66,24 @@
           <img src="@/assets/intreoduce_image_list/intro-board.png" width="950px">
           <span>
       <span
-          style=" font-size: 25px;  font-weight: bolder;  color: #333333;">영감 가득한 유저들의 콘텐츠</span>
+          style=" font-size: 24px;  font-weight: bolder;  color: #333333;">영감 가득한 유저들의 콘텐츠</span>
     <span>온라인 집들이부터 특별한 경험, 일상의 단면까지,좋아하는 거로 삶을  </span>
      <span>채워나가는 유저들의 생생한 이야기들이 모여 다른 사람들의 영감이 됩니다.</span>
+    </span>
+        </div>
+        <div>
+          <img src="@/assets/intreoduce_image_list/intro-objectrecognition.png">
+          <span>
+      <span style=" font-size: 24px;  font-weight: bolder;  color: #333333;">내 방으로 알아보는 인테리어 취향</span>
+    <span>취향에 맞는 인테리어 스타일과 어울리는 다양한 가구를 추천해드립니다.</span>
+      <span>사진을 업로드 하고 나만의 공간을 더욱 아름답게 꾸며보세요.</span>
     </span>
         </div>
         <div>
           <img src="@/assets/intreoduce_image_list/intro-community.png" width="650px">
           <span>
       <span
-          style=" font-size: 25px;  font-weight: bolder; color: #333333;">유저들이 취향을 나누는 커뮤니티</span>
+          style=" font-size: 24px;  font-weight: bolder; color: #333333;">유저들이 취향을 나누는 커뮤니티</span>
     <span>다채로운 관심사를 가진 사람들이 모여 정보를 얻고,</span>
       <span>서로 공감하면서 긍정적인 영향을 주고받는 커뮤니티 생태계를 만듭니다.</span>
     </span>
@@ -83,7 +91,7 @@
         <div>
           <img src="@/assets/intreoduce_image_list/intro-competition.png">
           <span>
-      <span style="font-family: MyCustomFont5; font-size: 25px;  font-weight: bolder;  color: #333333;">다양한 연령층들이 참가할 수 있는 공모전 대회</span>
+      <span style=" font-size: 24px;  font-weight: bolder;  color: #333333;">다양한 연령층들이 참가할 수 있는 공모전 대회</span>
     <span>다채로운 관심사를 가진 사람들이 모여 대회를 참가할 수 있고,</span>
       <span>경쟁심과 상품을 더불어 다양한 영감을 얻을 수 있습니다.</span>
     </span>
@@ -147,11 +155,10 @@ export default {
 </script>
 <style>
 .introduce {
-  height: 5400px;
+  height: 6500px;
   width: 100%;
   padding: 80px 0;
 }
-
 
 .int-first-title {
   padding: 100px;

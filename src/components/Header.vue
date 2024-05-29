@@ -19,7 +19,7 @@
 
       <!-- 로그인 후 -->
       <template v-if="isUserLogin">
-        <router-link :to="isUserLogin ? '/#':'/login'">
+        <router-link :to="isUserLogin ? { name: 'ScrapListView', query: {userId: this.userId} }:'/login'">
           <img class="scrap-image" src="@/assets/스크랩.png">
         </router-link>
         <div class="btn-group" style="position: relative; top:-50px; cursor: pointer; ">

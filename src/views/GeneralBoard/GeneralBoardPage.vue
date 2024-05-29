@@ -1,7 +1,6 @@
 <template>
   <div id="generalboardpage">
     <div class="generalboardpage-container">
-
       <!-- 글 삭제 및 수정 버튼 -->
       <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 58em; top: 5em;">
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="deletePost">삭제</button>
@@ -13,65 +12,65 @@
         </section>
       </div>
       <!-- 제목 출력 -->
-    <div class="title">
-      <div class="title-content" style="position: relative; width: 100%; margin: auto;
+      <div class="title">
+        <div class="title-content" style="position: relative; width: 100%; margin: auto;
       top: 10px; font-size: 26px; font-weight: 540; text-align: left;">
-        {{ posts.title }}
-      </div>
-    </div>
-    <div class="user_info" style="position: relative;  width: 55%; height: 57px; margin: auto; top: 6.2em;" ><!--v-for="user in users"-->
-      <section class="user_info_wrapper" style="position: relative; display: grid; grid-template-columns: 1fr 2fr; grid-template-rows: 1fr; width: 32%;
-      height: 50px; top: 2px;">
-        <section class="user_profiles">
-          <router-link :to="{ name: 'MyPageView', query: {nickname: posts.nickname} }" style="cursor:pointer;">
-          <img :src="posts.profile" alt="프로필 사진" style="height: 50px; width: 55px; border-radius: 50%; cursor: pointer;">
-          </router-link>
-        </section>
-        <router-link :to="{ name: 'MyPageView', query: {nickname: posts.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
-        <section class="user_name" style="font-weight: 550; font-size: 18px; left: -6px;">
-          {{ posts.nickname }}
-        </section>
-        </router-link>
-      </section>
-    </div>
-      <!-- 날짜 출력 -->
-    <div class="date">
-      <section class="date_container">
-        작성일 : {{ this.formDate }}
-      </section>
-    </div>
-      <!-- 내용 출력 -->
-    <div class="general-content-container" style="position: relative; left: 1px; width: 80%; height: 100%; display: grid;
-    grid-template-columns: 6fr 1fr; grid-template-rows: 1fr; top: 4em; margin: auto;">
-      <div class="content-wrappers">
-        <div id="viewer" class="content">
+          {{ posts.title }}
         </div>
       </div>
-      <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 80%; right:17%; top: 19%; text-align: left;">
-        <!-- 좋아요 버튼 -->
-        <button type="button" class="heart-btn" @click="likeBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
-        width: 45%; height: 65px; top: 90%; font-size: 14.5px;">
-          <img :src="posts.isLiked ? HeartImg : EmptyHeartImg" width="30px" height="30px"/>
-          <br>
-          {{ posts.likeCount }}
-        </button>
-        <!-- 스크랩 버튼 -->
-        <button type="button" class="scrap-btn" @click="scrapBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
-        width: 45%; height: 65px; right: 50%; top: 81%; background-color: white; font-size: 14.5px;">
-          <img :src="posts.isScraped ? ScrapImg : EmptyScrapImg" width="30px" height="30px"/>
-          <br>
-          {{ posts.scrapCount }}
-        </button>
-        <section class="board-chat-wrapper" style="position: sticky; top: 40.3em;">
-          <button class="board-chat-icon-btn" @click="chatgoing" style="position: sticky; border-radius: 60%; border: none;
-        width: 45%; height: 65px; right: 50%; top: 30em; background-color: white; font-size: 14.5px;">
-            <img src="../../assets/mypage_icon/chatIcon.png" width="52px" height="52px">이동</button>
+      <div class="user_info" style="position: relative;  width: 55%; height: 57px; margin: auto; top: 6.2em;" ><!--v-for="user in users"-->
+        <section class="user_info_wrapper" style="position: relative; display: grid; grid-template-columns: 1fr 2fr; grid-template-rows: 1fr; width: 32%;
+      height: 50px; top: 2px;">
+          <section class="user_profiles">
+            <router-link :to="{ name: 'MyPageView', query: {nickname: posts.nickname} }" style="cursor:pointer;">
+              <img :src="posts.profile" alt="프로필 사진" style="height: 50px; width: 55px; border-radius: 50%; cursor: pointer;">
+            </router-link>
+          </section>
+          <router-link :to="{ name: 'MyPageView', query: {nickname: posts.nickname} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
+            <section class="user_name" style="font-weight: 550; font-size: 18px; left: -6px;">
+              {{ posts.nickname }}
+            </section>
+          </router-link>
         </section>
+      </div>
+      <!-- 날짜 출력 -->
+      <div class="date">
+        <section class="date_container">
+          작성일 : {{ this.formDate }}
+        </section>
+      </div>
+      <!-- 내용 출력 -->
+      <div class="general-content-container" style="position: relative; left: -5%; width: 80%; height: 80%; display: grid; top: 4em; margin: auto; ">
+        <div class="content-wrappers">
+          <div id="viewer" class="content">
 
-      </section>
-    </div>
+          </div>
+        </div>
+        <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 80%; right:17%; top: 19%; text-align: left;">
+          <!-- 좋아요 버튼 -->
+          <button type="button" class="heart-btn" @click="likeBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
+        width: 45%; height: 65px; top: 90%; font-size: 14.5px;">
+            <img :src="posts.isLiked ? HeartImg : EmptyHeartImg" width="30px" height="30px"/>
+            <br>
+            {{ posts.likeCount }}
+          </button>
+          <!-- 스크랩 버튼 -->
+          <button type="button" class="scrap-btn" @click="scrapBtn" style="position: sticky; border: 1px solid rgb(141,141,141,70%); border-radius: 50%;
+        width: 45%; height: 65px; right: 50%; top: 81%; background-color: white; font-size: 14.5px;">
+            <img :src="posts.isScraped ? ScrapImg : EmptyScrapImg" width="30px" height="30px"/>
+            <br>
+            {{ posts.scrapCount }}
+          </button>
+          <section class="board-chat-wrapper" style="position: sticky; top: 40.3em;">
+            <button class="board-chat-icon-btn" @click="chatgoing" style="position: sticky; border-radius: 60%; border: none;
+        width: 45%; height: 65px; right: 50%; top: 30em; background-color: white; font-size: 14.5px;">
+              <img src="../../assets/mypage_icon/chatIcon.png" width="52px" height="52px">이동</button>
+          </section>
+
+        </section>
+      </div>
       <!-- 댓글 작성 및 댓글 확인 폼 -->
-      <div class="comment-container">
+      <div class="comment-container" style="position: relative; top:-50px;">
         <div class="comment-input">
           <!-- 댓글 작성 컴포넌트 -->
           <comment-write @submit="handleCommentSubmit" />
@@ -90,10 +89,12 @@ import CommentWrite from "@/views/GeneralBoard/Comment/CommentWrite.vue";
 import {marked} from 'marked';
 import CommentList from "@/views/GeneralBoard/Comment/CommentList.vue";
 import axios from "axios";
+import Footer from "@/components/Footer.vue";
 
 export default {
   name: 'GeneralBoardPage',
   components:{
+    Footer,
     CommentWrite,
     CommentList,
   },
@@ -131,7 +132,7 @@ export default {
         scrapCount: '',
         profile: '',
         isLiked: '',
-        isScraped: ''
+        isScraped: '',
       },
       HeartImg: require('@/assets/generalboardpage_icon/heart.png'),
       EmptyHeartImg: require('@/assets/generalboardpage_icon/emptyheart.png'),
@@ -174,35 +175,47 @@ export default {
         nickname : this.posts.nickname,
         id : this.users.userId,
       }
-     // console.log("nicknamea",this.posts.nickname);
-     // console.log("아이디",this.users.userId);
       await api.setChatPartnerId(`/api/chat_room/${encodeURIComponent(this.posts.nickname)}/${encodeURIComponent(this.users.userId)}`,userData)
           .then(res => {
             this.users = res.data;
-            console.log('Response data',res);
             // 여기서 라우터 이동
             this.$router.push({path: `/api/chat_room/${this.posts.nickname}/${this.userId}`});
           })
           .catch(error => {
             // 통신할 때 401에러 처리
             console.error('Error data', error);
-            console.log(this.posts.nickname);
-            console.log(this.posts.userId);
           });
     },
-    async getArticle(){
-      const args = `/api/general/post/${this.getArticleId}`;
-      await api.getPost(args).then(res =>{
-        this.posts=res.data;
+    async getArticle() {
+      try {
+        const args = `/api/general/post/${this.getArticleId}`;
+        const res = await api.getPosts(args);
+        this.posts = res.data;
+
         const dateObject = new Date(this.posts.date);
         this.year = dateObject.getFullYear();
-        this.month = dateObject.getMonth()+1;
+        this.month = dateObject.getMonth() + 1;
         this.day = dateObject.getDate();
         this.formDate = `${this.year}-${this.month}-${this.day}`;
+        this.content = this.posts.content;
+
         const htmlContent = marked(this.posts.content);
-        console.log("데이터들",res);
         document.querySelector('#viewer').innerHTML = htmlContent;
-      })
+
+        if(this.posts.isLiked===null && this.posts.isScraped===null){
+          this.posts.isLike = false;
+          this.posts.isScraped = false;
+        }
+
+      } catch (error) {
+        if (error.response && error.response.status === 401) {
+          console.log("로그인 창으로 이동");
+        } else if (error.response && error.response.status === 400) {
+          console.log("잘못된 요청");
+        } else {
+          console.log("알 수 없는 오류");
+        }
+      }
     },
     loadComments() {
       // CommentList 컴포넌트의 메서드를 호출하여 댓글 로드
@@ -287,12 +300,11 @@ export default {
     /* 게시글 삭제 */
     deletePost(){
       const args = `/api/general/post/${this.posts.articleId}`;
-       api.deletePost(args).then(res => {
-         if (window.confirm('삭제하시겠습니까?')) {
-           alert('글 삭제에 성공하였습니다.');
-           this.$router.push('/generalBoard');
-           console.log("글 삭제 성공!", res);
-         }
+      api.deletePost(args).then(res => {
+        if (window.confirm('삭제하시겠습니까?')) {
+          alert('글 삭제에 성공하였습니다.');
+          this.$router.push('/generalBoard');
+        }
       }).catch(error => {
         console.log("글 삭제 실패했습니다!", error);
       });
@@ -309,26 +321,26 @@ export default {
     /* 원댓글 작성 */
     async handleCommentSubmit(commentData){
 
-        const submitData = {
-          content: commentData.content,
-          parentId: commentData.parentId,
-          articleId: this.getArticleId,
-          nickname: this.users.nickname
-        }
-        const params = submitData;
+      const submitData = {
+        content: commentData.content,
+        parentId: commentData.parentId,
+        articleId: this.getArticleId,
+        nickname: this.users.nickname
+      }
+      const params = submitData;
 
-        if(!commentData.content){
-          alert('댓글을 입력하세요.')
-        }
-        else {
-          const args = `/api/general/comment`;
-          await api.setComment(args, params).then(res => {
-            this.comments = res.data;
-            this.loadComments(this.getArticleId);
-          }).catch(err => {
-            console.log("Comment등록의 err 출력: ", err);
-          });
-        }
+      if(!commentData.content){
+        alert('댓글을 입력하세요.')
+      }
+      else {
+        const args = `/api/general/comment`;
+        await api.setComment(args, params).then(res => {
+          this.comments = res.data;
+          this.loadComments(this.getArticleId);
+        }).catch(err => {
+          console.error("Comment등록의 err 출력: ", err);
+        });
+      }
     },
     /* 답글 달기 등록 */
     async replyComments(commentReplyData){
@@ -350,29 +362,27 @@ export default {
       });
     },
     /* 댓글 수정 */
-    async modifiedComment(modifiedData){
+    async modifiedComment(modifiedData) {
       const modifyData = {
         content: modifiedData.replyText
       }
       const params = modifyData;
 
       const args = `/api/general/comment/${modifiedData.commentId}`;
-      await api.editComment(args, params).then(res=>{
-        this.comments=res.data;
+      await api.editComment(args, params).then(res => {
+        this.comments = res.data;
         this.loadComments(this.getArticleId);
-      }).catch(err=>{
-        console.log("Comment등록의 err 출력: ", err);
+      }).catch(err => {
+        console.error("Comment등록의 err 출력: ", err);
       });
     },
-    async deletedComment(commentId){
-      console.log("commentId출력티비예: "+ commentId.commentId);
-
+    async deletedComment(commentId) {
       const args = `/api/general/comment/${commentId.commentId}`;
-      await api.deleteComment(args).then(res=>{
-        this.comments=res.data;
+      await api.deleteComment(args).then(res => {
+        this.comments = res.data;
         this.loadComments(this.getArticleId);
-      }).catch(err=>{
-        console.log("Comment등록의 err 출력: ", err);
+      }).catch(err => {
+        console.error("Comment등록의 err 출력: ", err);
       });
     }
   }
@@ -380,33 +390,36 @@ export default {
 </script>
 
 <style>
-#generalboardpage{
+#generalboardpage {
   font-family: inherit;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   position: relative;
-  width:100%;
-  height:2000px;
+  width: 100%;
+  height: 2000px;
   margin: 0;
 }
-.generalboardpage-container{
+
+.generalboardpage-container {
   position: relative;
   margin: auto;
   width: 80%;
 }
+
 .title {
   position: relative;
-  width:53%;
-  height:50px;
+  width: 53%;
+  height: 50px;
   top: 7em;
-  border-bottom: 1px solid rgb(141,141,141,70%);
+  border-bottom: 1px solid rgb(141, 141, 141, 70%);
   border-radius: 2px;
   margin-left: 23%;
   font-size: 13px;
   font-weight: 500;
 }
-.title-content{
+
+.title-content {
   position: absolute;
   width: 100%;
   margin: auto;
@@ -415,14 +428,16 @@ export default {
   font-weight: 530;
   text-align: left;
 }
-.user_profiles{
+
+.user_profiles {
   position: relative;
   width: 55px;
   height: 100%;
   border-radius: 50%;
   cursor: pointer;
 }
-.user_name{
+
+.user_name {
   position: relative;
   width: 100%;
   height: 50px;
@@ -431,7 +446,8 @@ export default {
   text-align: left;
   cursor: pointer;
 }
-.date_container{
+
+.date_container {
   position: relative;
   width: 100%;
   height: 100%;
@@ -439,54 +455,58 @@ export default {
   font-size: 15px;
   text-align: left;
   align-content: center;
-  color: rgb(0,0,0,60%);
+  color: rgb(0, 0, 0, 60%);
 }
-.date{
+
+.date {
   position: relative;
   width: 20%;
   left: 23.5%;
-  height:35px;
+  height: 35px;
   top: 6.5em;
 }
-.content-wrappers{
+
+.content-wrappers {
   width: 78%;
   margin: auto;
   height: 650px;
-  border: 1px solid rgb(141,141,141,30%);
-  border-radius: 15px;
   position: relative;
   top: 50px;
-  left: 70px;
+  left: 280px;
   overflow: visible; /* 내용이 길어져도 모두 표시되도록 설정 */
 }
+
 .comment-container {
   position: relative;
   width: 78%;
   height: auto;
-  top: 9.2em;
-  left: 23%;
+  left: 25%;
 }
+
 .comment-input {
   display: flex;
   position: relative;
   width: 80%;
   height: auto;
 }
+
 .comment-input input[type="text"] {
   flex: 1;
   height: 50px;
-  border: 1px solid rgb(141,141,141,70%);
+  border: 1px solid rgb(141, 141, 141, 70%);
   border-radius: 6px;
   padding: 10px;
   font-size: 16px;
 }
+
 .comment-input button {
   padding: 1px 15px;
   border: none;
   cursor: pointer;
   margin-left: 10px;
 }
-.heart-btn{
+
+.heart-btn {
   position: relative;
   margin-top: 9px;
   width: 55px;
@@ -497,8 +517,24 @@ export default {
   align-items: center;
   align-content: center;
 }
-svg.bi-arrow-up-circle{
-  width: 25px;
-  height: 25px;
+
+.general-content-container .content-wrappers .content img {
+  max-width: 400px;
+  max-height: 400px;
 }
+
+.general-content-container .content-wrappers h1 {
+  font-size: 15px;
+}
+
+.content-wrappers img {
+  max-width: 400px;
+  max-height: 400px;
+  margin-right: 2rem;
+}
+
+.content-wrappers .content {
+  max-width: 350px;
+}
+
 </style>

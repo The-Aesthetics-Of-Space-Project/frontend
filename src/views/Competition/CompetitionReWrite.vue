@@ -121,7 +121,7 @@
         const args = `/api/contest/post/${this.getArticlesId}`;
         await api.getPost(args).then(res=>{
           this.article=res.data;
-          this.uploadImg = this.baseUrl+this.article.thumbnail;
+          this.uploadImg =this.article.thumbnail;
           console.log("this.article.thumbnail: ", this.article.thumbnail);
         })
       },
@@ -168,17 +168,12 @@
         formData.append('thumbnail', this.image);
         formData.append('contents', this.article.contents);
 
-        for (let key of formData.keys()) {
-          console.log(key, ":", formData.get(key));
-        }
-
         const args = `/api/contest/post/${this.getArticlesId}`;
         const params = formData;
 
         // POST 요청 보내기
         api.editPost(args, params)
             .then(res => {
-              console.log("res",res);
               // 요청이 성공했을 때 처리할 코드
               alert('글이 수정되었습니다!');
               this.$router.push('/competitionMain');

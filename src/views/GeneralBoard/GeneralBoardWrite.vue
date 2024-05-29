@@ -119,7 +119,7 @@ export default {
       el: document.querySelector('#editor'),
       height: '550px',
       initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-      initialValue: '# 오른쪽은 미리보기입니다!',  // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+      initialValue: '# 미리보기',  // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
       previewStyle: 'vertical',               // 마크다운 프리뷰 스타일 (tab || vertical)
       previewHighlight: false,
       extendedAutolinks: true,                // 자동링크
@@ -140,7 +140,6 @@ export default {
             const args = '/api/general/post/image';
             await api.setGeneralUser(args, formData)
                 .then(res => {
-                  console.log("res 출력: ", res);
                   this.editorImgUrl = res.data;
                   const editorFullImgUrl = this.baseUrl + this.editorImgUrl;
 
@@ -176,7 +175,7 @@ export default {
     async loadArticleData(getArticleId) {
       const args = `/api/general/post/${getArticleId}`;
       try {
-        const res = await api.getPost(args);
+        const res = await api.getPosts(args);
         this.posts = res.data;
       } catch (error) {
         console.error('Error loading article:', error);
@@ -191,8 +190,8 @@ export default {
     modalOk(){
       this.modalCheck = !this.modalCheck;
       // this.uploadImg대신 this.imgUrl로 체크.
-      // 왜냐하면 210번째 줄에서 this.uploadImg가 이미지가 실제로 서버에 업로드되었을 때의 URL을 저장하는 용도라면,
-      // 사용자가 이미지를 선택하고 업로드 버튼을 누른 후 서버로부터 응답을 받아 이 변수를 업데이트하는 로직이 필요하다고 하네용
+      // 왜냐하면 this.uploadImg가 이미지가 실제로 서버에 업로드되었을 때의 URL을 저장하는 용도라면,
+      // 사용자가 이미지를 선택하고 업로드 버튼을 누른 후 서버로부터 응답을 받아 이 변수를 업데이트하는 로직이 필요
       if(!this.imgUrl){
         alert('사진을 등록해 주세요.');
       }
@@ -202,11 +201,8 @@ export default {
       const formData = new FormData();
       formData.append('file', this.image);
 
-      console.log("r이미지 파일: ", this.image);
-
       /* 이미지 파일 전송 */
       api.setGeneralUser(args, formData).then(res => {
-        console.log("res 이미지 파일 전송 후: ", res);
         this.uploadImg = this.baseUrl+res.data;
         this.article.thumbnail = this.uploadImg;
         alert("사진을 등록하였습니다.");
@@ -251,23 +247,25 @@ export default {
       }
 
       console.log("articleData: ", articleData);
+      if(!this.imgUrl){
+        alert('사진을 등록해 주세요.');
+      }
+      else {
+        const args = '/api/general/post';
+        const params = articleData;
 
-      const args = '/api/general/post';
-      const params = articleData;
-
-      // axios를 사용하여 POST 요청 보내기
-      api.setUser(args, params)
-          .then(response => {
-            // 요청이 성공했을 때 처리할 코드
-            alert('게시물이 등록되었습니다 !');
-            console.log('게시물이 등록되었습니다.', response);
-            this.$router.push('/generalBoard');
-          })
-          .catch(error => {
-            // 요청이 실패했을 때 처리할 코드
-            console.error('게시물 등록에 실패했습니다.', error);
-            // 실패 시 사용자에게 알림을 표시하거나 재시도 안내 등의 작업 수행
-          });
+        // axios를 사용하여 POST 요청 보내기
+        api.setUser(args, params)
+            .then(response => {
+              // 요청이 성공했을 때 처리할 코드
+              alert('게시물이 등록되었습니다 !');
+              this.$router.push('/generalBoard');
+            })
+            .catch(error => {
+              // 요청이 실패했을 때 처리할 코드
+              console.error('게시물 등록에 실패했습니다.', error);
+            });
+      }
     },
   },
 

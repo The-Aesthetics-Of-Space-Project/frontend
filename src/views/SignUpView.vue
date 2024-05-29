@@ -225,7 +225,6 @@ export default {
       const nicknameMessage = document.querySelector("#nick-le");
 
       const nickname = nicknameInput.value; // input 태그로부터 닉네임 값을 가져옵니다.
-      console.log("nickname: ", nickname);
 
       if (nickname.length >= 5 && nickname.length <= 15) {
         // 닉네임 길이가 2~15자 사이인 경우
@@ -278,7 +277,6 @@ export default {
 
       await api.setUser('/signup', userData).then(res => {
         this.users = res.data;
-        console.log('Response data', res.data);
         alert('회원가입에 성공하였습니다.');
         this.$router.push('/login');
       })
@@ -340,7 +338,6 @@ export default {
           this.isNicknameAvailable = true; // 닉네임 사용 가능 상태 업데이트
         } else if(!result) {
           alert("이미 사용중인 닉네임입니다..");
-          console.log("닉네임 :", res.data.nickname);
           this.isNicknameAvailable = false; // 닉네임 사용 불가 상태 업데이트
         }
       })

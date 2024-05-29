@@ -2,7 +2,7 @@
   <div id="competitionPage">
     <div class="competitionPage-container">
       <!-- 글 삭제 및 수정 버튼 -->
-      <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 56em; top: 5em;">
+      <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 57em; top: 5em;">
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="deletePost">삭제</button>
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="editPost">수정</button>
       </div>
@@ -45,6 +45,7 @@
     grid-template-columns: 6fr 1fr; grid-template-rows: 1fr; top: 4em; margin: auto;">
         <div class="content-wrappers">
           <div id="viewer" class="content">
+            {{posts.contents}}
           </div>
         </div>
         <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 100%; right:17%; top: 19%; text-align: left;">
@@ -118,7 +119,7 @@ export default {
         title: '',
         thumbnail: '',
         date: '',
-        content: '',
+        contents: '',
         nickname: '',
         likeCount: '',
         scrapCount: '',
@@ -164,15 +165,19 @@ export default {
 
       const args = `/api/contest/post/${this.getArticleId}`;
 
-      await api.getPost(args).then(res =>{
+      const contestdata = {
+          userId: this.users.userId
+      };
+
+      await api.getPost(args,contestdata).then(res =>{
         this.posts=res.data;
-        this.posts.thumbnail = this.baseURL + this.posts.thumbnail;
+        console.log("내용",this.posts.contents);
+        this.posts.thumbnail = this.posts.thumbnail;
         const dateObject = new Date(this.posts.date);
         this.year = dateObject.getFullYear();
         this.month = dateObject.getMonth()+1;
         this.day = dateObject.getDate();
         this.formDate = `${this.year}-${this.month}-${this.day}`;
-        console.log("isLike 출력해줘ㅓ", this.posts.like);
       })
     },
     loadComments() {
@@ -185,7 +190,6 @@ export default {
         if (this.posts.like) {
           // 이미 좋아요를 누른 상태에서 다시 눌렀을 때 => 좋아요 취소
           const args = '/api/contest/unlike';
-          console.log("args 출력해줘ㅓ", args);
           const unLikeData = {
             userId: this.users.userId,
             articleId: this.posts.articleId
@@ -196,7 +200,7 @@ export default {
             this.getArticle();
 
           }).catch(error => {
-            console.log("좋아요 취소 실패!", error);
+            console.error("좋아요 취소 실패!", error);
           });
         } else {
           // 좋아요를 누르지 않은 상태에서 누름 => 좋아요 추가
@@ -210,7 +214,7 @@ export default {
             this.posts.like = !this.posts.like;
             this.getArticle();
           }).catch(error => {
-            console.log("좋아요 실패!", error);
+            console.error("좋아요 실패!", error);
             this.posts.like = !this.posts.like;
           })
         }
@@ -224,11 +228,12 @@ export default {
     deletePost(){
       const args = `/api/contest/post/${this.posts.articleId}`;
       api.deletePost(args).then(res => {
-        console.log("글 삭제 성공!", res);
-        alert("글 삭제 성공했습니다!");
-        this.$router.push('/competitionMain');
+        if (window.confirm('삭제하시겠습니까?')) {
+          alert('글 삭제에 성공하였습니다.');
+          this.$router.push('/competitionMain');
+        }
       }).catch(error => {
-        console.log("글 삭제 실패했습니다!", error);
+        console.error("글 삭제 실패했습니다!", error);
       });
     },
     /* 게시글 수정 */
@@ -259,7 +264,7 @@ export default {
           this.comments = res.data;
           this.loadComments(this.getArticleId);
         }).catch(err => {
-          console.log("Comment등록의 err 출력: ", err);
+          console.error("Comment등록의 err 출력: ", err);
         });
       }
     },
@@ -279,7 +284,7 @@ export default {
         this.comments=res.data;
         this.loadComments(this.getArticleId);
       }).catch(err=>{
-        console.log("Comment등록의 err 출력: ", err);
+        console.error("Comment등록의 err 출력: ", err);
       });
     },
     /* 댓글 수정 */
@@ -295,7 +300,7 @@ export default {
         this.comments=res.data;
         this.loadComments(this.getArticleId);
       }).catch(err=>{
-        console.log("Comment등록의 err 출력: ", err);
+        console.error("Comment등록의 err 출력: ", err);
       });
     },
     async deletedComment(commentId){
@@ -304,7 +309,7 @@ export default {
         this.comments=res.data;
         this.loadComments(this.getArticleId);
       }).catch(err=>{
-        console.log("Comment등록의 err 출력: ", err);
+        console.error("Comment등록의 err 출력: ", err);
       });
     },
     async chatgoing() {
@@ -312,20 +317,15 @@ export default {
         nickname : this.posts.nickname,
         id : this.users.userId,
       }
-      // console.log("nicknamea",this.posts.nickname);
-      // console.log("아이디",this.users.userId);
       await api.setChatPartnerId(`/api/chat_room/${encodeURIComponent(this.posts.nickname)}/${encodeURIComponent(this.users.userId)}`,userData)
           .then(res => {
             this.users = res.data;
-            console.log('Response data',res);
             // 여기서 라우터 이동
             this.$router.push({path: `/api/chat_room/${this.posts.nickname}/${this.userId}`});
           })
           .catch(error => {
             // 통신할 때 401에러 처리
             console.error('Error data', error);
-            console.log(this.posts.nickname);
-            console.log(this.posts.userId);
           });
     },
   }
@@ -416,8 +416,9 @@ export default {
   position: relative;
   width: 78%;
   height: auto;
-  top: 9.2em;
+  top: 1em;
   left: 23%;
+  margin-top: calc(10% + 0em);
 }
 .comment-input {
   display: flex;

@@ -25,7 +25,7 @@
 
       <div class="image-1container">
         <router-link to="/Community">
-          <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티" >
+          <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티" width="281px;">
         </router-link>
         <div class="title-a" style=" font-size: 20px;">취향을 나누는 커뮤니티</div>
         <div class="description">다채로운 관심사를 가진 사람들이 모여 정보를 얻고, 서로 공감하면서 긍정적인 영향을 주고받는 커뮤니티 생태계를 만듭니다.</div>
@@ -37,7 +37,7 @@
       </div>
 
       <div class="card-view">
-        <router-link to="/InteriorGuide" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
+        <router-link to="/InteriorGuide" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-35px;">
           <span style="float:right; position: relative; left:37px; top:15px; font-weight: 650">더 보기</span>
         </router-link>
 
@@ -82,7 +82,7 @@
 
             </div>
             <div v-if="index === 1" style="background-color: white; width: 150%; height: 150%; position: relative; left:-28%; top:58px;">
-              <router-link to="/competitionPoster"><img src="@/assets/main_content_image_list/second_banner.png" style="width: 63%; height: 63%; position: relative; top:-50px;"></router-link>
+              <router-link to="/competitionPoster"><img src="../assets/competitionPoster.png" style="width: 100%; height: 89vh; position: relative; top:-50px;"></router-link>
             </div>
 
 
@@ -105,9 +105,10 @@
       </button>
     </div>
     <div class="Home-Styling-title">
-      <router-link to="/GeneralBoard" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
-        <span style="float:right; position: relative; left:-117px; top:165px;">더 보기</span>
+      <router-link to="/InteriorGuide" style="text-decoration: none; color:black; font-weight: bolder; position: relative; left:-100px; top:-30px;">
+        <span style="float:right; position: relative; left:-120px; top:150px; font-weight: 650">더 보기</span>
       </router-link>
+
       <h2  style=" color: #333333; position: relative; top:80px; font-size: 24px; font-weight: bolder;">주목받는 게시물</h2>
       <div class="board-write-list">
         <div class="card-view">
@@ -119,7 +120,7 @@
               </div>
               <img src="@/assets/mypage_icon/like.png" height="25" width="25" style="position: relative; left:85%; top:10%;">
               <span style="position: relative; left:45%; top:3.8%;">{{ card.likeCount }}</span>
-              <h5 class="card-title" style="position:relative; top:50px; font-size: 16px;">{{ card.nickname }}의 게시물</h5>
+              <h5 class="card-title" style="position:relative; top:50px; font-size: 16px;"><span style="font-size: 17.5px;">{{ card.nickname }}</span>&nbsp;의 게시물</h5>
             </div>
 
           </div>
@@ -156,10 +157,9 @@ export default {
           ...card,
           profile: baseUrl + card.profile
         }));
-        console.log('데이타', res.data);
       }).catch(error => {
         if (error.response) {
-          console.log("error", error);
+          console.error("error", error);
         }
       });
     },
@@ -514,7 +514,7 @@ div {
   flex-basis: 29%; /* flex 항목의 기본 크기 설정 */
   text-align: center; /* 텍스트 중앙 정렬 */
   background-color: #f8f8f8; /* 배경색 */
-  padding: 10px; /* 내부 여백 */
+  padding: 15px; /* 내부 여백 */
   box-shadow: 0 2px 5px rgba(0, 0, 0, 0.2); /* 그림자 효과 */
   border-radius: 10px; /* 모서리 둥글게 */
   transition: transform 0.3s ease-in-out; /* 변형 애니메이션 */

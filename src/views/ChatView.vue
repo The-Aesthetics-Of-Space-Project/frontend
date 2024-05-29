@@ -88,16 +88,14 @@ export default {
           this.requestNewMessages();
         });
       });
-      console.log(roomId);
     },
     async partername() {
       await api.getChatUserId(`/chatroom/${encodeURIComponent(this.userId)}`)
           .then(res => {
             this.users = res.data.list;
-            console.log(res.data);
           })
           .catch(error => {
-            console.log("list-failed");
+            console.error("list-failed", error);
           });
     },
     async selectUser(user) {
@@ -107,7 +105,6 @@ export default {
       await api.setChatPartnerId(`/api/chat_room/${encodeURIComponent(this.selectedUser)}/${encodeURIComponent(this.userId)}`)
           .then(response => response.data)
           .then(newRoomId => {
-            console.log('Updating roomId from', this.roomid, 'to', newRoomId);
             this.roomid = newRoomId;
             this.connectAndSubscribe(this.roomid);
           })
@@ -120,7 +117,6 @@ export default {
         selectedUser: this.selectedUser,
       })
           .then(res => {
-            console.log('Server response:', res.data);
             this.displayMessages(res.data);
           })
           .catch(error => {
@@ -147,7 +143,6 @@ export default {
       messages.forEach(message => {
         const messageElement = document.createElement("div");
         messageElement.classList.add("message");
-        console.log(message)
         if (message.sender === this.userId) {
           messageElement.classList.add("my-message");
         } else {
@@ -166,7 +161,6 @@ export default {
       });
     },
     sendMessage() {
-      console.log('sendMessage', this.inputMessage);
 
       if (this.stompClient && this.inputMessage) {
         const messageObj = {
@@ -191,7 +185,6 @@ export default {
         selectedUser: this.selectedUser,
       })
           .then(res => {
-            console.log('Server response:', res.data);
             this.displayMessages(res.data);
           })
           .catch(error => {

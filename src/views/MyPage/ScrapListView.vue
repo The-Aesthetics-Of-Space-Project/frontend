@@ -82,7 +82,6 @@ export default {
         const res = await api.getScrapList(`/users/scraps?userId=${encodeURIComponent(this.userId)}`);
         this.posts = res.data;
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
-        console.error('response posts:', res);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -92,7 +91,6 @@ export default {
         const res = await api.getScrapList(`/users/scraps?userId=${encodeURIComponent(this.getUsersId)}`);
         this.posts = res.data;
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
-        console.error('response posts:', res);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }

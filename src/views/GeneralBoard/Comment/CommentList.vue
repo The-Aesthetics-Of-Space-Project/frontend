@@ -35,7 +35,6 @@
                 답글달기
               </div>
             </div>
-
             <div class="comment-right-content">
               <section class="comment-date-content" style="text-align: right">
                 {{ comment.date }}
@@ -47,7 +46,6 @@
                   <section class="comment-delete-content" style="cursor:pointer;" @click="submitDeletedComment(comment.commentId)">삭제</section>
                 </section>
               </div>
-
             </div>
         </div>
 
@@ -121,9 +119,7 @@
                 <div class="comments-reply-content">
                   <section class="comments-reply-content-wrapper">{{ reply.content }}</section>
                 </div>
-
               </div>
-
             <div class="comment-reply-right-content" style="width: 90%; left: 1.3em; margin: auto; display: grid; grid-template-columns: 1fr; grid-template-rows: 1fr 2fr; height: 90%;">
               <section class="comment-reply-date-content" style="text-align: center; margin-left: 1em;">
                 {{ reply.date }}
@@ -134,9 +130,7 @@
                 <section class="comment-delete-content" style="cursor:pointer;"  @click="submitDeletedComment(reply.commentId)">삭제</section>
               </section>
             </div>
-
           </div>
-
         </div>
         <!-- 해당 댓글에 대한 답글 표시 끝 -->
       </div>
@@ -226,12 +220,21 @@ export default {
         this.$emit("modified", { replyText, commentId });
       }
     },
-    submitDeletedComment(commentId){
-      if(this.nickname){
-        this.$emit("deleted", { commentId });
-      }
-    }
+    async submitDeletedComment(commentId) {
+        // 사용자의 선택을 확인
+        if (window.confirm('댓글을 삭제하시겠습니까?')) {
+          if(this.nickname){
+            this.$emit("deleted", { commentId });
+          }
+          // 댓글 삭제 함수 실행
+          await this.deleteComment(commentId);
 
+          // 삭제 성공 시 메시지 출력 및 이벤트 emit
+          alert('댓글이 삭제되었습니다');
+          this.$emit("deleted", { commentId });
+          this.$router.push('/generalBoard');
+        }
+    }
   }
 }
 </script>

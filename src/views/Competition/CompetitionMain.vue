@@ -4,14 +4,10 @@
       <div class="grid-container article-grid-container">
         <div class="box-content" v-for="post in posts" :key="post.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
-            <router-link :to="{ name: 'CompetitionPage', query: {articleId: post.articleId} }">
-              <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail">
-            </router-link>
+              <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail" @click="goToPostDetails(post.articleId)">
           </section>
           <section class="content-title" >
-            <router-link :to="{ name: 'CompetitionPage', query: {articleId: post.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 17px; text-decoration: none; color: rgb(0,0,0,80%);">
-              <span style="cursor: pointer;">{{ post.title }}</span>
-            </router-link>
+              <span style="cursor: pointer;" @click="goToPostDetails(post.articleId)">{{ post.title }}</span>
           </section>
           <section class="content-title-wrapper">
             <section class="heart-contents">
@@ -67,17 +63,22 @@ export default {
   methods: {
     async fetchPosts() {
       try {
-        const res = await api.getPost('/api/contest/posts');
+        const res = await api.getPosts('/api/contest/posts');
         this.posts=res.data;
-        console.log("콘솔로그: ", this.posts.thumbnail);
         this.posts = res.data.map(post => ({
           ...post,
-          thumbnail: this.baseUrl + post.thumbnail
+          thumbnail: post.thumbnail
         }));
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
-    }
+    },
+    goToPostDetails(articleId) {
+      this.$router.push({
+        path: "competitionPage",
+        query: {articleId: articleId}
+      });
+    },
   },
 };
 </script>
