@@ -91,7 +91,7 @@
                 <section class="house-header" style="font-weight: 750; font-size: 19px;">
                   <a> 집들이 </a>
                 </section>
-                <section class="house-content" style="position: relative; width: 40%; height: 310px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+                <section class="house-content" style="position: relative; height: 310px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
                     <section class="user-posts-wrapper" v-for="post in posts" :key="post.id" style="height: 270px; border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-left: 15px; margin-top: 13px; flex: 0 0 auto; display: flex; flex-direction: column;">
                       <!-- 게시글 썸네일과 제목 -->
@@ -113,7 +113,7 @@
                   <a> 공모전 </a>
                 </section>
 
-                <section class="competition-content" style="position: relative; width: 40%; height: 310px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
+                <section class="competition-content" style="position: relative; height: 310px; border: 1px dashed #CCC5C5; border-radius: 10px; display: flex; overflow-x: auto;">
                   <section class="user-posts-container" style="display: flex; flex-wrap: nowrap; gap: 20px;">
                     <section class="user-posts-contest-wrapper" v-for="contest in contests" :key="contest.id" style="height: 270px; border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-left: 15px; margin-top: 13px; flex: 0 0 auto; display: flex; flex-direction: column;">
                       <!-- 게시글 썸네일과 제목 -->
@@ -202,7 +202,7 @@ export default {
       }else if(!this.getNicknames){
         this.getUser();             // 유저 정보
       }
-    this.getPostContest()
+    this.getPostContest();
   },
   methods:{
     async chatgoing() {
@@ -225,7 +225,6 @@ export default {
           const args = `/users/details?nick=${this.sessionNickname}`;
           const res = await api.getUserInfo(args);
           this.users = res.data;
-          //this.users.profile = res.data.profile;
 
           await this.getPost();             // 일반 게시판 게시글 조회
           await this.getPostContest();      // 공모전 게시글 조회
@@ -241,7 +240,6 @@ export default {
           console.log("args; ", args);
           const res = await api.getUserInfo(args);
           this.users = res.data;
-          console.log("본인 아닐때 목록 조회 this.users: ", this.users);
           this.getOtherId=this.users.userId;
           await this.getOtherPost();
           await this.getOtherPostContest();
@@ -277,7 +275,6 @@ export default {
         const args = `/users/contests?userId=${encodeURIComponent(this.sessionUserId)}`;
         const res = await api.getPost(args);
         this.contests = res.data;
-        console.log("공모전ㄷㅇㅌ",res.data);
       } catch (error) {
         console.error(error);
       }
@@ -290,25 +287,6 @@ export default {
         this.contests = res.data;
       } catch (error) {
         console.error(error);
-      }
-    },
-    async fetchImg(){
-      if(!this.getNicknames){
-        try {
-          const args = `/users/image?userId=${encodeURIComponent(this.sessionUserId)}`;
-          const res = await api.getUserInfo(args);
-          this.users.profile = res.data; // API 응답 데이터를 posts에 저장
-        } catch (error) {
-          console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
-        }
-      }else{
-        try {
-          const args = `/users/image?userId=${encodeURIComponent(this.getOtherId)}`;
-          const res = await api.getUserInfo(args);
-          this.users.profile = res.data; // API 응답 데이터를 posts에 저장
-        } catch (error) {
-          console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
-        }
       }
     },
     copyUrl(){
@@ -324,7 +302,7 @@ export default {
     async fetchFollow(otherId){
       console.log("팔로잉 여부 확인 otherId: ", otherId);
       try {
-        const args = `/users/isfollow?other=${encodeURIComponent(otherId)}&user=${encodeURIComponent(this.sessionUserId)}`;
+        const args = `/users/isfollow?other=${this.getNicknames}&user=${this.sessionNickname}`;
         console.log("팔로잉 여부 확인 args: ", args);
         const res = await api.getPost(args);
         console.log("결과 출력: ", res);
@@ -336,10 +314,13 @@ export default {
     /* 팔로잉 클릭 시 -> 언팔됨 */
     async toggleFollowing(){
       try {
-        const args = `/users/follow?userId=${encodeURIComponent(this.sessionUserId)}&followId=${encodeURIComponent(this.getOtherId)}`;
+        const args = `/users/unfollowing?userId=${encodeURIComponent(this.sessionUserId)}&follow=${encodeURIComponent(this.getOtherId)}`;
+        console.log("args: ", args);
+        console.log("나: "+this.sessionUserId+"남: "+this.getOtherId);
         const res = await api.clickFollow(args);
+        console.log("res: ", res);
         this.followed = !this.followed;
-        this.getOtherUser();
+        //await this.getOtherUser();
       } catch (error) {
         console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
       }
@@ -348,10 +329,10 @@ export default {
     async toggleFollow(){
       try {
         const args = `/users/follow?userId=${encodeURIComponent(this.sessionUserId)}&followId=${encodeURIComponent(this.getOtherId)}`;
+        console.log("args: ", args);
         const res = await api.clickFollow(args);
         console.log("결과 출력: ", res);
-        this.followed = !this.followed;
-        this.getOtherUser();
+        await this.getOtherUser();
       } catch (error) {
         console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
       }
@@ -760,7 +741,8 @@ hr{
 }
 .house-content{
   position: relative;
-  width: 75%;
+  max-width: 43em;
+  min-width: 43em;
   height: 100%;
   margin: 5px 15px;
   border: 1px dashed #CCC5C5;
@@ -774,7 +756,8 @@ hr{
 .competition-content{
   position: relative;
   top: 60px;
-  width: 75%;
+  max-width: 43em;
+  min-width: 43em;
   height: 100%;
   margin: 5px 15px;
   border: 1px dashed #CCC5C5;

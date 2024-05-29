@@ -132,7 +132,7 @@ export default {
         scrapCount: '',
         profile: '',
         isLiked: '',
-        isScraped: ''
+        isScraped: '',
       },
       HeartImg: require('@/assets/generalboardpage_icon/heart.png'),
       EmptyHeartImg: require('@/assets/generalboardpage_icon/emptyheart.png'),
@@ -175,8 +175,6 @@ export default {
         nickname : this.posts.nickname,
         id : this.users.userId,
       }
-      // console.log("nicknamea",this.posts.nickname);
-      // console.log("아이디",this.users.userId);
       await api.setChatPartnerId(`/api/chat_room/${encodeURIComponent(this.posts.nickname)}/${encodeURIComponent(this.users.userId)}`,userData)
           .then(res => {
             this.users = res.data;
@@ -205,12 +203,17 @@ export default {
         this.content = this.posts.content;
 
         const htmlContent = marked(this.posts.content);
-        console.log("데이터들", res);
         document.querySelector('#viewer').innerHTML = htmlContent;
+
+        if(this.posts.isLiked===null && this.posts.isScraped===null){
+          this.posts.isLike = false;
+          this.posts.isScraped = false;
+        }
+
       } catch (error) {
         console.error("게시글 불러오기 실패", error);
         if (error.response && error.response.status === 401) {
-          console.log("로그인 ㄱㄱ.");
+          console.log("로그인 창으로 이동");
         } else if (error.response && error.response.status === 400) {
           console.log("잘못된 요청");
         } else {
@@ -379,8 +382,6 @@ export default {
       });
     },
     async deletedComment(commentId) {
-      console.log("commentId출력티비예: " + commentId.commentId);
-
       const args = `/api/general/comment/${commentId.commentId}`;
       await api.deleteComment(args).then(res => {
         this.comments = res.data;
@@ -391,7 +392,6 @@ export default {
     }
   }
 };
-
 </script>
 
 <style>

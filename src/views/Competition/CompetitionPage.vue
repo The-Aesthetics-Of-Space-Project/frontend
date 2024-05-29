@@ -2,7 +2,7 @@
   <div id="competitionPage">
     <div class="competitionPage-container">
       <!-- 글 삭제 및 수정 버튼 -->
-      <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 56em; top: 5em;">
+      <div class="author-actions" v-if="isAuthor" style="position: relative; width: 10%; left: 57em; top: 5em;">
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="deletePost">삭제</button>
         <button style="position: relative; border: none; text-decoration-line: underline; color: rgb(141,141,141,90%); background-color: white;" @click="editPost">수정</button>
       </div>
@@ -172,7 +172,6 @@ export default {
         this.month = dateObject.getMonth()+1;
         this.day = dateObject.getDate();
         this.formDate = `${this.year}-${this.month}-${this.day}`;
-        console.log("isLike 출력해줘ㅓ", this.posts.like);
       })
     },
     loadComments() {
@@ -418,8 +417,9 @@ export default {
   position: relative;
   width: 78%;
   height: auto;
-  top: 9.2em;
+  top: 1em;
   left: 23%;
+  margin-top: calc(10% + 0em);
 }
 .comment-input {
   display: flex;

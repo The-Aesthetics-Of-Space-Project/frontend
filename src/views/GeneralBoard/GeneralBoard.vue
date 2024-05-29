@@ -26,7 +26,7 @@
             </section>
             <section class="content-nickname">
               <section class="user-profile" style="cursor:pointer;">
-                <router-link :to="{ name: '', query: {nickname: popularPost.nickname}}"> //
+                <router-link :to="{ name: '', query: {nickname: popularPost.nickname}}">
                 <img :src="popularPost.profile" alt="User Profile" class="profile-img">
                   </router-link>
               </section>

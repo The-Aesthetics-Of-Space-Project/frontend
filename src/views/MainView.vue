@@ -82,7 +82,7 @@
 
             </div>
             <div v-if="index === 1" style="background-color: white; width: 150%; height: 150%; position: relative; left:-28%; top:58px;">
-              <router-link to="/competitionPoster"><img src="@/assets/main_content_image_list/second_banner.png" style="width: 63%; height: 63%; position: relative; top:-50px;"></router-link>
+              <router-link to="/competitionPoster"><img src="../assets/competitionPoster.png" style="width: 100%; height: 89vh; position: relative; top:-50px;"></router-link>
             </div>
 
 
