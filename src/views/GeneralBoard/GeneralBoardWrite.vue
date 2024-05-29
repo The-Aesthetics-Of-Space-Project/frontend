@@ -119,7 +119,7 @@ export default {
       el: document.querySelector('#editor'),
       height: '550px',
       initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-      initialValue: '# 오른쪽은 미리보기입니다!',  // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
+      initialValue: '# 미리보기',  // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
       previewStyle: 'vertical',               // 마크다운 프리뷰 스타일 (tab || vertical)
       previewHighlight: false,
       extendedAutolinks: true,                // 자동링크
@@ -176,7 +176,7 @@ export default {
     async loadArticleData(getArticleId) {
       const args = `/api/general/post/${getArticleId}`;
       try {
-        const res = await api.getPost(args);
+        const res = await api.getPosts(args);
         this.posts = res.data;
       } catch (error) {
         console.error('Error loading article:', error);

@@ -70,7 +70,7 @@
         </section>
       </div>
       <!-- 댓글 작성 및 댓글 확인 폼 -->
-      <div class="comment-container">
+      <div class="comment-container" style="position: relative; top:-50px;">
         <div class="comment-input">
           <!-- 댓글 작성 컴포넌트 -->
           <comment-write @submit="handleCommentSubmit" />
@@ -192,7 +192,7 @@ export default {
     async getArticle() {
       try {
         const args = `/api/general/post/${this.getArticleId}`;
-        const res = await api.getPost(args);
+        const res = await api.getPosts(args);
         this.posts = res.data;
 
         const dateObject = new Date(this.posts.date);
@@ -485,9 +485,7 @@ export default {
   position: relative;
   width: 78%;
   height: auto;
-  top: 9.2em;
   left: 25%;
-  margin-top: calc(30% + 4em); /* 게시글 내용의 80% + 4em의 여백 */
 }
 
 .comment-input {

@@ -118,11 +118,11 @@
                     <section class="user-posts-contest-wrapper" v-for="contest in contests" :key="contest.id" style="height: 270px; border-radius: 11.1%; border: 1px solid rgb(120,117,117,50%); margin-left: 15px; margin-top: 13px; flex: 0 0 auto; display: flex; flex-direction: column;">
                       <!-- 게시글 썸네일과 제목 -->
                       <div  class="post-thumbnail" style="width: 300px; height: 220px; border: none;">
-                        <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer;">
+                        <router-link :to="{ name: 'CompetitionPage', query: {articleId: contest.articleId} }" style="cursor:pointer;">
                         <img :src="contest.thumbnail" alt="게시글 썸네일" class="thumbnail-image" style="border-radius: 12.5%; width: 100%; height: 210px;">
                         </router-link>
                       </div>
-                      <router-link :to="{ name: 'GeneralBoardPage', query: {articleId: contest.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
+                      <router-link :to="{ name: 'CompetitionPage', query: {articleId: contest.articleId} }" style="cursor:pointer; font-weight: 650; font-size: 16px; text-decoration: none; color: rgb(0,0,0,80%);">
                       <div class="post-title" style="cursor: pointer; margin-left: 10px; text-align: left;">{{ contest.title }}</div>
                       </router-link>
                     </section>
@@ -142,10 +142,14 @@
 import Store from "@/store/index";
 import {api} from "@/api/api";
 import axios from "axios";
+import CompetitionPage from "@/views/Competition/CompetitionPage.vue";
 
 export default {
   name: 'MyPageView',
   computed:{
+    CompetitionPage() {
+      return CompetitionPage
+    },
     isUserLogin(){
       return this.$store.getters.isLogin;
     },
@@ -252,7 +256,7 @@ export default {
     async getPost(){
       try {
         const args = `/users/posts?userId=${encodeURIComponent(this.sessionUserId)}`;
-        const res = await api.getPost(args);
+        const res = await api.getPosts(args);
         this.posts = res.data;
         console.log(res.data);
       } catch (error) {
@@ -263,7 +267,7 @@ export default {
     async getOtherPost(){
       try {
         const args = `/users/posts?userId=${encodeURIComponent(this.getOtherId)}`;
-        const res = await api.getPost(args);
+        const res = await api.getPosts(args);
         this.posts = res.data;
       } catch (error) {
         console.error(error);
@@ -273,7 +277,7 @@ export default {
     async getPostContest(){
       try {
         const args = `/users/contests?userId=${encodeURIComponent(this.sessionUserId)}`;
-        const res = await api.getPost(args);
+        const res = await api.getPosts(args);
         this.contests = res.data;
       } catch (error) {
         console.error(error);
@@ -283,7 +287,7 @@ export default {
     async getOtherPostContest(){
       try {
         const args = `/users/contests?userId=${encodeURIComponent(this.getOtherId)}`;
-        const res = await api.getPost(args);
+        const res = await api.getPosts(args);
         this.contests = res.data;
       } catch (error) {
         console.error(error);
@@ -304,7 +308,7 @@ export default {
       try {
         const args = `/users/isfollow?other=${this.getNicknames}&user=${this.sessionNickname}`;
         console.log("팔로잉 여부 확인 args: ", args);
-        const res = await api.getPost(args);
+        const res = await api.getPosts(args);
         console.log("결과 출력: ", res);
         this.followed = res.data;
       } catch (error) {

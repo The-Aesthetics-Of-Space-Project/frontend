@@ -25,7 +25,7 @@
 
       <div class="image-1container">
         <router-link to="/Community">
-          <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티" width="282px;">
+          <img src="@/assets/main_content_image_list/main-community.png" alt="커뮤니티" width="281px;">
         </router-link>
         <div class="title-a" style=" font-size: 20px;">취향을 나누는 커뮤니티</div>
         <div class="description">다채로운 관심사를 가진 사람들이 모여 정보를 얻고, 서로 공감하면서 긍정적인 영향을 주고받는 커뮤니티 생태계를 만듭니다.</div>

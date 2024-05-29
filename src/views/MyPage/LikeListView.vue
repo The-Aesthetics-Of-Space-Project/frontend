@@ -124,7 +124,7 @@ export default {
   methods: {
     async fetchPosts() {
       try {
-        const res = await api.getPost(`/users/likes/general?userId=${encodeURIComponent(this.userId)}`);
+        const res = await api.getPosts(`/users/likes/general?userId=${encodeURIComponent(this.userId)}`);
         this.posts = res.data;
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
       } catch (error) {
@@ -133,7 +133,7 @@ export default {
     },
     async fetchContest() {
       try {
-        const res = await api.getPost(`/users/likes/contest?userId=${encodeURIComponent(this.userId)}`);
+        const res = await api.getPosts(`/users/likes/contest?userId=${encodeURIComponent(this.userId)}`);
         this.contests = res.data;
         this.contests.thumbnail=this.baseUrl+this.contests.thumbnail;
       } catch (error) {
@@ -142,7 +142,7 @@ export default {
     },
     async fetchOtherPosts() {
       try {
-        const res = await api.getPost(`/users/likes/general?userId=${encodeURIComponent(this.getUsersId)}`);
+        const res = await api.getPosts(`/users/likes/general?userId=${encodeURIComponent(this.getUsersId)}`);
         this.posts = res.data;
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
       } catch (error) {
@@ -151,7 +151,7 @@ export default {
     },
     async fetchOtherContest() {
       try {
-        const res = await api.getPost(`/users/likes/contest?userId=${encodeURIComponent(this.getUsersId)}`);
+        const res = await api.getPosts(`/users/likes/contest?userId=${encodeURIComponent(this.getUsersId)}`);
         this.contests = res.data;
         this.contests.thumbnail=this.baseUrl+this.contests.thumbnail;
       } catch (error) {

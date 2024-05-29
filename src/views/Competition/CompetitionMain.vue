@@ -63,12 +63,12 @@ export default {
   methods: {
     async fetchPosts() {
       try {
-        const res = await api.getPost('/api/contest/posts');
+        const res = await api.getPosts('/api/contest/posts');
         this.posts=res.data;
         console.log("콘솔로그: ", this.posts.thumbnail);
         this.posts = res.data.map(post => ({
           ...post,
-          thumbnail: this.baseUrl + post.thumbnail
+          thumbnail: post.thumbnail
         }));
       } catch (error) {
         console.error('Error fetching posts:', error);

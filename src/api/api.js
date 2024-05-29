@@ -26,7 +26,10 @@ export const api = {
       return service.get(args)
     },
     /* 게시글 전체 목록 조회*/
-    getPost(args){
+    getPost(args,params){
+        return service.post(args,params)
+    },
+    getPosts(args){
         return service.get(args)
     },
     setUser(args, params) { // url 매개변수를 첫 번째 인자로 추가

@@ -45,6 +45,7 @@
     grid-template-columns: 6fr 1fr; grid-template-rows: 1fr; top: 4em; margin: auto;">
         <div class="content-wrappers">
           <div id="viewer" class="content">
+            {{posts.contents}}
           </div>
         </div>
         <section class="side-btn-wrapper" style="position:fixed; width: 8%; height: 100%; right:17%; top: 19%; text-align: left;">
@@ -118,7 +119,7 @@ export default {
         title: '',
         thumbnail: '',
         date: '',
-        content: '',
+        contents: '',
         nickname: '',
         likeCount: '',
         scrapCount: '',
@@ -164,9 +165,14 @@ export default {
 
       const args = `/api/contest/post/${this.getArticleId}`;
 
-      await api.getPost(args).then(res =>{
+      const contestdata = {
+          userId: this.users.userId
+      };
+
+      await api.getPost(args,contestdata).then(res =>{
         this.posts=res.data;
-        this.posts.thumbnail = this.baseURL + this.posts.thumbnail;
+        console.log("내용",this.posts.contents);
+        this.posts.thumbnail = this.posts.thumbnail;
         const dateObject = new Date(this.posts.date);
         this.year = dateObject.getFullYear();
         this.month = dateObject.getMonth()+1;

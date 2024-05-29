@@ -168,7 +168,7 @@ export default {
       if (this.getArticleId) {
         const args = `/api/general/post/${this.getArticleId}`;
         try {
-          const res = await api.getPost(args);
+          const res = await api.getPosts(args);
           this.posts = res.data;
           console.log("res 출력해라해라", res.data);
           this.uploadImg = this.posts.thumbnail;

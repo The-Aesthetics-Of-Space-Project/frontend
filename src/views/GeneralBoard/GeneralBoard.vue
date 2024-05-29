@@ -111,7 +111,7 @@ export default {
   methods: {
     async fetchPosts() {
       try {
-        const res = await api.getPost('/api/general/posts');
+        const res = await api.getPosts('/api/general/posts');
         this.posts = res.data;
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
         console.error('response posts:', res);
@@ -122,7 +122,7 @@ export default {
     /* 좋아요 많은 상위 3개 게시글 */
     async fetchPopularPosts() {
       try {
-        const res = await api.getPost('/api/general/posts/popular');
+        const res = await api.getPosts('/api/general/posts/popular');
         this.popularPosts = res.data;
           this.popularPosts.thumbnail= this.baseUrl + this.popularPosts.thumbnail;
         console.log('response popular posts:', res);
