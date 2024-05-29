@@ -25,9 +25,7 @@
         <button id="anlay-btn" class="btn btn-success" style="position: relative; top:230px; left:-145px; padding:20px;"
                 @click="analyzeSelectedImages" v-if="currentStep === 3"><span
             style="position: relative; top:-5px;">분석하기</span></button>
-
       </div>
-
       <span style="position: relative; left: 680px; top:15px; font-weight: bolder; color: darkslategrey">{{
           currentStep
         }}/3</span>
@@ -41,23 +39,18 @@
             <img :src="image.src" alt="Interior Style" width="200px" height="180px">
           </div>
         </div>
-
         <div v-if="isLoading" class="loading-overlay">
           로딩 중...
         </div>
       </div>
-
       <modal v-if="showModal" @close="closeModal" class="modal-custom" style="color: #333333">
-
         <div class="row gx-5 modal-body" style="gap: 52px">
           <div class="col-auto text-start" style="padding-top: 50px; padding-bottom: 50px">
             <p id="style-type-eng">{{ styleResultEng }}</p>
             <p id="style-type-kor">{{ styleResultKor }}</p>
-
             <div id="style-sub" v-for="(subscription, index) in styleSubscription" :key="index">
               <span>{{ subscription }}</span>
             </div>
-
             <div style="width: 100%; height: 1px; background: #E8E8E8; margin-top: 36px"></div>
 
             <h3 class="interior-tip-titles">인테리어 팁을 드릴게요 !</h3>
@@ -213,7 +206,6 @@ export default {
         'lovely': '4',
         'vintage': '5'
       },
-
     }
   },
   computed: {
@@ -381,7 +373,6 @@ export default {
           //첫 번째 단계 이미지 스타일 스타일 점수 계산
           this.selectedImages.forEach(imageId => {
             const styles = imageStyles[imageId];
-            console.log('1단계 ' + imageId + ' = ' + styles);
             if (styles) {
               styles.forEach(style => {
                 if (!styleScores[style]) styleScores[style] = 0; // 이 줄은 사실상 필요 없으나, 다른 스타일이 추가될 경우를 대비해 둡니다.
@@ -392,7 +383,6 @@ export default {
           // 두 번째 단계 이미지 스타일 점수 합산
           this.selectedImagesStep2.forEach(imageId => {
             const styles = imageStyles2[imageId];
-            console.log('2단계 ' + imageId + ' = ' + styles);
             if (styles) {
               styles.forEach(style => {
                 if (!styleScores[style]) styleScores[style] = 0; // 이 줄은 사실상 필요 없으나, 다른 스타일이 추가될 경우를 대비해 둡니다.
@@ -404,7 +394,6 @@ export default {
           // 세 번째 단계 이미지 스타일 점수 합산
           this.selectedImagesStep3.forEach(imageId => {
             const styles = imageStyles3[imageId];
-            console.log('1단계 ' + imageId + ' = ' + styles);
             if (styles) {
               styles.forEach(style => {
                 if (!styleScores[style]) styleScores[style] = 0; // 마찬가지로 필요 없지만, 확장성을 고려
@@ -422,7 +411,6 @@ export default {
               recommendedStyle = style;
             }
           }
-          console.log(`추천 스타일: ${recommendedStyle}, 점수: ${highestScore}`);
 
           const styleId = this.styleToId[recommendedStyle];
 

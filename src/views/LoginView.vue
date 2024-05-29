@@ -99,12 +99,8 @@ export default {
           password: this.password,
         };
 
-        console.log('userData data: ', userData);
-
         await api.setUser('/login', userData).then(res => {
           this.users = res.data;
-              // 서버 응답 로그
-              console.log('Response data', res.data);
               // 로그인 성공 알림
               alert('로그인에 성공하였습니다.');
               // 세션 값 저장

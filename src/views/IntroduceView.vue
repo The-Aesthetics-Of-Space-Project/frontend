@@ -160,7 +160,6 @@ export default {
   padding: 80px 0;
 }
 
-
 .int-first-title {
   padding: 100px;
   color: #212529;

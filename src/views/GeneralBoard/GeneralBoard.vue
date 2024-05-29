@@ -44,7 +44,6 @@
         <div class="box-content" v-for="post in posts" :key="post.id">
           <section class="thumbnail" style="position: relative; cursor: pointer; width:100%; height:70%;" >
 
-
             <img :src="post.thumbnail" alt="Post Thumbnail" class="post-thumbnail" @click="goToPostDetails(post.articleId)">
 
           </section>
@@ -114,7 +113,6 @@ export default {
         const res = await api.getPosts('/api/general/posts');
         this.posts = res.data;
         this.posts.thumbnail=this.baseUrl+this.posts.thumbnail;
-        console.error('response posts:', res);
       } catch (error) {
         console.error('Error fetching posts:', error);
       }
@@ -124,8 +122,7 @@ export default {
       try {
         const res = await api.getPosts('/api/general/posts/popular');
         this.popularPosts = res.data;
-          this.popularPosts.thumbnail= this.baseUrl + this.popularPosts.thumbnail;
-        console.log('response popular posts:', res);
+        this.popularPosts.thumbnail= this.baseUrl + this.popularPosts.thumbnail;
       } catch (error) {
         console.error('Error fetching popular posts:', error);
       }
@@ -135,10 +132,6 @@ export default {
         path: "GeneralBoardPage",
         query: {articleId: articleId}
       });
-    },
-    goToUserDetails(nickname) {
-      console.log("nickname OUTPUT!!!: ", nickname);
-      this.$router.push({name: 'MyPageView', params: {nickname: nickname}});
     }
   },
 };

@@ -178,15 +178,12 @@ export default {
       await api.setChatPartnerId(`/api/chat_room/${encodeURIComponent(this.posts.nickname)}/${encodeURIComponent(this.users.userId)}`,userData)
           .then(res => {
             this.users = res.data;
-            console.log('Response data',res);
             // 여기서 라우터 이동
             this.$router.push({path: `/api/chat_room/${this.posts.nickname}/${this.userId}`});
           })
           .catch(error => {
             // 통신할 때 401에러 처리
             console.error('Error data', error);
-            console.log(this.posts.nickname);
-            console.log(this.posts.userId);
           });
     },
     async getArticle() {
@@ -211,7 +208,6 @@ export default {
         }
 
       } catch (error) {
-        console.error("게시글 불러오기 실패", error);
         if (error.response && error.response.status === 401) {
           console.log("로그인 창으로 이동");
         } else if (error.response && error.response.status === 400) {
@@ -308,7 +304,6 @@ export default {
         if (window.confirm('삭제하시겠습니까?')) {
           alert('글 삭제에 성공하였습니다.');
           this.$router.push('/generalBoard');
-          console.log("글 삭제 성공!", res);
         }
       }).catch(error => {
         console.log("글 삭제 실패했습니다!", error);
@@ -343,7 +338,7 @@ export default {
           this.comments = res.data;
           this.loadComments(this.getArticleId);
         }).catch(err => {
-          console.log("Comment등록의 err 출력: ", err);
+          console.error("Comment등록의 err 출력: ", err);
         });
       }
     },
@@ -378,7 +373,7 @@ export default {
         this.comments = res.data;
         this.loadComments(this.getArticleId);
       }).catch(err => {
-        console.log("Comment등록의 err 출력: ", err);
+        console.error("Comment등록의 err 출력: ", err);
       });
     },
     async deletedComment(commentId) {
@@ -387,7 +382,7 @@ export default {
         this.comments = res.data;
         this.loadComments(this.getArticleId);
       }).catch(err => {
-        console.log("Comment등록의 err 출력: ", err);
+        console.error("Comment등록의 err 출력: ", err);
       });
     }
   }

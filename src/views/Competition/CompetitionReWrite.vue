@@ -18,28 +18,21 @@
             </button>
         </div>
         <!-- 글 제목 작성-->
-        <section class="comp-title" >
+        <section class="comp-title">
           <section class="mb-3">
             <input type="text" class="form-control" id="exampleFormControlInput1" placeholder="제목을 입력해 주세요." maxlength="50" v-model="article.title" style="outline: none; box-shadow: none; border-top: white; border-left: white; border-right: white;">
             <p>{{ article.title.length }}/50</p>
           </section>
         </section>
         <!-- 글 내용 작성-->
-        <section class="com-content-container" >
-          <section class="com-content-wrapper" >
-        <textarea style=" height: 300px;  position: relative; left:1.5%;"
-            class="com-content"
-            oninput="this.style.height = ''; this.style.height = this.scrollHeight + 'px'"
-            placeholder="내용을 입력해 주세요.(최대 500자)"
-            maxlength="500"
-            v-model="article.contents"
-        ></textarea>
-            <section class="max-length" style="text-align: right; margin-top: 0.5em; ">
-              <p>{{ article.contents.length }}/500</p>
-            </section>
+        <section class="com-content-container">
+          <section class="com-content-wrapper">
+            <textarea type="text" class="com-content" oninput='this.style.height = ""; this.style.height = this.scrollHeight + "px"'
+                      placeholder="내용을 입력해 주세요.(최대 500자)" maxlength="500" rows="30" cols="85" style="margin-left: 12px; resize: none; box-shadow: none; max-height: 80%; border: 1px solid #8D8D8D; border-radius: 8px; outline-color: darkslategrey;"
+                      v-model="article.contents"/>
+            <section class="max-length"> <p style="left: 46em;">{{ article.contents.length}}/500</p> </section>
           </section>
         </section>
-
         <!-- 제출하기 버튼 -->
         <section class="submit-btn-wrapper">
           <button type="submit" class="submit-btn" @click="modifyArticle" style="width: 110px; position: relative; border-radius: 8px; border: none; color: ghostwhite; font-size: 16px; font-weight: 550; background-color: rgb(4,57,39,80%); height: 45%;"> 수정하기 </button>
@@ -124,13 +117,9 @@
       }
     },
     methods: {
-
       async loadContestArticleData(){
-        const contestdata = {
-          userId: this.userId
-        };
         const args = `/api/contest/post/${this.getArticlesId}`;
-        await api.getPost(args,contestdata).then(res=>{
+        await api.getPost(args).then(res=>{
           this.article=res.data;
           this.uploadImg =this.article.thumbnail;
           console.log("this.article.thumbnail: ", this.article.thumbnail);
@@ -179,17 +168,12 @@
         formData.append('thumbnail', this.image);
         formData.append('contents', this.article.contents);
 
-        for (let key of formData.keys()) {
-          console.log(key, ":", formData.get(key));
-        }
-
         const args = `/api/contest/post/${this.getArticlesId}`;
         const params = formData;
 
         // POST 요청 보내기
         api.editPost(args, params)
             .then(res => {
-              console.log("res",res);
               // 요청이 성공했을 때 처리할 코드
               alert('글이 수정되었습니다!');
               this.$router.push('/competitionMain');
@@ -354,7 +338,18 @@ h6 {
 h6 p {
   padding: 8px;
 }
-
+.com-content-container{
+  position: relative;
+  width: 55%;
+  height: 50%;
+  margin: auto;
+}
+.com-content-wrapper{
+  position: relative;
+  width: 80%;
+  height: 80%;
+  left: 0em;
+}
 .max-length p{
   position: relative;
   width: 7%;
@@ -379,24 +374,5 @@ h6 p {
   color: white;
   font-size: 17px;
   font-weight: normal;
-}
-.com-content {
-  width: 100%;
-  box-sizing: border-box;
-  resize: none;
-  max-width: 100%;
-  margin: auto;
-  box-shadow: none;
-  border: 1px solid #8D8D8D;
-  border-radius: 8px;
-  outline-color: darkslategrey;
-  max-height: 100vh;
-  font-size: 1rem;
-  padding: 1rem;
-}
-.com-content-container{
-  position: relative;
-  left:5.2%;
-  width: 66%;
 }
 </style>

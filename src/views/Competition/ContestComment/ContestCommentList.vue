@@ -196,7 +196,7 @@ export default {
           return comment;
         })
       }).catch(err=>{
-        console.log("CommentList의 err 출력: ", err);
+        console.error("CommentList의 err 출력: ", err);
       });
     },
     toggleReplyForm(commentId){
@@ -212,7 +212,6 @@ export default {
       }
     },
     writeReply(commentId){
-
       const parentId = commentId;
       if(this.nickname){
         const replyText  = this.replyText;
@@ -231,7 +230,6 @@ export default {
         this.$emit("deleted", { commentId });
       }
     }
-
   }
 }
 </script>

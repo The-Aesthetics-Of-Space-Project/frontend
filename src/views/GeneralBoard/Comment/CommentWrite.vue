@@ -1,7 +1,6 @@
 <template>
   <div id="commentWrite">
     <div class="userId-container">
-
       <!-- 작성창 -->
       <div v-if="this.userId"  ref="form">
         <div class="comment-input" style="width: 97%;">
@@ -13,15 +12,12 @@
           </button>
         </div>
       </div>
-
       <!-- 로그인 안되어있을 시 로그인 화면으로 안내 -->
       <div v-else class="d-flex justify-center pb-5" style="font-size: medium">
         댓글 작성은&nbsp; <router-link to="/login" style=" color: rgb(48,82,58,100%); font-weight: 550; text-decoration-line: underline;"> 로그인 </router-link> &nbsp;후에 가능합니다.
       </div>
     </div>
-
   </div>
-
 </template>
 
 <script>
@@ -43,11 +39,8 @@ export default {
         this.$emit("submit", { content, parentId });
         this.content = ""; // 답글 작성 양식을 초기화
       }
-
     }
   },
-  created() {
-  }
 }
 </script>
 

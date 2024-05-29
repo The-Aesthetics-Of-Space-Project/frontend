@@ -43,11 +43,8 @@ export default {
         this.$emit("submit", { content, parentId });
         this.content = ""; // 답글 작성 양식을 초기화
       }
-
     }
   },
-  created() {
-  }
 }
 </script>
 

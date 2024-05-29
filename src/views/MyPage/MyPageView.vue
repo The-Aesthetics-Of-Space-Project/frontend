@@ -18,7 +18,7 @@
             <section class="left-content">
               <!-- 공유 버튼 -->
               <section class="share-button-container">
-                <button @click="copyUrl()" class="share-button-wrapper"><img src="../../assets/mypage_icon/mypageShareIcon.png" style="width: 70px; height: 62px; left: 5px;"><!--<h2>클릭결과: {{ result }}</h2>--></button>
+                <button @click="copyUrl()" class="share-button-wrapper"><img src="../../assets/mypage_icon/mypageShareIcon.png" style="width: 70px; height: 62px; left: 5px;"></button>
               </section>
               <!-- 프로필 컨테이너 -->
               <section class="profile-container">
@@ -307,9 +307,7 @@ export default {
       console.log("팔로잉 여부 확인 otherId: ", otherId);
       try {
         const args = `/users/isfollow?other=${this.getNicknames}&user=${this.sessionNickname}`;
-        console.log("팔로잉 여부 확인 args: ", args);
         const res = await api.getPosts(args);
-        console.log("결과 출력: ", res);
         this.followed = res.data;
       } catch (error) {
         console.error(error);
@@ -319,12 +317,8 @@ export default {
     async toggleFollowing(){
       try {
         const args = `/users/unfollowing?userId=${encodeURIComponent(this.sessionUserId)}&follow=${encodeURIComponent(this.getOtherId)}`;
-        console.log("args: ", args);
-        console.log("나: "+this.sessionUserId+"남: "+this.getOtherId);
         const res = await api.clickFollow(args);
-        console.log("res: ", res);
         this.followed = !this.followed;
-        //await this.getOtherUser();
       } catch (error) {
         console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);
       }
@@ -333,9 +327,7 @@ export default {
     async toggleFollow(){
       try {
         const args = `/users/follow?userId=${encodeURIComponent(this.sessionUserId)}&followId=${encodeURIComponent(this.getOtherId)}`;
-        console.log("args: ", args);
         const res = await api.clickFollow(args);
-        console.log("결과 출력: ", res);
         await this.getOtherUser();
       } catch (error) {
         console.error('스크랩한 게시글 데이터를 가져오는데 실패했습니다.', error);

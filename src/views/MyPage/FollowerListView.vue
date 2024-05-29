@@ -67,7 +67,6 @@ export default {
       const args = `/users/followers?userId=${this.userId}`;
       await api.getFollow(args).then(res => {
         this.followers = res.data;
-        console.log("res: ", res);
       })
     },
     /* 남이 보는 팔로워 목록 조회 */
@@ -75,7 +74,6 @@ export default {
       const args = `/users/followers?userId=${this.getUsersId}`;
       await api.getFollow(args).then(res => {
         this.followers = res.data;
-        console.log("res: ", res);
       })
     },
     /* 팔로워 삭제 */
@@ -83,7 +81,6 @@ export default {
       const args=`/users/unfollower?userId=${this.followers.userId}&follower=${clickUserId}`;
       await api.deleteFollow(args).then(res => {
         this.followers = this.followers.filter(follower => follower.userId !== clickUserId);
-        console.log("res: ", res);
       }).catch(err=>{
         console.log("err: ", err);
       })

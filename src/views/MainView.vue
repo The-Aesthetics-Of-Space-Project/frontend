@@ -157,10 +157,9 @@ export default {
           ...card,
           profile: baseUrl + card.profile
         }));
-        console.log('데이타', res.data);
       }).catch(error => {
         if (error.response) {
-          console.log("error", error);
+          console.error("error", error);
         }
       });
     },

@@ -31,8 +31,6 @@
         <div class="card-list">
           <div class="card" v-for="(card, index) in cards" :key="index">
             <div class="card-body">
-              <!--<h5 class="card-title">{{ card.title }}</h5>-->
-              <!-- <p class="card-text">{{ card.text }}</p>-->
               <a href="#" class="btn btn-outline-primary" style="position: relative; top: 83%;">이동하기</a>
               <p class="card-sentence" >{{ card.sentences_second }}</p>
             </div>

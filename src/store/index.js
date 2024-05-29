@@ -39,7 +39,6 @@ export default new Vuex.Store({
         },
         clearUsername(state) {
             state.nickname='';
-            //state.profile='';
             state.userId = '';
         }
     }

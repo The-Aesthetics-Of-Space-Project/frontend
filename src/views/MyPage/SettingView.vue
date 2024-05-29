@@ -158,7 +158,6 @@ export default {
           this.isNicknameChecked=true;
           api.getUser(args).then(res => {
                 const result = res.data;
-                console.log("result 값임!!!!: ", result)
                 if (result) {
                   nicknameMessage.textContent = '사용 가능한 닉네임입니다.';
                   nicknameMessage.style.color = '#2fb380';
@@ -174,7 +173,7 @@ export default {
                 }
               }
           ).catch(error => {
-            console.log("error",error);
+            console.error("error",error);
           });
         }
         const handleKeyup = () => {
@@ -224,22 +223,12 @@ export default {
       formData.append('nickname', this.user.nickname);
       formData.append('profile', this.image);
 
-      for (let key of formData.keys()) {
-        console.log(key, ":", formData.get(key));
-      }
-
       const args=`/users/update?userId=${encodeURIComponent(presentUserId)}`;
       const params = formData;
       await api.updateUser(args, params).then(res => {
-        console.log("비번: ", this.user.password);
-        console.log("닉넴: ", this.user.nickname);
-        console.log("이미지: ", this.image);
         this.$router.push('my-page');
         alert('수정하였습니다.');
         this.$store.commit('setUserNickname', this.user.nickname);
-        for (let key of formData.keys()) {
-          console.log(key, ":", formData.get(key));
-        }
       })
     }
   }

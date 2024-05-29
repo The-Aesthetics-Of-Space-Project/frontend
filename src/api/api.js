@@ -100,14 +100,3 @@ export const api = {
         return service.get(args)
     },
 }
-
-export const testApi = {
-    getTests() {
-        return service.get(`${API_URL}${API.tests}`)
-    },
-
-    setTest(args) {
-        // URL과 함께 args를 바디로 전달
-        return service.post(`${API_URL}${API.test}`, args);
-    },
-}

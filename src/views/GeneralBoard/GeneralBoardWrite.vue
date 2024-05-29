@@ -140,7 +140,6 @@ export default {
             const args = '/api/general/post/image';
             await api.setGeneralUser(args, formData)
                 .then(res => {
-                  console.log("res 출력: ", res);
                   this.editorImgUrl = res.data;
                   const editorFullImgUrl = this.baseUrl + this.editorImgUrl;
 
@@ -202,11 +201,8 @@ export default {
       const formData = new FormData();
       formData.append('file', this.image);
 
-      console.log("r이미지 파일: ", this.image);
-
       /* 이미지 파일 전송 */
       api.setGeneralUser(args, formData).then(res => {
-        console.log("res 이미지 파일 전송 후: ", res);
         this.uploadImg = this.baseUrl+res.data;
         this.article.thumbnail = this.uploadImg;
         alert("사진을 등록하였습니다.");
@@ -263,13 +259,11 @@ export default {
             .then(response => {
               // 요청이 성공했을 때 처리할 코드
               alert('게시물이 등록되었습니다 !');
-              console.log('게시물이 등록되었습니다.', response);
               this.$router.push('/generalBoard');
             })
             .catch(error => {
               // 요청이 실패했을 때 처리할 코드
               console.error('게시물 등록에 실패했습니다.', error);
-              // 실패 시 사용자에게 알림을 표시하거나 재시도 안내 등의 작업 수행
             });
       }
     },

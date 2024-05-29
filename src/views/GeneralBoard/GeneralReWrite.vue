@@ -121,7 +121,6 @@ export default {
       el: document.querySelector('#editor'),
       height: '550px',
       initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-      //initialValue: '# 오른쪽은 미리보기입니다!',  // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
       previewStyle: 'vertical',               // 마크다운 프리뷰 스타일 (tab || vertical)
       previewHighlight: false,
       extendedAutolinks: true,                // 자동링크
@@ -142,7 +141,6 @@ export default {
           const args = '/api/general/post/image';
           await api.setGeneralUser(args, formData)
               .then(res => {
-                console.log("res 출력: ", res);
                 this.editorImgUrl = res.data;
                 const editorFullImgUrl = this.baseUrl + this.editorImgUrl;
 
@@ -170,7 +168,6 @@ export default {
         try {
           const res = await api.getPosts(args);
           this.posts = res.data;
-          console.log("res 출력해라해라", res.data);
           this.uploadImg = this.posts.thumbnail;
           this.initializeEditor();
         } catch (error) {
@@ -183,7 +180,6 @@ export default {
         el: document.querySelector('#editor'),
         height: '550px',
         initialEditType: 'markdown',            // 최초로 보여줄 에디터 타입 (markdown || wysiwyg)
-        //initialValue: '# 오른쪽은 미리보기입니다!',  // 내용의 초기 값으로, 반드시 마크다운 문자열 형태여야 함
         previewStyle: 'vertical',               // 마크다운 프리뷰 스타일 (tab || vertical)
         previewHighlight: false,
         extendedAutolinks: true,                // 자동링크
@@ -204,7 +200,6 @@ export default {
             const args = '/api/general/post/image';
             await api.setGeneralUser(args, formData)
                 .then(res => {
-                  console.log("res 출력: ", res);
                   this.editorImgUrl = res.data;
                   const editorFullImgUrl = this.baseUrl + this.editorImgUrl;
 
@@ -217,7 +212,6 @@ export default {
         }
       });
       if(this.posts.content){
-        console.log("content 출력핼하해라해라", this.posts.content);
         this.editor.setMarkdown(this.posts.content);
       }
     },
@@ -290,7 +284,6 @@ export default {
             if (window.confirm('수정하시겠습니까?')) {
               alert('게시물이 수정되었습니다');
               this.$router.push('/generalBoard');
-              console.log("게시물 수정 성공!", res);
             }
           })
           .catch(error => {

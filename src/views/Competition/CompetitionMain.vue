@@ -65,7 +65,6 @@ export default {
       try {
         const res = await api.getPosts('/api/contest/posts');
         this.posts=res.data;
-        console.log("콘솔로그: ", this.posts.thumbnail);
         this.posts = res.data.map(post => ({
           ...post,
           thumbnail: post.thumbnail
