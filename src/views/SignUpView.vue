@@ -224,15 +224,13 @@ export default {
       const nicknameInput = document.querySelector("#nickname");
       const nicknameMessage = document.querySelector("#nick-le");
 
-      const nickname = nicknameInput.value; // input 태그로부터 닉네임 값을 가져옵니다.
+      const nickname = nicknameInput.value; // input 태그로부터 닉네임 값을 가져옴
 
-      if (nickname.length >= 5 && nickname.length <= 15) {
-        // 닉네임 길이가 2~15자 사이인 경우
-        nicknameMessage.style.color = 'green'; // 메시지 색상을 초록색으로 설정합니다.
+      if (nickname.length >= 3 && nickname.length <= 15) {
+        nicknameMessage.style.color = 'green'; // 메시지 색상을 초록색으로 설정
         this.isNicknameValid = true;
       } else {
-        // 닉네임 길이가 2~15자 사이가 아닌 경우
-        nicknameMessage.style.color = 'red'; // 메시지 색상을 빨간색으로 설정합니다.
+        nicknameMessage.style.color = 'red'; // 메시지 색상을 빨간색으로 설정
         this.isNicknameValid = false;
       }
     },
