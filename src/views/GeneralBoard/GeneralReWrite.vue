@@ -239,7 +239,7 @@ export default {
         /* 이미지 파일 전송 */
         api.setGeneralUser(args, formData).then(res => {
           this.uploadImg = this.baseUrl + res.data;
-          this.article.thumbnail = this.uploadImg;
+          this.posts.thumbnail = this.uploadImg;
         });
       }
     },
