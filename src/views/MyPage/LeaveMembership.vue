@@ -3,21 +3,21 @@
     <div class="leave-container d-flex flex-column align-items-center justify-content-between">
       <section class="leave-content-wrapper text-left text-secondary font-weight-bold">
         <p>
-          탈퇴 후 아이디 <span class="text-success" style="color: #80C85F;">{{ $store.state.userId }}</span> 으로 재가입 시 일주일의 시간이 걸리며<br>
+          탈퇴 후 아이디 <span class="text-success" style="color: #80C85F; font-weight: 650;">{{ $store.state.userId }}</span> 으로 재가입 시 일주일의 시간이 걸리며<br>
           해당 아이디로 작성한 데이터는 복구할 수 없습니다.<br>
           작성한 게시물은 탈퇴 후 삭제할 수 없습니다.
         </p>
       </section>
       <section class="agree-container d-flex align-items-center justify-content-center text-muted font-weight-medium">
         <div class="agree-wrapper form-check">
-          <input class="form-check-input" type="checkbox" v-model="isAgreed" id="flexCheckDefault" style="position: relative; left: 190px; width: 20px; height: 20px;">
-          <label class="form-check-label" for="flexCheckDefault" style="position: relative; left: 200px; top:3px;">
+          <input class="form-check-input" type="checkbox" v-model="isAgreed" id="flexCheckDefault" style="position: relative; left: -14.5em; width: 20px; height: 20px;">
+          <label class="form-check-label" for="flexCheckDefault" style="position: relative; left: -11.5em; top:3px; font-size: 17px;">
             안내 사항을 확인하였으며, 이에 동의합니다.
           </label>
         </div>
       </section>
       <section class="agree-btn-wrapper d-flex align-items-center justify-content-center">
-        <button type="button" class="btn-agree btn btn-success font-weight-bold"  :disabled="!isAgreed"  @click="deleteUsers()" style="height: 50px;   background-color: #80C85F; border-color: #80C85F; position: relative; left:-20px;">
+        <button type="button" class="btn-agree btn btn-success font-weight-bold"  :disabled="!isAgreed"  @click="deleteUsers()" style="height: 50px; background-color: #80C85F; border-color: #80C85F; position: relative; left: 2em;">
           확인
         </button>
       </section>
@@ -64,6 +64,7 @@ export default {
   position: relative;
   width: 100%;
   height: 90vh;
+  text-align: left;
 }
 
 .leave-container {
@@ -75,7 +76,7 @@ export default {
 .leave-content-wrapper {
   width: 80%;
   max-width: 750px;
-  font-size: 1.2rem;
+  font-size: 1.5rem;
 }
 
 .agree-container {
@@ -83,7 +84,7 @@ export default {
   max-width: 500px;
   font-size: 0.9rem;
   margin-top: -180px;
-  margin-right: 430px;
+  margin-left: -1em;
 }
 
 .form-check-input:checked {
@@ -115,7 +116,7 @@ export default {
     font-size: 1rem;
   }
   .agree-container {
-    font-size: 0.9rem;
+    font-size: 1.5rem;
   }
   .btn-agree {
     height: 35px;

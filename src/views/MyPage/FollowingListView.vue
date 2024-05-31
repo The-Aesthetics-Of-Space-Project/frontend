@@ -4,7 +4,7 @@
       <div class="following-wrapper" v-for="followings in following" :key="followings.userId">
         <section class="list-profile-img-container">
           <router-link :to="{ name: 'MyPageView', query: {nickname: followings.nickname} }">
-          <img :src="followings.profile" v-if="profileImage" style="width: 76px; height: 76px; border: 1px solid black; border-radius: 50%;" />
+          <img :src="followings.profile"  style="width: 76px; height: 76px; border: 1px solid black; border-radius: 50%;" />
           </router-link>
         </section>
         <section class="list-name-container">

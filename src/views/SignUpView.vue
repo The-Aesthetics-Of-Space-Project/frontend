@@ -103,7 +103,7 @@
           </section>
 
           <section class="form-text-nickname form-text" id="nick-le"
-                   style="font-size: 13px; position: relative; top:60px; left:-60px; color: dimgray;">
+                   style="font-size: 13px; position: relative; top:60px; left:-75px; color: dimgray;">
             <a> 닉네임의 길이는 (4~15자) 사이로 입력을 해주세요. </a>
           </section>
 

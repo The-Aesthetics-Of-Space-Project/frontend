@@ -18,7 +18,7 @@
             <section class="setting-password-content">
               <a> 비밀번호 </a>
               <section class="setting-form-text-pass setting-form-text-nickname"
-              style="position: relative;width: 75%;height: 10%;top: 4px;margin: auto;left: 15.7em;font-size: 13px; font-weight: normal;">
+              style="position: relative;width: 75%;height: 10%;top: 4px;margin: auto;left: 13.8em;font-size: 13px; font-weight: normal;">
                 <a> 대소문자, 숫자, 특수문자를 포함한 8자 이상을 입력하세요. </a>
               </section>
             </section>
@@ -33,7 +33,7 @@
           </div>
           <!-- 닉네임 헤더 -->
           <div class="setting-nickname-wrapper" style="position:relative; text-align: left; top:-60px;">
-            <section class="setting-password-content" style="position: relative; left:-19px;">
+            <section class="setting-password-content" style="position: relative; left:-10px;">
               <a style="position: relative; left:11.3%;"> 닉네임 </a>
             </section>
             <section class="setting-form-text-nickname">
@@ -49,7 +49,7 @@
             </section>
           </div>
           <!-- 프로필 -->
-          <section class="profile-content-wrapper" style="position: relative; top:-60px; left:-10px;">
+          <section class="profile-content-wrapper" style="position: relative; top:-60px; left:-5px;">
             <section class="profile-header-wrapper setting-password-content">
               <section class="profile-header-content">
                 <a> 프로필 </a>
@@ -64,11 +64,11 @@
                                                           top: 1.5em; left: 3.9em;" >
               <label style="position: relative;width: 73%; height: 84%; margin: auto; cursor: pointer;">
                 <img src="../../assets/mypage_icon/plusimage.png" class="upload-btn-img"  style="position: relative;
-               border-radius: 50%; width: 100%; height: 100%; left:60px; top:-3px">
+               border-radius: 50%; width: 100%; height: 100%; left:-1.5em; top:-3px">
                 <input type="file" class="btn-img-button" style="position: relative; border: 1px solid chocolate; margin: auto;
                 background-color: white; border-radius: 50%; width: 100%; height: 100%;  display: none;" @change="handleFileUpload">
               </label>
-              <section style="position: relative; margin: auto; height: 50%; left: 2em; top: 3px; font-size: 14px; font-weight: bold; color:rgb(0,0,0,60%);">
+              <section style="position: relative; margin: auto; height: 50%; left: -3.5em; top: 3px; font-size: 14px; font-weight: bold; color:rgb(0,0,0,60%);">
                 <p> 플러스 버튼을 눌러보세요! </p>
               </section>
             </section>
@@ -269,8 +269,13 @@ export default {
 .header-wrapper{
   position: relative;
   margin: 10px 300px;
-  font-weight: 550;
-  font-size: 22px;
+  font-weight: 650;
+  font-size: 23px;
+}
+.header-wrapper a{
+  position: relative;
+  font-weight: 650;
+  font-size: 23px;
 }
 .leave-membership-wrapper{
   position: relative;
@@ -304,19 +309,20 @@ export default {
   font-size: 18px;
   font-weight: 550;
 }
-/* 이메일 입력칸 */
+/* 비밀번호 입력칸 */
 .password-input-wrapper{
   position: relative;
   margin: auto;
   width: 80%;
   height: 60%;
   top: 26px;
+  left: -5px;
 }
 .input-group input[type="text"],
 .input-group input[type="nickname"] {
   width: 100%;
   padding: 10px; /* 패딩 조정 */
-  margin: 5px 0;
+  margin: 3px 0;
   display: inline-block;
   border: 1px solid #ccc;
   border-radius: 4px;
@@ -338,12 +344,12 @@ export default {
   top: 22px;
   margin: auto;
   font-size: 13px;
-  left:9.2%;
+  left:9%;
 }
 .setting-form-text-nickname a{
   position: relative;
   width: 75%;
-  left: -69px;
+  left: -60px;
   margin: auto;
   font-size: 13px;
 }
@@ -352,8 +358,8 @@ export default {
   width: 90%;
   height: 60%;
   top: 25px;
-  left: -5px;
   margin: auto;
+  left: -0.5em;
 }
 /* 프로필 */
 .profile-content-wrapper{
@@ -372,14 +378,13 @@ export default {
 }
 .setting-profile-wrapper{
   position: relative;
-  left: 3.5em;
+  left: -6em;
   top: 15px;
   width: 40%;
   height: 65%;
   border: 1px solid #D9D9D9;
   border-radius: 7px;
   margin: auto;
-  left:-5px;
 }
 .profile-img-wrapper{
   position: relative;
@@ -409,8 +414,8 @@ export default {
   font-size: 17px;
   color: floralwhite;
   position: relative;
-  top:-75px;
-  left:-16px;
+  top: -75px;
+  left: 2em;
 }
 
 .setting-container {
