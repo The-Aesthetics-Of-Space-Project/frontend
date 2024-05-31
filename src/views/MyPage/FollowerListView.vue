@@ -20,7 +20,7 @@
           </router-link>
         </section>
         <section class="list-follower-delete-btn">
-          <button class="follower-delete-btn" @click="deleteFollow(clickUserId)"> 삭제 </button>
+          <button class="follower-delete-btn" @click="deleteFollow(follower.userId)"> 삭제 </button>
         </section>
       </div>
     </div>
@@ -78,6 +78,7 @@ export default {
     },
     /* 팔로워 삭제 */
     async deleteFollow(clickUserId) {
+      console.log("clickUserId: ", clickUserId);
       const args=`/users/unfollower?userId=${this.followers.userId}&follower=${clickUserId}`;
       await api.deleteFollow(args).then(res => {
         this.followers = this.followers.filter(follower => follower.userId !== clickUserId);
