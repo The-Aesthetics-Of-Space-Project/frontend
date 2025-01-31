@@ -13,6 +13,23 @@
 | <img src="https://avatars.githubusercontent.com/bonggyunjo?s=100" style="width: 85px;"/>           | **조봉균** |  |   |
 |<img src="https://avatars.githubusercontent.com/whswls?s=100"/>            | **조은진** |  |  |
 
+### 💁🏻‍♀️ 역할 분담
+
+### 조봉균
+- 커뮤니티 UI 구현
+- 메인 페이지 및 소개 페이지 UI 구현
+- 로그인, 회원가입 UI 및 기능 구현
+- 인테리어 추천 가이드 UI 및 기능 구현
+- 사물 인식 UI 및 기능 구현
+
+### 조은진
+- 로그인, 회원가입 UI 및 기능 구현
+- 마이페이지 UI 및 기능 구현
+- 일반 게시판 UI 및 기능 구현
+- 공모전 게시판 UI 및 기능 구현
+- 협업 관리 도구 관리
+
+<br>
 
 ## 📆 개발 기간
 2024.03 ~ 2024.06
@@ -63,6 +80,69 @@
 > 효율적인 브랜치 관리를 통해 협업과 배포 프로세스를 최적화
 
 ![image](https://github.com/user-attachments/assets/fbd3b35b-bda9-45d6-bfab-3bad5e110477)
+
+<br>
+
+## 🔗 설치 및 실행 방법
+
+### 프로젝트 설치
+```
+npm install
+```
+
+### 개발을 위한 컴파일
+```
+npm run serve
+```
+
+### 프로덕션을 위한 컴파일 및 최소화
+```
+npm run build
+```
+
+### 코드 스타일 수정 및 검사
+```
+npm run lint
+```
+
+### Customize configuration
+See [Configuration Reference](https://cli.vuejs.org/config/).
+
+<br>
+
+## 📌 기능
+### 1. 회원가입
+- 유효성 검사
+- 중복 검사
+
+### 2. 로그인
+- SNS(카카오톡, 구글, 페이스북) 로그인 기능은 구현되어 있지 않습니다.
+
+### 3. 마이페이지
+- 내가 등록한 게시글
+- 내가 찜한 게시글
+- 팔로우, 팔로워
+- 정보 수정
+- 회원 탈퇴
+
+### 4. 일반 게시판
+- 게시글 CRUD
+- 즐겨찾기
+- 좋아요
+- 댓글 및 대댓글
+
+### 5. 공모전 게시판
+- 게시글 CRUD
+- 즐겨찾기
+- 좋아요
+- 댓글 및 대댓글
+
+
+### 6. 사물 인식
+
+### 7. 채팅
+
+### 8. 인테리어 추천 가이드
 
 <br>
 
