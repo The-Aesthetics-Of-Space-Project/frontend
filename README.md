@@ -8,10 +8,10 @@
 
 ##  🙋🏻‍♀️ 개발자 소개
 
-| 프로필                                                                      | 이름                                  
-|-------------------------------------------|-------------------------------
-| <img src="https://avatars.githubusercontent.com/bonggyunjo?s=100" style="width: 85px;"/>           | **조봉균** |  |   |
-|<img src="https://avatars.githubusercontent.com/whswls?s=100"/>            | **조은진** |  |  |
+| 프로필                                                                      | 이름       | 이메일                  |
+|-------------------------------------------|------------|-------------------------|
+| <img src="https://avatars.githubusercontent.com/bonggyunjo?s=100" style="width: 85px;"/> | **조봉균** | kjbg4565388@gmail.com |
+| <img src="https://avatars.githubusercontent.com/whswls?s=100"/>            | **조은진** | till5941@gmail.com  |
 
 ### 💁🏻‍♀️ 역할 분담
 
